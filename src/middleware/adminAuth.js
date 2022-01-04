@@ -1,8 +1,5 @@
 const con = require('../config/db')
 const jwt = require('jsonwebtoken')
-// import con from '../config/db.js'
-// import jwt from 'jsonwebtoken';
-
 require('dotenv').config()
 
 module.exports = {

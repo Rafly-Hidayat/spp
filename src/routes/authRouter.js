@@ -1,13 +1,19 @@
 const express = require('express')
 const router = express.Router()
-const auth = require('../middleware/auth')
+const adminAuth = require('../middleware/adminAuth')
+const siswaAuth = require('../middleware/siswaAuth')
 const verifikasi = require('../middleware/verifikasi')
-const validation = require('../validator/auth/auth.validation')
+const adminValidation = require('../validator/admin_auth/auth.validation')
+const siswaValidation = require('../validator/siswa_auth/auth.validation')
 
-router.post('/login', validation.login, auth.login)
+// Router Admin
+router.post('/admin/login', adminValidation.login, adminAuth.login)
+router.post('/admin/registrasi', adminValidation.register, adminAuth.register)
 
-router.post('/registrasi', validation.register, auth.register)
+// Router Siswa
+router.post('/siswa/login', siswaValidation.login, siswaAuth.login)
 
-router.get('/inventori', verifikasi.verifikasiAdmin(),auth.inventori)
+// router untuk tes verfikasi token
+router.get('/inventori', verifikasi.verifikasiAdmin(), adminAuth.inventori)
 
 module.exports = router
