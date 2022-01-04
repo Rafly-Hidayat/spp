@@ -1,10 +1,10 @@
 // connect to database
-import { createConnection } from 'mysql'
-import env from 'dotenv'
+const mysql = require('mysql')
+const env = require('dotenv')
 
 env.config()
 
-const con = createConnection({
+const con = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
@@ -15,4 +15,4 @@ con.connect((err) => {
     err ? console.log('DATABASE NOT CONNECTED!') : console.log('CONNECTED TO DATABASE!')
 })
 
-export default con
+module.exports = con
