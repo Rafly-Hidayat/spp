@@ -17,11 +17,15 @@ app.use(cors())
 const adminauthRouter = require('./modules/admin/routes/authRouter')
 const siswaauthRouter = require('./modules/user/routes/authRouter')
 const kelasRouter = require('./modules/admin/routes/kelasRouter')
+const jurusanRouter = require('./modules/admin/routes/jurusanRouter')
+const siswaRouter = require('./modules/admin/routes/siswaRouter')
 
 // use router
 app.use(adminauthRouter)
 app.use(siswaauthRouter)
 app.use(kelasRouter)
+app.use(jurusanRouter)
+app.use(siswaRouter)
 
 // connecting route to database
 app.use(function (req, res, next) {
