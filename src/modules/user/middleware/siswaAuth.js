@@ -1,4 +1,4 @@
-const con = require('../config/db')
+const con = require('../../../config/db')
 require('dotenv').config()
 
 module.exports = {

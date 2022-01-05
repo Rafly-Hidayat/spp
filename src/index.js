@@ -1,7 +1,4 @@
 // Import NPM
-// import express, { json, urlencoded } from 'express'
-// import cors from 'cors'
-
 const express = require('express')
 const cors = require('cors')
 
@@ -11,6 +8,7 @@ const con = require('./config/db')
 const app = express()
 const port = 8000
 
+// use NPM
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(cors())
@@ -21,10 +19,20 @@ app.use(function (req, res, next) {
   next()
 })
 
-//Router
-const authRouter = require('./routes/authRouter')
+// import router
+const adminauthRouter = require('./modules/admin/routes/authRouter')
+const siswaauthRouter = require('./modules/user/routes/authRouter')
+const kelasRouter = require('./modules/admin/routes/kelasRouter')
+const posRouter = require('./modules/admin/routes/posRouter')
+const periodeRouter = require('./modules/admin/routes/periodeRouter')
 
-app.use(authRouter)
+// use router
+app.use(adminauthRouter)
+app.use(siswaauthRouter)
+app.use(kelasRouter)
+app.use(posRouter)
+app.use(periodeRouter)
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}!`)
