@@ -19,9 +19,8 @@ app.use(function (req, res, next) {
   next()
 })
 
-// import router
+// import admin router
 const adminauthRouter = require('./modules/admin/routes/authRouter')
-const siswaauthRouter = require('./modules/user/routes/authRouter')
 const kelasRouter = require('./modules/admin/routes/kelasRouter')
 const posRouter = require('./modules/admin/routes/posRouter')
 const periodeRouter = require('./modules/admin/routes/periodeRouter')
@@ -29,9 +28,14 @@ const siswaRouter = require('./modules/admin/routes/siswaRouter')
 const jurusanRouter = require('./modules/admin/routes/jurusanRouter')
 const p_bulananRouter = require('./modules/admin/routes/p_bulananRouter')
 
+// import user router
+const siswaauthRouter = require('./modules/user/routes/authRouter')
+const profileRouter = require('./modules/user/routes/profileRouter')
+
 // use router
-app.use(adminauthRouter)
 app.use(siswaauthRouter)
+app.use(profileRouter)
+app.use(adminauthRouter)
 app.use(kelasRouter)
 app.use(posRouter)
 app.use(periodeRouter)
