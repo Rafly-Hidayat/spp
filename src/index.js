@@ -25,6 +25,9 @@ const siswaauthRouter = require('./modules/user/routes/authRouter')
 const kelasRouter = require('./modules/admin/routes/kelasRouter')
 const posRouter = require('./modules/admin/routes/posRouter')
 const periodeRouter = require('./modules/admin/routes/periodeRouter')
+const siswaRouter = require('./modules/admin/routes/siswaRouter')
+const jurusanRouter = require('./modules/admin/routes/jurusanRouter')
+const p_bulananRouter = require('./modules/admin/routes/p_bulananRouter')
 
 // use router
 app.use(adminauthRouter)
@@ -33,6 +36,9 @@ app.use(kelasRouter)
 app.use(posRouter)
 app.use(periodeRouter)
 
+app.use(siswaRouter)
+app.use(jurusanRouter)
+app.use(p_bulananRouter)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}!`)
