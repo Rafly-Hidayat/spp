@@ -1,6 +1,7 @@
 // Import NPM
 const express = require('express')
 const cors = require('cors')
+const path = require('path')
 
 // Import file
 const con = require('./config/db')
@@ -9,6 +10,7 @@ const app = express()
 const port = 8000
 
 // use NPM
+app.use('/public', express.static(path.join(__dirname, '/public')))
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(cors())
@@ -22,6 +24,7 @@ app.use(function (req, res, next) {
 // import admin router
 const adminauthRouter = require('./modules/admin/routes/authRouter')
 const kelasRouter = require('./modules/admin/routes/kelasRouter')
+const d_kelasRouter = require('./modules/admin/routes/d_kelasRouter')
 const posRouter = require('./modules/admin/routes/posRouter')
 const periodeRouter = require('./modules/admin/routes/periodeRouter')
 const siswaRouter = require('./modules/admin/routes/siswaRouter')
@@ -42,7 +45,7 @@ app.use(adminauthRouter)
 app.use(kelasRouter)
 app.use(posRouter)
 app.use(periodeRouter)
-
+app.use(d_kelasRouter)
 app.use(siswaRouter)
 app.use(jurusanRouter)
 app.use(admin_p_bulananRouter)

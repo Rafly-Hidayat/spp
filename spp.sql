@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Jan 2022 pada 10.35
+-- Waktu pembuatan: 10 Jan 2022 pada 10.49
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 8.0.2
 
@@ -34,6 +34,14 @@ CREATE TABLE `admin` (
   `admin_password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `admin_nama`, `admin_email`, `admin_password`) VALUES
+(1, 'admin', 'admin@admin.com', 'admin'),
+(2, 'admin2', 'admin2@admin.com', 'admin2');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +53,15 @@ CREATE TABLE `akses_token` (
   `admin_id` int(4) NOT NULL,
   `akses_token` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `akses_token`
+--
+
+INSERT INTO `akses_token` (`akses_token_id`, `admin_id`, `akses_token`) VALUES
+(1, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJhZG1pbl9pZCI6MSwiYWRtaW5fbmFtYSI6ImFkbWluIiwiYWR'),
+(2, 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJhZG1pbl9pZCI6MSwiYWRtaW5fbmFtYSI6ImFkbWluIiwiYWR'),
+(3, 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJhZG1pbl9pZCI6MiwiYWRtaW5fbmFtYSI6ImFkbWluMiIsImF');
 
 -- --------------------------------------------------------
 
@@ -91,6 +108,27 @@ CREATE TABLE `d_bebas` (
   `d_bebas_tanggal` date NOT NULL,
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `d_kelas`
+--
+
+CREATE TABLE `d_kelas` (
+  `d_kelas_id` int(4) NOT NULL,
+  `d_kelas_nama` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `d_kelas`
+--
+
+INSERT INTO `d_kelas` (`d_kelas_id`, `d_kelas_nama`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
 
 -- --------------------------------------------------------
 
@@ -171,6 +209,17 @@ CREATE TABLE `periode` (
   `periode_akhir` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `periode`
+--
+
+INSERT INTO `periode` (`periode_id`, `periode_mulai`, `periode_akhir`) VALUES
+(1, 2020, 2021),
+(14, 2020, 2020),
+(15, 2001, 2020),
+(16, 2012, 2020),
+(17, 0000, 2020);
+
 -- --------------------------------------------------------
 
 --
@@ -182,6 +231,13 @@ CREATE TABLE `pos` (
   `pos_nama` varchar(100) NOT NULL,
   `pos_deskripsi` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `pos`
+--
+
+INSERT INTO `pos` (`pos_id`, `pos_nama`, `pos_deskripsi`) VALUES
+(1, 'spp', 'pembayaran bulanan');
 
 -- --------------------------------------------------------
 
@@ -197,8 +253,17 @@ CREATE TABLE `siswa` (
   `siswa_gender` enum('L','P') NOT NULL,
   `siswa_img` varchar(100) NOT NULL,
   `kelas_id` int(4) NOT NULL,
-  `jurusan_id` int(4) NOT NULL
+  `jurusan_id` int(4) NOT NULL,
+  `d_kelas_id` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `siswa`
+--
+
+INSERT INTO `siswa` (`siswa_id`, `siswa_nis`, `siswa_nama`, `siswa_password`, `siswa_gender`, `siswa_img`, `kelas_id`, `jurusan_id`, `d_kelas_id`) VALUES
+(1, '192010001', 'Ade', 'Ade', 'L', 'profile.png', 3, 2, 3),
+(2, '192010002', 'Abel', 'Abel', 'L', 'profile.png', 3, 2, 3);
 
 --
 -- Indexes for dumped tables
@@ -244,6 +309,12 @@ ALTER TABLE `d_bebas`
   ADD KEY `bayar_id` (`bebas_id`);
 
 --
+-- Indeks untuk tabel `d_kelas`
+--
+ALTER TABLE `d_kelas`
+  ADD PRIMARY KEY (`d_kelas_id`);
+
+--
 -- Indeks untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
@@ -287,7 +358,8 @@ ALTER TABLE `pos`
 ALTER TABLE `siswa`
   ADD PRIMARY KEY (`siswa_id`),
   ADD KEY `kelas_id` (`kelas_id`),
-  ADD KEY `jurusan_id` (`jurusan_id`);
+  ADD KEY `jurusan_id` (`jurusan_id`),
+  ADD KEY `d_kelas_id` (`d_kelas_id`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -297,13 +369,13 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `akses_token`
 --
 ALTER TABLE `akses_token`
-  MODIFY `akses_token_id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `akses_token_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `bebas`
@@ -324,16 +396,22 @@ ALTER TABLE `d_bebas`
   MODIFY `d_bebas_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT untuk tabel `d_kelas`
+--
+ALTER TABLE `d_kelas`
+  MODIFY `d_kelas_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `jurusan_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `jurusan_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `kelas_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `kelas_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `month`
@@ -351,19 +429,19 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT untuk tabel `periode`
 --
 ALTER TABLE `periode`
-  MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `pos`
 --
 ALTER TABLE `pos`
-  MODIFY `pos_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -410,7 +488,8 @@ ALTER TABLE `pembayaran`
 --
 ALTER TABLE `siswa`
   ADD CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`jurusan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`kelas_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`kelas_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `siswa_ibfk_3` FOREIGN KEY (`d_kelas_id`) REFERENCES `d_kelas` (`d_kelas_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
