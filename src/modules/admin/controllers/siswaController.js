@@ -15,6 +15,13 @@ module.exports = {
 		})
 	},
 
+	getTotal: (req, res) => {
+		siswa.getTotal(req.con, (err, rows) => {
+			if(err) throw err
+			res.json({total : rows[0]['COUNT(*)']})
+		})
+	},
+
     add: (req, res) => {
 		siswa.add(req.con, req.body, res, (err, rows) => {
 			if(err) throw err

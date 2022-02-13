@@ -11,6 +11,10 @@ module.exports = {
 		con.query(`INSERT INTO kelas SET kelas_nama = '${data.kelas_nama}'`, callback)
 	},
 
+	getTotal: (con, callback) => {
+		con.query("SELECT COUNT(*) FROM kelas", callback)
+	},
+
     update: (con, data, kelas_id, res, callback) => {	
 		con.query(`SELECT * FROM kelas WHERE kelas_id = ${kelas_id}`, (err, rows) => {
 			if(err) throw err

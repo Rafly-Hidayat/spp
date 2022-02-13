@@ -12,6 +12,10 @@ module.exports = {
         WHERE bulanan_id = ${bulanan_id}`, callback)
     },
 
+    getTotal: (con, callback) => {
+        con.query(`SELECT COUNT(*) FROM bulanan`, callback)
+    },
+
     getP_id: (con, bulanan_id, callback) => {
         con.query(`SELECT pembayaran_id FROM bulanan WHERE bulanan_id = ${bulanan_id}`, callback)
     },

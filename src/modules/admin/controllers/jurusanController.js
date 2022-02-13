@@ -15,6 +15,13 @@ module.exports = {
 		})
 	},
 
+	getTotal: (req, res) => {
+		jurusan.getTotal(req.con, (err, rows) => {
+			if(err) throw err
+			res.json({total : rows[0]['COUNT(*)']})
+		})
+	},
+
 	add: (req, res) => {
 		jurusan.add(req.con, req.body, (err, rows) => {
 			if(err) throw err
