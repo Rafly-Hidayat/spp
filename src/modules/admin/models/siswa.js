@@ -17,6 +17,10 @@ module.exports = {
 		con.query(`SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id WHERE siswa_id = ${siswa_id}`, callback)
 	},
 
+	getTotal: (con, callback) => {
+		con.query("SELECT COUNT(*) FROM siswa", callback)
+	},
+
 	add: (con, data, res, callback) => {
         con.query(`SELECT siswa_nis FROM siswa WHERE siswa_nis = ${data.nis}`, (err, rows) => {
 			if(err) throw err

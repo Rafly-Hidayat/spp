@@ -7,6 +7,10 @@ module.exports = {
 		con.query(`SELECT * FROM jurusan WHERE jurusan_id = ${jurusan_id}`, callback)
 	},
 
+	getTotal: (con, callback) => {
+		con.query("SELECT COUNT(*) FROM jurusan", callback)
+	},
+
 	add: (con, data, callback) => {
 		con.query(`INSERT INTO jurusan SET jurusan_nama = '${data.jurusan_nama}'`, callback)
 	},

@@ -7,6 +7,10 @@ module.exports = {
         con.query(`SELECT * FROM pos WHERE pos_id = ${pos_id}`, callback)
     },
 
+    getTotal: (con, callback) => {
+        con.query("SELECT COUNT(*) FROM pos", callback)
+    },
+
     add: (con, data, callback) => {
         const query = `INSERT INTO pos SET 
                                 pos_nama = '${data.pos_nama}',

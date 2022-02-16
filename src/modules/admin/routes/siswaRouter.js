@@ -5,6 +5,7 @@ const { siswaValidation } = require('../validator/siswa/siswa.validation')
 
 // Router siswa
 router.get('/siswa', siswaController.getAll)
+router.get('/total/siswa', siswaController.getTotal)
 router.get('/siswa/:siswa_id', siswaController.getById)
 router.post('/tambah/siswa', siswaValidation, siswaController.add)
 router.put('/ubah/siswa/:siswa_id', siswaValidation, siswaController.update)
