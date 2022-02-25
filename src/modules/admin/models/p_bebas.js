@@ -9,7 +9,7 @@ module.exports = {
         con.query(`SELECT siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id WHERE bebas_id = ${bebas_id}`, callback)
     },
 
-    add: (con, data, res) => {
+    add: (con, data, res, callback) => {
         con.beginTransaction( err => {
             if(err) throw err
             con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
@@ -21,29 +21,45 @@ module.exports = {
                 const a = Array.from(siswa).values()
                 const b = a.next().value
 
-                con.query(`SELECT siswa_id FROM bebas WHERE siswa_id = '${b}' `, (err, rows) => {
+                con.query(`SELECT pembayaran_id FROM pembayaran WHERE pembayaran_id = '${data.pembayaran_id}'`,(err, rows) => {
                     if(err) throw err
-                    let siswa_id = rows.map(obj => {
-                        return obj.siswa_id
+                    if(rows == 0) return res.status(200).send('pembayaran tidak ditemukan.')
+                    let pembayaran = rows.map(obj => {
+                        return obj.pembayaran_id
                     })
+                    const x = Array.from(pembayaran).values()
+                    const y = x.next().value
 
-                    if (Array.from(siswa_id).length == 0) {
-                        const jumlah_siswa = siswa.length
-                        for(let i = 0; i < jumlah_siswa; i++){
-                            con.query(`INSERT INTO bebas SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bebas_tagihan = '${data.tagihan}'`)
+                    con.query(`SELECT siswa_id, pembayaran_id FROM bebas WHERE siswa_id = '${b}' AND pembayaran_id = '${y}' `, (err, rows) => {
+                        if(err) throw err
+                            let siswa_id = rows.map(obj => {
+                            return obj.siswa_id
+                        })
+
+                        let pembayaran_id = rows.map(obj => {
+                            return obj.pembayaran_id
+                        })
+
+                        if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
+                            const jumlah_siswa = siswa.length
+                            for(let i = 0; i < jumlah_siswa; i++){
+                                con.query(`INSERT INTO bebas SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bebas_tagihan = '${data.tagihan}' `)
+                            }
+                        } else {
+                            con.rollback()
+                            return res.json({
+                                error : true,
+                                message :'Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini'})
                         }
-                    } else {
-                        con.rollback()
-                        return res.send('Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini', 200)
-                    }
-                    con.commit(err => {
-                        if (err) con.rollback()
-                        return res.send('Set tarif berhasil', 200)
+                        con.commit(err => {
+                            if (err) con.rollback()
+                            return res.send('Set tarif berhasil', 200)
+                        })
                     })
                 })
             })
         })
-	},
+    },
 
     transaction : (con, bebas_id, data, res) => {
         con.beginTransaction( err => {
@@ -69,7 +85,9 @@ module.exports = {
 
                         if (data.jumlah_bayar > sisa_tagihan) {
                             con.rollback()
-                            return res.send('jumlah pembayaran yang anda masukkan melebihi total tagihan', 400)
+                            return res.json({
+                                error : true,
+                                message :'Pembayaran melebihi tagihan'})
                         } else {
                             con.query('SELECT admin_id FROM akses_token', (err, rows) => {
                                 if(err) throw err

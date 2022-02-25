@@ -23,31 +23,13 @@ module.exports = {
     },
 
     add: (req, res) => {
-        p_bulanan.addPembayaran(req.con, req.body, res, (err, rows) => {
-            if (err) throw err
-            let p_id = rows.insertId
-
-            p_bulanan.addP_bulanan(req.con, req.body, p_id, res, (err, rows) => {
-                if (err) throw err
-                res.send('add new pembayaran bulanan success', 200)
-            })
-        })
+        p_bulanan.add(req.con, req.body, res)
     },
 
-    update: (req, res) => {
-        p_bulanan.updateP_bulanan(req.con, req.body, req.params.bulanan_id, res, (err, rows) => {
+    bayar: (req, res) => {
+        p_bulanan.bayar(req.con, req.params.bulanan_id, req.body, (err, rows) => {
             if (err) throw err
-            p_bulanan.getP_id(req.con, req.params.bulanan_id, (err, rows) => {
-                if (err) throw err
-                let p_id = rows.map(obj => {
-                    return obj.pembayaran_id
-                })
-                console.log(p_id);
-                p_bulanan.updatePembayaran(req.con, req.body, p_id, res, (err, rows) => {
-                    if (err) throw err
-                    res.send('Update data success', 200)
-                })
-            })
+            res.send('berhasil mengubah status', 200)
         })
     },
 

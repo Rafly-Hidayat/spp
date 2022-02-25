@@ -10,4 +10,4 @@ router.get('/bebas', p_bebasController.getAll)
 router.get('/bebas/:bebas_id', p_bebasController.getById)
 router.post('/set_tarif/bebas', setTarifValidation, p_bebasController.add)
 router.post('/bebas/bayar/:bebas_id', bayarValidation, p_bebasController.transaction)
-module.exports = router
+module.exports = router     
