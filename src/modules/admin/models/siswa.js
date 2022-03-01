@@ -25,10 +25,23 @@ module.exports = {
         con.query(`SELECT siswa_nis FROM siswa WHERE siswa_nis = ${data.nis}`, (err, rows) => {
 			if(err) throw err
 
+			function makeid(length) {
+				var result           = '';
+				var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+				var charactersLength = characters.length;
+				for ( var i = 0; i < length; i++ ) {
+				  result += characters.charAt(Math.floor(Math.random() * 
+			 charactersLength));
+			   }
+			   return result;
+			}
+
 			const gambar = img
 
+			let password = makeid(8)
+
 			if(rows.length == 0) {
-                 con.query(`INSERT INTO siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_password = '${data.password}', siswa_gender = '${data.gender}', siswa_img = ?, kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}', d_kelas_id = '${data.d_kelas}'`, [gambar], callback)
+                 con.query(`INSERT INTO siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_password = '${password}', siswa_gender = '${data.gender}', siswa_img = ?, kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}', d_kelas_id = '${data.d_kelas}'`, [gambar], callback)
             } else {
                 return res.json({ error: true, message: "NIS sudah terdaftar" })
 
