@@ -15,6 +15,13 @@ module.exports = {
         })
     },
 
+    getByNis: (req, res) => {
+        p_bulanan.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
+            if (err) throw err
+            res.json(rows)
+        })
+    },
+
     getTotal: (req, res) => {
         p_bulanan.getTotal(req.con, (err, rows) => {
             if (err) throw err
