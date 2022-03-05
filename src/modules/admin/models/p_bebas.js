@@ -1,19 +1,23 @@
-const { commit } = require("../../../config/db")
-
 module.exports = {
-    getAll : (con, callback) => {
-        con.query('SELECT siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id', callback)
+    getAll: (con, callback) => {
+        con.query('SELECT siswa.siswa_id, siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id', callback)
     },
 
-    getById : (con, bebas_id, callback) => {
-        con.query(`SELECT siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id WHERE bebas_id = ${bebas_id}`, callback)
+    getById: (con, bebas_id, callback) => {
+        con.query(`SELECT siswa.siswa_id, siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id WHERE bebas_id = ${bebas_id}`, callback)
+    },
+    
+    getByNis: (con, siswa_nis, callback) => {
+        con.query(`SELECT siswa.siswa_id, siswa.siswa_nis, siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id WHERE siswa.siswa_nis = ${siswa_nis}`, callback)
+
     },
 
-    add: (con, data, res, callback) => {
+    add: (con, data, res) => {
         con.beginTransaction( err => {
             if(err) throw err
             con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
                 if(err) throw err
+              
                 if(rows == 0) return res.status(404).send('kelas tidak ditemukan.')
                 let siswa = rows.map(obj => {
                     return obj.siswa_id
