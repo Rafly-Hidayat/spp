@@ -15,6 +15,13 @@ module.exports = {
 		})
 	},
 
+    getByNis: (req, res) => {
+		siswa.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
+			if(err) throw err
+			res.json(rows)
+		})
+	},
+
 	getTotal: (req, res) => {
 		siswa.getTotal(req.con, (err, rows) => {
 			if(err) throw err

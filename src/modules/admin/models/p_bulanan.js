@@ -16,7 +16,7 @@ module.exports = {
         con.query(`SELECT bulanan_id, month_nama, siswa_nis, siswa_nama, kelas_nama, jurusan_nama,
         pembayaran_tipe, periode_mulai, periode_akhir, pos_nama,bulanan_tagihan, bulanan_status, bulanan_tanggal, admin_nama
         FROM bulanan INNER JOIN month ON bulanan.month_id = month.month_id INNER JOIN siswa ON bulanan.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN pembayaran ON bulanan.pembayaran_id = pembayaran.pembayaran_id INNER JOIN periode ON pembayaran.periode_id = periode.periode_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN admin ON bulanan.admin_id = admin.admin_id
-        WHERE siswa.siswa_nis = ${siswa_nis}`, callback)
+        WHERE siswa_nis = ${siswa_nis}`, callback)
     },
 
     getTotal: (con, callback) => {
@@ -45,7 +45,7 @@ module.exports = {
         })
     },
 
-    add: (con, data, res, callback) => {
+    add: (con, data, res) => {
         con.beginTransaction( err => {
             if(err) throw err
             con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
@@ -82,27 +82,27 @@ module.exports = {
                                 return obj.month_id
                             })
                                 
-                                if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
-                                    const jumlah_siswa = siswa.length
-                                    const jumlah_bulan = month.length
-                                    let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
-                                    for(let i = 0; i < jumlah_siswa; i++){
-                                        for (let j = 0; j < jumlah_bulan; j++) {
-                                            con.query(`INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '${tanggal}', admin_id = '1' `)
-                                        }
+                            if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
+                                const jumlah_siswa = siswa.length
+                                const jumlah_bulan = month.length
+                                let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
+                                for(let i = 0; i < jumlah_siswa; i++){
+                                    for (let j = 0; j < jumlah_bulan; j++) {
+                                        con.query(`INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '${tanggal}', admin_id = '1' `)
                                     }
-        
-                                } else {
-                                    con.rollback()
-                                    return res.json({
-                                        error : true,
-                                        message :'Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini'})
                                 }
-                                con.commit(err => {
-                                    if (err) con.rollback()
-                                    return res.send('Set tarif berhasil', 200)
-                                })
+    
+                            } else {
+                                con.rollback()
+                                return res.json({
+                                    error : true,
+                                    message :'Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini'})
+                            }
+                            con.commit(err => {
+                                if (err) con.rollback()
+                                return res.send('Set tarif berhasil', 200)
                             })
+                        })
                     })
                 })
             })
