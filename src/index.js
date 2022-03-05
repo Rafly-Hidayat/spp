@@ -37,11 +37,13 @@ const admin_p_bebasRouter = require('./modules/admin/routes/p_bebasRouter')
 const siswaauthRouter = require('./modules/user/routes/authRouter')
 const profileRouter = require('./modules/user/routes/profileRouter')
 const user_p_bulananRouter = require('./modules/user/routes/p_bulananRouter')
+const user_p_bebasRouter = require('./modules/user/routes/p_bebasRouter')
 
 // use router user
 app.use(siswaauthRouter)
 app.use(profileRouter)
 app.use(user_p_bulananRouter)
+app.use(user_p_bebasRouter)
 
 // use router admin
 app.use(adminauthRouter)

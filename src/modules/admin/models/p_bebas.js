@@ -14,7 +14,7 @@ module.exports = {
             if(err) throw err
             con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
                 if(err) throw err
-                if(rows == 0) return res.status(200).send('kelas tidak ditemukan.')
+                if(rows == 0) return res.status(404).send('kelas tidak ditemukan.')
                 let siswa = rows.map(obj => {
                     return obj.siswa_id
                 })
@@ -23,7 +23,7 @@ module.exports = {
 
                 con.query(`SELECT pembayaran_id FROM pembayaran WHERE pembayaran_id = '${data.pembayaran_id}'`,(err, rows) => {
                     if(err) throw err
-                    if(rows == 0) return res.status(200).send('pembayaran tidak ditemukan.')
+                    if(rows == 0) return res.status(404).send('pembayaran tidak ditemukan.')
                     let pembayaran = rows.map(obj => {
                         return obj.pembayaran_id
                     })

@@ -1,6 +1,6 @@
 module.exports = {
     getAll: (con,callback) => {
-		con.query("SELECT pembayaran_tipe, periode_mulai, periode_akhir, pos_nama FROM pembayaran INNER JOIN periode ON periode.periode_id = pembayaran.periode_id INNER JOIN pos ON pos.pos_id = pembayaran.pembayaran_id", callback)
+		con.query("SELECT pembayaran_id, pembayaran_tipe, periode_mulai, periode_akhir, pos_nama FROM pembayaran INNER JOIN periode ON periode.periode_id = pembayaran.periode_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id", callback)
 	},
 
     getById: (con, pembayaran_id, callback) => {
