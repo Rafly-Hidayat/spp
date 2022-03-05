@@ -15,6 +15,13 @@ module.exports = {
 		})
 	},
 
+    getByNis: (req, res) => {
+		bebas.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
+			if(err) throw err
+			res.json(rows)
+		})
+	},
+
 	add: (req, res) => {
 		bebas.add(req.con, req.body, res)
 	},
