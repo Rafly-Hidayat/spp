@@ -82,28 +82,27 @@ module.exports = {
                                 return obj.month_id
                             })
                                 
-                                if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
-                                    const jumlah_siswa = siswa.length
-                                    const jumlah_bulan = month.length
-                                    let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
-                                    for(let i = 0; i < jumlah_siswa; i++){
-                                        for (let j = 0; j < jumlah_bulan; j++) {
-                                            con.query(`INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '', admin_id = '1' `)
-                                        }
-
+                            if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
+                                const jumlah_siswa = siswa.length
+                                const jumlah_bulan = month.length
+                                // let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
+                                for(let i = 0; i < jumlah_siswa; i++){
+                                    for (let j = 0; j < jumlah_bulan; j++) {
+                                        con.query(`INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '', admin_id = '1' `)
                                     }
                                 }
-    
                             } else {
                                 con.rollback()
                                 return res.json({
                                     error : true,
                                     message :'Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini'})
                             }
+
                             con.commit(err => {
                                 if (err) con.rollback()
                                 return res.send('Set tarif berhasil', 200)
                             })
+
                         })
                     })
                 })
@@ -111,3 +110,5 @@ module.exports = {
         })
     }
 }
+                
+        
