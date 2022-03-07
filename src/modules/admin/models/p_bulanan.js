@@ -88,7 +88,7 @@ module.exports = {
                                     let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
                                     for(let i = 0; i < jumlah_siswa; i++){
                                         for (let j = 0; j < jumlah_bulan; j++) {
-                                            con.query(`INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '${tanggal}', admin_id = '1' `)
+                                            con.query(`INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '', admin_id = '1' `)
                                         }
                                     }
         
