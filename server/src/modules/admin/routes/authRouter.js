@@ -5,6 +5,7 @@ const verifikasi = require('../middleware/verifikasi')
 const adminValidation = require('../validator/auth/auth.validation')
 
 // Router Autentikasi Admin
+router.get('/admin', adminAuth.getAll)
 router.post('/admin/login', adminValidation.login, adminAuth.login)
 router.post('/admin/registrasi', adminValidation.register, adminAuth.register)
 

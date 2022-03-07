@@ -3,6 +3,12 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 module.exports = {
+    getAll: (req, res) => {
+        con.query("SELECT admin_id, admin_nama FROM admin", (err, rows) => {
+            if(err) throw err
+            return res.json(rows)
+        })
+    },
 
     // register admin
     register: (req, res) => {

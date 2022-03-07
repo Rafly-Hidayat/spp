@@ -57,7 +57,24 @@ module.exports = {
 		con.query(`SELECT * FROM siswa WHERE siswa_id = ${siswa_id}`, (err, rows) => {
 			if(err) throw err
 			if(rows == 0) return res.send('siswa_id siswa tidak ditemukan.', 404)
-			con.query(`UPDATE siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_gender = '${data.gender}', kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}' WHERE siswa_id = ${siswa_id}`, callback)
+
+			con.query(`SELECT siswa_nis FROM siswa WHERE siswa_nis = '${data.nis}'`, (err, rows) => {
+				if(err) throw err
+
+				let siswa = rows.map(obj => {return parseInt(obj.siswa_nis)})
+				console.log(siswa[0])
+				console.log(data.nis)
+
+				// if(rows.length == 0 ) {
+				// 		con.query(`UPDATE siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_gender = '${data.gender}', kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}' WHERE siswa_id = ${siswa_id}`, callback)
+				// 	} else {
+				// 		if(parseInt(data.nis) == siswa[0]){
+				// 		con.query(`UPDATE siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_gender = '${data.gender}', kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}' WHERE siswa_id = ${siswa_id}`, callback)
+				// 	} else {
+				// 		return res.json({error: true, message: "NIS sudah terdaftar"})
+				// 	}
+				// }
+			})
 		})
 	},
 
