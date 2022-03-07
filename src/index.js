@@ -30,8 +30,9 @@ const periodeRouter = require('./modules/admin/routes/periodeRouter')
 const siswaRouter = require('./modules/admin/routes/siswaRouter')
 const jurusanRouter = require('./modules/admin/routes/jurusanRouter')
 const admin_p_bulananRouter = require('./modules/admin/routes/p_bulananRouter')
-const pembayaran = require('./modules/admin/routes/pembayaranRouter')
+const pembayaranRouter = require('./modules/admin/routes/pembayaranRouter')
 const admin_p_bebasRouter = require('./modules/admin/routes/p_bebasRouter')
+const kenaikan_kelasRouter = require('./modules/admin/routes/kenaikan_kelasRouter')
 
 // import user router
 const siswaauthRouter = require('./modules/user/routes/authRouter')
@@ -54,8 +55,9 @@ app.use(d_kelasRouter)
 app.use(siswaRouter)
 app.use(jurusanRouter)
 app.use(admin_p_bulananRouter)
-app.use(pembayaran)
+app.use(pembayaranRouter)
 app.use(admin_p_bebasRouter)
+app.use(kenaikan_kelasRouter)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}!`)
