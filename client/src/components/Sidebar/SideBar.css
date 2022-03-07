@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar {
+  background: #1a1d2f;
+  padding-left: 31px;
+  padding-right: 31px;
+  position: absolute;
+  font-family: Poppins;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 33px;
+}
+
+.nav {
+  display: flex;
+  position: absolute;
+}
+
+.img {
+  display: flex;
+  margin-left: 20px;
+}
+
+/* The sidebar menu */
+.sidebar {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 220px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 52px; /* Stay at the top */
+  left: 0;
+  background-color: #2d3a5a; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  display: block;
+  transition: 0.5s;
+}
+
+/* The navigation menu links */
+.sidebar a {
+  padding: 22px 8px 0px 14px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #f1f1f1;
+  display: flex;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar a span {
+  padding-right: 18px;
+  font-weight: 400;
+}
+
+.sidebar .button {
+  margin: 0 96px;
+  padding-top: 60px;
+  font-size: 30px;
+  color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* SideBar hide */
+
+.sidebar1 {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 60px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 52px; /* Stay at the top */
+  left: 0;
+  background-color: #2d3a5a; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s;
+}
+
+.sidebar1 a {
+  padding: 22px 8px 0px 20px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #f1f1f1;
+  display: block;
+}
+
+.sidebar1 .button1 {
+  margin: 0 22px;
+  padding-top: 62px;
+  font-size: 25px;
+  color: #f1f1f1;
+  cursor: pointer;
+  display: block;
+}
+
+/* Style Dropdown menu */
+
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown .drop{
+  font-size: 15px;
+  color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: block;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: #f1f1f1;
+  padding-left: 40px;
+  margin-top: -16px;
+  font-size: 15px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Style page content */
+.main {
+  margin-top: 96px;
+  margin-left: 238px; /* Same as the width of the sidebar */
+  margin-right: 18px;
+  transition: 0.5s;
+}
+
+.main1 {
+  margin-top: 96px;
+  margin-left: 82px;
+  margin-right: 20px;
+  transition: 0.5s;
+}

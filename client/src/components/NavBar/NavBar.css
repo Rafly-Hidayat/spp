@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+/* header */
+.logo{
+	max-width: 50px;
+}
+
+#nav{
+    background: linear-gradient(183.41deg, #67C3F3 -8.57%, #5A98F2 82.96%);
+    position: fixed;
+    z-index: 1;
+    top: -100px;
+    width: 100%;
+    transition: top 0.5s;
+}
