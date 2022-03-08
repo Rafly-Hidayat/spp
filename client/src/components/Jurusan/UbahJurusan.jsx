@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import { Breadcrumb } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export default class UbahJurusan extends Component {
   constructor(props) {
@@ -58,6 +59,12 @@ export default class UbahJurusan extends Component {
           this.setState({
             jurusan_nama: "",
           });
+          Swal.fire({
+            icon: 'success',
+              title: 'Good Job!',
+              text: `${res.data}`,
+          })
+          console.log(res.data);
           this.props.history.push("/admin/jurusan");
         })
         .catch((err) => {});

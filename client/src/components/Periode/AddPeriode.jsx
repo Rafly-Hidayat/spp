@@ -3,6 +3,7 @@ import { Button, Row, Col, Form, Card, Breadcrumb } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default class AddPeriode extends Component {
   constructor(props) {
@@ -31,15 +32,15 @@ export default class AddPeriode extends Component {
         .post("http://localhost:8000/tambah/periode", data)
         .then((res) => {
           this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
             periode_mulai: "",
             periode_akhir: "",
           });
-          if (this.state.dataError) {
-          } else {
-            this.props.history.push("/admin/periode");
-          }
+          Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data}`,
+          })
+          this.props.history.push("/admin/periode");
         })
         .catch((error) => {});
     } else {
@@ -114,19 +115,13 @@ export default class AddPeriode extends Component {
                 )}
               </div>
             </Form.Group>
-            <Row>
-            <Col md={1}>
             <Button variant="outline-primary" type="submit">
               Tambah
-            </Button>
-            </Col>
-            <Col>
+            </Button>&ensp;
             <Link to="/admin/periode">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>
-            </Col>
-            </Row>
           </Form>
           </Card.Body>
           </Card>

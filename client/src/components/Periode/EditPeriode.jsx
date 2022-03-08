@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Card, Form, Col, Button, Row, Breadcrumb } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 
@@ -16,8 +15,6 @@ export default class Editperiode extends Component {
       periode_mulai: "",
       periode_akhir: "",
       periode_id: "",
-      dataError: "",
-      errorMessage: "",
     };
   }
 
@@ -61,6 +58,10 @@ export default class Editperiode extends Component {
             periode_mulai: "",
             periode_akhir: "",
           });
+          Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data}`,});
           this.props.history.push("/admin/periode");
         })
         .catch((err) => {});
@@ -147,19 +148,13 @@ export default class Editperiode extends Component {
                 )}
               </div>
             </Form.Group>
-            <Row>
-            <Col md={1}>
             <Button variant="outline-primary" type="submit">
               Ubah
-            </Button>
-            </Col>
-            <Col md={3}>
+            </Button>&ensp;
             <Link to="/admin/periode">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>
-            </Col>
-            </Row>
           </Form>
           </Card.Body>
           </Card>
