@@ -37,10 +37,7 @@ module.exports = {
 	},
 
     update: (req, res) => {
-		siswa.update(req.con, req.body, req.params.siswa_id, res, (err, rows) => {
-			if(err) throw err
-			res.send('success.', 200)
-		})
+		siswa.update(req.con, req.body, req.params.siswa_id, res)
 	},
 
 	delete: (req, res) => {
