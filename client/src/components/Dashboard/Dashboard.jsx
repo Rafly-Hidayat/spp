@@ -12,7 +12,7 @@ export default class Dashboard extends Component {
                 <Row>
 
                     {/* Card */}
-                    <Col md={3} sm={3}>
+                    <Col md={3} sm={6}>
                         <Card body bg="primary" className='card' sm={5} >
                             <Row>
                                 <Col md={4} className='icon'>
@@ -26,7 +26,7 @@ export default class Dashboard extends Component {
                         </Card>
                     </Col>
 
-                    <Col md={3} sm={3}>
+                    <Col md={3} sm={6}>
                         <Card body bg="success" className='card' >
                             <Row>
                                 <Col md={4} className='icon'>
@@ -41,7 +41,7 @@ export default class Dashboard extends Component {
                         </Card>
                     </Col>
 
-                    <Col md={3} sm={3}>
+                    <Col md={3} sm={6}>
                         <Card body bg="danger" className='card' >
                             <Row>
                                 <Col md={4} className='icon'>
@@ -56,7 +56,7 @@ export default class Dashboard extends Component {
                         </Card>
                     </Col>
 
-                    <Col md={3} sm={3}>
+                    <Col md={3} sm={6}>
                         <Card body bg="secondary" className='card' >
                             <Row>
                                 <Col md={4} className='icon'>

@@ -30,7 +30,6 @@ export default class AddPembayaran extends Component {
       axios
         .post(`http://localhost:8000/bebas/bayar/${this.state.id}`, data)
         .then((res) => {
-          console.log(res);
           this.setState({
             dataError: res.data.error,
             errorMessage: res.data.message,

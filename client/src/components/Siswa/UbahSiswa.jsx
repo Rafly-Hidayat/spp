@@ -143,11 +143,10 @@ export default class UbahSiswa extends Component {
               
             });
           } else {
-            Swal.fire(
-              'Good job!',
-              'You clicked the button!',
-              'success'
-            )
+            Swal.fire({
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data}`,});
             this.props.history.push("/admin/siswa");
           }
           console.log(res.data);
@@ -186,6 +185,8 @@ export default class UbahSiswa extends Component {
           <Card.Title>Ubah Siswa</Card.Title>
           <hr/>
           <Form onSubmit={this.Submit}>
+          <Row>
+                <Col>
             <Form.Group className="mb-3">
               <Form.Label>NIS*</Form.Label>
               <Form.Control
@@ -232,7 +233,8 @@ export default class UbahSiswa extends Component {
                   className: "text-danger",
                 })}
               </div>
-            </Form.Group>
+            </Form.Group></Col>
+            <Col>
 
             <Form.Group className="mb-3">
               <Form.Label>Kelas*</Form.Label>
@@ -284,21 +286,15 @@ export default class UbahSiswa extends Component {
                   className: "text-danger",
                 })}
               </div>
-            </Form.Group>
-            <Row>
-            <Col md={1}>
-            <Button variant="outline-primary" type="submit">
+            </Form.Group></Col></Row>
+            <div>
+              <Button variant="outline-primary" type="submit">
               Ubah
-            </Button>
-            </Col>
-            <Col md={3}>
+            </Button>&ensp;
             <Link to="/admin/siswa">
-              <Button variant="outline-danger" type="submit">Batal
-            </Button>
-            </Link>
-            </Col>
-            </Row>
-          </Form>
+              <Button variant="outline-danger" type="submit">Batal</Button>
+              </Link>
+            </div> </Form>
         </Card.Body>
       </Card>
       </div>

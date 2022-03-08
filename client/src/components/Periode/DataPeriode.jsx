@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Row, Container, Col, Button, Card, Breadcrumb } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 export default class Data extends Component {
   constructor(props) {
@@ -20,15 +21,42 @@ export default class Data extends Component {
       this.setState({
         data: res.data,
       });
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Gagal terhubung ke server, silahkan coba lagi!`,
+      });
     });
-  };
+    };
 
   handleRemove = (periode_id) => {
-    axios
-      .delete(`http://localhost:8000/hapus/periode/${periode_id}`)
-      .then((res) => {})
-      .catch((err) => {});
-    this.getAdmin();
+    Swal.fire({
+      title: "Apakah anda yakin?",
+      text: "Data akan terhapus, tidak bisa dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:8000/hapus/periode/${periode_id}`)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              text: `${res.data}`,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.props.history.push("/admin/periode");
+      }
+    });
   };
 
   componentDidMount() {
@@ -60,23 +88,17 @@ export default class Data extends Component {
           return (
             <div>
               <Container>
-                <Row>
-                  <Col md={2}>
-                    <Link to={`/admin/periode/ubah/${row.periode_id}`}>
+                <Link to={`/admin/periode/ubah/${row.periode_id}`}>
                       <Button variant="outline-warning" className="mr-2" block>
                         <FontAwesomeIcon icon={faUserEdit} />
                       </Button>
-                    </Link>
-                  </Col>
-                  <Col>
+                    </Link>&ensp;
                     <Button
                       variant="outline-danger"
                       onClick={() => this.handleRemove(row.periode_id)}
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />
                     </Button>
-                  </Col>
-                </Row>
               </Container>
             </div>
           );
