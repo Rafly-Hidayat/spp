@@ -71,7 +71,7 @@ module.exports = {
     );
   },
 
-  upload: (con, data, res, callback) => {
+  upload: (con, data, res) => {
 	con.beginTransaction((err) => {
 		if (err) throw err;
 		let file = data
