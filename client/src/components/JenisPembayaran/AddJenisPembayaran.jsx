@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card, Form } from "react-bootstrap";
+import { Row, Container, Col, Button, Card, Form, Breadcrumb } from "react-bootstrap";
 
 export default class AddJenisPembayaran extends Component {
   constructor(props) {
@@ -42,11 +42,11 @@ export default class AddJenisPembayaran extends Component {
       periode_id: this.state.periode,
       pos_id: this.state.pos,
     };
-    console.log("Data : ", data)
+    console.log("Data : ", data);
     axios
       .post("http://localhost:8000/tambah/pembayaran/", data)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         this.props.history.push("/admin/jenispembayaran");
       })
       .catch((err) => {});
@@ -59,6 +59,21 @@ export default class AddJenisPembayaran extends Component {
   render() {
     return (
       <div>
+        <Card>
+          <Card.Body>
+            <Breadcrumb
+              style={{
+                marginTop: "-10px",
+                marginBottom: "-22px",
+              }}
+            >
+              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item><Link to="/admin/siswa/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item active>Add</Breadcrumb.Item>
+            </Breadcrumb>
+          </Card.Body>
+        </Card>
+        <br></br>
         <Card style={{ color: "black" }}>
           <Card.Header>
             <Card.Title as="h5">Tambah Jenis Pembayaran</Card.Title>

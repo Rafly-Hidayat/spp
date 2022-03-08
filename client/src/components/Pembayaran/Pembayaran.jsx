@@ -14,6 +14,10 @@ export default class Pembayaran extends Component {
     };
   }
   
+  Submit = (e) => {
+    e.preventDefault();
+    this.setState({visible:true})
+  }
 
   handleChange = (e) => {
     e.preventDefault();
@@ -40,7 +44,7 @@ export default class Pembayaran extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Pembayaran</Card.Title>
-            <Form>
+            <Form onSubmit={this.Submit}>
               <Row>
                 <Col>
                   <Form.Group as={Row} className="mb-3">
@@ -74,15 +78,7 @@ export default class Pembayaran extends Component {
                 <Col>
                   <Form.Group as={Row} className="mb-3">
                     <Col>
-                      <Button
-                        onClick={() => {
-                          console.log(this.state.nis);
-                          console.log(this.state.periode);
-                          this.setState({
-                            visible: true,
-                          });
-                        }}
-                      >
+                      <Button type="submit" >
                         Cari Siswa
                       </Button>
                     </Col>
