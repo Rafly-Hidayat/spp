@@ -36,6 +36,10 @@ module.exports = {
 		})
 	},
 
+	upload: (req, res) => {
+		siswa.upload(req.con, req.files.filename, res)
+	},
+
     update: (req, res) => {
 		siswa.update(req.con, req.body, req.params.siswa_id, res)
 	},
