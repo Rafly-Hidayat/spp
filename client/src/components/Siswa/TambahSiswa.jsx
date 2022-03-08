@@ -108,7 +108,10 @@ export default class TambahSiswa extends Component {
               nis: "",
             });
           } else {
-            Swal.fire("Good job!", "Your data hasbeen added!", "success");
+            Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data}`,});
             this.props.history.push("/admin/siswa");
           }
         })
@@ -144,7 +147,9 @@ export default class TambahSiswa extends Component {
           <hr/>
             {/* <Sidebar /> */}
             <Form onSubmit={this.Submit}>
-              <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                <Form.Group className="mb-3">
                 <Form.Label>NIS*</Form.Label>
                 <Form.Control
                   name="nis"
@@ -215,7 +220,8 @@ export default class TambahSiswa extends Component {
                     }
                   )}
                 </div>
-              </Form.Group>
+              </Form.Group></Col>
+              <Col>
 
               <Form.Group className="mb-3">
                 <Form.Label>Kelas*</Form.Label>
@@ -313,7 +319,7 @@ export default class TambahSiswa extends Component {
                     }
                   )}
                 </div>
-              </Form.Group>
+              </Form.Group></Col></Row>
               <Row>
             <Col md={1}>
             <Button variant="outline-primary" type="submit">

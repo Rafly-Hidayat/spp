@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Row, Col, Form, Card, Breadcrumb, } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default class AddPos extends Component {
   constructor(props) {
@@ -12,8 +13,6 @@ export default class AddPos extends Component {
     this.state = {
       pos_nama: "",
       pos_deskripsi: "",
-      dataError: "",
-      errorMessage: "",
     };
   }
   handleChange = (e) => {
@@ -33,13 +32,13 @@ export default class AddPos extends Component {
         .post("http://localhost:8000/tambah/pos", data)
         .then((res) => {
           this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
           });
-          if (this.state.dataError) {
-          } else {
+          Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data}`,
+          })
             this.props.history.push("/admin/pos");
-          }
         })
         .catch((error) => {});
     } else {
@@ -84,9 +83,6 @@ export default class AddPos extends Component {
                 onChange={this.handleChange}
               />
               <div>
-                {this.state.dataError ? (
-                  <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-                ) : null}
                 {this.validator.message(
                   "pos_nama",
                   this.state.pos_nama,
@@ -108,9 +104,6 @@ export default class AddPos extends Component {
                 onChange={this.handleChange}
               />
               <div>
-                {this.state.dataError ? (
-                  <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-                ) : null}
                 {this.validator.message(
                   "pos_deskripsi",
                   this.state.pos_deskripsi,
@@ -119,19 +112,13 @@ export default class AddPos extends Component {
                 )}
               </div>
             </Form.Group>
-            <Row>
-            <Col md={1}>
             <Button variant="outline-primary" type="submit">
               Tambah
-            </Button>
-            </Col>
-            <Col>
+            </Button>&ensp;
             <Link to="/admin/pos">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>
-            </Col>
-            </Row>
           </Form>
           </Card.Body>
           </Card>

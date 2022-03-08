@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card, Form } from "react-bootstrap";
+import { Row, Container, Col, Button, Card, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import { faAmericanSignLanguageInterpreting, faAppleAlt, faEdit, faEye, faSearch, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import Swal from "sweetalert2";
+import ToolkitProvider, {Search,} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min";
 
 
 export default class DataSiswa extends Component {
@@ -23,15 +25,42 @@ export default class DataSiswa extends Component {
       this.setState({
         data: res.data,
       });
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Gagal terhubung ke server, silahkan coba lagi!`,
+      });
     });
-  };
+    };
 
   handleRemove = (siswa_id) => {
-    axios
-      .delete(`http://localhost:8000/hapus/siswa/${siswa_id}`)
-      .then((res) => { })
-      .catch((err) => { });
-    this.getSiswa();
+    Swal.fire({
+      title: "Apakah anda yakin?",
+      text: "Data akan terhapus, tidak bisa dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:8000/hapus/siswa/${siswa_id}`)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              text: `${res.data}`,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.props.history.push("/admin/siswa");
+      }
+    });
   };
 
   
@@ -40,6 +69,7 @@ export default class DataSiswa extends Component {
   }
   render() {
     
+    const { SearchBar } = Search;
     const data = this.state.data;
     const selectRow = {
       mode: "radio",
@@ -110,23 +140,17 @@ export default class DataSiswa extends Component {
             <div>
               {/* <Sidebar /> */}
               <Container>
-                <Row>
-                  <Col md={3}>
-                    <Link to={`/admin/siswa/ubah/${row.siswa_id}`}>
+                <Link to={`/admin/siswa/ubah/${row.siswa_id}`}>
                       <Button variant="outline-warning" className="mr-2" block>
                         <FontAwesomeIcon icon={faUserEdit} />
                       </Button>
-                    </Link>
-                  </Col>
-                  <Col md={1}>
+                    </Link>&ensp;
                     <Button
                       variant="outline-danger"
                       onClick={() => this.handleRemove(row.siswa_id)}
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />
                     </Button>
-                  </Col>
-                </Row>
               </Container>
             </div>
           );
@@ -154,28 +178,40 @@ export default class DataSiswa extends Component {
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br></br>
-              <br/>
+        <br/>
         <Card>
           <Card.Body>
-            <Link to={"/admin/siswa/tambah/"}>
-              <Button className="mr-2" variant="outline-primary" block="">
-                Tambah
-              </Button>
-            </Link>
-            <hr />
-            <BootstrapTable
-              keyField="id"
-              data={data}
-              columns={columns}
-              defaultSorted={defaultSorted}
-              striped
-              hover
-              condensed
-              bordered={false}
-              pagination={ paginationFactory(options) }
-              // selectRow={ selectRow }
-            />
+            <ToolkitProvider keyField="id" data={data} columns={columns} search>
+              {(props) => (
+                <div>
+                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                  <Link to={"/admin/siswa/tambah/"}>
+                    <Button variant="outline-primary" block="">
+                      Tambah
+                    </Button></Link>
+                      <div className="float-right" style={{display: 'flex'}}>
+                        <InputGroup>
+                        <SearchBar style={{ outline: 'none' }} placeholder='Cari Siswa ...' {...props.searchProps} />
+                      <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
+                        </InputGroup>
+                      </div>
+                      </div>
+                    <br/>
+                  <BootstrapTable
+                    keyField="id"
+                    data={data}
+                    columns={columns}
+                    striped
+                    hover
+                    condensed
+                    bordered={false}
+                    pagination={paginationFactory(options)}
+                    {...props.baseProps}
+                    defaultSorted={defaultSorted}
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
           </Card.Body>
         </Card>
       </div>

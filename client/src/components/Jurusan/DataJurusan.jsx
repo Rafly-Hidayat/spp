@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card } from "react-bootstrap";
+import { Row, Container, Breadcrumb, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faTrashAlt, faUser, faUserEdit } from "@fortawesome/free-solid-svg-icons";
-import { Breadcrumb } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export default class Data extends Component {
   constructor(props) {
@@ -21,15 +21,42 @@ export default class Data extends Component {
       this.setState({
         data: res.data,
       });
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Gagal terhubung ke server, silahkan coba lagi!`,
+      });
     });
-  };
+    };
 
   handleRemove = (jurusan_id) => {
-    axios
-      .delete(`http://localhost:8000/hapus/jurusan/${jurusan_id}`)
-      .then((res) => {})
-      .catch((err) => {});
-    this.getAdmin();
+    Swal.fire({
+      title: "Apakah anda yakin?",
+      text: "Data akan terhapus, tidak bisa dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:8000/hapus/jurusan/${jurusan_id}`)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              text: `${res.data}`,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.props.history.push("/admin/jurusan");
+      }
+    });
   };
 
   componentDidMount() {
@@ -37,10 +64,6 @@ export default class Data extends Component {
   }
   render() {
     const data = this.state.data;
-    const selectRow = {
-      mode: "radio",
-      clickToSelect: true,
-    };
     const columns = [
       {
         dataField: "jurusan_id",
@@ -53,28 +76,22 @@ export default class Data extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
-        // make delete and update button
+        
         formatter: (cellContent, row) => {
           return (
             <div>
               <Container>
-                <Row>
-                  <Col md={2}>
-                    <Link to={`/admin/jurusan/ubah/${row.jurusan_id}`}>
-                      <Button variant="outline-warning" className="mr-2" block>
+                <Link to={`/admin/jurusan/ubah/${row.jurusan_id}`}>
+                      <Button variant="outline-warning" block>
                         <FontAwesomeIcon icon={faUserEdit} />
                       </Button>
-                    </Link>
-                  </Col>
-                  <Col>
+                    </Link>&ensp;
                     <Button
                       variant="outline-danger"
                       onClick={() => this.handleRemove(row.jurusan_id)}
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />
                     </Button>
-                  </Col>
-                </Row>
               </Container>
             </div>
           );
@@ -100,7 +117,7 @@ export default class Data extends Component {
         <Card>
           <Card.Body>
             <Link to={"/admin/jurusan/tambah"}>
-              <Button className="mr-2" variant="outline-primary" block="">
+              <Button variant="outline-primary" block="">
                 Tambah
               </Button>
             </Link>

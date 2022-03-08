@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Card, Form, Col, Button, Row, Breadcrumb } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 
@@ -61,6 +60,10 @@ export default class EditPos extends Component {
             pos_nama: "",
             pos_deskripsi: "",
           });
+          Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data}`,});
           this.props.history.push("/admin/pos");
         })
         .catch((err) => {});
@@ -154,19 +157,13 @@ export default class EditPos extends Component {
                 )}
               </div>
             </Form.Group>
-            <Row>
-            <Col md={1}>
             <Button variant="outline-primary" type="submit">
               Ubah
-            </Button>
-            </Col>
-            <Col>
+            </Button>&ensp;
             <Link to="/admin/pos">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>
-            </Col>
-            </Row>
           </Form>
           </Card.Body>
           </Card>
