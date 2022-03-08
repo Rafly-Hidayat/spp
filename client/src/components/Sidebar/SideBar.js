@@ -23,17 +23,12 @@ import {
   faChevronLeft,
   faChevronRight,
   faGauge,
-  faChartArea,
-  faCalendarWeek,
-  faBahai,
-  faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter, Route } from "react-router-dom";
-import navlogo from "../Assets/logotextwhite.svg";
+import img from "../Assets/user.jpg";
+import navlogo from "../Assets/logo.svg";
 
 // Import File
-import img from "../Assets/user.jpg";
-
 import Dashboard from "../Dashboard/Dashboard";
 
 import DataJurusan from "../Jurusan/DataJurusan";
@@ -58,7 +53,6 @@ import UbahKelas from "../Kelas/UbahKelas";
 
 import Pembayaran from "../Pembayaran/Pembayaran";
 import AddPembayaran from "../Pembayaran/AddPembayaran";
-import AddPembayaranBulanan from "../Pembayaran/AddPembayaranBulanan";
 
 import JenisPembayaran from "../JenisPembayaran/JenisPembayaran";
 import AddJenisPembayaran from "../JenisPembayaran/AddJenisPembayaran";
@@ -68,6 +62,7 @@ import "./SideBar.css";
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
+
   const user = useState(admin.nama[0]);
 
   const [sidebar, setSidebar] = useState("sidebar");
@@ -137,15 +132,13 @@ const SideBar = () => {
         <Navbar.Brand>
           <Image
             src={navlogo}
-            position= "absolute"
-            width="537px"
-            height="38px"
-            left= "41px"
-            top= "20px"
+            width="30"
+            height="30"
             className="d-inline-block align-top"
             alt="logo"
           />
         </Navbar.Brand>
+        <Navbar.Brand> Sistem Pembayaran Sekolah</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse
           className="justify-content-end"
@@ -153,33 +146,27 @@ const SideBar = () => {
         >
           <Nav>
             {/* <div className="img"> */}
-            <Nav.Item>
-
-              <NavDropdown
-                id="nav-dropdown-dark-example"
-                title={
-                  <span>
-                    <Image
-                      width={40}
-                      height={40}
-                      src={img}
-                      style={{ borderRadius: "50%", marginTop: "-4px" }}
-                    />
-                    &ensp;
-                    {admin.nama[0]}
-                  </span>
-                }
-                menuVariant="dark"
-              >
-                <NavDropdown.Item href="/admin/profile/">
-                  Profile
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={handleLogout}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav.Item>
+              <Nav.Item>
+                <Image
+                  width={40}
+                  height={40}
+                  src={img}
+                  style={{ borderRadius: "20px", marginTop: "4px" }}
+                />
+                <NavDropdown
+                  id="nav-dropdown-dark-example"
+                  title={user}
+                  menuVariant="dark"
+                >
+                  <NavDropdown.Item href="/admin/profile/">
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav.Item>
             {/* </div> */}
           </Nav>
         </Navbar.Collapse>
@@ -192,9 +179,7 @@ const SideBar = () => {
       <div className={sidebar}>
         <br />
         <br />
-        {/* Admin Yang Sudah Login */}
         <center>
-          {/* Img Admin besar */}
           <img
             alt="profile"
             src={img}
@@ -203,37 +188,18 @@ const SideBar = () => {
               width: "100px",
               height: "100px",
               border: "solid 2px gray",
-              marginTop: "-10px",
-              display: text,
             }}
           />
 
-          {/* Img Admin kecil */}
-          <img
-            alt="profile"
-            src={img}
-            style={{
-              borderRadius: "5px",
-              width: "50px",
-              height: "50px",
-              border: "solid 2px gray",
-              marginTop: "-10px",
-              display: btnright,
-            }}
-          />
-
-          <h5 style={{ color: "white", marginTop: "15px", display: text }}>{admin.nama[0]}</h5>
+          <h5 style={{ color: "white", marginTop : "15px" }}>{admin.nama[0]}</h5>
         </center>
         <hr style={{ color: "white" }} />
-
-        {/* Menu Sidebar */}
         <Link to="/admin">
           <span className="icon">
-            <FontAwesomeIcon icon={faChartArea} style={{ marginLeft: "3px" }} />
+            <FontAwesomeIcon icon={faCreditCard} />
           </span>
-          <span style={{ display: text, paddingLeft: "1px" }}> Dashboard</span>
+          <span style={{ display: text }}>Dashboard</span>
         </Link>
-
         {/* --------- */}
         <div className="dropdown">
           <span className="drop">
@@ -267,32 +233,32 @@ const SideBar = () => {
         {/* -------- */}
         <Link to="/admin/periode">
           <span className="icon">
-            <FontAwesomeIcon icon={faCalendar} style={{ marginLeft: "3px" }} />
+            <FontAwesomeIcon icon={faCreditCard} />
           </span>{" "}
-          <span style={{ display: text, paddingLeft: "4px" }}>Tahun Ajaran</span>
+          <span style={{ display: text }}> Tahun Ajaran</span>
         </Link>
 
         {/* --------- */}
         <Link to="/admin/pos">
           <span className="icon">
-            <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
+            <FontAwesomeIcon icon={faCreditCard} />
           </span>{" "}
-          <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
+          <span style={{ display: text }}>Post</span>
         </Link>
 
         <Link to="/admin/pembayaran">
           <span className="icon">
-            <FontAwesomeIcon icon={faCreditCard} style={{ marginLeft: "1px" }} />
+            <FontAwesomeIcon icon={faCreditCard} />
           </span>{" "}
-          <span style={{ display: text, paddingLeft: "4px" }}>Pembayaran</span>
+          <span style={{ display: text }}>Pembayaran</span>
         </Link>
 
         {/* ----------- */}
         <Link to="/admin/jenispembayaran">
           <span className="icon">
-            <FontAwesomeIcon icon={faCreditCard} style={{ marginLeft: "1px" }} />
+            <FontAwesomeIcon icon={faCreditCard} />
           </span>{" "}
-          <span style={{ display: text, paddingLeft: "4px" }}>Jenis Pembayaran</span>
+          <span style={{ display: text }}>Jenis Pembayaran</span>
         </Link>
 
         {/* <a href="#">
@@ -302,8 +268,6 @@ const SideBar = () => {
           <span style={{ display: text }}>Set Tarif</span>
         </a> */}
 
-
-        {/* Button for hide and show sidebar */}
         <div className={button}>
           <FontAwesomeIcon
             style={{ display: btnleft }}
@@ -318,8 +282,6 @@ const SideBar = () => {
         </div>
       </div>
 
-
-      {/* Route in class main */}
       <div className={main}>
         <ProtectedRoute path="/admin" exact component={Dashboard} />
 
@@ -393,9 +355,8 @@ const SideBar = () => {
           path="/admin/pembayaran/tambah/:id"
           component={AddPembayaran}
         />
-        <ProtectedRoute exact path="/admin/pembayaran_bulan/tambah/:id" component={AddPembayaranBulanan} />
       </div>
-    </div >
+    </div>
   );
 };
 

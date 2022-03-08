@@ -4,6 +4,7 @@ import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default class TambahJurusan extends Component {
   constructor(props) {
@@ -32,13 +33,14 @@ export default class TambahJurusan extends Component {
         .post("http://localhost:8000/tambah/jurusan", data)
         .then((res) => {
           this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
           });
-          if (this.state.dataError) {
-          } else {
-            this.props.history.push("/admin");
-          }
+          console.log(res.data);
+            Swal.fire({
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data}`,
+            })
+            this.props.history.push("/admin/jurusan");
         })
         .catch((error) => {});
     } else {
@@ -94,19 +96,13 @@ export default class TambahJurusan extends Component {
                 )}
               </div>
             </Form.Group>
-            <Row>
-            <Col md={1}>
             <Button variant="outline-primary" type="submit">
               Tambah
-            </Button>
-            </Col>
-            <Col>
+            </Button>&ensp;
             <Link to="/admin/jurusan">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>
-            </Col>
-            </Row>
           </Form>
           </Card.Body>
           </Card>

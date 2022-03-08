@@ -5,6 +5,7 @@ import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
+import Swal from "sweetalert2";
 
 export default class UbahKelas extends Component {
   constructor(props) {
@@ -57,6 +58,10 @@ export default class UbahKelas extends Component {
           this.setState({
             kelas_nama: "",
           });
+          Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data}`,});
           this.props.history.push("/admin/kelas");
         })
         .catch((err) => {});
@@ -124,19 +129,13 @@ export default class UbahKelas extends Component {
                 )}
               </div>
             </Form.Group>
-            <Row>
-            <Col md={1}>
             <Button variant="outline-primary" type="submit">
               Ubah
-            </Button>
-            </Col>
-            <Col md={3}>
+            </Button>&ensp;
             <Link to="/admin/kelas">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>
-            </Col>
-            </Row>
           </Form>
           </Card.Body>
           </Card>

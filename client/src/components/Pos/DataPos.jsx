@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card } from "react-bootstrap";
+import { Container, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
-import Breadcrumb from 'react-bootstrap/Breadcrumb'
-
+import { faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import Swal from "sweetalert2";
 
 export default class DataPos extends Component {
   constructor(props) {
@@ -18,34 +18,56 @@ export default class DataPos extends Component {
   }
 
   getPos = () => {
-    axios.get("http://localhost:8000/pos/").then((res) => {
-      this.setState({
-        data: res.data,
+    axios
+      .get("http://localhost:8000/pos/")
+      .then((res) => {
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Gagal terhubung ke server, silahkan coba lagi!`,
+        });
       });
-    });
   };
 
   handleRemove = (pos_id) => {
-    axios
-      .delete(`http://localhost:8000/hapus/pos/${pos_id}`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    this.getAdmin();
-    };
+    Swal.fire({
+      title: "Apakah anda yakin?",
+      text: "Data akan terhapus, tidak bisa dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:8000/hapus/pos/${pos_id}`)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              text: `${res.data}`,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.props.history.push("/admin/pos");
+      }
+    });
+  };
 
   componentDidMount() {
     this.getPos();
   }
   render() {
+    
     const data = this.state.data;
-    const selectRow = {
-      mode: "radio",
-      clickToSelect: true,
-    };
     const columns = [
       {
         dataField: "pos_id",
@@ -62,29 +84,22 @@ export default class DataPos extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
-        // make delete and update button
         formatter: (cellContent, row) => {
           return (
             <div>
-              
               <Container>
-                <Row>
-                  <Col md={3}>
-                    <Link to={`/admin/pos/ubah/${row.pos_id}`} >
-                      <Button variant="outline-warning" className="mr-2" block >
-                        <FontAwesomeIcon icon={faUserEdit} />
-                      </Button>
-                    </Link> 
-                  </Col>
-                  <Col >
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => this.handleRemove(row.pos_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
-                  </Col>
-                </Row>
+                <Link to={`/admin/pos/ubah/${row.pos_id}`}>
+                  <Button variant="outline-warning" block>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Button>
+                </Link>
+                &ensp;
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.handleRemove(row.pos_id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
               </Container>
             </div>
           );
@@ -93,7 +108,7 @@ export default class DataPos extends Component {
     ];
     return (
       <div>
-      <Card>
+        <Card>
           <Card.Body>
             <Breadcrumb
               style={{
@@ -101,30 +116,31 @@ export default class DataPos extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/">Home</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-              <br/>
+        <br />
         <Card>
           <Card.Body>
             <Link to={"/admin/pos/tambah"}>
-              <Button className="mr-2" variant="outline-primary" block="">
+              <Button variant="outline-primary" block>
                 Tambah
               </Button>
             </Link>
-            <hr/>
-            <BootstrapTable
-              keyField="id"
-              data={data}
-              columns={columns}
-              striped
-              hover
-              condensed
-              bordered={false}
-              // selectRow={ selectRow }
-            />
+            <hr />
+                  <BootstrapTable
+                    keyField="id"
+                    data={data}
+                    columns={columns}
+                    striped
+                    hover
+                    condensed
+                    bordered={false}
+                    />
           </Card.Body>
         </Card>
       </div>

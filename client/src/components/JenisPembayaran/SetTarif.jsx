@@ -25,7 +25,6 @@ export default class SetTarif extends Component {
       kelas: "",
       dataError: "",
       errorMessage: "",
-      tipe: ""
     };
   }
 
@@ -39,15 +38,6 @@ export default class SetTarif extends Component {
       })
       .catch((err) => {});
   };
-  getTipe = () => {
-    axios.get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`).then((res) => {
-      console.log(res.data[0].pembayaran_tipe)
-      console.log(this.state.pembayaran_id)
-      this.setState({
-        tipe: res.data[0].pembayaran_tipe,
-      });
-    });
-  }
   handleChange = (e) => {
     e.preventDefault();
     this.setState({
@@ -63,37 +53,14 @@ export default class SetTarif extends Component {
       tagihan: this.state.tarif,
     };
     if (this.validator.allValid()) {
-      if (this.state.tipe === "BEBAS") {
       axios
         .post("http://localhost:8000/set_tarif/bebas", data)
         .then((res) => {
-          console.log(res)
           this.setState({
             dataError: res.data.error,
             errorMessage: res.data.message,
           });
-          if (this.state.dataError) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: `${this.state.errorMessage}`,
-            });
-          } else {
-            Swal.fire("Good job!", "Your data hasbeen added!", "success");
-            this.props.history.push("/admin/jenispembayaran");
-          }
-          // this.props.history.push("/pembayaran");
-        })
-        .catch((err) => {
 
-        });
-      } else {
-        axios.post("http://localhost:8000/set_tarif/bulanan", data).then((res) => {
-          console.log(res)
-          this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
-          });
           if (this.state.dataError) {
             Swal.fire({
               icon: "error",
@@ -106,12 +73,11 @@ export default class SetTarif extends Component {
           }
           // this.props.history.push("/pembayaran");
         })
-      }
+        .catch((err) => {});
     }
   };
   componentDidMount() {
     this.getKelas();
-    this.getTipe();
   }
   render() {
     return (
