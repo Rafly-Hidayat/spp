@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card, Breadcrumb } from "react-bootstrap";
+import { Row, Container, Col, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../Sidebar/SideBar";
@@ -112,20 +112,6 @@ export default class Data extends Component {
     ];
     return (
       <div>
-        <Card>
-          <Card.Body>
-            <Breadcrumb
-              style={{
-                marginTop: "-10px",
-                marginBottom: "-22px",
-              }}
-            >
-              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
-              <Breadcrumb.Item active>Data</Breadcrumb.Item>
-            </Breadcrumb>
-          </Card.Body>
-        </Card>
-        <br></br>
         <Card>
           <Card.Body>
             <Link to={"/admin/jenispembayaran/tambah"}>
