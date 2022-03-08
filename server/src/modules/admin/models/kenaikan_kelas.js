@@ -7,19 +7,6 @@ module.exports = {
                 return obj.siswa_id
             })
 
-            // for (let i = 0; i < siswa.length; i++){
-            //     con.query(`SELECT bulanan_status FROM bulanan WHERE siswa_id = '${siswa[i]}'`, (err, rows) => {
-            //         let status = rows.map(obj => { return obj.bulanan_status })
-                        
-            //         for (let j = 0; j < status.length; j++) {
-            //             if (status[j] === 0){
-            //                  res.send("Belum Lunas")
-            //                  process.exitCode
-            //             }
-            //         }
-            //     })
-            // }
-
             for (let i = 0; i < Array.from(siswa).length; i++) {
                 con.query(`UPDATE siswa SET kelas_id = '${data.ke_kelas}' WHERE siswa_id = '${siswa[i]}'`, (err) => {
                     if (err) throw err
