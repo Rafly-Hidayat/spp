@@ -33,6 +33,12 @@ export default class Pembayaran extends Component {
       jenis_kelamin: "",
     };
   }
+  
+  Submit = (e) => {
+    e.preventDefault();
+    this.setState({visible:true})
+  }
+
   getPeriode = () => {
     axios.get("http://localhost:8000/periode").then((res) => {
       this.setState({
@@ -131,8 +137,7 @@ export default class Pembayaran extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Pembayaran</Card.Title>
-            <hr />
-            <Form>
+            <Form onSubmit={this.Submit}>
               <Row>
                 <Col>
                   <Form.Group as={Row} className="mb-3">
@@ -177,8 +182,8 @@ export default class Pembayaran extends Component {
                 <Col>
                   <Form.Group as={Row} className="mb-3">
                     <Col>
-                      <Button variant="primary" block onClick={this.Cari}>
-                        Cari
+                      <Button type="submit" >
+                        Cari Siswa
                       </Button>
                     </Col>
                   </Form.Group>

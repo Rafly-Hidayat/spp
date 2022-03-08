@@ -8,7 +8,9 @@ import {
   Card,
   InputGroup,
   FormSelect,
+  Breadcrumb
 } from "react-bootstrap";
+import {Link} from 'react-router-dom'
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -82,6 +84,21 @@ export default class SetTarif extends Component {
   render() {
     return (
       <div>
+        <Card>
+          <Card.Body>
+            <Breadcrumb
+              style={{
+                marginTop: "-10px",
+                marginBottom: "-22px",
+              }}
+            >
+              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item><Link to="/admin/siswa/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item active>Set</Breadcrumb.Item>
+            </Breadcrumb>
+          </Card.Body>
+        </Card>
+        <br></br>
         <Container>
           <Card style={{ color: "black" }}>
             <Card.Body>

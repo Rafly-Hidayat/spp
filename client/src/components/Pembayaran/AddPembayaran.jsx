@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Row, Col, Form, Card } from "react-bootstrap";
+import { Button, Row, Col, Form, Card, Breadcrumb } from "react-bootstrap";
+import {Link} from 'react-router-dom'
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 
@@ -48,36 +49,53 @@ export default class AddPembayaran extends Component {
   };
   render() {
     return (
-      <Card style={{ color: "black" }}>
-        <Card.Body>
-          <Card.Title>Pembayaran</Card.Title>
-          <Form onSubmit={this.Submit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Nominal</Form.Label>
-              <Form.Control
-                name="nominal"
-                id="nominal"
-                onChange={this.handleChange}
-                noValidate
-                value={this.state.nominal}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Keterangan</Form.Label>
-              <Form.Control
-                name="keterangan"
-                id="keterangan"
-                onChange={this.handleChange}
-                noValidate
-                value={this.state.keterangan}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+      <div>
+        <Card>
+          <Card.Body>
+            <Breadcrumb
+              style={{
+                marginTop: "-10px",
+                marginBottom: "-22px",
+              }}
+            >
+              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item><Link to="/admin/siswa/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item active>Add</Breadcrumb.Item>
+            </Breadcrumb>
+          </Card.Body>
+        </Card>
+        <br></br>
+        <Card style={{ color: "black" }}>
+          <Card.Body>
+            <Card.Title>Pembayaran</Card.Title>
+            <Form onSubmit={this.Submit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Nominal</Form.Label>
+                <Form.Control
+                  name="nominal"
+                  id="nominal"
+                  onChange={this.handleChange}
+                  noValidate
+                  value={this.state.nominal}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Keterangan</Form.Label>
+                <Form.Control
+                  name="keterangan"
+                  id="keterangan"
+                  onChange={this.handleChange}
+                  noValidate
+                  value={this.state.keterangan}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
     );
   }
 }
