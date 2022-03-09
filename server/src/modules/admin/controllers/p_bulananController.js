@@ -11,6 +11,7 @@ module.exports = {
     getById: (req, res) => {
         p_bulanan.getById(req.con, req.params.bulanan_id, (err, rows) => {
             if (err) throw err
+			if (rows == 0) return res.json({error: true, message: "Id siswa tidak ditemukan."});
             res.json(rows)
         })
     },
@@ -18,6 +19,7 @@ module.exports = {
     getByNis: (req, res) => {
         p_bulanan.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
             if (err) throw err
+			if (rows == 0) return res.json({error: true, message: "Nis siswa tidak ditemukan."});
             res.json(rows)
         })
     },
@@ -34,16 +36,17 @@ module.exports = {
     },
 
     bayar: (req, res) => {
-        p_bulanan.bayar(req.con, req.params.bulanan_id, req.body, (err, rows) => {
+        p_bulanan.bayar(req.con, req.params.bulanan_id, req.body, (err) => {
             if (err) throw err
-            res.send('berhasil mengubah status', 200)
+            return res.json({error : false, message :'Pembayaran berhasil'})
+
         })
     },
 
     delete: (req, res) => {
-        p_bulanan.delete(req.con, req.params.bulanan_id, res, (err, rows) => {
+        p_bulanan.delete(req.con, req.params.bulanan_id, res, (err) => {
             if (err) return res.send(err.sqlMessage, 400)
-            res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil hapus siswa'})
         })
     }
 }

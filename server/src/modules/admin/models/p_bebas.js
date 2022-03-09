@@ -47,7 +47,7 @@ module.exports = {
                         if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
                             const jumlah_siswa = siswa.length
                             for(let i = 0; i < jumlah_siswa; i++){
-                                con.query(`INSERT INTO bebas SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bebas_tagihan = '${data.tagihan}' `)
+                                con.query(`INSERT INTO bebas SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bebas_tagihan = '${data.tagihan}', bebas_total_bayar = '0' `)
                             }
                         } else {
                             con.rollback()
@@ -87,7 +87,7 @@ module.exports = {
 
                         let sisa_tagihan = tagihan - total_bayar
 
-                        if (data.jumlah_bayar > sisa_tagihan) {
+                        if (data.nominal > sisa_tagihan) {
                             con.rollback()
                             return res.json({
                                 error : true,
