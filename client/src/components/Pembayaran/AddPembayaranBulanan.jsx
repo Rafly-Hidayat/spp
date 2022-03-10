@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import { Card, Form, FormSelect, Button } from "react-bootstrap";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import SimpleReactValidator from "simple-react-validator";
+import Swal from "sweetalert2";
 
 export default class AddPembayaranBulanan extends Component {
   constructor(props) {
     super(props);
+    this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       id: this.props.match.params.id,
       admin: "",
+      data: [],
     };
   }
 
@@ -21,14 +26,32 @@ export default class AddPembayaranBulanan extends Component {
     e.preventDefault();
     const id = this.state.id;
     const data = {
-      admin_id : this.state.admin
+      admin_id: this.state.admin,
+    };
+    if (this.validator.allValid()) {
+      axios
+        .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil!",
+            text: `Pembayaran Berhasil!`,
+          });
+          this.props.history.push("/admin/pembayaran"); 
+        });
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
     }
-    axios
-      .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
-      .then((res) => {
-        this.props.history.push("/admin/pembayaran");
-      });
   };
+  componentDidMount() {
+    axios.get("http://localhost:8000/admin").then((res) => {
+      this.setState({
+        data: res.data,
+      });
+    });
+  }
   render() {
     return (
       <div>
@@ -36,17 +59,40 @@ export default class AddPembayaranBulanan extends Component {
           <Card.Body>
             <Card.Title>Pembayaran</Card.Title>
             <Form onSubmit={this.Submit}>
-              <Form.Group>
-                <Form.Label>Admin</Form.Label>
+              <Form.Group className="mb-3">
+                <hr />
+                <Form.Label>Nama Admin*</Form.Label>
                 <FormSelect name="admin" onChange={this.handleChange}>
-                  <option value="">Pilih Nama Admin</option>
-                  <option value="1">Admin</option>
-                  <option value="2">Admin2</option>
+                  <option>Pilih Admin</option>
+                  {this.state.data.map((item) => (
+                    <option key="" value={item.admin_id}>
+                      {item.admin_nama}
+                    </option>
+                  ))}
                 </FormSelect>
+                <div>
+                  {this.validator.message(
+                    "admin",
+                    this.state.admin,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Pilih Nama Admin!",
+                      },
+                    }
+                  )}
+                </div>
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
+              <Button variant="outline-primary" type="submit">
+                Bayar
               </Button>
+              &ensp;
+              <Link to="/admin/pembayaran">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
             </Form>
           </Card.Body>
         </Card>

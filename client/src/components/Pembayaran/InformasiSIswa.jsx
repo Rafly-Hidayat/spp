@@ -61,6 +61,7 @@ export default class InformasiSIswa extends Component {
     this.getSiswa();
     this.getBebas();
     this.getBulanan();
+    console.log(this.props.nis);
   }
 
   showModal = () => {

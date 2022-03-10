@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { Button, Row, Col, Form, Card } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
+import Swal from "sweetalert2";
+import {Link} from 'react-router-dom'
 
 export default class AddPembayaran extends Component {
   constructor(props) {
     super(props);
-    this.validator = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       id: this.props.match.params.id,
       nominal: "",
@@ -30,12 +32,18 @@ export default class AddPembayaran extends Component {
         .post(`http://localhost:8000/bebas/bayar/${this.state.id}`, data)
         .then((res) => {
           console.log(res)
-          this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
-          });
-          if (this.state.dataError) {
+          if (res.data.error) {
+            Swal.fire({
+              icon: "error",
+              title: "Gagal!",
+              text: `${res.data.message}`,
+            });
           } else {
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil!",
+              text: `Pembayaran Berhasil!`,
+            })
             this.props.history.push("/admin/pembayaran");
           }
         })
@@ -62,6 +70,14 @@ export default class AddPembayaran extends Component {
                 noValidate
                 value={this.state.nominal}
               />
+              <div>
+                {this.validator.message("nominal", this.state.nominal, `required`, {
+                  className: "text-danger",
+                  messages: {
+                    required: "Masukkan Nominal yang ingin dibayarkan!",
+                  },
+                })}
+              </div>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Keterangan</Form.Label>
@@ -72,10 +88,24 @@ export default class AddPembayaran extends Component {
                 noValidate
                 value={this.state.keterangan}
               />
+              <div>
+                {this.validator.message("keterangan", this.state.keterangan, `required`, {
+                  className: "text-danger",
+                  messages: {
+                    required: "Masukkan keterangan!",
+                  },
+                })}
+              </div>
             </Form.Group>
             <Button variant="primary" type="submit">
-              Submit
+              Bayar
             </Button>
+            &ensp;
+              <Link to="/admin/pembayaran">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
           </Form>
         </Card.Body>
       </Card>

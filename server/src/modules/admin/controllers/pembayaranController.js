@@ -11,28 +11,29 @@ module.exports = {
     getById: (req, res) => {
 		pembayaran.getById(req.con, req.params.pembayaran_id, (err, rows) => {
 			if(err) throw err
+			if (rows == 0) return res.json({error: true, message: "Id pembyaran tidak ditemukan."});
 			res.json(rows)
 		})
 	},
 
 	add: (req, res) => {
-		pembayaran.add(req.con, req.body, (err, rows) => {
+		pembayaran.add(req.con, req.body, (err) => {
 			if(err) throw err
-			res.send('add new pembayaran success.', 200)
+            return res.json({error : false, message :'Berhasil tambah data pembayaran'})
 		})
 	},
 
     update: (req, res) => {
-		pembayaran.update(req.con, req.body, req.params.pembayaran_id, res, (err, rows) => {
+		pembayaran.update(req.con, req.body, req.params.pembayaran_id, res, (err) => {
 			if(err) throw err
-			res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil ubah data pembayaran'})
 		})
 	},
 
 	delete: (req, res) => {
-		pembayaran.delete(req.con, req.params.pembayaran_id, res, (err, rows) => {
+		pembayaran.delete(req.con, req.params.pembayaran_id, res, (err) => {
 			if(err) return res.send(err.sqlMessage, 400)
-			res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil hapus data pembayaran'})
 		})
 	}
 }

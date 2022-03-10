@@ -12,21 +12,29 @@ export default class NavBar extends Component {
         return (
             <div>
                 <div className="navForLandingPage">
-                    <Navbar collapseOnSelect id='nav' expand="lg" variant="light" className='navbar'>
+
+                    <Navbar collapseOnSelect id="nav" expand="lg" className='navbar'>
                         <Container>
-                            <Navbar.Brand href="#home"> <Image className="logo" src={logo} /> <b>Sistem Pembayaran Sekolah</b>  </Navbar.Brand>
+                            <Navbar.Brand href="#home"> <Image className="logo" src={logo} /> <span className='title1'>Sistem Pembayaran Sekolah</span><span className='title2'>SPS</span>  </Navbar.Brand>
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                            <Navbar.Collapse id="responsive-navbar-nav ">
-                                <Nav className="me-auto nav">
-                                    <Nav.Link href="#home" active> <h6><b>Home</b></h6>  </Nav.Link>
+                            <Navbar.Collapse id="responsive-navbar-nav">
+                                <Nav className="me-auto">
+
+                                </Nav>
+                                <Nav className='nav'>
+                                    <Nav.Link href="#home"> <h6>Home</h6>  </Nav.Link>
                                     <Nav.Link href="#beranda"> <h6>Beranda</h6> </Nav.Link>
                                     <Nav.Link href="#features"> <h6>Features</h6> </Nav.Link>
-                                    <Link to="/login">
-                                        <Nav.Link href="/Login"> <Button className='btn-login'>Log in</Button></Nav.Link>
-                                    </Link>                                </Nav>
+                                    <Link to="/admin/login">
+                                        <Nav.Link href="/admin/login"> <Button className='btn-login'>Log in</Button></Nav.Link>
+                                    </Link>
+                                </Nav>
                             </Navbar.Collapse>
+
                         </Container>
                     </Navbar>
+
+
                 </div>
             </div >
         )
@@ -38,7 +46,7 @@ export default class NavBar extends Component {
 window.onscroll = function () { scrollFunction() };
 
 function scrollFunction() {
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
         document.getElementById("nav").style.top = "0";
     } else {
         document.getElementById("nav").style.top = "-150px";

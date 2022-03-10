@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Container, Col, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../Sidebar/SideBar";
 
 export default class Data extends Component {
@@ -87,23 +87,17 @@ export default class Data extends Component {
           return (
             <div>
               <Container>
-                <Row>
-                  <Col md={2}>
-                    <Link to={`/admin/pembayaran/ubah/${row.pembayaran_id}`}>
-                      <Button variant="warning" className="mr-2" block>
-                        <FontAwesomeIcon icon={faEye} />
+                <Link to={`/admin/jenispembayaran/ubah/${row.pembayaran_id}`}>
+                      <Button variant="outline-warning" block>
+                        <FontAwesomeIcon icon={faUserEdit} />
                       </Button>
-                    </Link>
-                  </Col>
-                  <Col>
+                    </Link>&ensp;
                     <Button
-                      variant="danger"
+                      variant="outline-danger"
                       onClick={() => this.handleRemove(row.pembayaran_id)}
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />
                     </Button>
-                  </Col>
-                </Row>
               </Container>
             </div>
           );
