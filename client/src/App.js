@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Login from "./components/Pages/Login";
 import LoginAdmin from "./components/Admin/LoginAdmin";
 import LandingPage from "./components/LandingPage/LandingPage";
 import SideBar from "./components/Sidebar/SideBar";
+import Login from './user/LoginPage/Login'
+import SidebarUser from './user/SideBarUser/SideBarUser'
 
 export default class App extends Component {
   render() {
@@ -14,8 +15,12 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/" exact component={LandingPage} />
+
             <Route path="/admin/login" component={LoginAdmin} />
             <Route path="/admin" component={SideBar} />
+
+            <Route path="/user/login" component={Login} />
+            <Route path="/user" component={SidebarUser} />
           </Switch>
         </BrowserRouter>
       </div>

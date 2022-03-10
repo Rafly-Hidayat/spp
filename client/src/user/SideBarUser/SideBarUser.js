@@ -1,24 +1,18 @@
 import React, { useState } from 'react'
+import ProtectedRoute from '../../ProtectedRoute'
+import { useHistory } from 'react-router';
 import { Container, Navbar, Nav, NavDropdown, Card, Row, Col, Button, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faCreditCard, faHome, faBell, faCog } from '@fortawesome/free-solid-svg-icons'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-// import Dashboard from '../Dashboard/Dashboard'
-// import DataSiswa10 from '../DataSiswa/DataSiswa10';
-// import DetailSiswa from '../DetailSiswa/DetailSiswa';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import logo from '../Assets/LandingPageImg/Logo.png'
 
 import './SideBarUser.css'
-import LandingPage from '../LandingPage/LandingPage';
-import Data from '../Data/Data';
-import Transaksi from '../Transaksi/Transaksi';
-import DashboardUser from '../DashboardUser/DashboardUser';
+
+import Dashboard from '../DashboardUser/DashboardUser'
+import Transaksi from '../Transaksi/Transaksi'
+import Logout from '../Logout/Logout'
 
 const SideBar = () => {
     const [sidebar, setSidebar] = useState('sidebar');
@@ -45,10 +39,14 @@ const SideBar = () => {
             setMode(0);
         }
     };
+    const history = useHistory();
+    const handleLogout = () => {
+        localStorage.removeItem("dataAdmin");
+        history.push("/");
+      };
 
-
-
-
+    const user =  JSON.parse(localStorage.getItem("dataAdmin"));
+    console.log(user)
 
     return (
         <div>
@@ -73,9 +71,9 @@ const SideBar = () => {
                             <Nav className='nav'>
                                 <Nav.Link href="#deets"><FontAwesomeIcon icon={faBell} /></Nav.Link>
                                 <Nav.Link href="#memes">
-                                    Elon Musk
+                                    {user.nama[0]}
                                 </Nav.Link>
-                                <Nav.Link href="/logout">
+                                <Nav.Link onClick={handleLogout}>
                                     Log out
                                 </Nav.Link>
                             </Nav>
@@ -123,10 +121,12 @@ const SideBar = () => {
             </div>
 
             <div className={main}>
+                    
+                    <Route exact path="/user" component={Dashboard} />
 
-                <Route path="/user" exact component={DashboardUser} />
-                <Route path="/user/transaksi" component={Transaksi} />
-                <Route path="/user/profile" component={Data} />
+                    <Route exact path="/user/transaksi" component={Transaksi} />
+
+                    <ProtectedRoute exact path="/logout" component={Logout} />
             </div>
         </div>
     )
