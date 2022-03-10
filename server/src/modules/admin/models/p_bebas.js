@@ -87,7 +87,7 @@ module.exports = {
 
                         let sisa_tagihan = tagihan - total_bayar
 
-                        if (data.jumlah_bayar > sisa_tagihan) {
+                        if (data.nominal > sisa_tagihan) {
                             con.rollback()
                             return res.json({
                                 error : true,
