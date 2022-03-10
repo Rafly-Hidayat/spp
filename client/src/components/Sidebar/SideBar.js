@@ -66,11 +66,8 @@ import AddJenisPembayaran from "../JenisPembayaran/AddJenisPembayaran";
 import SetTarif from "../JenisPembayaran/SetTarif";
 
 import "./SideBar.css";
-<<<<<<< HEAD
 import KenaikanKelas from "../Kelulusan/KenaikanKelas";
-=======
 import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
->>>>>>> d04022bbe092004794fb604c8120992b701ddc71
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
