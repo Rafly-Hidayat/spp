@@ -236,11 +236,6 @@ export default class TambahSiswa extends Component {
                   })}
                 </FormSelect>
                 <div>
-                  {this.state.dataError ? (
-                    <div style={{ color: "red" }}>
-                      {this.state.errorMessage}
-                    </div>
-                  ) : null}
                   {this.validator.message(
                     "Kelas",
                     this.state.selected_kelas,

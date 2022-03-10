@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button, Card, Table, Tabs, Tab, Badge } from "react-bootstrap";
+import { Button, Card, Table, Tabs, Tab, Badge, } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import Modal from "./modal";
 

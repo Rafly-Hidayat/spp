@@ -65,6 +65,7 @@ import AddJenisPembayaran from "../JenisPembayaran/AddJenisPembayaran";
 import SetTarif from "../JenisPembayaran/SetTarif";
 
 import "./SideBar.css";
+import KenaikanKelas from "../Kelulusan/KenaikanKelas";
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -217,7 +218,7 @@ const SideBar = () => {
               width: "50px",
               height: "50px",
               border: "solid 2px gray",
-              marginTop: "-10px",
+              marginTop: "80px",
               display: btnright,
             }}
           />
@@ -259,6 +260,9 @@ const SideBar = () => {
               </Link>
               <Link to="/admin/kelas">
                 <li>Kelas</li>{" "}
+              </Link>
+              <Link to="/admin/kenaikan-kelas">
+                <li>Kenaikan Kelas</li>{" "}
               </Link>
             </ul>
           </div>
@@ -386,6 +390,8 @@ const SideBar = () => {
           path="/admin/jenispembayaran/tambah"
           component={AddJenisPembayaran}
         />
+
+        <ProtectedRoute exact path="/admin/kenaikan-kelas" component={KenaikanKelas} />
 
         <ProtectedRoute exact path="/admin/pembayaran" component={Pembayaran} />
         <ProtectedRoute
