@@ -2,34 +2,25 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card, Form } from "react-bootstrap";
+import { Row, Container, Col, Button, Card, Form, FormSelect } from "react-bootstrap";
+import SimpleReactValidator from "simple-react-validator";
+import Swal from "sweetalert2";
 
 export default class AddJenisPembayaran extends Component {
   constructor(props) {
     super(props);
+    this.validator = new SimpleReactValidator({ autoForceUpdate: this });
+
     this.state = {
       periodes: [],
       datapos: [],
+      datapembayaran : [],
       jenispembayaran: "",
       periode: "",
       pos: "",
     };
   }
 
-  getPeriode = () => {
-    axios.get("http://localhost:8000/periode/").then((res) => {
-      this.setState({
-        periodes: res.data,
-      });
-    });
-  };
-  getPos = () => {
-    axios.get("http://localhost:8000/pos/").then((res) => {
-      this.setState({
-        datapos: res.data,
-      });
-    });
-  };
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -42,93 +33,144 @@ export default class AddJenisPembayaran extends Component {
       periode_id: this.state.periode,
       pos_id: this.state.pos,
     };
-    console.log("Data : ", data)
-    axios
-      .post("http://localhost:8000/tambah/pembayaran/", data)
-      .then((res) => {
-        console.log(res)
-        this.props.history.push("/admin/jenispembayaran");
-      })
-      .catch((err) => {});
+    if (this.validator.allValid()) {
+      axios
+        .post("http://localhost:8000/tambah/pembayaran/", data)
+        .then((res) => {
+          if (res.data.status === undefined) {
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil",
+              text: "Jenis Pembayaran berhasil ditambahkan",
+            });
+            this.props.history.push("/admin/jenispembayaran");
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Gagal",
+              text: "Jenis Pembayaran gagal ditambahkan",
+            });
+          }
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "Gagal terhubung ke server",
+          });
+        });
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
 
   componentDidMount() {
-    this.getPeriode();
-    this.getPos();
+    axios.get("http://localhost:8000/periode/").then((res) => {
+      this.setState({
+        periodes: res.data,
+      });
+    });
+    axios.get("http://localhost:8000/pos/").then((res) => {
+      this.setState({
+        datapos: res.data,
+      });
+    });
+    axios.get("http://localhost:8000/pembayaran/").then((res) => {
+      this.setState({
+        datapembayaran: res.data,
+      });
+    });
   }
   render() {
     return (
       <div>
         <Card style={{ color: "black" }}>
-          <Card.Header>
-            <Card.Title as="h5">Tambah Jenis Pembayaran</Card.Title>
-          </Card.Header>
           <Card.Body>
+            <Card.Title>Pembayaran</Card.Title>
             <Form onSubmit={this.Submit}>
-              <Form.Group as={Row}>
-                <Form.Label column sm="3">
-                  Nama Jenis Pembayaran
-                </Form.Label>
-                <Col sm="9">
-                  <Form.Select
-                    name="jenispembayaran"
-                    id="jenispembayaran"
-                    noValidate
-                    onChange={this.handleChange}
-                  >
-                    <option>Pilih Jenis Pembayaran</option>
-                    <option value="BULANAN">Pembayaran SPP Bulanan</option>
-                    <option value="BEBAS">Pembayaran SAT</option>
-                  </Form.Select>
-                </Col>
+              <Form.Group className="mb-3">
+                <hr />
+                <Form.Label>Jenis Pembayaran</Form.Label>
+                <FormSelect name="jenispembayaran" onChange={this.handleChange}>
+                  <option>Pilih Jenis Pembayaran</option>
+                  {this.state.datapembayaran.map((item) => (
+                    <option  value={item.pembayaran_tipe}>
+                      {item.pembayaran_tipe}
+                    </option>
+                  ))}
+                </FormSelect>
+                <div>
+                  {this.validator.message(
+                    "jenispembayaran",
+                    this.state.jenispembayaran,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Pilih Jenis Pembayaran!",
+                      },
+                    }
+                  )}
+                </div>
               </Form.Group>
-              <br />
-              <Form.Group as={Row}>
-                <Form.Label column sm="3">
-                  Tahun Ajaran
-                </Form.Label>
-                <Col sm="9">
-                  <Form.Select
-                    name="periode"
-                    id="periode"
-                    noValidate
-                    onChange={this.handleChange}
-                  >
-                    <option>Pilih Tahun Ajaran</option>
-                    {this.state.periodes.map((data) => {
-                      return (
-                        <option value={data.periode_id}>
-                          {data.periode_mulai}/{data.periode_akhir}
-                        </option>
-                      );
-                    })}
-                  </Form.Select>
-                </Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Tahun Ajaran</Form.Label>
+                <FormSelect name="periode" onChange={this.handleChange}>
+                  <option>Pilih Tahun Ajaran</option>
+                  {this.state.periodes.map((item) => (
+                    <option  value={item.periode_id}>
+                      {item.periode_mulai}/{item.periode_akhir}
+                    </option>
+                  ))}
+                </FormSelect>
+                <div>
+                  {this.validator.message(
+                    "periode",
+                    this.state.periode,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Pilih Tahun Ajaran!",
+                      },
+                    }
+                  )}
+                </div>
               </Form.Group>
-              <br />
-              <Form.Group as={Row}>
-                <Form.Label column sm="3">
-                  Nama Pos
-                </Form.Label>
-                <Col sm="9">
-                  <Form.Select
-                    name="pos"
-                    id="pos"
-                    noValidate
-                    onChange={this.handleChange}
-                  >
-                    <option>Pilih Pos</option>
-                    {this.state.datapos.map((data) => {
-                      return (
-                        <option value={data.pos_id}>{data.pos_nama}</option>
-                      );
-                    })}
-                  </Form.Select>
-                </Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Pos</Form.Label>
+                <FormSelect name="pos" onChange={this.handleChange}>
+                  <option>Pilih Pos</option>
+                  {this.state.datapos.map((item) => (
+                    <option  value={item.pos_id}>
+                      {item.pos_nama}
+                    </option>
+                  ))}
+                </FormSelect>
+                <div>
+                  {this.validator.message(
+                    "pos",
+                    this.state.pos,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Pilih Pos Pembayaran!",
+                      },
+                    }
+                  )}
+                </div>
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Tambah Jenis Pembayaran
+              <Button variant="outline-primary" type="submit">
+                Tambah
               </Button>
+              &ensp;
+              <Link to="/admin/jenispembayaran">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
             </Form>
           </Card.Body>
         </Card>

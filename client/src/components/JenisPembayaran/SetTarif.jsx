@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
+import {Link} from 'react-router-dom'
 import Swal from "sweetalert2";
 
 export default class SetTarif extends Component {
@@ -82,7 +83,6 @@ export default class SetTarif extends Component {
             Swal.fire("Good job!", "Your data hasbeen added!", "success");
             this.props.history.push("/admin/jenispembayaran");
           }
-          // this.props.history.push("/pembayaran");
         })
         .catch((err) => {
 
@@ -135,6 +135,19 @@ export default class SetTarif extends Component {
                       );
                     })}
                   </FormSelect>
+                  <div>
+                  {this.validator.message(
+                    "kelas",
+                    this.state.kelas,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Pilih Kelas!",
+                      },
+                    }
+                  )}
+                </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Pembayaran ID</Form.Label>
@@ -163,9 +176,15 @@ export default class SetTarif extends Component {
                   </InputGroup>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
-                  Submit
+                <Button variant="outline-primary" type="submit">
+                Bayar
+              </Button>
+              &ensp;
+              <Link to="/admin/jenispembayaran">
+                <Button variant="outline-danger" type="submit">
+                  Batal
                 </Button>
+              </Link>
               </Form>
             </Card.Body>
           </Card>

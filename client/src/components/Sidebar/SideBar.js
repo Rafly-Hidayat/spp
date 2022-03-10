@@ -25,6 +25,7 @@ import {
   faGauge,
   faChartArea,
   faCalendarWeek,
+  faBook,
   faBahai,
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
@@ -65,6 +66,7 @@ import AddJenisPembayaran from "../JenisPembayaran/AddJenisPembayaran";
 import SetTarif from "../JenisPembayaran/SetTarif";
 
 import "./SideBar.css";
+import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -290,7 +292,7 @@ const SideBar = () => {
         {/* ----------- */}
         <Link to="/admin/jenispembayaran">
           <span className="icon">
-            <FontAwesomeIcon icon={faCreditCard} style={{ marginLeft: "1px" }} />
+            <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
           </span>{" "}
           <span style={{ display: text, paddingLeft: "4px" }}>Jenis Pembayaran</span>
         </Link>
@@ -385,6 +387,11 @@ const SideBar = () => {
           exact
           path="/admin/jenispembayaran/tambah"
           component={AddJenisPembayaran}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/jenispembayaran/ubah/:id"
+          component={UbahJenisPembayaran}
         />
 
         <ProtectedRoute exact path="/admin/pembayaran" component={Pembayaran} />
