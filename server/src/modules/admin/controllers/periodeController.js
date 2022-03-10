@@ -11,28 +11,29 @@ module.exports = {
     getById: (req, res) => {
 		periode.getById(req.con, req.params.periode_id, (err, rows) => {
 			if(err) throw err
+			if (rows == 0) return res.json({error: true, message: "Id tahun ajaran tidak ditemukan."});
 			res.json(rows)
 		})
 	},
 
 	add: (req, res) => {
-		periode.add(req.con, req.body, (err, rows) => {
+		periode.add(req.con, req.body, (err) => {
 			if(err) throw err
-			res.send('add new periode success.', 200)
+            return res.json({error : false, message :'Berhasil tambah data tahun ajaran'})
 		})
 	},
 
     update: (req, res) => {
-		periode.update(req.con, req.body, req.params.periode_id, res, (err, rows) => {
+		periode.update(req.con, req.body, req.params.periode_id, res, (err) => {
 			if(err) throw err
-			res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil ubah data tahun ajaran'})
 		})
 	},
 
 	delete: (req, res) => {
-		periode.delete(req.con, req.params.periode_id, res, (err, rows) => {
+		periode.delete(req.con, req.params.periode_id, res, (err) => {
 			if(err) return res.send(err.sqlMessage, 400)
-			res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil hapus data tahun ajaran'})
 		})
 	}
 }

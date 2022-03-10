@@ -11,6 +11,7 @@ module.exports = {
     getById: (req, res) => {
 		jurusan.getById(req.con, req.params.jurusan_id, (err, rows) => {
 			if(err) throw err
+			if (rows == 0) return res.json({error: true, message: "Id jurusan tidak ditemukan."});
 			res.json(rows)
 		})
 	},
@@ -23,23 +24,23 @@ module.exports = {
 	},
 
 	add: (req, res) => {
-		jurusan.add(req.con, req.body, (err, rows) => {
+		jurusan.add(req.con, req.body, (err) => {
 			if(err) throw err
-			res.send('add new jurusan success.', 200)
+            return res.json({error : false, message :'Berhasil tambah data jurusan kelas'})
 		})
 	},
 
     update: (req, res) => {
-		jurusan.update(req.con, req.body, req.params.jurusan_id, res, (err, rows) => {
+		jurusan.update(req.con, req.body, req.params.jurusan_id, res, (err) => {
 			if(err) throw err
-			res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil ubah data jurusan kelas'})
 		})
 	},
 
 	delete: (req, res) => {
-		jurusan.delete(req.con, req.params.jurusan_id, res, (err, rows) => {
+		jurusan.delete(req.con, req.params.jurusan_id, res, (err) => {
 			if(err) return res.send(err.sqlMessage, 400)
-			res.send('success.', 200)
+            return res.json({error : false, message :'Berhasil hapus data jurusan kelas'})
 		})
 	}
 }
