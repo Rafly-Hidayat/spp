@@ -1,0 +1,51 @@
+
+.dashboard-user .dashboard {
+/* max-width: 400px; */
+display: contents;
+padding-top: 10px;
+}
+.dashboard-user .dashboard .content{
+    padding: 16px 0;
+}
+.dashboard-user .dashboard .content .icon-nis{
+    display: flex;
+    justify-content: space-between;
+}
+.dashboard-user .dashboard .content h6{
+    padding-top: 8px;
+}
+.dashboard-user .dashboard .content h4{
+    padding-top: 8px;
+}
+
+.dashboard-user .transaksi-dashboard{
+    display: none;
+}
+
+.dashboard-user .transaksi-dashboard a{
+    list-style-type: none;
+    font-style: none;
+    text-decoration: none;
+}
+
+.dashboard-user .transaksi-dashboard a h3{
+    padding-bottom: "10px";
+    color: black;
+}
+
+/* Phone Display or Responsive */
+@media (max-width:991px) 
+{
+    .dashboard-user .dashboard-title{
+        display: none;
+    }
+
+    .dashboard-user .dashboard {
+        max-width: auto;
+        display: none;
+    }  
+    
+    .dashboard-user .transaksi-dashboard{
+        display: contents;
+    }
+}

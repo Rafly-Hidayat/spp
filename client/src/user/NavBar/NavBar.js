@@ -25,8 +25,8 @@ export default class NavBar extends Component {
                                     <Nav.Link href="#home"> <h6>Home</h6>  </Nav.Link>
                                     <Nav.Link href="#beranda"> <h6>Beranda</h6> </Nav.Link>
                                     <Nav.Link href="#features"> <h6>Features</h6> </Nav.Link>
-                                    <Link to="/admin/login">
-                                        <Nav.Link href="/admin/login"> <Button className='btn-login'>Log in</Button></Nav.Link>
+                                    <Link to="/login">
+                                        <Nav.Link href="/Login"> <Button className='btn-login'>Log in</Button></Nav.Link>
                                     </Link>
                                 </Nav>
                             </Navbar.Collapse>
