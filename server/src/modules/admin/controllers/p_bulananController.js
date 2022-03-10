@@ -41,12 +41,5 @@ module.exports = {
             return res.json({error : false, message :'Pembayaran berhasil'})
 
         })
-    },
-
-    delete: (req, res) => {
-        p_bulanan.delete(req.con, req.params.bulanan_id, res, (err) => {
-            if (err) return res.send(err.sqlMessage, 400)
-            return res.json({error : false, message :'Berhasil hapus siswa'})
-        })
     }
 }

@@ -31,18 +31,10 @@ module.exports = {
         let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
         con.query(`SELECT * FROM bulanan WHERE bulanan_id = ${bulanan_id}`, (err, rows) => {
 			if(err) throw err
-			if(rows == 0) return res.send('bulanan_id tidak ditemukan.', 404)
+            if (rows == 0) return res.json({error: true, message: "Id pembayaran bulanan tidak ditemukan.'"})
 			con.query(`UPDATE bulanan SET bulanan_status = '1',
                         bulanan_tanggal = '${tanggal}', admin_id = '${data.admin_id}'  WHERE bulanan_id = ${bulanan_id}`, callback)
 		})
-    },
-
-    delete: (con, bulanan_id, res, callback) => {
-        con.query(`SELECT * FROM bulanan WHERE bulanan_id = ${bulanan_id}`, (err, rows) => {
-            if (err) throw err
-            if (rows == 0) return res.send('bulanan_id tidak ditemukan.', 404)
-            con.query(`DELETE FROM bulanan WHERE bulanan_id = ${bulanan_id}`, callback)
-        })
     },
 
     add: (con, data, res) => {
@@ -50,7 +42,7 @@ module.exports = {
             if(err) throw err
             con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
                 if(err) throw err
-			    if (rows == 0) return res.json({error: true, message: "Kelas tidak ditemukan."})
+                if (rows == 0) return res.json({error: true, message: "Id kelas tidak ditemukan.'"})
                 let siswa = rows.map(obj => {
                     return obj.siswa_id
                 })
@@ -59,7 +51,7 @@ module.exports = {
 
                 con.query(`SELECT pembayaran_id FROM pembayaran WHERE pembayaran_id = '${data.pembayaran_id}'`,(err, rows) => {
                     if(err) throw err
-                    if(rows == 0) return res.status(404).send('pembayaran tidak ditemukan.')
+                    if (rows == 0) return res.json({error: true, message: "Id pembayaran tidak ditemukan.'"})
                     let pembayaran = rows.map(obj => {
                         return obj.pembayaran_id
                     })

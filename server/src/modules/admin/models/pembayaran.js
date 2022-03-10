@@ -16,7 +16,7 @@ module.exports = {
     update: (con, data, pembayaran_id, res, callback) => {	
 		con.query(`SELECT * FROM pembayaran WHERE pembayaran_id = ${pembayaran_id}`, (err, rows) => {
 			if(err) throw err
-			if(rows == 0) return res.send('pembayaran_id tidak ditemukan.', 404)
+			if (rows == 0) return res.json({error: true, message: "Id pembyaran tidak ditemukan."})
 			con.query(`UPDATE pembayaran SET pembayaran_tipe = '${data.pembayaran_tipe}', periode_id = '${data.periode_id}', pos_id = '${data.pos_id}' WHERE pembayaran_id = ${pembayaran_id}`, callback)
 		})
 	},
@@ -24,7 +24,7 @@ module.exports = {
 	delete: (con, pembayaran_id, res, callback) => {
 		con.query(`SELECT * FROM pembayaran WHERE pembayaran_id = ${pembayaran_id}`, (err, rows) => {
 			if(err) throw err
-			if(rows == 0) return res.send('pembayaran_id tidak ditemukan.', 404)
+			if (rows == 0) return res.json({error: true, message: "Id pembyaran tidak ditemukan."})
 			con.query(`DELETE FROM pembayaran WHERE pembayaran_id = ${pembayaran_id}`, callback)
 		})
 	}

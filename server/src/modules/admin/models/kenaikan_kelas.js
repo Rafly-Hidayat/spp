@@ -2,7 +2,7 @@ module.exports = {
     naikKelas: (con, data, res) => {
         con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
             if (err) throw err
-            if(rows == 0) return res.send('kelas tidak ditemukan.')
+			if (rows == 0) return res.json({error: true, message: "Id kelas tidak ditemukan."})
             let siswa = rows.map(obj => {
                 return obj.siswa_id
             })

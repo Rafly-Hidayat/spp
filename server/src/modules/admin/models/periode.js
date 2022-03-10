@@ -17,7 +17,7 @@ module.exports = {
     update: (con, data, periode_id, res, callback) => {
         con.query(`SELECT * FROM periode WHERE periode_id = ${periode_id}`, (err, rows) => {
             if (err) throw err
-            if (rows == 0) return res.send('periode_id periode tidak ditemukan.', 404)
+			if (rows == 0) return res.json({error: true, message: "Id tahun ajaran tidak ditemukan."});
             const query = `UPDATE periode SET
                                     periode_mulai = '${data.periode_mulai}',
                                     periode_akhir = '${data.periode_akhir}'
@@ -29,7 +29,7 @@ module.exports = {
     delete: (con, periode_id, res, callback) => {
         con.query(`SELECT * FROM periode WHERE periode_id = ${periode_id}`, (err, rows) => {
             if (err) throw err
-            if (rows == 0) return res.send('periode_id tidak ditemukan.', 404)
+			if (rows == 0) return res.json({error: true, message: "Id tahun ajaran tidak ditemukan."});
             con.query(`DELETE FROM periode WHERE periode_id = ${periode_id}`, callback)
         })
     }

@@ -33,6 +33,10 @@ module.exports = {
     con.query(`SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa_nis = ${siswa_nis}`, callback );
   },
 
+  getByKelas: (con, kelas_id, callback) => {
+    con.query(`SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, siswa.kelas_id, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa.kelas_id = ${kelas_id}`, callback );
+  },
+
   getTotal: (con, callback) => {
     con.query("SELECT COUNT(*) FROM siswa", callback);
   },
@@ -96,7 +100,7 @@ module.exports = {
 
             con.commit(err => {
               if (err) con.rollback()
-              return res.json({error : false, message :'Berhasil tambah siswa'})
+              return res.json({error : false, message :'Berhasil tambah data siswa'})
             })
 
           })
@@ -118,7 +122,7 @@ module.exports = {
           (err) => {
             if (err) return res.json({ error: true, message: "NIS sudah terdaftar" });
 
-            return res.json({ error: false, message: "Berhasil update siswa" });
+            return res.json({ error: false, message: "Berhasil ubah data siswa" });
           }
         );
       }
