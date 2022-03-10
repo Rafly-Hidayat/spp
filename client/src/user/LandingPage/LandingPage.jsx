@@ -57,8 +57,8 @@ export default class LandingPage extends Component {
                                         <Nav.Link href="#home" active> <h6><b>Home</b></h6>  </Nav.Link>
                                         <Nav.Link href="#beranda"> <h6>Beranda</h6> </Nav.Link>
                                         <Nav.Link href="#features"> <h6>Features</h6> </Nav.Link>
-                                        <Link to="/admin/login">
-                                            <Nav.Link href="/admin/login"> <Button className='btn-login'>Log in</Button></Nav.Link>
+                                        <Link to="/login">
+                                            <Nav.Link href="/Login"> <Button className='btn-login'>Log in</Button></Nav.Link>
                                         </Link>
                                     </Nav>
                                 </Navbar.Collapse>
