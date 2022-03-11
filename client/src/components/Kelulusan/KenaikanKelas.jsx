@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, FormSelect, Card, Form } from 'react-bootstrap';
+import { Row, Col, FormSelect, Card, Form, Breadcrumb} from 'react-bootstrap';
 import DataSiswa from './DataSiswa';
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -51,6 +51,20 @@ export default class KenaikanKelas extends Component {
             
     return (
       <div>
+        <Card>
+          <Card.Body>
+            <Breadcrumb
+              style={{
+                marginTop: "-10px",
+                marginBottom: "-22px",
+              }}
+            >
+              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item active>Data</Breadcrumb.Item>
+            </Breadcrumb>
+          </Card.Body>
+        </Card>
+        <br/>
           <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Kenaikan Kelas</Card.Title>
