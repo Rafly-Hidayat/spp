@@ -50,9 +50,6 @@ export default class PembayaranBulanan extends Component {
     }
 
     render() {
-        if (this.state.loggedIn === false) {
-            return <Redirect to="/login" />
-        }
 
         const desktop = [{
             dataField: 'id',

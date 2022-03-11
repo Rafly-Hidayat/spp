@@ -18,26 +18,25 @@ export default class PembayaranBebas extends Component {
     constructor(props) {
         super(props)
 
-        const token = localStorage.getItem("token")
-
-        let loggedIn = true
-        if (token == null) {
-            loggedIn = false
-        }
+        const user = localStorage.getItem('dataAdmin');
 
         this.state = {
             data: [],
-            loggedIn
+            datasiswa : [],
         }
 
     }
 
+
     getPostAPI = () => {
-        axios.get('http://localhost:3004/bebas')
-            .then((result) => {
-                this.setState({
-                    data: result.data
-                });
+        const nis = JSON.parse(localStorage.getItem('dataAdmin')).nis[0];
+        axios.get(`http://localhost:8000/bebas/${nis}`)
+        .then((res) => {
+            console.log(res.data[0])
+            this.setState({
+                datasiswa: res.data[0]
+            });
+            console.log(this.state.datasiswa)
             })
     }
 
@@ -49,9 +48,7 @@ export default class PembayaranBebas extends Component {
     }
 
     render() {
-        if (this.state.loggedIn === false) {
-            return <Redirect to="/login" />
-        }
+        // const data = this.state.data
 
         const desktop = [{
             dataField: 'id',
@@ -78,15 +75,21 @@ export default class PembayaranBebas extends Component {
 
 
         const mobile = [{
-            dataField: 'id',
+            dataField: 'siswa_id',
             text: 'No',
             sort: true
         }, {
-            dataField: 'keterangan',
+            dataField: 'pembayaran_tipe',
             text: 'Pembayaran'
         }, {
-            dataField: 'status',
-            text: 'Status'
+            text: 'Status',
+            // formatter:(cell, row) => {
+            //     if(row.bebas_total_bayar === row.bebas_tagihan){
+            //         return <div className="text-success">Lunas</div>
+            //     }else{
+            //         return <div className="text-danger">Belum Lunas</div>
+            //     }
+            // }
         }, {
             dataField: "Aksi",
             text: "Aksi",
@@ -127,7 +130,7 @@ export default class PembayaranBebas extends Component {
                         <div className="desktop">
                             <BootstrapTable
                                 keyField='id'
-                                data={this.state.data}
+                                data={this.state.datasiswa}
                                 columns={desktop}
                                 noDataIndication="Table is Empty"
                                 bordered={false}
@@ -139,7 +142,7 @@ export default class PembayaranBebas extends Component {
                         <div className="mobile">
                             <BootstrapTable
                                 keyField='id'
-                                data={this.state.data}
+                                data={this.state.datasiswa}
                                 columns={mobile}
                                 noDataIndication="Table is Empty"
                                 bordered={false}

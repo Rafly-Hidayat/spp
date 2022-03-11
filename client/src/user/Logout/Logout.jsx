@@ -17,9 +17,6 @@ export default class Logout extends Component {
         }
     }
     render() {
-        if (this.state.loggedIn === false) {
-            return <Redirect to="/login" />
-        }
 
         return (
             <div>
