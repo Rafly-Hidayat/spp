@@ -25,21 +25,21 @@ module.exports = {
 	add: (req, res) => {
 		kelas.add(req.con, req.body, (err, rows) => {
 			if(err) throw err
-			res.send('add new kelas success.', 200)
+			res.json({error: false, message: 'berhasil menambahkan kelas.'})
 		})
 	},
 
     update: (req, res) => {
 		kelas.update(req.con, req.body, req.params.kelas_id, res, (err, rows) => {
 			if(err) throw err
-			res.send('success.', 200)
+			res.json({error: false, message: 'berhasil mengubah kelas.'})
 		})
 	},
 
 	delete: (req, res) => {
 		kelas.delete(req.con, req.params.kelas_id, res, (err, rows) => {
 			if(err) return res.send(err.sqlMessage, 400)
-			res.send('success.', 200)
+			res.json({error: false, message: 'berhasil menghapus kelas.'})
 		})
 	}
 }
