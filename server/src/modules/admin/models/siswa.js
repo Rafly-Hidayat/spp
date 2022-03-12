@@ -22,6 +22,8 @@ function makeid(length) {
   return result;
 }
 
+
+
 module.exports = {
   getAll: (con, callback) => {
     con.query(
@@ -71,60 +73,49 @@ module.exports = {
     );
   },
 
-  upload: (con, data, res) => {
-	con.beginTransaction((err) => {
-		if (err) throw err;
-		let file = data
-		let filename = file.name;
-		
-		file.mv("./public/" + filename, function (err) {
-		  if (err) {
-			res.send("gagal upload");
-		  } else {
-			let result = importExcel({
-			  sourceFile: "./public/" + filename,
-			  header: { rows: 1 },
-			  columnToKey: {
-				A: "siswa_nis",
-				B: "siswa_nama",
-				C: "siswa_password",
-				D: "siswa_gender",
-				E: "siswa_img",
-				F: "kelas_id",
-				G: "jurusan_id",
-				H: "d_kelas_id",
-			  },
-			  sheets: ["Sheet1"],
-			});
-			for (let i = 0; result.Sheet1.length > i; i++) {
-			  con.query(
-				`SELECT siswa_nis FROM siswa WHERE siswa_nis = ${result.Sheet1[i].siswa_nis}`,
-				(err, rows) => {
-				  if (err) throw err;
-				  let password = makeid(8);
-				  if (rows.length == 0) {
-					con.query(
-					  `INSERT INTO siswa SET siswa_nis = '${result.Sheet1[i].siswa_nis}', siswa_nama = '${result.Sheet1[i].siswa_nama}', siswa_password = '${password}', siswa_gender = '${result.Sheet1[i].siswa_gender}', siswa_img = 'profile.png', kelas_id = '${result.Sheet1[i].kelas_id}', jurusan_id = '${result.Sheet1[i].jurusan_id}', d_kelas_id = '${result.Sheet1[i].d_kelas_id}'`
-					);
-				  } else {
-					con.rollback()
-					return res.json({
-						error : true,
-						message :'NIS sudah terdaftar'
-					})
-				  }
+  upload: (con, data, res, callback) => {
+    let file = data;
+    let filename = file.name;
 
-				con.commit(err => {
-					if (err) con.rollback()
-					return res.send('Upload siswa berhasil', 200)
-				})
+    function send_res() {
+      return res.send("gagal")
+    }
 
-				}
-			  );
-			}
-		  }
-		});
-	});
+    file.mv("./public/" + filename, function (err) {
+      if (err) {
+        res.send("gagal upload");
+      } else {
+        let excel = importExcel({
+          sourceFile: "./public/" + filename,
+          header: { rows: 1 },
+          columnToKey: {
+            A: "siswa_nis",
+            B: "siswa_nama",
+            C: "siswa_password",
+            D: "siswa_gender",
+            E: "siswa_img",
+            F: "kelas_id",
+            G: "jurusan_id",
+            H: "d_kelas_id",
+          },
+          sheets: ["Sheet1"]
+        });
+        let password = makeid(8);
+        let x = 0
+        for (i = 0; i < excel.Sheet1.length; i++) {
+          con.query(`SELECT siswa_nis FROM siswa WHERE siswa_nis = ${excel.Sheet1[i].siswa_nis}`, (err, rows) => {
+            if (err) throw err
+            console.log(rows);
+            if (rows.length > 0) send_res();
+            // con.query(`INSERT INTO siswa SET siswa_nis = '${excel.Sheet1[x].siswa_nis}', siswa_nama = '${excel.Sheet1[x].siswa_nama}', siswa_password = '${password}', siswa_gender = '${excel.Sheet1[x].siswa_gender}', siswa_img = 'profile.png', kelas_id = '${excel.Sheet1[x].kelas_id}', jurusan_id = '${excel.Sheet1[x].jurusan_id}', d_kelas_id = '${excel.Sheet1[x].d_kelas_id}'`, (err, result) => {
+            //   if (err) throw err
+            //   console.log(result);
+            // })
+            x += 1
+          });
+        }
+      }
+    });
   },
 
   update: (con, data, siswa_id, res) => {
