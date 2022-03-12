@@ -18,7 +18,7 @@ module.exports = {
     update: (con, data, kelas_id, res, callback) => {	
 		con.query(`SELECT * FROM kelas WHERE kelas_id = ${kelas_id}`, (err, rows) => {
 			if(err) throw err
-			if(rows == 0) return res.send('kelas_id kelas tidak ditemukan.', 404)
+			if(rows == 0) return res.json({error: true, message: 'kelas_id tidak ditemukan.'})
 			con.query(`UPDATE kelas SET kelas_nama = '${data.kelas_nama}' WHERE kelas_id = ${kelas_id}`, callback)
 		})
 	},
@@ -26,7 +26,7 @@ module.exports = {
 	delete: (con, kelas_id, res, callback) => {
 		con.query(`SELECT * FROM kelas WHERE kelas_id = ${kelas_id}`, (err, rows) => {
 			if(err) throw err
-			if(rows == 0) return res.send('kelas_id tidak ditemukan.', 404)
+			if(rows == 0) return res.json({error: true, message: 'kelas_id tidak ditemukan.'})
 			con.query(`DELETE FROM kelas WHERE kelas_id = ${kelas_id}`, callback)
 		})
 	}
