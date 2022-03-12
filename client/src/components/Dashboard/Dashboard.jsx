@@ -3,9 +3,36 @@ import { Container, Navbar, Nav, NavDropdown, Card, Row, Col, Button } from 'rea
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faCreditCard, faUserCheck, faUserTimes } from '@fortawesome/free-solid-svg-icons'
 import './Dashboard.css'
+import axios from 'axios'
 import Sidebar from '../Sidebar/SideBar'
 
 export default class Dashboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            totalSiswa : "",
+            totalJurusan : "",
+            totalKelas : "",
+        }
+    }
+    componentDidMount() {
+        axios.get('http://localhost:8000/total/siswa').then((res) => {
+            this.setState({
+                totalSiswa: res.data.total,
+            })
+        })
+        axios.get('http://localhost:8000/total/jurusan').then((res) => {
+            console.log(res.data.total)
+            this.setState({
+                totalJurusan: res.data.total,
+            })
+        })
+        axios.get('http://localhost:8000/total/kelas').then((res) => {
+            this.setState({
+                totalKelas: res.data.total,
+            })
+        })
+    }
     render() {
         return (
             <div>
@@ -19,7 +46,7 @@ export default class Dashboard extends Component {
                                     <FontAwesomeIcon icon={faUsers} />
                                 </Col>
                                 <Col md={8} className='content'>
-                                    <h1> 100</h1>
+                                    <h1>{this.state.totalSiswa}</h1>
                                     <h6>Jumlah Siswa</h6>
                                 </Col>
                             </Row>
@@ -33,8 +60,8 @@ export default class Dashboard extends Component {
                                     <FontAwesomeIcon icon={faCreditCard} />
                                 </Col>
                                 <Col md={8} className='content'>
-                                    <h1> 180</h1>
-                                    <h6>Transaksi</h6>
+                                    <h1> {this.state.totalJurusan}</h1>
+                                    <h6>Jurusan</h6>
                                 </Col>
                             </Row>
 
@@ -48,8 +75,8 @@ export default class Dashboard extends Component {
                                     <FontAwesomeIcon icon={faUserTimes} />
                                 </Col>
                                 <Col md={8} className='content'>
-                                    <h1> 84</h1>
-                                    <h6>Belum Lunas</h6>
+                                    <h1> {this.state.totalKelas}</h1>
+                                    <h6>Kelas</h6>
                                 </Col>
                             </Row>
 

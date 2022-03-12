@@ -4,7 +4,7 @@
   font-family: "Poppins", sans-serif;
 }
 
-.navbar {
+.admin .navbar {
   background: #1a1d2f;
   padding-left: 31px;
   padding-right: 31px;
@@ -15,18 +15,18 @@
   line-height: 33px;
 }
 
-.nav {
+.admin .nav {
   display: flex;
   position: absolute;
 }
 
-.img {
+.admin .img {
   display: flex;
   margin-left: 20px;
 }
 
 /* The sidebar menu */
-.sidebar {
+.admin .sidebar {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 220px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -40,7 +40,7 @@
 }
 
 /* The navigation menu links */
-.sidebar a {
+.admin .sidebar a {
   padding: 22px 8px 0px 14px;
   text-decoration: none;
   font-size: 15px;
@@ -49,16 +49,16 @@
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidebar a:hover {
+.admin .sidebar a:hover {
   color: #f1f1f1;
 }
 
-.sidebar a span {
+.admin .sidebar a span {
   padding-right: 18px;
   font-weight: 400;
 }
 
-.sidebar .button {
+.admin .sidebar .button {
   margin: 0 96px;
   padding-top: 60px;
   font-size: 30px;
@@ -68,7 +68,7 @@
 
 /* SideBar hide */
 
-.sidebar1 {
+.admin .sidebar1 {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 60px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -80,7 +80,7 @@
   transition: 0.5s;
 }
 
-.sidebar1 a {
+.admin .sidebar1 a {
   padding: 22px 8px 0px 20px;
   text-decoration: none;
   font-size: 15px;
@@ -88,7 +88,7 @@
   display: block;
 }
 
-.sidebar1 .button1 {
+.admin .sidebar1 .button1 {
   margin: 0 22px;
   padding-top: 62px;
   font-size: 25px;
@@ -99,25 +99,25 @@
 
 /* Style Dropdown menu */
 
-.dropdown {
+.admin .dropdown {
   display: inline-block;
 }
 
-.dropdown .drop{
+.admin .dropdown .drop{
   font-size: 15px;
   color: #f1f1f1;
   cursor: pointer;
 }
 
 /* Dropdown Content (Hidden by Default) */
-.dropdown-content {
+.admin .dropdown-content {
   display: block;
   min-width: 160px;
   z-index: 1;
 }
 
 /* Links inside the dropdown */
-.dropdown-content a {
+.admin .dropdown-content a {
   color: #f1f1f1;
   padding-left: 40px;
   margin-top: -16px;
@@ -127,14 +127,14 @@
 }
 
 /* Style page content */
-.main {
+.admin .main {
   margin-top: 96px;
   margin-left: 238px; /* Same as the width of the sidebar */
   margin-right: 18px;
   transition: 0.5s;
 }
 
-.main1 {
+.admin .main1 {
   margin-top: 96px;
   margin-left: 82px;
   margin-right: 20px;

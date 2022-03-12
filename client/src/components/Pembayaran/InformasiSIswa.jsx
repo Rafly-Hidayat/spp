@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Button, Card, Table, Tabs, Tab, Badge } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-import Modal from "./modal";
 
 export default class InformasiSIswa extends Component {
   constructor(props) {
@@ -61,15 +60,8 @@ export default class InformasiSIswa extends Component {
     this.getSiswa();
     this.getBebas();
     this.getBulanan();
+    console.log(this.props.nis);
   }
-
-  showModal = () => {
-    this.setState({ show: true });
-  };
-
-  hideModal = () => {
-    this.setState({ show: false });
-  };
 
   render() {
     const data = this.state.data;

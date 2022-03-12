@@ -1,8 +1,6 @@
 var Module = require("module");
 var fs = require("fs");
-// let upload = require("express-fileupload");
 let importExcel = require("convert-excel-to-json");
-let del = require("del");
 
 Module._extensions[".png"] = function (module, fn) {
   fs.readFileSync(fn).toString("base64");
@@ -26,24 +24,19 @@ function makeid(length) {
 
 module.exports = {
   getAll: (con, callback) => {
-    con.query(
-      "SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id ",
-      callback
-    );
+    con.query("SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id ", callback );
   },
 
   getById: (con, siswa_id, callback) => {
-    con.query(
-      `SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id  INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa_id = ${siswa_id}`,
-      callback
-    );
+    con.query(`SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id  INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa_id = ${siswa_id}`, callback );
   },
 
   getByNis: (con, siswa_nis, callback) => {
-    con.query(
-      `SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa_nis = ${siswa_nis}`,
-      callback
-    );
+    con.query(`SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa_nis = ${siswa_nis}`, callback );
+  },
+
+  getByKelas: (con, kelas_id, callback) => {
+    con.query(`SELECT siswa_id, siswa_nis, siswa_nama, siswa_gender, siswa.kelas_id, kelas_nama, jurusan_nama, d_kelas_nama, siswa_img FROM siswa INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE siswa.kelas_id = ${kelas_id}`, callback );
   },
 
   getTotal: (con, callback) => {
@@ -51,21 +44,15 @@ module.exports = {
   },
 
   add: (con, data, res, callback) => {
-    con.query(
-      `SELECT siswa_nis FROM siswa WHERE siswa_nis = ${data.nis}`,
-      (err, rows) => {
+    con.query(`SELECT siswa_nis FROM siswa WHERE siswa_nis = ${data.nis}`, (err, rows) => {
         if (err) throw err;
 
         const gambar = img;
-
         let password = makeid(8);
 
         if (rows.length == 0) {
-          con.query(
-            `INSERT INTO siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_password = '${password}', siswa_gender = '${data.gender}', siswa_img = ?, kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}', d_kelas_id = '${data.d_kelas}'`,
-            [gambar],
-            callback
-          );
+          con.query(`INSERT INTO siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_password = '${password}', siswa_gender = '${data.gender}', siswa_img = ?, kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}', d_kelas_id = '${data.d_kelas}'`,[gambar], callback);
+
         } else {
           return res.json({ error: true, message: "NIS sudah terdaftar" });
         }
@@ -73,22 +60,20 @@ module.exports = {
     );
   },
 
-  upload: (con, data, res, callback) => {
-    let file = data;
-    let filename = file.name;
-
-    function send_res() {
-      return res.send("gagal")
-    }
-
-    file.mv("./public/" + filename, function (err) {
-      if (err) {
+  upload: (con, data, res) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let file = data
+      let filename = file.name;
+      
+      file.mv("./public/" + filename, function (err) {
+        if (err) {
         res.send("gagal upload");
-      } else {
-        let excel = importExcel({
-          sourceFile: "./public/" + filename,
-          header: { rows: 1 },
-          columnToKey: {
+        } else {
+          let result = importExcel({
+            sourceFile: "./public/" + filename,
+            header: { rows: 1 },
+            columnToKey: {
             A: "siswa_nis",
             B: "siswa_nama",
             C: "siswa_password",
@@ -97,25 +82,33 @@ module.exports = {
             F: "kelas_id",
             G: "jurusan_id",
             H: "d_kelas_id",
-          },
-          sheets: ["Sheet1"]
-        });
-        let password = makeid(8);
-        let x = 0
-        for (i = 0; i < excel.Sheet1.length; i++) {
-          con.query(`SELECT siswa_nis FROM siswa WHERE siswa_nis = ${excel.Sheet1[i].siswa_nis}`, (err, rows) => {
-            if (err) throw err
-            console.log(rows);
-            if (rows.length > 0) send_res();
-            // con.query(`INSERT INTO siswa SET siswa_nis = '${excel.Sheet1[x].siswa_nis}', siswa_nama = '${excel.Sheet1[x].siswa_nama}', siswa_password = '${password}', siswa_gender = '${excel.Sheet1[x].siswa_gender}', siswa_img = 'profile.png', kelas_id = '${excel.Sheet1[x].kelas_id}', jurusan_id = '${excel.Sheet1[x].jurusan_id}', d_kelas_id = '${excel.Sheet1[x].d_kelas_id}'`, (err, result) => {
-            //   if (err) throw err
-            //   console.log(result);
-            // })
-            x += 1
+            },
+            sheets: ["Sheet1"],
           });
+
+          con.query(`SELECT siswa_nis FROM siswa`, (err, rows) => {
+            if (err) console.log(err);
+            let siswa = rows.map(obj => {return obj.siswa_nis})
+
+            let password = makeid(8);
+            for (let i = 0; result.Sheet1.length > i; i++) {
+                if(Array.from(siswa).includes(result.Sheet1[i].siswa_nis.toString()) == false){
+                  con.query(`INSERT INTO siswa SET siswa_nis = '${result.Sheet1[i].siswa_nis}', siswa_nama = '${result.Sheet1[i].siswa_nama}', siswa_password = '${password}', siswa_gender = '${result.Sheet1[i].siswa_gender}', siswa_img = 'profile.png', kelas_id = '${result.Sheet1[i].kelas_id}', jurusan_id = '${result.Sheet1[i].jurusan_id}', d_kelas_id = '${result.Sheet1[i].d_kelas_id}'`);
+                } else {
+                  con.rollback()
+                    return res.json({error : true, message :'NIS sudah terdaftar'})
+                }
+            }
+
+            con.commit(err => {
+              if (err) con.rollback()
+              return res.json({error : false, message :'Berhasil tambah data siswa'})
+            })
+
+          })
         }
-      }
-    });
+      })
+    })
   },
 
   update: (con, data, siswa_id, res) => {
@@ -123,15 +116,15 @@ module.exports = {
       `SELECT * FROM siswa WHERE siswa_id = ${siswa_id}`,
       (err, rows) => {
         if (err) throw err;
-        if (rows == 0) return res.send("siswa_id siswa tidak ditemukan.", 404);
+        if (rows == 0) return res.json({error: true, message: "Id siswa siswa tidak ditemukan."});
+
 
         con.query(
           `UPDATE siswa SET siswa_nis = '${data.nis}', siswa_nama = '${data.nama}', siswa_gender = '${data.gender}', kelas_id = '${data.kelas}', jurusan_id = '${data.jurusan}', d_kelas_id = '${data.d_kelas}' WHERE siswa_id = '${siswa_id}'`,
           (err) => {
-            if (err)
-              return res.json({ error: true, message: "NIS sudah terdaftar" });
+            if (err) return res.json({ error: true, message: "NIS sudah terdaftar" });
 
-            return res.json({ error: false, message: "Berhasil update siswa" });
+            return res.json({ error: false, message: "Berhasil ubah data siswa" });
           }
         );
       }
@@ -139,13 +132,10 @@ module.exports = {
   },
 
   delete: (con, siswa_id, res, callback) => {
-    con.query(
-      `SELECT * FROM siswa WHERE siswa_id = ${siswa_id}`,
-      (err, rows) => {
+    con.query(`SELECT * FROM siswa WHERE siswa_id = ${siswa_id}`, (err, rows) => {
         if (err) throw err;
-        if (rows == 0) return res.send("siswa_id tidak ditemukan.", 404);
+        if (rows == 0) return res.json({error: true, message: "Id siswa tidak ditemukan."});
         con.query(`DELETE FROM siswa WHERE siswa_id = ${siswa_id}`, callback);
-      }
-    );
+    });
   },
-};
+}

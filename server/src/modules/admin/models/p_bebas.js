@@ -17,8 +17,8 @@ module.exports = {
             if(err) throw err
             con.query(`SELECT siswa_id FROM siswa WHERE kelas_id = '${data.kelas}'`,(err, rows) => {
                 if(err) throw err
-              
-                if(rows == 0) return res.status(404).send('kelas tidak ditemukan.')
+
+			    if (rows == 0) return res.json({error: true, message: "Id kelas tidak ditemukan."})
                 let siswa = rows.map(obj => {
                     return obj.siswa_id
                 })
@@ -27,7 +27,7 @@ module.exports = {
 
                 con.query(`SELECT pembayaran_id FROM pembayaran WHERE pembayaran_id = '${data.pembayaran_id}'`,(err, rows) => {
                     if(err) throw err
-                    if(rows == 0) return res.status(404).send('pembayaran tidak ditemukan.')
+                    if (rows == 0) return res.json({error: true, message: "Id pembayaran bebas tidak ditemukan."})
                     let pembayaran = rows.map(obj => {
                         return obj.pembayaran_id
                     })
@@ -47,17 +47,15 @@ module.exports = {
                         if (Array.from(siswa_id).length == 0 && Array.from(pembayaran_id).length == 0) {
                             const jumlah_siswa = siswa.length
                             for(let i = 0; i < jumlah_siswa; i++){
-                                con.query(`INSERT INTO bebas SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bebas_tagihan = '${data.tagihan}' `)
+                                con.query(`INSERT INTO bebas SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bebas_tagihan = '${data.tagihan}', bebas_total_bayar = '0' `)
                             }
                         } else {
                             con.rollback()
-                            return res.json({
-                                error : true,
-                                message :'Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini'})
+                            return res.json({error : true, message :'Seluruh siswa di kelas tersebut sudah di atur tagihannya untuk pembayaran ini'})
                         }
                         con.commit(err => {
                             if (err) con.rollback()
-                            return res.send('Set tarif berhasil', 200)
+                            return res.json({error : false, message :'Set tarif berhasil'})
                         })
                     })
                 })
@@ -87,11 +85,9 @@ module.exports = {
 
                         let sisa_tagihan = tagihan - total_bayar
 
-                        if (data.jumlah_bayar > sisa_tagihan) {
+                        if (data.nominal > sisa_tagihan) {
                             con.rollback()
-                            return res.json({
-                                error : true,
-                                message :'Pembayaran melebihi tagihan'})
+                            return res.json({error : true, message :'Nominal yang anda masukkan melebihi tagihan'})
                         } else {
                             con.query('SELECT admin_id FROM akses_token', (err, rows) => {
                                 if(err) throw err
@@ -120,7 +116,7 @@ module.exports = {
                 
                                             con.commit(err => {
                                                 if (err) con.rollback()
-                                                return res.send('Berhasil melakukan pembayaran', 200)
+                                                return res.json({error : false, message :'Pembayaran berhasil'})
                                             })
                                         })
                                     })
@@ -130,7 +126,7 @@ module.exports = {
                     })
                 } else {
                     con.rollback()
-                    return res.send('bebas_id tidak ditemukan.', 404)
+        			return res.json({error: true, message: "Id pembayaran bebas tidak ditemukan."});
                 }
             })
         })

@@ -11,6 +11,7 @@ module.exports = {
     getById: (req, res) => {
 		bebas.getById(req.con, req.params.bebas_id, (err, rows) => {
 			if(err) throw err
+			if (rows == 0) return res.json({error: true, message: "Id pembayaran bebas tidak ditemukan."});
 			res.json(rows)
 		})
 	},
@@ -18,6 +19,7 @@ module.exports = {
     getByNis: (req, res) => {
 		bebas.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
 			if(err) throw err
+			if (rows == 0) return res.json({error: true, message: "Nis Siswa tidak ditemukan."});
 			res.json(rows)
 		})
 	},

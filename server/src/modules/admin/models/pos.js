@@ -21,7 +21,7 @@ module.exports = {
     update: (con, data, pos_id, res, callback) => {
         con.query(`SELECT * FROM pos WHERE pos_id = ${pos_id}`, (err, rows) => {
             if (err) throw err
-            if (rows == 0) return res.send('pos_id pos tidak ditemukan.', 404)
+			if (rows == 0) return res.json({error: true, message: "Id pos tidak ditemukan."})
             const query = `UPDATE pos SET
                                     pos_nama = '${data.pos_nama}',
                                     pos_deskripsi = '${data.pos_deskripsi}'
@@ -33,7 +33,7 @@ module.exports = {
     delete: (con, pos_id, res, callback) => {
         con.query(`SELECT * FROM pos WHERE pos_id = ${pos_id}`, (err, rows) => {
             if (err) throw err
-            if (rows == 0) return res.send('pos_id tidak ditemukan.', 404)
+			if (rows == 0) return res.json({error: true, message: "Id pos tidak ditemukan."})
             con.query(`DELETE FROM pos WHERE pos_id = ${pos_id}`, callback)
         })
     }
