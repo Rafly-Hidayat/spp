@@ -91,9 +91,11 @@ export default class Pembayaran extends Component {
               <Row>
                 <Col>
                   <Form.Group as={Row} className="mb-3">
+                    <Col md="auto">
                     <Form.Label column sm="auto">
                       Tahun Ajaran
                     </Form.Label>
+                    </Col>
                     <Col>
                       <FormSelect name="periode" onChange={this.handleChange}>
                         <option>Pilih Tahun Ajaran</option>
@@ -118,9 +120,11 @@ export default class Pembayaran extends Component {
                 </Col>
                 <Col>
                   <Form.Group as={Row} className="mb-3">
+                    <Col md="auto">
                     <Form.Label column sm="auto">
                       Cari Siswa
                     </Form.Label>
+                    </Col>
                     <Col>
                       <Form.Control
                         type="number"

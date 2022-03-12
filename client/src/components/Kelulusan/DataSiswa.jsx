@@ -38,7 +38,7 @@ export default class DataSiswa extends Component {
 
         }
         componentDidUpdate(){
-          
+          console.log("test");
         }
         componentWillUnmount(){
           

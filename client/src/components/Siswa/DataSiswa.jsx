@@ -205,6 +205,7 @@ export default class DataSiswa extends Component {
                     hover
                     condensed
                     bordered={false}
+                    noDataIndication="Data Tidak Ditemukan"
                     pagination={paginationFactory(options)}
                     {...props.baseProps}
                     defaultSorted={defaultSorted}

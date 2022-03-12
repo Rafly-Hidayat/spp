@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button, Card, Table, Tabs, Tab, Badge, } from "react-bootstrap";
+import { Button, Card, Table, Tabs, Tab, Badge } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 
 export default class InformasiSIswa extends Component {
@@ -68,12 +68,13 @@ export default class InformasiSIswa extends Component {
     const databulanan = this.state.databulanan;
     const column = [
       {
-        dataField: "bulanan_id",
-        sort : true
+        dataField: "month_id",
+        text: "No",
+        sort: true,
       },
       {
-        dataField: "pembayaran_tipe",
-        text: "Tipe Pembayaran",
+        dataField: "pos_nama",
+        text: "Deskripsi",
       },
       {
         dataField: "month_nama",
@@ -81,13 +82,9 @@ export default class InformasiSIswa extends Component {
       },
       {
         text: "Tagihan",
-        formatter : (cell, row) => {
-          return (
-            <div>
-              Rp. {row.bulanan_tagihan.toLocaleString("id")}
-            </div>
-          );
-        }
+        formatter: (cell, row) => {
+          return <div>Rp. {row.bulanan_tagihan.toLocaleString("id")}</div>;
+        },
       },
       {
         dataField: "bulanan_status",
@@ -112,13 +109,21 @@ export default class InformasiSIswa extends Component {
       {
         text: "Bayar",
         formatter: (cell, row) => {
-          return (
-            <div>
-              <Link to={`/admin/pembayaran_bulan/tambah/${row.bulanan_id}`}>
-                <Button>Bayar</Button>
+          if (row.bulanan_status === 1) {
+            return (
+              <div>
+                <Button variant="warning">Cetak</Button>
+              </div>
+            );
+          } else {
+            return (
+              <div>
+                <Link to={`/admin/pembayaran_bulan/tambah/${row.bulanan_id}`}>
+                  <Button>Bayar</Button>
                 </Link>
-            </div>
-          );
+              </div>
+            );
+          }
         },
       },
     ];
@@ -144,13 +149,9 @@ export default class InformasiSIswa extends Component {
       },
       {
         text: "Dibayar",
-        formatter : (cell, row) => {
-          return (
-            <div>
-              Rp. {row.bebas_total_bayar.toLocaleString("id")}
-            </div>
-          )
-        }
+        formatter: (cell, row) => {
+          return <div>Rp. {row.bebas_total_bayar.toLocaleString("id")}</div>;
+        },
       },
       {
         text: "Bayar",
@@ -195,23 +196,10 @@ export default class InformasiSIswa extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Tabs
-              defaultActiveKey="home"
+              defaultActiveKey="profile"
               id="uncontrolled-tab-example"
               className="mb-3"
             >
-              <Tab eventKey="home" title="Bebas">
-                <br />
-                <br />
-                <BootstrapTable
-                  keyField="id"
-                  data={data}
-                  columns={columns}
-                  striped
-                  hover
-                  condensed
-                  bordered={false}
-                />
-              </Tab>
               <Tab eventKey="profile" title="Bulanan">
                 <br />
                 <br />
@@ -224,6 +212,19 @@ export default class InformasiSIswa extends Component {
                   condensed
                   bordered={false}
                   // selectRow={ selectRow }
+                />
+              </Tab>
+              <Tab eventKey="home" title="Bebas">
+                <br />
+                <br />
+                <BootstrapTable
+                  keyField="id"
+                  data={data}
+                  columns={columns}
+                  striped
+                  hover
+                  condensed
+                  bordered={false}
                 />
               </Tab>
             </Tabs>

@@ -69,7 +69,6 @@ import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
 import "./SideBar.css";
 import KenaikanKelas from "../Kelulusan/KenaikanKelas";
-import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -163,7 +162,7 @@ const SideBar = () => {
                 <NavDropdown
                   id="nav-dropdown-dark-example"
                   title={
-                    <span>
+                    <span >
                       <Image
                         width={40}
                         height={40}
@@ -206,8 +205,8 @@ const SideBar = () => {
               src={img}
               style={{
                 borderRadius: "50%",
-                width: "100px",
-                height: "100px",
+                width: "80px",
+                height: "80px",
                 border: "solid 2px gray",
                 marginTop: "-10px",
                 display: text,
@@ -273,6 +272,9 @@ const SideBar = () => {
                 </Link>
                 <Link to="/admin/kelas">
                   <li>Kelas</li>{" "}
+                </Link>
+                <Link to="/admin/kenaikan-kelas">
+                  <li>Kenaikan Kelas</li>{" "}
                 </Link>
               </ul>
             </div>
