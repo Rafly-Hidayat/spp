@@ -35,7 +35,7 @@ export default class Login extends Component {
             })
           } else {
             localStorage.setItem(
-              "dataAdmin",
+              "dataSiswa",
               JSON.stringify({
                 id : res.data.siswa_id,
                 nama: res.data.nama,
@@ -72,7 +72,7 @@ export default class Login extends Component {
     });
   };
   render() {
-    const loggedIn = localStorage.getItem("dataAdmin");
+    const loggedIn = localStorage.getItem("dataSiswa");
     if (loggedIn) {
       this.props.history.push("/user");
     }

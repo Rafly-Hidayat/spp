@@ -32,13 +32,21 @@ export default class AddPembayaranBulanan extends Component {
       axios
         .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
         .then((res) => {
-          console.log(res);
-          Swal.fire({
-            icon: "success",
-            title: "Berhasil!",
-            text: `Pembayaran Berhasil!`,
-          });
-          this.props.history.push("/admin/pembayaran"); 
+          if(res.data.error === true) {
+            Swal.fire({
+              icon: "error",
+              title: "Gagal!",
+              text : `${res.data.message}`
+            })
+          } else {
+
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil!",
+              text: `${res.data.message}`,
+            });
+            this.props.history.push("/admin/pembayaran"); 
+          }
         });
     } else {
       this.validator.showMessages();

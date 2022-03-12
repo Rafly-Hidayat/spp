@@ -38,7 +38,7 @@ export default class DashboardUser extends Component {
   }
 
   render() {
-    const user =  JSON.parse(localStorage.getItem("dataAdmin"));
+    const user =  JSON.parse(localStorage.getItem("dataSiswa"));
     const onChange = (date) => {
       console.log(date.toString());
     };
@@ -110,7 +110,7 @@ export default class DashboardUser extends Component {
                           </h6>
                         </Link>
                       </div>
-                      <h4>{user.nis[0]}</h4>
+                      <h4>{user.nama[0]}</h4>
                       <br />
                       <br />
                       <ProgressBar
@@ -174,9 +174,9 @@ export default class DashboardUser extends Component {
                         </div>
                         {/* <br /> */}
                         <div className="icon-nis">
-                          <h6>190000202</h6>
+                          <h6>{user.nis[0]}</h6>
                         </div>
-                        <h4>Elon Musk</h4>
+                        <h4>{user.nama[0]}</h4>
                         <br />
                         <br />
                         <ProgressBar
@@ -224,9 +224,9 @@ export default class DashboardUser extends Component {
                           </Link>
                         </div>
                         <div className="icon-nis">
-                          <h6>190000202</h6>
+                          <h6>{user.nis[0]}</h6>
                         </div>
-                        <h4>Elon Musk</h4>
+                        <h4>{user.nama[0]}</h4>
                         <br />
                         <br />
                         <ProgressBar

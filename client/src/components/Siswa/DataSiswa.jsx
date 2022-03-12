@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Container, Col, Button, Card, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAmericanSignLanguageInterpreting, faAppleAlt, faEdit, faEye, faSearch, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import Swal from "sweetalert2";
@@ -205,6 +205,7 @@ export default class DataSiswa extends Component {
                     hover
                     condensed
                     bordered={false}
+                    noDataIndication="Data Tidak Ditemukan"
                     pagination={paginationFactory(options)}
                     {...props.baseProps}
                     defaultSorted={defaultSorted}
