@@ -6,7 +6,7 @@ module.exports = {
             if (err) throw err
             if(rows.length == 0) {
                 res.json({
-                    status: false,
+                    error: true,
                     message: 'Data tidak ditemukan'
                 })
             } else {

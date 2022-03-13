@@ -128,16 +128,13 @@ export default class UbahSiswa extends Component {
         .put(`http://localhost:8000/ubah/siswa/${siswa_id}`, data)
         .then((res) => {
           console.log(res.data.message);
-          this.setState({
-            dataError: res.data.message,
-          });
           this.validator.hideMessages();
           console.log(this.state.kelas);
-          if (this.state.dataError) {
+          if (res.data.error === true) {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: `${this.state.dataError}`,
+              text: `${res.data.message}`,
             })
             this.setState({
               
@@ -146,7 +143,7 @@ export default class UbahSiswa extends Component {
             Swal.fire({
               icon: "success",
               title: "Good Job!",
-              text: `${res.data}`,});
+              text: `${res.data.message}`,});
             this.props.history.push("/admin/siswa");
           }
           console.log(res.data);

@@ -41,11 +41,11 @@ const SideBar = () => {
     };
     const history = useHistory();
     const handleLogout = () => {
-        localStorage.removeItem("dataAdmin");
+        localStorage.removeItem("dataSiswa");
         history.push("/");
-      };
+    };
 
-    const user =  JSON.parse(localStorage.getItem("dataAdmin"));
+    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     console.log(user)
 
     return (
@@ -121,12 +121,12 @@ const SideBar = () => {
             </div>
 
             <div className={main}>
-                    
-                    <Route exact path="/user" component={Dashboard} />
 
-                    <Route exact path="/user/transaksi" component={Transaksi} />
+                <Route exact path="/user/" component={Dashboard} />
 
-                    <ProtectedRoute exact path="/logout" component={Logout} />
+                <Route exact path="/user/transaksi" component={Transaksi} />
+
+                <ProtectedRoute exact path="/logout" component={Logout} />
             </div>
         </div>
     )

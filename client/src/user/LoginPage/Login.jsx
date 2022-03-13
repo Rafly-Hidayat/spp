@@ -35,7 +35,7 @@ export default class Login extends Component {
             })
           } else {
             localStorage.setItem(
-              "dataAdmin",
+              "dataSiswa",
               JSON.stringify({
                 id : res.data.siswa_id,
                 nama: res.data.nama,

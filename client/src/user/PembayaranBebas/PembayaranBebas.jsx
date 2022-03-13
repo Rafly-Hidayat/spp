@@ -28,24 +28,24 @@ export default class PembayaranBebas extends Component {
     }
 
 
-    getPostAPI = () => {
-        const nis = JSON.parse(localStorage.getItem('dataAdmin')).nis[0];
-        axios.get(`http://localhost:8000/bebas/${nis}`)
-        .then((res) => {
-            console.log(res.data[0])
-            this.setState({
-                datasiswa: res.data[0]
-            });
-            console.log(this.state.datasiswa)
-            })
-    }
+    // getPostAPI = () => {
+    //     const nis = JSON.parse(localStorage.getItem('dataAdmin')).nis[0];
+    //     axios.get(`http://localhost:8000/bebas/${nis}`)
+    //     .then((res) => {
+    //         console.log(res.data[0])
+    //         this.setState({
+    //             datasiswa: res.data[0]
+    //         });
+    //         console.log(this.state.datasiswa)
+    //         })
+    // }
 
     // json-server --watch db.json --port 3004
 
-    componentDidMount() {
-        this.getPostAPI();
+    // componentDidMount() {
+    //     this.getPostAPI();
 
-    }
+    // }
 
     render() {
         // const data = this.state.data
