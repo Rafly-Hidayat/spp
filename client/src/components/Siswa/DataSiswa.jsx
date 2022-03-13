@@ -186,8 +186,12 @@ export default class DataSiswa extends Component {
                 <div>
                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
                   <Link to={"/admin/siswa/tambah/"}>
-                    <Button variant="outline-primary" block="">
+                    <Button variant="outline-primary" block>
                       Tambah
+                    </Button></Link>
+                  <Link to={"/admin/siswa/upload/"}>
+                    <Button variant="outline-success" block>
+                      Upload
                     </Button></Link>
                       <div className="float-right" style={{display: 'flex'}}>
                         <InputGroup>

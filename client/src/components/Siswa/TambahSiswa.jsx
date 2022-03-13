@@ -186,11 +186,6 @@ export default class TambahSiswa extends Component {
                   onChange={this.handleChange}
                 />
                 <div>
-                  {this.state.dataError ? (
-                    <div style={{ color: "red" }}>
-                      {this.state.errorMessage}
-                    </div>
-                  ) : null}
                   {this.validator.message("nama", this.state.nama, `required`, {
                     className: "text-danger",
                   })}
@@ -204,17 +199,15 @@ export default class TambahSiswa extends Component {
                   <option value="P">Perempuan</option>
                 </FormSelect>
                 <div>
-                  {this.state.dataError ? (
-                    <div style={{ color: "red" }}>
-                      {this.state.errorMessage}
-                    </div>
-                  ) : null}
                   {this.validator.message(
                     "gender",
                     this.state.gender,
                     `required`,
                     {
                       className: "text-danger",
+                      messages : {
+                        required: 'Pilih jenis kelamin!',
+                      }
                     }
                   )}
                 </div>

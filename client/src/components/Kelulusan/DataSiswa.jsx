@@ -20,7 +20,7 @@ export default class DataSiswa extends Component {
       getSiswa = () => {
         const kelas_id = this.props.name;
         axios.get(`http://localhost:8000/siswa_kelas/${kelas_id}`).then((res) => {
-          console.log(res.data);
+          console.log(res);
           this.setState({
             data: res.data,
           });
@@ -34,15 +34,12 @@ export default class DataSiswa extends Component {
         });
         };
 
-        componentDidCatch(){
+        componentDidUpdate(prevProps){
+          if( prevProps.name !== this.props.name){
+            this.getSiswa();
+          }
+        }
 
-        }
-        componentDidUpdate(){
-          console.log("test");
-        }
-        componentWillUnmount(){
-          
-        }
         componentDidMount(){
           this.getSiswa();
         }
