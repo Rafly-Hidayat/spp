@@ -38,7 +38,7 @@ export default class DashboardUser extends Component {
   }
 
   render() {
-    const user =  JSON.parse(localStorage.getItem("dataSiswa"));
+    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     const onChange = (date) => {
       console.log(date.toString());
     };
@@ -159,7 +159,7 @@ export default class DashboardUser extends Component {
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
-                            paddingBottom: "10px",
+                            paddingBottom: "16px",
                           }}
                         >
                           <h4>Bulanan</h4>
@@ -173,9 +173,7 @@ export default class DashboardUser extends Component {
                           </Link>
                         </div>
                         {/* <br /> */}
-                        <div className="icon-nis">
-                          <h6>{user.nis[0]}</h6>
-                        </div>
+                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
                         <h4>{user.nama[0]}</h4>
                         <br />
                         <br />
@@ -210,7 +208,7 @@ export default class DashboardUser extends Component {
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
-                            paddingBottom: "10px",
+                            paddingBottom: "16px",
                           }}
                         >
                           <h4>Bebas</h4>
@@ -223,9 +221,7 @@ export default class DashboardUser extends Component {
                             </h6>
                           </Link>
                         </div>
-                        <div className="icon-nis">
-                          <h6>{user.nis[0]}</h6>
-                        </div>
+                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
                         <h4>{user.nama[0]}</h4>
                         <br />
                         <br />

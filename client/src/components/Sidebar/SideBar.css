@@ -27,9 +27,9 @@
 
 /* The sidebar menu */
 .admin .sidebar {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
+  height: auto; /* Full-height: remove this if you want "auto" height */
   width: 220px; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  position: fixed;/* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 52px; /* Stay at the top */
   left: 0;
@@ -69,9 +69,9 @@
 /* SideBar hide */
 
 .admin .sidebar1 {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
+  height: auto; /* Full-height: remove this if you want "auto" height */
   width: 60px; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  position: absolute; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 52px; /* Stay at the top */
   left: 0;
