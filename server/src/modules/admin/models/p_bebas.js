@@ -1,14 +1,14 @@
 module.exports = {
     getAll: (con, callback) => {
-        con.query('SELECT siswa.siswa_id, siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id', callback)
+        con.query('SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id', callback)
     },
 
     getById: (con, bebas_id, callback) => {
-        con.query(`SELECT siswa.siswa_id, siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id WHERE bebas_id = ${bebas_id}`, callback)
+        con.query(`SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bebas.bebas_id = ${bebas_id}`, callback)
     },
     
     getByNis: (con, siswa_nis, callback) => {
-        con.query(`SELECT siswa.siswa_id, siswa.siswa_nis, siswa_nama, pembayaran_tipe, bebas_tagihan, bebas_total_bayar FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id WHERE siswa.siswa_nis = ${siswa_nis}`, callback)
+        con.query(`SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.siswa_nis = ${siswa_nis}`, callback)
 
     },
 
@@ -94,9 +94,9 @@ module.exports = {
                                 let kd_admin = rows.map((obj) => {
                                     return obj.admin_id
                                 })
-                                console.log(kd_admin)
+                                // console.log(kd_admin)
                                 admin_id = kd_admin[kd_admin.length - 1]
-                                console.log(admin_id)
+                                // console.log(admin_id)
                                 let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g,'-')
                 
                                 con.query(`INSERT INTO d_bebas SET bebas_id = '${id_bebas}', d_bebas_bayar = '${data.nominal}', d_bebas_deskripsi = '${data.keterangan}', d_bebas_tanggal = '${tanggal}', admin_id = '${admin_id}'`, (err) => {
@@ -109,7 +109,7 @@ module.exports = {
                                         })
                                         let total = hasil.reduce(function(a,b){ return a + b }, 0)
             
-                                        console.log(total)
+                                        // console.log(total)
                 
                                         con.query(`UPDATE bebas SET bebas_total_bayar = '${total}' WHERE bebas_id = '${bebas_id}'`, (err) => {
                                             if(err) throw err
