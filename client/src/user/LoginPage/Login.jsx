@@ -72,7 +72,7 @@ export default class Login extends Component {
     });
   };
   render() {
-    const loggedIn = localStorage.getItem("dataAdmin");
+    const loggedIn = localStorage.getItem("dataSiswa");
     if (loggedIn) {
       this.props.history.push("/user");
     }

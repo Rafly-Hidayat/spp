@@ -423,7 +423,7 @@ const SideBar = () => {
 
           <ProtectedRoute
             exact
-            path="/admin/pembayaran"
+            path="/admin/pembayaran/"
             component={Pembayaran}
           />
           <ProtectedRoute

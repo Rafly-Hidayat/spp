@@ -39,7 +39,6 @@ export default class InformasiSIswa extends Component {
   getBebas = () => {
     const id = this.props.nis;
     axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
-      console.log(res.data);
       this.setState({
         data: res.data,
       });
@@ -49,7 +48,6 @@ export default class InformasiSIswa extends Component {
   getBulanan = () => {
     const id = this.props.nis;
     axios.get(`http://localhost:8000/bulanan/${id}`).then((res) => {
-      console.log(res);
       this.setState({
         databulanan: res.data,
       });
@@ -57,10 +55,18 @@ export default class InformasiSIswa extends Component {
   };
 
   componentDidMount() {
-    this.getSiswa();
     this.getBebas();
     this.getBulanan();
-    console.log(this.props.nis);
+    this.getSiswa();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.nis !== this.props.nis) {
+      if (this.props.nis.length === 9) {
+      this.getSiswa();
+      this.getBebas();
+      this.getBulanan();
+      }
+    }
   }
 
   render() {

@@ -83,13 +83,13 @@ export default class PembayaranBebas extends Component {
             text: 'Pembayaran'
         }, {
             text: 'Status',
-            // formatter:(cell, row) => {
-            //     if(row.bebas_total_bayar === row.bebas_tagihan){
-            //         return <div className="text-success">Lunas</div>
-            //     }else{
-            //         return <div className="text-danger">Belum Lunas</div>
-            //     }
-            // }
+            formatter:(cell, row) => {
+                if(row.bebas_total_bayar === row.bebas_tagihan){
+                    return <div className="text-success">Lunas</div>
+                }else{
+                    return <div className="text-danger">Belum Lunas</div>
+                }
+            }
         }, {
             dataField: "Aksi",
             text: "Aksi",
