@@ -22,30 +22,25 @@ export default class PembayaranBebas extends Component {
 
         this.state = {
             data: [],
-            datasiswa : [],
         }
 
     }
 
 
-    // getPostAPI = () => {
-    //     const nis = JSON.parse(localStorage.getItem('dataAdmin')).nis[0];
-    //     axios.get(`http://localhost:8000/bebas/${nis}`)
-    //     .then((res) => {
-    //         console.log(res.data[0])
-    //         this.setState({
-    //             datasiswa: res.data[0]
-    //         });
-    //         console.log(this.state.datasiswa)
-    //         })
-    // }
+    getPostAPI = () => {
+        const id = JSON.parse(localStorage.getItem('dataSiswa')).id;
+        axios.get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
+        .then((res) => {
+            console.log(res.data)
+            this.setState({
+                data: res.data
+            })
+        })
+    }
 
-    // json-server --watch db.json --port 3004
-
-    // componentDidMount() {
-    //     this.getPostAPI();
-
-    // }
+    componentDidMount() {
+        this.getPostAPI();
+    }
 
     render() {
         // const data = this.state.data
@@ -130,7 +125,7 @@ export default class PembayaranBebas extends Component {
                         <div className="desktop">
                             <BootstrapTable
                                 keyField='id'
-                                data={this.state.datasiswa}
+                                data={this.state.data}
                                 columns={desktop}
                                 noDataIndication="Table is Empty"
                                 bordered={false}
@@ -142,7 +137,7 @@ export default class PembayaranBebas extends Component {
                         <div className="mobile">
                             <BootstrapTable
                                 keyField='id'
-                                data={this.state.datasiswa}
+                                data={this.state.data}
                                 columns={mobile}
                                 noDataIndication="Table is Empty"
                                 bordered={false}
