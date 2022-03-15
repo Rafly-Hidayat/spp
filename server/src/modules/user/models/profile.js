@@ -99,6 +99,7 @@ module.exports = {
     );
   },
 
+
   editProfile: (con, res, data, siswa_id, callback) => {
     let file = data;
     let filename = file.name;
