@@ -73,22 +73,37 @@ module.exports = {
       `SELECT * FROM siswa WHERE siswa_id = ${siswa_id}`,
       (err, rows) => {
         if (err) throw err;
-        if (rows == 0) return res.json({ error: true, message: "siswa_id tidak ditemukan." });
-		con.query(`SELECT siswa_id FROM bulanan WHERE siswa_id = ${siswa_id}`, (err, rows) => {
-			if (err) throw err
-			if (rows.length == 0) {
-				res.json({
-					error: true,
-					message: "Data tidak ditemukan",
-				});
-			} else {
-				con.query(
-				  `SELECT bulanan_tagihan, month_nama, pembayaran_tipe, pos_nama, pos_deskripsi FROM bulanan INNER JOIN month ON month.month_id = bulanan.month_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bulanan.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id WHERE siswa_id = ${siswa_id} AND bulanan_status = 1 ORDER BY bulanan.month_id`,
-				  callback
-				);
-			}
-		})
+        if (rows == 0)
+          return res.json({
+            error: true,
+            message: "siswa_id tidak ditemukan.",
+          });
+        con.query(
+          `SELECT siswa_id FROM bulanan WHERE siswa_id = ${siswa_id}`,
+          (err, rows) => {
+            if (err) throw err;
+            if (rows.length == 0) {
+              res.json({
+                error: true,
+                message: "Data tidak ditemukan",
+              });
+            } else {
+              con.query(
+                `SELECT bulanan_tagihan, month_nama, pembayaran_tipe, pos_nama, pos_deskripsi FROM bulanan INNER JOIN month ON month.month_id = bulanan.month_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bulanan.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id WHERE siswa_id = ${siswa_id} AND bulanan_status = 1 ORDER BY bulanan.month_id`,
+                callback
+              );
+            }
+          }
+        );
       }
+    );
+  },
+
+  editProfile: (con, data, siswa_id, callback) => {
+    var imgsrc = "http://127.0.0.1:8000/public/images/" + data.filename;
+    con.query(
+      `UPDATE siswa SET siswa_img = '${imgsrc}' WHERE siswa_id = ${siswa_id}`,
+      callback
     );
   },
 };

@@ -46,6 +46,14 @@ module.exports = {
                 data: rows
             })
         })
+    },
+
+    editProfile: (req,res) => {
+        profile.editProfile(req.con, req.file, req.params.siswa_id, (err, rows) => {
+            if (err) throw err
+            res.json({erro: false, message: 'Data berhasil diubah'})
+            // res.json(rows)
+        })
     }
         
 }

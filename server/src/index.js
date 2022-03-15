@@ -27,21 +27,21 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 //route for post data
-app.post("/upload", upload.single('img'), (req, res) => {
-  if (!req.file) {
-      return res.send("No file upload");
-  } else {
-      console.log(req.file.filename)
-      var imgsrc = 'http://127.0.0.1:8000/public/images/' + req.file.filename
-      var insertData = "INSERT INTO users_file SET file_src = ?"
-      con.query(insertData, [imgsrc], (err, result) => {
-          if (err) throw err
-          return res.send("file uploaded")
-      })
-  }
-});
+// app.post("/upload", upload.single('img'), (req, res) => {
+//   if (!req.file) {
+//       return res.send("No file upload");
+//   } else {
+//       console.log(req.file.filename)
+//       var imgsrc = 'http://127.0.0.1:8000/public/images/' + req.file.filename
+//       var insertData = "INSERT INTO users_file SET file_src = ?"
+//       con.query(insertData, [imgsrc], (err, result) => {
+//           if (err) throw err
+//           return res.send("file uploaded")
+//       })
+//   }
+// });
 
-// app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+app.use(multer({storage: storage}).single('img'))
 app.use("/public", express.static(path.join(__dirname, "/public")));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
