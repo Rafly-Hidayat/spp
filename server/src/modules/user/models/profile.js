@@ -100,9 +100,8 @@ module.exports = {
   },
 
   editProfile: (con, data, siswa_id, callback) => {
-    var imgsrc = "http://127.0.0.1:8000/public/images/" + data.filename;
     con.query(
-      `UPDATE siswa SET siswa_img = '${imgsrc}' WHERE siswa_id = ${siswa_id}`,
+      `UPDATE siswa SET siswa_img = '${data.filename}' WHERE siswa_id = ${siswa_id}`,
       callback
     );
   },
