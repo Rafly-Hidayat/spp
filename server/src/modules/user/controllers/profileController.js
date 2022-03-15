@@ -49,8 +49,9 @@ module.exports = {
     },
 
     editProfile: (req,res) => {
-        profile.editProfile(req.con, req.file, req.params.siswa_id, (err, rows) => {
+        profile.editProfile(req.con, res, req.files.img, req.params.siswa_id, (err, rows) => {
             if (err) throw err
+            // console.log(req.files.img)
             res.json({erro: false, message: 'Data berhasil diubah'})
             // res.json(rows)
         })

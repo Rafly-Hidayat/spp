@@ -5,7 +5,6 @@ const path = require("path");
 
 // Import file
 const con = require("./config/db");
-const multer = require('multer')
 
 let uploaded = require("express-fileupload");
 // let importExcel = require("convert-excel-to-json");
@@ -15,16 +14,6 @@ const app = express();
 const port = 8000;
 
 // use NPM
-// handle storage using multer
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-     cb(null, 'public/images');
-  },
-  filename: function (req, file, cb) {
-     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  }
-});
-var upload = multer({ storage: storage });
 
 //route for post data
 // app.post("/upload", upload.single('img'), (req, res) => {
@@ -41,7 +30,7 @@ var upload = multer({ storage: storage });
 //   }
 // });
 
-app.use(multer({storage: storage}).single('img'))
+// app.use(multer({storage: storage}))
 app.use("/public", express.static(path.join(__dirname, "/public")));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
