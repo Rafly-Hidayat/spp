@@ -216,6 +216,7 @@ const SideBar = () => {
             {/* Img Admin kecil */}
             <img
               alt="profile"
+              image
               src={img}
               style={{
                 borderRadius: "5px",

@@ -6,6 +6,7 @@ import {
   Col,
   Card,
   Table,
+  Badge,
   Button,
   Form,
   Nav,
@@ -19,6 +20,7 @@ import {
   faCreditCard,
   faBell,
   faChevronRight,
+  faPrint
 } from "@fortawesome/free-solid-svg-icons";
 import { Redirect, Link } from "react-router-dom";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -67,46 +69,75 @@ export default class PembayaranBulanan extends Component {
   render() {
     const desktop = [
       {
-        dataField: "id",
+        dataField: "month_id",
         text: "No",
         sort: true,
         align: "center",
         headerAlign: "center",
+        headerStyle: (colum, colIndex) => {
+          return { width: '80px' };
+        }
+      },
+      {
+        dataField: "pos_nama",
+        text: "Deskripsi",
+        headerAlign : 'center',
+        align : "center"
+      },
+      {
+        dataField: "bulanan_tanggal",
+        text: "Tanggal",
+        headerAlign : 'center',
+        align : "center",
+        // make type date with d m y only
+        formatter: (cell, row) => {
+          return (
+            <div>
+              {new Date(cell).toLocaleDateString("id-ID")}
+            </div>
+          );
+        },
       },
       {
         dataField: "month_nama",
         text: "Bulan",
-      },
-      {
-        dataField: "bulanan_tanggal",
-        text: "Tanggal Bayar",
+        headerAlign : 'center',
+        align : "center"
       },
       {
         dataField: "bulanan_tagihan",
         text: "Jumlah",
-      },
-      {
-        dataField: "terbayar",
-        text: "Terbayar",
+        headerAlign : 'center',
+        align : "center"
       },
       {
         text: "Status",
         formatter(cell, row) {
           if (row.bulanan_status === 1) {
             return (
-              <div>
-                <p>Lunas</p>
-              </div>
+                <Badge bg='success'>Lunas</Badge>
             );
           } else {
             return (
-              <div>
-                <p>Belum Lunas</p>
-              </div>
+                <Badge bg='danger'>Belum Lunas</Badge>
             );
           }
         },
       },
+      {
+        text: "Detail",
+        formatter : (cell, row) => {
+          if (row.bulanan_status === 1) {
+            return (
+                <Button variant='warning'><FontAwesomeIcon icon={faPrint} /></Button>
+            );
+          } else {
+            return (
+              <Button variant='secondary' disabled><FontAwesomeIcon icon={faPrint} /></Button>
+            );
+          }
+        }
+      }
     ];
 
     const mobile = [

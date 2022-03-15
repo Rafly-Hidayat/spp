@@ -44,7 +44,7 @@ export default class AddPembayaran extends Component {
               title: "Berhasil!",
               text: `Pembayaran Berhasil!`,
             })
-            this.props.history.push("/admin/pembayaran");
+            // this.props.history.push("/admin/pembayaran");
           }
         })
         .catch((error) => {});
@@ -66,6 +66,9 @@ export default class AddPembayaran extends Component {
               <Form.Control
                 name="nominal"
                 id="nominal"
+                type="number"
+                min="0"
+                step="50000"
                 onChange={this.handleChange}
                 noValidate
                 value={this.state.nominal}

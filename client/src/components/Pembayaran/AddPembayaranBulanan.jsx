@@ -32,6 +32,7 @@ export default class AddPembayaranBulanan extends Component {
       axios
         .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
         .then((res) => {
+          console.log(res)
           if(res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -39,14 +40,20 @@ export default class AddPembayaranBulanan extends Component {
               text : `${res.data.message}`
             })
           } else {
-
             Swal.fire({
               icon: "success",
               title: "Berhasil!",
               text: `${res.data.message}`,
             });
-            this.props.history.push("/admin/pembayaran"); 
+            // this.props.history.push("/admin/pembayaran"); 
           }
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Gagal terhubung ke server!",
+          });
         });
     } else {
       this.validator.showMessages();

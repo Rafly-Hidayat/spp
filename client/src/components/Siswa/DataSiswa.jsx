@@ -21,7 +21,8 @@ export default class DataSiswa extends Component {
   }
 
   getSiswa = () => {
-    axios.get("http://localhost:8000/siswa/").then((res) => {
+    axios.get("http://localhost:8000/siswa/").then((res) => { 
+      console.log(res.data);
       this.setState({
         data: res.data,
       });
@@ -49,10 +50,11 @@ export default class DataSiswa extends Component {
         axios
           .delete(`http://localhost:8000/hapus/siswa/${siswa_id}`)
           .then((res) => {
+            console.log(res)
             Swal.fire({
               icon: "success",
               title: "Deleted!",
-              text: `${res.data}`,
+              text: `${res.data.message}`,
             });
           })
           .catch((err) => {
@@ -112,10 +114,22 @@ export default class DataSiswa extends Component {
         headerAlign: "center",
       },
       {
-        dataField: "siswa_gender",
         text: "Jenis Kelamin",
         align: "center",
         headerAlign: "center",
+        formatter : (cell, row) => {
+          if(row.siswa_gender === 'L') {
+            return(
+              <div>
+                Laki-Laki
+              </div>
+            )
+          }else {
+            return (
+              <div>Perempuan</div>
+            )
+          }
+        }
       },
       {
         dataField: "kelas_nama",
