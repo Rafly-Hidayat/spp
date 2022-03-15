@@ -106,6 +106,17 @@ export default class DataSiswa extends Component {
         sort: true,
       },
       {
+        dataField: "siswa_img",
+        text: "Image Siswa",
+        align: "center",
+        headerAlign: "center",
+        formatter: (cellContent, row) => {
+          return (
+            <img src={row.siswa_img} width={40} height={40} />
+          );
+        },
+      },
+      {
         dataField: "siswa_nis",
         text: "NIS",
         align: "center",
@@ -134,6 +145,7 @@ export default class DataSiswa extends Component {
         dataField: "Aksi",
         text: "Aksi",
         align: "center",
+        headerAlign: "center",
         // make delete and update button
         formatter: (cellContent, row) => {
           return (

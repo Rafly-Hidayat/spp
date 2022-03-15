@@ -3,9 +3,26 @@ const siswa = require("../models/siswa");
 module.exports = {
   getAll: (req, res) => {
     siswa.getAll(req.con, (err, rows) => {
-      if (err) throw err;
-      res.json(rows);
-    });
+      if (err) throw err
+
+      let data = []
+      rows.forEach((element, index) => {
+        let gambar = rows[index].siswa_img
+        let img = 'http://127.0.0.1:8000/public/images/' + gambar
+        data.push({
+          siswa_id : rows[index].siswa_id,
+          siswa_nis : rows[index].siswa_nis,
+          siswa_nama : rows[index].siswa_nama,
+          siswa_gender : rows[index].siswa_gender,
+          kelas_nama : rows[index].kelas_nama,
+          jurusan_nama : rows[index].jurusan_nama,
+          d_kelas_nama : rows[index].d_kelas_nama,
+          siswa_img : img
+        })}
+      )
+
+      res.json(data)
+    })
   },
 
     getById: (req, res) => {
