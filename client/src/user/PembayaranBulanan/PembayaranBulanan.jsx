@@ -33,21 +33,21 @@ export default class PembayaranBulanan extends Component {
 
     }
 
-    getPostAPI = () => {
-        axios.get('http://localhost:3004/bulanan')
-            .then((result) => {
-                this.setState({
-                    data: result.data
-                });
-            })
-    }
+    // getPostAPI = () => {
+    //     axios.get('http://localhost:3004/bulanan')
+    //         .then((result) => {
+    //             this.setState({
+    //                 data: result.data
+    //             });
+    //         })
+    // }
 
     // json-server --watch db.json --port 3004
 
-    componentDidMount() {
-        this.getPostAPI();
+    // componentDidMount() {
+    //     this.getPostAPI();
 
-    }
+    // }
 
     render() {
 

@@ -5,9 +5,9 @@ const path = require("path");
 
 // Import file
 const con = require("./config/db");
-// const multer = require('multer')
+const multer = require('multer')
 
-let upload = require("express-fileupload");
+let uploaded = require("express-fileupload");
 // let importExcel = require("convert-excel-to-json");
 // let del = require("del");
 
@@ -15,11 +15,38 @@ const app = express();
 const port = 8000;
 
 // use NPM
+// handle storage using multer
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+     cb(null, 'public/images');
+  },
+  filename: function (req, file, cb) {
+     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+var upload = multer({ storage: storage });
+
+//route for post data
+app.post("/upload", upload.single('img'), (req, res) => {
+  if (!req.file) {
+      return res.send("No file upload");
+  } else {
+      console.log(req.file.filename)
+      var imgsrc = 'http://127.0.0.1:8000/public/images/' + req.file.filename
+      var insertData = "INSERT INTO users_file SET file_src = ?"
+      con.query(insertData, [imgsrc], (err, result) => {
+          if (err) throw err
+          return res.send("file uploaded")
+      })
+  }
+});
+
+// app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use("/public", express.static(path.join(__dirname, "/public")));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cors());
-app.use(upload());
+app.use(uploaded());
 
 // connecting route to database
 app.use(function (req, res, next) {

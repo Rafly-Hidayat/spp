@@ -3,31 +3,26 @@ const siswa = require("../models/siswa");
 module.exports = {
   getAll: (req, res) => {
     siswa.getAll(req.con, (err, rows) => {
-      if (err) throw err;
-      // res.json(rows);
+      if (err) throw err
 
       let data = []
-      // ubah siswa_img menjadi base64url
-      rows.forEach(element => {
+      rows.forEach((element, index) => {
+        let gambar = rows[index].siswa_img
+        let img = 'http://127.0.0.1:8000/public/images/' + gambar
         data.push({
-          siswa_img: element.siswa_img.toString("base64url")
-        })
-      });
-      res.json(data);
-    // });
-          
-      // for (let i = 0; i < rows.length; i++) {
-      //   let row = rows[i]
-      //   let obj = {
-      //     id: row.id,
-      //     siswa_id : row.siswa_id,
-      //     siswa_nama: row.siswa_nama,
-      //     siswa_gender: row.siswa_gender,
-      //     siswa_img: row.siswa_img
-      //   }
-      //   data.push(obj)
-      // }
-    });
+          siswa_id : rows[index].siswa_id,
+          siswa_nis : rows[index].siswa_nis,
+          siswa_nama : rows[index].siswa_nama,
+          siswa_gender : rows[index].siswa_gender,
+          kelas_nama : rows[index].kelas_nama,
+          jurusan_nama : rows[index].jurusan_nama,
+          d_kelas_nama : rows[index].d_kelas_nama,
+          siswa_img : img
+        })}
+      )
+
+      res.json(data)
+    })
   },
 
     getById: (req, res) => {

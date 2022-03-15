@@ -68,41 +68,39 @@ export default class TambahSiswa extends Component {
         });
       })
       .catch((err) => {});
-  };
-
-  componentDidMount() {
-    this.getKelas();
-    this.getJurusan();
-    this.getDKelas();
-  }
-
-  Submit = (e) => {
-    e.preventDefault();
-    const data = {
-      nis: this.state.nis,
-      nama: this.state.nama,
-      gender: this.state.gender,
-      kelas: this.state.selected_kelas,
-      jurusan: this.state.selected_jurusan,
-      d_kelas: this.state.selected_d_kelas,
-      selected_kelas: this.selected_kelas,
-      selected_jurusan: this.selected_jurusan,
-      selected_d_kelas: this.selected_d_kelas,
     };
-    e.preventDefault();
-    if (this.validator.allValid()) {
-      axios
+    
+    componentDidMount() {
+      this.getKelas();
+      this.getJurusan();
+      this.getDKelas();
+    }
+
+    Submit = (e) => {
+      e.preventDefault();
+      const data = {
+        nis: this.state.nis,
+        nama: this.state.nama,
+        gender: this.state.gender,
+        kelas: this.state.selected_kelas,
+        jurusan: this.state.selected_jurusan,
+        d_kelas: this.state.selected_d_kelas,
+        selected_kelas: this.selected_kelas,
+        selected_jurusan: this.selected_jurusan,
+        selected_d_kelas: this.selected_d_kelas,
+      };
+      e.preventDefault();
+      if (this.validator.allValid()) {
+        axios
         .post("http://localhost:8000/tambah/siswa", data)
         .then((res) => {
-          this.setState({
-            dataError: res.data.message,
-          });
+          console.log(res);
 
-          if (this.state.dataError) {
+          if (res.data.error === true ) {
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: `${this.state.dataError}`,
+              text: `${res.data.message}`,
             });
             this.setState({
               nis: "",
@@ -111,7 +109,7 @@ export default class TambahSiswa extends Component {
             Swal.fire({
             icon: "success",
             title: "Good Job!",
-            text: `${res.data}`,});
+            text: `${res.data.message}`,});
             this.props.history.push("/admin/siswa");
           }
         })
@@ -169,7 +167,7 @@ export default class TambahSiswa extends Component {
                   {this.validator.message(
                     "nis",
                     this.state.nis,
-                    `required|int`,
+                    `required`,
                     {
                       className: "text-danger",
                     }
@@ -236,11 +234,6 @@ export default class TambahSiswa extends Component {
                   })}
                 </FormSelect>
                 <div>
-                  {this.state.dataError ? (
-                    <div style={{ color: "red" }}>
-                      {this.state.errorMessage}
-                    </div>
-                  ) : null}
                   {this.validator.message(
                     "Kelas",
                     this.state.selected_kelas,
