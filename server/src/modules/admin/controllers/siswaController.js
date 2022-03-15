@@ -4,7 +4,29 @@ module.exports = {
   getAll: (req, res) => {
     siswa.getAll(req.con, (err, rows) => {
       if (err) throw err;
-      res.json(rows);
+      // res.json(rows);
+
+      let data = []
+      // ubah siswa_img menjadi base64url
+      rows.forEach(element => {
+        data.push({
+          siswa_img: element.siswa_img.toString("base64url")
+        })
+      });
+      res.json(data);
+    // });
+          
+      // for (let i = 0; i < rows.length; i++) {
+      //   let row = rows[i]
+      //   let obj = {
+      //     id: row.id,
+      //     siswa_id : row.siswa_id,
+      //     siswa_nama: row.siswa_nama,
+      //     siswa_gender: row.siswa_gender,
+      //     siswa_img: row.siswa_img
+      //   }
+      //   data.push(obj)
+      // }
     });
   },
 

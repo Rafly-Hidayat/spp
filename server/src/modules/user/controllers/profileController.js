@@ -32,7 +32,7 @@ module.exports = {
         profile.getTagihanBulanan(req.con,req.params.siswa_id, res, (err, rows) => {
             if (err) throw err
             res.json({
-                total_belum_lunas: rows.length + " pembayaran",
+                total_belum_lunas: rows.length,
                 data: rows
             })
         })
@@ -42,7 +42,7 @@ module.exports = {
         profile.getTagihanLunas(req.con,req.params.siswa_id, res, (err, rows) => {
             if (err) throw err
             res.json({
-                total_lunas: rows.length + " pembayaran",
+                total_lunas: rows.length,
                 data: rows
             })
         })

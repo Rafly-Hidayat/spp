@@ -27,7 +27,7 @@ module.exports = {
               });
             } else {
               con.query(
-                `SELECT SUM(bebas_tagihan - bebas_total_bayar) over (partition by bebas.pembayaran_id) as sisa_tagihan, pembayaran_tipe, pos_nama, pos_deskripsi FROM bebas INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id WHERE siswa_id = ${siswa_id}`,
+                `SELECT SUM(bebas_tagihan - bebas_total_bayar) over (partition by bebas.pembayaran_id) as sisa_tagihan, bebas_tagihan, pembayaran_tipe, pos_nama, pos_deskripsi FROM bebas INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id WHERE siswa_id = ${siswa_id}`,
                 callback
               );
             }
