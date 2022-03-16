@@ -167,8 +167,20 @@ export default class InformasiSIswa extends Component {
         text: "Tipe Pembayaran",
       },
       {
+        text: "Jumlah Tagihan",
+        formatter: (cell, row) => {
+          return <div>Rp. {row.bebas_tagihan.toLocaleString("id")}</div>;
+        },
+      },
+      {
+        text: "Jumlah yang dibayar",
+        formatter: (cell, row) => {
+          return <div>Rp. {row.bebas_total_bayar.toLocaleString("id")}</div>;
+        },
+      },
+      {
         dataField: "bebas_tagihan",
-        text: "Total Tagihan",
+        text: "Sisa Tagihan",
         formatter: (cell, row) => {
           // count bebas_tagihan minus bebas_total_bayar and turn to LocaleString("id")
           return (
@@ -179,12 +191,6 @@ export default class InformasiSIswa extends Component {
               ).toLocaleString("id")}
             </div>
           );
-        },
-      },
-      {
-        text: "Dibayar",
-        formatter: (cell, row) => {
-          return <div>Rp. {row.bebas_total_bayar.toLocaleString("id")}</div>;
         },
       },
       {

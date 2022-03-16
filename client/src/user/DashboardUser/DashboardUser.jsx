@@ -36,7 +36,8 @@ export default class DashboardUser extends Component {
     let tagihan = 200;
     this.state = {
       id: user.id,
-      bebas_percent : ""
+      bebas_percent : "",
+      bulanan_percent : "",
     };
   }
 
@@ -44,12 +45,15 @@ export default class DashboardUser extends Component {
     axios
       .get(`http://localhost:8000/tagihan/bebas/${this.state.id}`)
       .then((res) => {
+        const data = res.data[0]
         this.setState({
-          bebas_percent : parseInt((res.data[0].bebas_tagihan - res.data[0].sisa_tagihan) / res.data[0].bebas_tagihan * 100)
+          bebas_percent : parseInt((data.bebas_tagihan - data.sisa_tagihan) / data.bebas_tagihan * 100)
         })
       });
-      axios.get('http://localhost:8000/bebas/').then((res) => {
-        console.log(res)
+    axios.get(`http://localhost:8000/tagihan/lunas/${this.state.id}`)
+    .then((res) => {
+        const data = res.data
+        this.setState({bulanan_percent : parseInt( data.total_lunas / 12 * 100)})
       })
   }
 
@@ -95,8 +99,8 @@ export default class DashboardUser extends Component {
                       <ProgressBar
                         animated
                         variant="info"
-                        now={100}
-                        label={`${100}%`}
+                        now={this.state.bulanan_percent}
+                        label={ `${this.state.bulanan_percent}%`}
                         className="bar"
                       />
                     </div>
@@ -196,8 +200,8 @@ export default class DashboardUser extends Component {
                         <ProgressBar
                           animated
                           variant="info"
-                          now={100}
-                          label={`${100}%`}
+                          now={this.state.bulanan_percent}
+                          label={this.state.bulanan_percent + "%"}
                           className="bar"
                         />
                       </div>
@@ -244,8 +248,8 @@ export default class DashboardUser extends Component {
                         <ProgressBar
                           animated
                           variant="info"
-                          now={this.state.count1}
-                          label={`${this.state.count1}%`}
+                          now={this.state.bebas_percent}
+                          label={ this.state.bebas_percent + "%"}
                           className="bar"
                         />
                       </div>

@@ -45,7 +45,7 @@ export default class AddPembayaranBulanan extends Component {
               title: "Berhasil!",
               text: `${res.data.message}`,
             });
-            // this.props.history.push("/admin/pembayaran"); 
+            this.props.history.push("/admin/pembayaran"); 
           }
         })
         .catch(() => {
