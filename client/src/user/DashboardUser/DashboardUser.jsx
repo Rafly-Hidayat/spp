@@ -18,6 +18,7 @@ import {
   faBell,
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -30,11 +31,26 @@ import "./DashboardUser.css";
 export default class DashboardUser extends Component {
   constructor(props) {
     super(props);
+    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     let bayar = 70;
     let tagihan = 200;
     this.state = {
-      count1: (bayar / tagihan) * 100,
+      id: user.id,
+      bebas_percent : ""
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get(`http://localhost:8000/tagihan/bebas/${this.state.id}`)
+      .then((res) => {
+        this.setState({
+          bebas_percent : parseInt((res.data[0].bebas_tagihan - res.data[0].sisa_tagihan) / res.data[0].bebas_tagihan * 100)
+        })
+      });
+      axios.get('http://localhost:8000/bebas/').then((res) => {
+        console.log(res)
+      })
   }
 
   render() {
@@ -116,8 +132,8 @@ export default class DashboardUser extends Component {
                       <ProgressBar
                         animated
                         variant="info"
-                        now={this.state.count1}
-                        label={`${this.state.count1}%`}
+                        now={this.state.bebas_percent}
+                        label={this.state.bebas_percent + "%"}
                         className="bar"
                       />
                     </div>
