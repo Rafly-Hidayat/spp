@@ -91,12 +91,10 @@ module.exports = {
             columnToKey: {
               A: "siswa_nis",
               B: "siswa_nama",
-              C: "siswa_password",
-              D: "siswa_gender",
-              E: "siswa_img",
-              F: "kelas_id",
-              G: "jurusan_id",
-              H: "d_kelas_id",
+              C: "siswa_gender",
+              D: "kelas_id",
+              E: "jurusan_id",
+              F: "d_kelas_id",
             },
             sheets: ["Sheet1"],
           });

@@ -7,30 +7,11 @@ const path = require("path");
 const con = require("./config/db");
 
 let uploaded = require("express-fileupload");
-// let importExcel = require("convert-excel-to-json");
-// let del = require("del");
 
 const app = express();
 const port = 8000;
 
 // use NPM
-
-//route for post data
-// app.post("/upload", upload.single('img'), (req, res) => {
-//   if (!req.file) {
-//       return res.send("No file upload");
-//   } else {
-//       console.log(req.file.filename)
-//       var imgsrc = 'http://127.0.0.1:8000/public/images/' + req.file.filename
-//       var insertData = "INSERT INTO users_file SET file_src = ?"
-//       con.query(insertData, [imgsrc], (err, result) => {
-//           if (err) throw err
-//           return res.send("file uploaded")
-//       })
-//   }
-// });
-
-// app.use(multer({storage: storage}))
 app.use("/public", express.static(path.join(__dirname, "/public")));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -56,6 +37,7 @@ const admin_p_bulananRouter = require("./modules/admin/routes/p_bulananRouter");
 const pembayaranRouter = require("./modules/admin/routes/pembayaranRouter");
 const admin_p_bebasRouter = require("./modules/admin/routes/p_bebasRouter");
 const kenaikan_kelasRouter = require("./modules/admin/routes/kenaikan_kelasRouter");
+const rekapRouter = require("./modules/admin/routes/rekapRouter");
 
 // import user router
 const siswaauthRouter = require("./modules/user/routes/authRouter");
@@ -81,6 +63,7 @@ app.use(admin_p_bulananRouter);
 app.use(pembayaranRouter);
 app.use(admin_p_bebasRouter);
 app.use(kenaikan_kelasRouter);
+app.use(rekapRouter);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}!`);
