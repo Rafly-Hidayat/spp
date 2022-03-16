@@ -30,5 +30,9 @@ module.exports = {
 
 	transaction: (req, res) => {
 		bebas.transaction(req.con, req.params.bebas_id, req.body, res)
+	},
+
+	invoice: (req, res) => {
+		bebas.invoice(req.con, req.params.d_bebas_id, res)
 	}
 }

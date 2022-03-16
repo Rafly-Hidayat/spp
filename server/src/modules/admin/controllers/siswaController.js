@@ -18,34 +18,77 @@ module.exports = {
           jurusan_nama : rows[index].jurusan_nama,
           d_kelas_nama : rows[index].d_kelas_nama,
           siswa_img : img
-        })}
-      )
+        })
+      })
 
       res.json(data)
     })
   },
 
-    getById: (req, res) => {
+  getById: (req, res) => {
 		siswa.getById(req.con, req.params.siswa_id, (err, rows) => {
 			if(err) throw err
-			if (rows == 0) return res.json({error: true, message: "Id siswa tidak ditemukan."});
-			res.json(rows)
+			if (rows == 0) return res.json({error: true, message: "Id siswa tidak ditemukan."})
+
+      let gambar = rows[index].siswa_img
+      let img = 'http://127.0.0.1:8000/public/images/' + gambar
+			res.json({
+        siswa_id : rows[index].siswa_id,
+          siswa_nis : rows[index].siswa_nis,
+          siswa_nama : rows[index].siswa_nama,
+          siswa_gender : rows[index].siswa_gender,
+          kelas_nama : rows[index].kelas_nama,
+          jurusan_nama : rows[index].jurusan_nama,
+          d_kelas_nama : rows[index].d_kelas_nama,
+          siswa_img : img
+      })
+
 		})
 	},
 
-    getByNis: (req, res) => {
+  getByNis: (req, res) => {
 		siswa.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
 			if(err) throw err
-			if (rows == 0) return res.json({error: true, message: "Nis siswa tidak ditemukan."});
-			res.json(rows)
+			if (rows == 0) return res.json({error: true, message: "Nis siswa tidak ditemukan."})
+      
+			let gambar = rows[index].siswa_img
+      let img = 'http://127.0.0.1:8000/public/images/' + gambar
+			res.json({
+        siswa_id : rows[index].siswa_id,
+          siswa_nis : rows[index].siswa_nis,
+          siswa_nama : rows[index].siswa_nama,
+          siswa_gender : rows[index].siswa_gender,
+          kelas_nama : rows[index].kelas_nama,
+          jurusan_nama : rows[index].jurusan_nama,
+          d_kelas_nama : rows[index].d_kelas_nama,
+          siswa_img : img
+      })
+
 		})
 	},
 
-    getByKelas: (req, res) => {
+  getByKelas: (req, res) => {
 		siswa.getByKelas(req.con, req.params.kelas_id, (err, rows) => {
 			if(err) throw err
-			if (rows == 0) return res.json({error: true, message: "id kelas tidak ditemukan."});
-			res.json(rows)
+			if (rows == 0) return res.json({error: true, message: "id kelas tidak ditemukan."})
+
+			let data = []
+      rows.forEach((element, index) => {
+        let gambar = rows[index].siswa_img
+        let img = 'http://127.0.0.1:8000/public/images/' + gambar
+        data.push({
+          siswa_id : rows[index].siswa_id,
+          siswa_nis : rows[index].siswa_nis,
+          siswa_nama : rows[index].siswa_nama,
+          siswa_gender : rows[index].siswa_gender,
+          kelas_nama : rows[index].kelas_nama,
+          jurusan_nama : rows[index].jurusan_nama,
+          d_kelas_nama : rows[index].d_kelas_nama,
+          siswa_img : img
+        })
+      })
+
+      res.json(data)
 		})
 	},
 

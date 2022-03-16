@@ -131,4 +131,24 @@ module.exports = {
             })
         })
     },
+
+    invoice: (con, d_bebas_id, res) => {
+        con.query(`SELECT bebas.bebas_id, bebas_tagihan, d_bebas_bayar, d_bebas_deskripsi, d_bebas_tanggal, admin_nama, siswa_nama, siswa_nis, pos_nama FROM d_bebas INNER JOIN bebas ON bebas.bebas_id = d_bebas.bebas_id INNER JOIN siswa ON bebas.siswa_id = siswa.siswa_id INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN periode ON pembayaran.periode_id = periode.periode_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN admin ON admin.admin_id = d_bebas.admin_id WHERE d_bebas.d_bebas_id = ${d_bebas_id}`, (err, rows) => {
+            if(err) throw err
+            if (rows == 0) return res.json({error: true, message: "Data pembayaran siswa tidak ditemukan."})
+
+            return res.json({
+                "bebas_id": rows[0].bebas_id,
+                "bebas_tagihan": rows[0].bebas_tagihan,
+                "d_bebas_bayar": rows[0].d_bebas_bayar,
+                "d_bebas_deskripsi": rows[0].d_bebas_deskripsi,
+                "d_bebas_tanggal": rows[0].d_bebas_tanggal.toJSON().slice(0, 10),
+                "admin_nama": rows[0].admin_nama,
+                "siswa_nama": rows[0].siswa_nama,
+                "siswa_nis": rows[0].siswa_nis,
+                "pos_nama": rows[0].pos_nama
+            })
+
+        })
+    }
 }
