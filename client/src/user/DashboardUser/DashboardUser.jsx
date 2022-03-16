@@ -20,8 +20,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+// import Calendar from "react-calendar";
+// import "react-calendar/dist/Calendar.css";
 import DatePicker from "sassy-datepicker";
 
 import Bulanan from "../PembayaranBulanan/PembayaranBulanan";

@@ -99,11 +99,30 @@ module.exports = {
     );
   },
 
-  editProfile: (con, data, siswa_id, callback) => {
-    var imgsrc = "http://127.0.0.1:8000/public/images/" + data.filename;
-    con.query(
-      `UPDATE siswa SET siswa_img = '${imgsrc}' WHERE siswa_id = ${siswa_id}`,
-      callback
-    );
+
+  editProfile: (con, res, data, siswa_id, callback) => {
+    let file = data;
+    let filename = file.name;
+    file.mv("./public/images/" + filename, function (err) {
+      if (err) {
+        res.json({error: true, message: "gagal mengubah foto profile"});
+      } else {
+        con.query(`SELECT siswa_id FROM siswa WHERE siswa_id = ${siswa_id}`, (err, rows) => {
+          if (err) throw err;
+          if (rows == 0) {
+            return res.json({error: true, message: "id siswa tidak ditemukan"});
+          } else {
+            con.query(
+            `UPDATE siswa SET siswa_img = '${data.name}' WHERE siswa_id = ${siswa_id}`,
+            callback
+          );
+
+          }
+        })
+      }
+  }
+  );
   },
+    
+
 };
