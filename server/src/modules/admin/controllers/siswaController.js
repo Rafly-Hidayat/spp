@@ -62,7 +62,7 @@ module.exports = {
         kelas_nama: rows[0].kelas_nama,
         jurusan_nama: rows[0].jurusan_nama,
         d_kelas_nama: rows[0].d_kelas_nama,
-        siswa_img: img,
+        siswa_img: img
       });ß
     });
   },
@@ -108,14 +108,20 @@ module.exports = {
   },
 
   upload: (req, res) => {
-    siswa.upload(req.con, req.files.filename, res, (err, rows) => {
-      if (err) throw err;
-      return res.json({
-        error: "false",
-        message: "upload success",
-        data: rows,
-      });
-    });
+    siswa.getJurusanId(req.con, res, req.files.filename, (jurusanId, filename) => {
+      console.log(jurusanId)
+      siswa.getKelasId(req.con,res,filename,(kelasId) => {
+        console.log(kelasId)
+        siswa.getDkelasId(req.con, res, filename, (dKelasId) => {
+          console.log(dKelasId)
+          siswa.upload(req.con, res, filename, kelasId, jurusanId, dKelasId)
+        })
+      })
+    })
+    // siswa.upload(req.con, req.files.filename, res, (err, rows) => {
+    //   if (err) throw err;
+    //   return res.json({ error: "false", message: "upload success", data: rows});
+    // });
   },
 
   update: (req, res) => {
