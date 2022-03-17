@@ -29,6 +29,7 @@ export default class Dashboard extends Component {
       totalSiswa: "",
       totalJurusan: "",
       totalKelas: "",
+      rekapBebas: "",
     };
   }
   componentDidMount() {
@@ -48,9 +49,17 @@ export default class Dashboard extends Component {
         totalKelas: res.data.total,
       });
     });
+    axios.get("http://localhost:8000/laporan/harian/bebas").then((res) => {
+      console.log(res)
+      this.setState({
+        rekapBebas: res.data,
+        
+      })
+    })
   }
   render() {
 
+    const data = this.state.rekapBebas
     const onChange = (date) => {
       console.log(date.toString());
     };
@@ -160,7 +169,7 @@ export default class Dashboard extends Component {
             <div>
               <BootstrapTable
                 keyField="id"
-                data=""
+                data={data}
                 columns={columns}
                 noDataIndication="Data Tidak Ditemukan"
                 bordered={false}
