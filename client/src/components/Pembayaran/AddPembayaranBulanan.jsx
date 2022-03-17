@@ -32,6 +32,7 @@ export default class AddPembayaranBulanan extends Component {
       axios
         .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
         .then((res) => {
+          console.log(res)
           if(res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -39,7 +40,6 @@ export default class AddPembayaranBulanan extends Component {
               text : `${res.data.message}`
             })
           } else {
-
             Swal.fire({
               icon: "success",
               title: "Berhasil!",
@@ -47,6 +47,13 @@ export default class AddPembayaranBulanan extends Component {
             });
             this.props.history.push("/admin/pembayaran"); 
           }
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Gagal terhubung ke server!",
+          });
         });
     } else {
       this.validator.showMessages();
@@ -69,7 +76,9 @@ export default class AddPembayaranBulanan extends Component {
             <Form onSubmit={this.Submit}>
               <Form.Group className="mb-3">
                 <hr />
-                <Form.Label>Nama Admin*</Form.Label>
+                <Form.Label>Nama Admin
+                <span className="text-danger">*</span>
+                </Form.Label>
                 <FormSelect name="admin" onChange={this.handleChange}>
                   <option>Pilih Admin</option>
                   {this.state.data.map((item) => (

@@ -8,10 +8,11 @@ import {
   Card,
   InputGroup,
   FormSelect,
+  Breadcrumb,
 } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default class SetTarif extends Component {
@@ -24,9 +25,8 @@ export default class SetTarif extends Component {
       data_kelas: [],
       tarif: "",
       kelas: "",
-      dataError: "",
-      errorMessage: "",
-      tipe: ""
+      nama_pos: "",
+      tipe: "",
     };
   }
 
@@ -41,14 +41,16 @@ export default class SetTarif extends Component {
       .catch((err) => {});
   };
   getTipe = () => {
-    axios.get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`).then((res) => {
-      console.log(res.data[0].pembayaran_tipe)
-      console.log(this.state.pembayaran_id)
-      this.setState({
-        tipe: res.data[0].pembayaran_tipe,
+    axios
+      .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
+      .then((res) => {
+        console.log(this.state.pembayaran_id);
+        this.setState({
+          tipe: res.data[0].pembayaran_tipe,
+          nama_pos : res.data[0].pos_nama
+        });
       });
-    });
-  }
+  };
   handleChange = (e) => {
     e.preventDefault();
     this.setState({
@@ -63,50 +65,53 @@ export default class SetTarif extends Component {
       kelas: this.state.kelas,
       tagihan: this.state.tarif,
     };
-    if (this.validator.allValid()) {
+    if (this.validator.allValid() && this.state.kelas) {
       if (this.state.tipe === "BEBAS") {
-      axios
-        .post("http://localhost:8000/set_tarif/bebas", data)
-        .then((res) => {
-          console.log(res)
-          this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
-          });
-          if (this.state.dataError) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: `${this.state.errorMessage}`,
+        axios
+          .post("http://localhost:8000/set_tarif/bebas", data)
+          .then((res) => {
+            console.log(res);
+            this.setState({
+              dataError: res.data.error,
+              errorMessage: res.data.message,
             });
-          } else {
-            Swal.fire("Good job!", "Your data hasbeen added!", "success");
-            this.props.history.push("/admin/jenispembayaran");
-          }
-        })
-        .catch((err) => {
-
-        });
+            if (this.state.dataError) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${this.state.errorMessage}`,
+              });
+            } else {
+              Swal.fire("Good job!", "Set Tarif berhasil", "success");
+              this.props.history.push("/admin/jenispembayaran");
+            }
+          })
+          .catch((err) => {});
       } else {
-        axios.post("http://localhost:8000/set_tarif/bulanan", data).then((res) => {
-          console.log(res)
-          this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
-          });
-          if (this.state.dataError) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: `${this.state.errorMessage}`,
+        axios
+          .post("http://localhost:8000/set_tarif/bulanan", data)
+          .then((res) => {
+            console.log(res);
+            this.setState({
+              dataError: res.data.error,
+              errorMessage: res.data.message,
             });
-          } else {
-            Swal.fire("Good job!", "Your data hasbeen added!", "success");
-            this.props.history.push("/admin/jenispembayaran");
-          }
-          // this.props.history.push("/pembayaran");
-        })
+            if (this.state.dataError) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${this.state.errorMessage}`,
+              });
+            } else {
+              Swal.fire("Good job!", "Set Tarif berhasil", "success");
+              this.props.history.push("/admin/jenispembayaran");
+            }
+            // this.props.history.push("/pembayaran");
+          });
       }
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
     }
   };
   componentDidMount() {
@@ -117,13 +122,34 @@ export default class SetTarif extends Component {
     return (
       <div>
         <Container>
+          <Card>
+            <Card.Body>
+              <Breadcrumb
+                style={{
+                  marginTop: "-10px",
+                  marginBottom: "-22px",
+                }}
+              >
+                <Breadcrumb.Item>
+                  <Link to="/admin">Home</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to="/admin/jenispembayaran/">Data</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>Set Tarif</Breadcrumb.Item>
+              </Breadcrumb>
+            </Card.Body>
+          </Card>
+          <br></br>
           <Card style={{ color: "black" }}>
             <Card.Body>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Kelas</Form.Label>
+                  <Form.Label>
+                    Kelas <span className="text-danger">*</span>
+                  </Form.Label>
                   <FormSelect name="kelas" onChange={this.handleChange}>
-                    <option>=== Pilih Kelas ===</option>
+                    <option value="">=== Pilih Kelas ===</option>
                     {this.state.data_kelas.map((data_kelas) => {
                       return (
                         <option
@@ -136,32 +162,34 @@ export default class SetTarif extends Component {
                     })}
                   </FormSelect>
                   <div>
-                  {this.validator.message(
-                    "kelas",
-                    this.state.kelas,
-                    `required`,
-                    {
-                      className: "text-danger",
-                      messages: {
-                        required: "Pilih Kelas!",
-                      },
-                    }
-                  )}
-                </div>
+                    {this.validator.message(
+                      "kelas",
+                      this.state.kelas,
+                      `required`,
+                      {
+                        className: "text-danger",
+                        messages: {
+                          required: "Pilih Kelas!",
+                        },
+                      }
+                    )}
+                  </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Pembayaran ID</Form.Label>
+                  <Form.Label>Tipe Pembayaran</Form.Label>
                   <Form.Control
                     name="pembayaran_id"
                     id="pembayaran_id"
                     type="text"
-                    value={this.state.pembayaran_id}
+                    value={this.state.nama_pos}
                     noValidate
                     readOnly
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Tarif</Form.Label>
+                  <Form.Label>
+                    Tarif <span className="text-danger">*</span>
+                  </Form.Label>
                   <InputGroup className="mb-2">
                     <InputGroup.Text>Rp.</InputGroup.Text>
                     <Form.Control
@@ -172,19 +200,31 @@ export default class SetTarif extends Component {
                       noValidate
                       step="10000"
                       onChange={this.handleChange}
-                    ></Form.Control>
+                    />
                   </InputGroup>
+                    <div>
+                      {this.validator.message(
+                        "tarif",
+                        this.state.tarif,
+                        `required`,
+                        {
+                          className: "text-danger",
+                          messages: {
+                            required: "Masukkan tarif!",
+                          },
+                        }
+                      )}
+                    </div>
                 </Form.Group>
-
                 <Button variant="outline-primary" type="submit">
-                Bayar
-              </Button>
-              &ensp;
-              <Link to="/admin/jenispembayaran">
-                <Button variant="outline-danger" type="submit">
-                  Batal
+                  Set Tarif
                 </Button>
-              </Link>
+                &ensp;
+                <Link to="/admin/jenispembayaran">
+                  <Button variant="outline-danger" type="submit">
+                    Batal
+                  </Button>
+                </Link>
               </Form>
             </Card.Body>
           </Card>

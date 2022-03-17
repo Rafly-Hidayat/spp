@@ -6,7 +6,8 @@ module.exports = {
 		if(value.error){
 			res.json({
 				status: 0,
-				message: value.error.details[0].message
+				error : true,
+				message: "Pilih salah satu Admin!"
 			})
 		}else {
 			next()
