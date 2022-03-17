@@ -45,11 +45,19 @@ export default class DataKelas extends Component {
         axios
           .delete(`http://localhost:8000/hapus/kelas/${kelas_id}`)
           .then((res) => {
-            Swal.fire({
-              icon: "success",
-              title: "Deleted!",
-              text: `${res.data}`,
-            });
+            if (res.data.error === true) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${res.data.message}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "success",
+                title: "Good Job!",
+                text: `${res.data.message}`,
+              });
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -124,14 +132,17 @@ export default class DataKelas extends Component {
           </Card.Body>
         </Card>
               <br/>
-        <Card>
+        <Card style={{color: 'black'}}>
           <Card.Body>
+          <Card.Title>Data Kelas</Card.Title>
+            <hr/>
             <Link to={"/admin/kelas/tambah/"}>
               <Button variant="outline-primary" block>
                 Tambah
               </Button>
             </Link>
-            <hr/>
+            <br/>
+            <br/>
             <BootstrapTable
               keyField="id"
               data={data}

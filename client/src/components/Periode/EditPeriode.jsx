@@ -58,10 +58,19 @@ export default class Editperiode extends Component {
             periode_mulai: "",
             periode_akhir: "",
           });
-          Swal.fire({
-            icon: "success",
-            title: "Good Job!",
-            text: `${res.data}`,});
+          if (res.data.error === true) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${res.data.message}`,
+            });
+          } else {
+            Swal.fire({
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
+          }
           this.props.history.push("/admin/periode");
         })
         .catch((err) => {});

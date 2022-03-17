@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Container, Col, Button, Card, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faSearch, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import Swal from "sweetalert2";
@@ -50,11 +50,22 @@ export default class DataSiswa extends Component {
         axios
           .delete(`http://localhost:8000/hapus/siswa/${siswa_id}`)
           .then((res) => {
-            Swal.fire({
-              icon: "success",
-              title: "Deleted!",
-              text: `${res.data}`,
-            });
+            if (res.data.error === true) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${res.data.message}`,
+              });
+              this.setState({
+                nis: "",
+              });
+            } else {
+              Swal.fire({
+                icon: "success",
+                title: "Good Job!",
+                text: `${res.data.message}`,
+              });
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -120,20 +131,34 @@ export default class DataSiswa extends Component {
       {
         dataField: "siswa_nis",
         text: "NIS",
-        align: "center",
-        headerAlign: "center",
+        
       },
       {
-        dataField: "siswa_gender",
+        
         text: "Jenis Kelamin",
-        align: "center",
-        headerAlign: "center",
+        formatter: (cellContent, row) => {
+          
+          if(row.siswa_gender === "L"){
+            return (
+            <div>
+              Laki-Laki
+            </div>  
+            )
+            
+          } else {
+            return(
+            <div>
+              Perempuan
+            </div>  
+            )
+            
+          }
+        },
       },
       {
         dataField: "kelas_nama",
         text: "Kelas",
-        align: "center",
-        headerAlign: "center",
+        
         formatter: (cellContent, row) => {
           return (
             <div>
@@ -143,8 +168,8 @@ export default class DataSiswa extends Component {
         },
       },
       {
-        dataField: "Aksi",
         text: "Aksi",
+        
         align: "center",
         headerAlign: "center",
         // make delete and update button
@@ -153,6 +178,9 @@ export default class DataSiswa extends Component {
             <div>
               {/* <Sidebar /> */}
               <Container>
+                      <Button variant="outline-primary" className="mr-2" block>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                      </Button>&ensp;
                 <Link to={`/admin/siswa/ubah/${row.siswa_id}`}>
                       <Button variant="outline-warning" className="mr-2" block>
                         <FontAwesomeIcon icon={faUserEdit} />
@@ -192,17 +220,23 @@ export default class DataSiswa extends Component {
           </Card.Body>
         </Card>
         <br/>
-        <Card>
+        <Card style={{color: "black"}}>
           <Card.Body>
+            <Card.Title>Data Siswa</Card.Title>
+            <hr/>
             <ToolkitProvider keyField="id" data={data} columns={columns} search>
               {(props) => (
                 <div>
-                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                  <div style={{display: 'flex',}}>
                   <Link to={"/admin/siswa/tambah/"}>
-                    <Button variant="outline-primary" block="">
+                    <Button variant="outline-primary" block>
                       Tambah
-                    </Button></Link>
-                      <div className="float-right" style={{display: 'flex'}}>
+                    </Button></Link>&ensp;
+                  <Link to={"/admin/siswa/upload/"}>
+                    <Button variant="outline-success" block>
+                      Upload
+                    </Button></Link>&ensp;
+                      <div style={{display: 'flex',marginLeft: 'auto', }}>
                         <InputGroup>
                         <SearchBar style={{ outline: 'none' }} placeholder='Cari Siswa ...' {...props.searchProps} />
                       <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
