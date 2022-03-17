@@ -63,7 +63,7 @@ module.exports = {
         jurusan_nama: rows[0].jurusan_nama,
         d_kelas_nama: rows[0].d_kelas_nama,
         siswa_img: img,
-      });
+      });ß
     });
   },
 
