@@ -185,7 +185,7 @@ export default class UbahSiswa extends Component {
           <Row>
                 <Col>
             <Form.Group className="mb-3">
-              <Form.Label>NIS*</Form.Label>
+              <Form.Label>NIS<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="nis"
                 id="nis"
@@ -198,11 +198,14 @@ export default class UbahSiswa extends Component {
               <div>
                 {this.validator.message("nis", this.state.nis, `required`, {
                   className: "text-danger",
+                  messages: {
+                    required: 'Masukkan NIS Siswa!'
+                  }
                 })}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Nama Siswa*</Form.Label>
+              <Form.Label>Nama Siswa<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="nama"
                 id="nama"
@@ -215,11 +218,14 @@ export default class UbahSiswa extends Component {
               <div>
                 {this.validator.message("nama", this.state.nama, `required`, {
                   className: "text-danger",
+                  messages: {
+                    required: 'Masukkan Nama Siswa!'
+                  }
                 })}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Jenis Kelamin*</Form.Label>
+              <Form.Label>Jenis Kelamin<span className="text-danger">*</span></Form.Label>
               <FormSelect name="gender" onChange={this.handleChange}>
                 <option>=== Pilih Jenis Kelamin ===</option>
                 <option value="L">Laki-Laki</option>
@@ -228,13 +234,16 @@ export default class UbahSiswa extends Component {
               <div>
                 {this.validator.message("gender", this.state.gender, `required`, {
                   className: "text-danger",
+                  messages : {
+                    required: 'Pilih Jenis Kelamin!',
+                  }
                 })}
               </div>
             </Form.Group></Col>
             <Col>
 
             <Form.Group className="mb-3">
-              <Form.Label>Kelas*</Form.Label>
+              <Form.Label>Kelas<span className="text-danger">*</span></Form.Label>
               <FormSelect name='selected_kelas' onChange={this.handleChange}>
               <option>=== Pilih Kelas ===</option>
                 {this.state.kelas.map((kelas) => {
@@ -246,12 +255,15 @@ export default class UbahSiswa extends Component {
               <div>
                 {this.validator.message("Kelas", this.state.selected_kelas, `required`, {
                   className: "text-danger",
+                  messages : {
+                    required: 'Pilih Kelas Siswa!',
+                  }
                 })}
               </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Jurusan*</Form.Label>
+              <Form.Label>Jurusan<span className="text-danger">*</span></Form.Label>
               <FormSelect name='selected_jurusan' onChange={this.handleChange}>
                 <option>=== Pilih Jurusan ===</option>
                 {this.state.jurusan.map((jurusan) => {
@@ -263,11 +275,14 @@ export default class UbahSiswa extends Component {
               <div>
                 {this.validator.message("Jurusan", this.state.selected_jurusan, `required`, {
                   className: "text-danger",
+                  messages : {
+                    required: 'Pilih Jurusan Siswa!',
+                  }
                 })}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Daftar Kelas*</Form.Label>
+              <Form.Label>Daftar Kelas<span className="text-danger">*</span></Form.Label>
               <FormSelect name='selected_d_kelas'onChange={this.handleChange}>
                 <option>=== Pilih Daftar Kelas ===</option>
                 {this.state.d_kelas.map((d_kelas) => {
@@ -281,6 +296,9 @@ export default class UbahSiswa extends Component {
               <div>
                 {this.validator.message("Daftar Kelas", this.state.selected_d_kelas, `required`, {
                   className: "text-danger",
+                  messages : {
+                    required: 'Pilih Daftar Kelas!',
+                  }
                 })}
               </div>
             </Form.Group></Col></Row>

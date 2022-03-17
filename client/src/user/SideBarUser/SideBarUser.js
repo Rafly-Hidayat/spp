@@ -13,6 +13,7 @@ import './SideBarUser.css'
 import Dashboard from '../DashboardUser/DashboardUser'
 import Transaksi from '../Transaksi/Transaksi'
 import Logout from '../Logout/Logout'
+import PembayaranBebas from '../PembayaranBebas/PembayaranBebas';
 
 const SideBar = () => {
     const [sidebar, setSidebar] = useState('sidebar');
@@ -123,6 +124,8 @@ const SideBar = () => {
             <div className={main}>
 
                 <Route exact path="/user/" component={Dashboard} />
+                <Route exact path="/user/pembayaran/bebas/:id" component={PembayaranBebas} />
+
 
                 <Route exact path="/user/transaksi" component={Transaksi} />
 
