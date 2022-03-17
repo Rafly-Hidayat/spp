@@ -42,27 +42,15 @@ export default class Pembayaran extends Component {
       axios
         .get(`http://localhost:8000/siswa_nis/${this.state.nis}`)
         .then((res) => {
-          console.log(res.data[0]);
-          if (res.data[0] === undefined) {
+          console.log(res.data.siswa_id);
+          if (res.data.siswa_id === undefined) {
+            console.log("error")
             Swal.fire({
               icon: "error",
               title: "Oops...",
               text: "NIS Siswa tidak ditemukan!",
             });
           } else {
-            axios
-              .get(`http://localhost:8000/bulanan/${this.state.nis}`)
-              .then((res) => {
-                this.setState({
-                  databulanan: res.data,
-                });
-              });
-            axios.get(`http://localhost:8000/bebas/${this.state.nis}`).then((res) => {
-              console.log(res.data);
-              this.setState({
-                data: res.data,
-              });
-            });
             this.setState({
               visible: true,
             });

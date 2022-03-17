@@ -142,6 +142,7 @@ export default class LaporanBulanan extends Component {
               hover
               condensed
               bordered={false}
+              noDataIndication="Data tidak ditemukan"
             />
           </Card.Body>
         </Card>
