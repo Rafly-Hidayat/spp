@@ -71,6 +71,9 @@ import "./SideBar.css";
 import KenaikanKelas from "../Kelulusan/KenaikanKelas";
 import UploadSiswa from "../Siswa/UploadSiswa";
 
+import LaporanBulanan from "../Laporan/LaporanBulanan"
+import LaporanBebas from "../Laporan/LaporanBebas"
+
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
   const user = useState(admin.nama[0]);
@@ -340,6 +343,22 @@ const SideBar = () => {
                 Jenis Pembayaran
               </span>
             </Link>
+            <Link to="/admin/laporan/bulanan">
+              <span className="icon">
+                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+              </span>{" "}
+              <span style={{ display: text, paddingLeft: "4px" }}>
+                Lapran Bulanan
+              </span>
+            </Link>
+            <Link to="/admin/laporan/bebas">
+              <span className="icon">
+                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+              </span>{" "}
+              <span style={{ display: text, paddingLeft: "4px" }}>
+                Laporan Bebas
+              </span>
+            </Link>
 
             {/* <a href="#">
           <span className="icon">
@@ -575,6 +594,16 @@ const SideBar = () => {
             exact
             path="/admin/pembayaran_bulan/tambah/:id"
             component={AddPembayaranBulanan}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/laporan/bulanan"
+            component={LaporanBulanan}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/laporan/bebas"
+            component={LaporanBebas}
           />
         </div>
       </div>
