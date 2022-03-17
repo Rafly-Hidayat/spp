@@ -5,10 +5,10 @@
 }
 
 .admin .navbar {
-  background: #1a1d2f;
+  background: #4C9FE5;
   padding-left: 31px;
   padding-right: 31px;
-  position: absolute;
+  position: fixed;
   font-family: Poppins;
   font-style: normal;
   font-size: 22px;
@@ -20,9 +20,23 @@
   position: absolute;
 }
 
-.admin .img {
-  display: flex;
-  margin-left: 20px;
+.admin .text-admin {
+  margin-top: 2px;
+  padding-left: 16px;
+  color: white;
+  text-align: left;
+}
+
+.admin .text-admin h6{
+  margin-top: -4px;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.admin .text-admin p{
+  padding-top: -2px;
+  font-size: 12px;
 }
 
 /* The sidebar menu */
@@ -33,7 +47,7 @@
   z-index: 1; /* Stay on top */
   top: 52px; /* Stay at the top */
   left: 0;
-  background-color: #2d3a5a; /* Black */
+  background-color: #25262D; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   display: block;
   transition: 0.5s;
@@ -71,11 +85,11 @@
 .admin .sidebar1 {
   height: auto; /* Full-height: remove this if you want "auto" height */
   width: 60px; /* Set the width of the sidebar */
-  position: absolute; /* Fixed Sidebar (stay in place on scroll) */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 52px; /* Stay at the top */
   left: 0;
-  background-color: #2d3a5a; /* Black */
+  background-color: #25262D; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s;
 }

@@ -72,6 +72,11 @@ export default class Data extends Component {
     this.getAdmin();
   }
   render() {
+
+    const selectRow = {
+      mode: 'checkbox',
+      clickToSelect: true
+    };
     const data = this.state.data;
     const columns = [
       {
@@ -122,15 +127,18 @@ export default class Data extends Component {
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br></br>
-        <Card>
+        <br/>
+        <Card style={{color: 'black'}}>
           <Card.Body>
+          <Card.Title>Data Jurusan</Card.Title>
+            <hr/>
             <Link to={"/admin/jurusan/tambah"}>
               <Button variant="outline-primary" block="">
                 Tambah
               </Button>
             </Link>
-              <hr/>
+              <br/>
+              <br/>
             <BootstrapTable
               keyField="id"
               data={data}
@@ -139,6 +147,7 @@ export default class Data extends Component {
               hover
               condensed
               bordered={false}
+              noDataIndication="Data Tidak Ditemukan"
               // selectRow={ selectRow }
             />
           </Card.Body>

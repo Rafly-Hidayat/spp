@@ -146,14 +146,14 @@ export default class InformasiSIswa extends Component {
           if (row.bulanan_status === 1) {
             return (
               <div>
-                <Button variant="warning">Cetak</Button>
+                <Button variant="outline-warning">Cetak</Button>
               </div>
             );
           } else {
             return (
               <div>
                 <Link to={`/admin/pembayaran_bulan/tambah/${row.bulanan_id}`}>
-                  <Button>Bayar</Button>
+                  <Button variant="outline-primary">Bayar</Button>
                 </Link>
               </div>
             );
@@ -252,7 +252,6 @@ export default class InformasiSIswa extends Component {
                   hover
                   condensed
                   bordered={false}
-                  // selectRow={ selectRow }
                 />
               </Tab>
               <Tab eventKey="home" title="Bebas">

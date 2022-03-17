@@ -4,7 +4,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Container, Col, Button, Card, Breadcrumb } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faTrashAlt,
+  faUserEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 export default class Data extends Component {
@@ -17,19 +21,21 @@ export default class Data extends Component {
   }
 
   getAdmin = () => {
-    axios.get("http://localhost:8000/periode/").then((res) => {
-      this.setState({
-        data: res.data,
+    axios
+      .get("http://localhost:8000/periode/")
+      .then((res) => {
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Gagal terhubung ke server, silahkan coba lagi!`,
+        });
       });
-    })
-    .catch((err) => {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Gagal terhubung ke server, silahkan coba lagi!`,
-      });
-    });
-    };
+  };
 
   handleRemove = (periode_id) => {
     Swal.fire({
@@ -45,11 +51,19 @@ export default class Data extends Component {
         axios
           .delete(`http://localhost:8000/hapus/periode/${periode_id}`)
           .then((res) => {
-            Swal.fire({
-              icon: "success",
-              title: "Deleted!",
-              text: `${res.data}`,
-            });
+             if (res.data.error === true) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${res.data.message}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "success",
+                title: "Good Job!",
+                text: `${res.data.message}`,
+              });
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -89,16 +103,17 @@ export default class Data extends Component {
             <div>
               <Container>
                 <Link to={`/admin/periode/ubah/${row.periode_id}`}>
-                      <Button variant="outline-warning" className="mr-2" block>
-                        <FontAwesomeIcon icon={faUserEdit} />
-                      </Button>
-                    </Link>&ensp;
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => this.handleRemove(row.periode_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
+                  <Button variant="outline-warning" className="mr-2" block>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Button>
+                </Link>
+                &ensp;
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.handleRemove(row.periode_id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
               </Container>
             </div>
           );
@@ -115,20 +130,25 @@ export default class Data extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/">Home</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-              <br/>
-        <Card>
+        <br />
+        <Card style={{color: 'black'}}>
           <Card.Body>
+          <Card.Title>Data Periode</Card.Title>
+            <hr/>
             <Link to={"/admin/periode/tambah"}>
               <Button className="mr-2" variant="outline-primary" block="">
                 Tambah
               </Button>
             </Link>
-            <hr/>
+            <br />
+            <br />
             <BootstrapTable
               keyField="id"
               data={data}

@@ -2,11 +2,10 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const upload = require("express-fileupload");
 
 // Import file
 const con = require("./config/db");
-
-let uploaded = require("express-fileupload");
 
 const app = express();
 const port = 8000;
@@ -16,14 +15,13 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cors());
-app.use(uploaded());
+app.use(upload());
 
 // connecting route to database
 app.use(function (req, res, next) {
   req.con = con;
   next();
 });
-
 
 // import admin router
 const adminauthRouter = require("./modules/admin/routes/authRouter");

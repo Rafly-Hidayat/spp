@@ -16,8 +16,6 @@ export default class UbahKelas extends Component {
       id: this.props.match.params.id,
       kelas_nama: "",
       kelas_id: "",
-      dataError: "",
-      errorMessage: "",
     };
   }
 
@@ -58,12 +56,21 @@ export default class UbahKelas extends Component {
           this.setState({
             kelas_nama: "",
           });
-          Swal.fire({
-            icon: "success",
-            title: "Good Job!",
-            text: `${res.data}`,});
-          this.props.history.push("/admin/kelas");
-        })
+          if (res.data.error === true) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${res.data.message}`,
+            });
+          } else {
+            Swal.fire({
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
+            this.props.history.push("/admin/kelas");
+          }
+        }) 
         .catch((err) => {});
     } else {
       this.validator.showMessages();
@@ -84,8 +91,12 @@ export default class UbahKelas extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin">Home</Link></Breadcrumb.Item>
-              <Breadcrumb.Item><Link to="/admin/kelas/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin">Home</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/kelas/">Data</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Edit</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
@@ -94,51 +105,58 @@ export default class UbahKelas extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Ubah Kelas</Card.Title>
-          <Form onSubmit={this.editData}>
-            <Form.Group className="mb-3">
-            <hr />
-              <Form.Label>ID Kelas*</Form.Label>
-              <Form.Control
-                name="kelas_id"
-                id="kelas_id"
-                type="text"
-                value={this.state.kelas_id}
-                placeholder="ID Kelas"
-                noValidate
-                onChange={this.handleChange}
-                readOnly
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Nama Kelas*</Form.Label>
-              <Form.Control
-                name="kelas_nama"
-                id="kelas_nama"
-                type="text"
-                value={this.state.kelas_nama}
-                placeholder="Nama Kelas"
-                noValidate
-                onChange={this.handleChange}
-              />
-              <div>
-                {this.validator.message(
-                  "Nama kelas",
-                  this.state.kelas_nama,
-                  `required`,
-                  { className: "text-danger" }
-                )}
-              </div>
-            </Form.Group>
-            <Button variant="outline-primary" type="submit">
-              Ubah
-            </Button>&ensp;
-            <Link to="/admin/kelas">
-              <Button variant="outline-danger" type="submit">Batal
-            </Button>
-            </Link>
-          </Form>
+            <Form onSubmit={this.editData}>
+              <Form.Group className="mb-3">
+                <hr />
+                <Form.Label>ID Kelas<span className="text-danger">*</span></Form.Label>
+                <Form.Control
+                  name="kelas_id"
+                  id="kelas_id"
+                  type="text"
+                  value={this.state.kelas_id}
+                  placeholder="ID Kelas"
+                  noValidate
+                  onChange={this.handleChange}
+                  readOnly
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Nama Kelas<span className="text-danger">*</span></Form.Label>
+                <Form.Control
+                  name="kelas_nama"
+                  id="kelas_nama"
+                  type="text"
+                  value={this.state.kelas_nama}
+                  placeholder="Nama Kelas"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                <div>
+                  {this.validator.message(
+                    "Nama kelas",
+                    this.state.kelas_nama,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Masukkan Nama Kelas!",
+                      },
+                    }
+                  )}
+                </div>
+              </Form.Group>
+              <Button variant="outline-primary" type="submit">
+                Ubah
+              </Button>
+              &ensp;
+              <Link to="/admin/kelas">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
+            </Form>
           </Card.Body>
-          </Card>
+        </Card>
       </div>
     );
   }
