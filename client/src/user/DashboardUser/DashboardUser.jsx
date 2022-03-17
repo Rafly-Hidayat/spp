@@ -19,8 +19,8 @@ import {
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+// import Calendar from "react-calendar";
+// import "react-calendar/dist/Calendar.css";
 import DatePicker from "sassy-datepicker";
 
 import Bulanan from "../PembayaranBulanan/PembayaranBulanan";

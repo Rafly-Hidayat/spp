@@ -2,14 +2,10 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const upload = require("express-fileupload");
 
 // Import file
 const con = require("./config/db");
-// const multer = require('multer')
-
-let upload = require("express-fileupload");
-// let importExcel = require("convert-excel-to-json");
-// let del = require("del");
 
 const app = express();
 const port = 8000;
@@ -27,7 +23,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-
 // import admin router
 const adminauthRouter = require("./modules/admin/routes/authRouter");
 const kelasRouter = require("./modules/admin/routes/kelasRouter");
@@ -40,6 +35,7 @@ const admin_p_bulananRouter = require("./modules/admin/routes/p_bulananRouter");
 const pembayaranRouter = require("./modules/admin/routes/pembayaranRouter");
 const admin_p_bebasRouter = require("./modules/admin/routes/p_bebasRouter");
 const kenaikan_kelasRouter = require("./modules/admin/routes/kenaikan_kelasRouter");
+const rekapRouter = require("./modules/admin/routes/rekapRouter");
 
 // import user router
 const siswaauthRouter = require("./modules/user/routes/authRouter");
@@ -65,6 +61,7 @@ app.use(admin_p_bulananRouter);
 app.use(pembayaranRouter);
 app.use(admin_p_bebasRouter);
 app.use(kenaikan_kelasRouter);
+app.use(rekapRouter);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}!`);

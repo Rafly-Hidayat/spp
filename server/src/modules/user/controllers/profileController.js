@@ -32,7 +32,7 @@ module.exports = {
         profile.getTagihanBulanan(req.con,req.params.siswa_id, res, (err, rows) => {
             if (err) throw err
             res.json({
-                total_belum_lunas: rows.length + " pembayaran",
+                total_belum_lunas: rows.length,
                 data: rows
             })
         })
@@ -42,9 +42,18 @@ module.exports = {
         profile.getTagihanLunas(req.con,req.params.siswa_id, res, (err, rows) => {
             if (err) throw err
             res.json({
-                total_lunas: rows.length + " pembayaran",
+                total_lunas: rows.length,
                 data: rows
             })
+        })
+    },
+
+    editProfile: (req,res) => {
+        profile.editProfile(req.con, res, req.files.img, req.params.siswa_id, (err, rows) => {
+            if (err) throw err
+            // console.log(req.files.img)
+            res.json({erro: false, message: 'Data berhasil diubah'})
+            // res.json(rows)
         })
     }
         
