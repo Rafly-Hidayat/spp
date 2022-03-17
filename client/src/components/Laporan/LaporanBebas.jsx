@@ -56,27 +56,19 @@ export default class LaporanBebas extends Component {
         },
       },
       {
-        formatter: (cellContent, row) => {
-          return <div>Rp.</div>;
-        },
-        headerStyle: (colum, colIndex) => {
-          return { width: "40px" };
-        },
-      },
-      {
         text: "Dibayar",
         formatter: (cell, row) => {
           return (
             // Rp. to align left
             // row.d_bebas_bayar to align right
-            <div>{parseInt(row.d_bebas_bayar).toLocaleString()}</div>
+            <div>Rp. {parseInt(row.d_bebas_bayar).toLocaleString()}</div>
           );
         },
         headerStyle: (colum, colIndex) => {
-          return { width: "105px" };
+          return { width: "140px" };
         },
         style: (colum, colIndex) => {
-          return { textAlign: "right" };
+          return { textAlign: "left" };
         },
       },
       {

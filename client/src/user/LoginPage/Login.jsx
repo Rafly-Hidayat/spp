@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { Card, Form, Col, Row, Button, CardGroup, FormControl } from "react-bootstrap";
+import { Card, Form, Col, Row, Button, CardGroup, Image, FormControl } from "react-bootstrap";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import bg from "../Assets/G10.png";
 import Swal from "sweetalert2";
 import "./Login.css";
+import logosp from '../Assets/logosp.svg'
+import Kutas from '../Assets/KuTas.svg'
+import KuWah from '../Assets/KuWah.svg'
+import logo from '../Assets/logo.svg'
 
 export default class Login extends Component {
   constructor(props) {
@@ -90,7 +94,36 @@ export default class Login extends Component {
         >
           <CardGroup>
             <Card className="form-content">
-              awdfayfyyyyyaywfdyfawyfdyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+              <Image
+              src={logosp}
+              width={60}
+              height={60}
+              style={{
+                 marginLeft : '15px' 
+              }}
+              />
+              <Image
+              src={Kutas}
+              width={15}
+              height={15}
+              style={{
+                 marginTop : '50px',
+                 marginBottom : '20px' 
+              }}
+              />
+              <div>
+                Web nya sangat mudah dipahami. Kalau kesulitan selalu didampingi, jadi merasa punya tim IT sendiri.
+              </div>
+              <Image
+              src={KuWah}
+              width={15}
+              height={15}
+              style={{
+                 marginTop : '20px',
+                 marginBottom : '50px',
+                 float : 'right'
+              }}
+              />
             </Card>
             <Card className="form-login">
               <Card.Body>

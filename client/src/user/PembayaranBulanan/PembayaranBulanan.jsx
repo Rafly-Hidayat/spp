@@ -34,29 +34,25 @@ import "./PembayaranBulanan.css";
 export default class PembayaranBulanan extends Component {
   constructor(props) {
     super(props);
-
-    const token = localStorage.getItem("token");
-
-    let loggedIn = true;
-    if (token == null) {
-      loggedIn = false;
-    }
-
     this.state = {
       data: [],
-      loggedIn,
     };
   }
 
   getPostAPI = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    console.log(id)
     axios
       .get(`http://localhost:8000/user/pembayaran/bulanan/${id}`)
       .then((result) => {
-        console.log(result.data);
+        if(result.data.error === undefined){
+          this.setState({
+            data: result.data,
+          });
+        } else 
         this.setState({
-          data: result.data,
-        });
+          data : ""
+        })
       });
   };
 

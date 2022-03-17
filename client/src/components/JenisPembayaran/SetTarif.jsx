@@ -25,8 +25,7 @@ export default class SetTarif extends Component {
       data_kelas: [],
       tarif: "",
       kelas: "",
-      dataError: "",
-      errorMessage: "",
+      nama_pos: "",
       tipe: "",
     };
   }
@@ -45,10 +44,10 @@ export default class SetTarif extends Component {
     axios
       .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
       .then((res) => {
-        console.log(res.data[0].pembayaran_tipe);
         console.log(this.state.pembayaran_id);
         this.setState({
           tipe: res.data[0].pembayaran_tipe,
+          nama_pos : res.data[0].pos_nama
         });
       });
   };
@@ -83,7 +82,7 @@ export default class SetTarif extends Component {
                 text: `${this.state.errorMessage}`,
               });
             } else {
-              Swal.fire("Good job!", "Your data hasbeen added!", "success");
+              Swal.fire("Good job!", "Set Tarif berhasil", "success");
               this.props.history.push("/admin/jenispembayaran");
             }
           })
@@ -104,7 +103,7 @@ export default class SetTarif extends Component {
                 text: `${this.state.errorMessage}`,
               });
             } else {
-              Swal.fire("Good job!", "Your data hasbeen added!", "success");
+              Swal.fire("Good job!", "Set Tarif berhasil", "success");
               this.props.history.push("/admin/jenispembayaran");
             }
             // this.props.history.push("/pembayaran");
@@ -177,12 +176,12 @@ export default class SetTarif extends Component {
                   </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Pembayaran ID </Form.Label>
+                  <Form.Label>Tipe Pembayaran</Form.Label>
                   <Form.Control
                     name="pembayaran_id"
                     id="pembayaran_id"
                     type="text"
-                    value={this.state.pembayaran_id}
+                    value={this.state.nama_pos}
                     noValidate
                     readOnly
                   />

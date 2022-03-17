@@ -679,7 +679,6 @@ const SideBar = () => {
         <ProtectedRoute exact path="/admin/laporan/bebas" component={LaporanBebas} />
       </div>
     </div >
-    </div>
   );
 };
 

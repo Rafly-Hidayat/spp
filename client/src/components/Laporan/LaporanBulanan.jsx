@@ -28,6 +28,7 @@ export default class LaporanBulanan extends Component {
       tanggal_akhir: this.state.date_akhir,
     };
     axios.post("http://localhost:8000/laporan/bulanan", data).then((res) => {
+      console.log(res)
       this.setState({
         data: res.data,
       });
@@ -71,7 +72,7 @@ export default class LaporanBulanan extends Component {
       },
       {
         dataField: "admin_nama",
-        text: "Admin",
+        text: "Petugas",
         headerAlign: "center",
         align: "center",
       },
