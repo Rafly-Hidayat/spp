@@ -76,7 +76,9 @@ export default class AddPembayaranBulanan extends Component {
             <Form onSubmit={this.Submit}>
               <Form.Group className="mb-3">
                 <hr />
-                <Form.Label>Nama Admin*</Form.Label>
+                <Form.Label>Nama Admin
+                <span className="text-danger">*</span>
+                </Form.Label>
                 <FormSelect name="admin" onChange={this.handleChange}>
                   <option>Pilih Admin</option>
                   {this.state.data.map((item) => (

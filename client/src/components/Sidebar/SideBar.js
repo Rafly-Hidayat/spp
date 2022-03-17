@@ -69,6 +69,8 @@ import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
 import "./SideBar.css";
 import KenaikanKelas from "../Kelulusan/KenaikanKelas";
+import LaporanBulanan from "../Laporan/LaporanBulanan";
+import LaporanBebas from "../Laporan/LaporanBebas";
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -258,7 +260,6 @@ const SideBar = () => {
                 <span style={{ display: text }}>Management Data</span>
               </a>
             </span>
-
             <div
               id="myDropdown"
               className="dropdown-content"
@@ -323,6 +324,23 @@ const SideBar = () => {
               Jenis Pembayaran
             </span>
           </Link>
+          <Link to="/admin/laporan/bulanan">
+            <span className="icon">
+              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Laporan Bulanan
+            </span>
+          </Link>
+          <Link to="/admin/laporan/bebas">
+            <span className="icon">
+              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Laporan Bebas
+            </span>
+          </Link>
+          
 
           {/* <a href="#">
           <span className="icon">
@@ -528,6 +546,9 @@ const SideBar = () => {
           component={AddPembayaran}
         />
         <ProtectedRoute exact path="/admin/pembayaran_bulan/tambah/:id" component={AddPembayaranBulanan} />
+
+        <ProtectedRoute exact path="/admin/laporan/bulanan" component={LaporanBulanan} />
+        <ProtectedRoute exact path="/admin/laporan/bebas" component={LaporanBebas} />
       </div>
     </div >
     </div>

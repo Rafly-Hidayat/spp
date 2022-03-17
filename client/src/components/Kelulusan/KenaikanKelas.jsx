@@ -88,6 +88,12 @@ export default class KenaikanKelas extends Component {
     return <DataSiswa name={this.state.selected_kelas} />;
   }
   render() {
+    const kelas = this.state.selected_ubah_kelas;
+    if (kelas == "1") {
+      kelas = "XI";
+    } else if (kelas == "2") {
+      kelas = "XII";
+    }
     return (
       <div>
         <Card>

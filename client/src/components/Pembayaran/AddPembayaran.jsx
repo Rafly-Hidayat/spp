@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Row, Col, Form, Card } from "react-bootstrap";
+import { Button, Row, Col, Form, Card, FormSelect } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -27,7 +27,7 @@ export default class AddPembayaran extends Component {
       nominal: this.state.nominal,
       keterangan: this.state.keterangan,
     };
-    if (this.validator.allValid()) {
+    if (this.validator.allValid() && this.state.keterangan !== "") {
       axios
         .post(`http://localhost:8000/bebas/bayar/${this.state.id}`, data)
         .then((res) => {
@@ -62,7 +62,9 @@ export default class AddPembayaran extends Component {
           <Card.Title>Pembayaran</Card.Title>
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
-              <Form.Label>Nominal</Form.Label>
+              <Form.Label>Nominal
+              <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 name="nominal"
                 id="nominal"
@@ -83,14 +85,14 @@ export default class AddPembayaran extends Component {
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Keterangan</Form.Label>
-              <Form.Control
-                name="keterangan"
-                id="keterangan"
-                onChange={this.handleChange}
-                noValidate
-                value={this.state.keterangan}
-              />
+              <Form.Label>Keterangan
+              <span className="text-danger">*</span>
+              </Form.Label>
+              <FormSelect name="keterangan" onChange={this.handleChange}>
+                <option value="">=== Pilih Keterangan ===</option>
+                <option value="Cicil">Cicil</option>
+                <option value="Lunas">Lunas</option>
+              </FormSelect>
               <div>
                 {this.validator.message("keterangan", this.state.keterangan, `required`, {
                   className: "text-danger",
