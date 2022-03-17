@@ -69,6 +69,8 @@ import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
 import "./SideBar.css";
 import KenaikanKelas from "../Kelulusan/KenaikanKelas";
+import LaporanBulanan from "../Laporan/LaporanBulanan";
+import LaporanBebas from "../Laporan/LaporanBebas";
 import UploadSiswa from "../Siswa/UploadSiswa";
 
 const SideBar = () => {
@@ -298,50 +300,67 @@ const SideBar = () => {
               </div>
             </div>
 
-            {/* -------- */}
-            <Link to="/admin/periode">
-              <span className="icon">
-                <FontAwesomeIcon
-                  icon={faCalendar}
-                  style={{ marginLeft: "3px" }}
-                />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Tahun Ajaran
-              </span>
-            </Link>
+          {/* -------- */}
+          <Link to="/admin/periode">
+            <span className="icon">
+              <FontAwesomeIcon
+                icon={faCalendar}
+                style={{ marginLeft: "3px" }}
+              />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Tahun Ajaran
+            </span>
+          </Link>
 
-            {/* --------- */}
-            <Link to="/admin/pos">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
-            </Link>
+          {/* --------- */}
+          <Link to="/admin/pos">
+            <span className="icon">
+              <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
+          </Link>
 
-            <Link to="/admin/pembayaran">
-              <span className="icon">
-                <FontAwesomeIcon
-                  icon={faCreditCard}
-                  style={{ marginLeft: "1px" }}
-                />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Pembayaran
-              </span>
-            </Link>
+          <Link to="/admin/pembayaran">
+            <span className="icon">
+              <FontAwesomeIcon
+                icon={faCreditCard}
+                style={{ marginLeft: "1px" }}
+              />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Pembayaran
+            </span>
+          </Link>
 
-            {/* ----------- */}
-            <Link to="/admin/jenispembayaran">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Jenis Pembayaran
-              </span>
-            </Link>
+          {/* ----------- */}
+          <Link to="/admin/jenispembayaran">
+            <span className="icon">
+              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Jenis Pembayaran
+            </span>
+          </Link>
+          <Link to="/admin/laporan/bulanan">
+            <span className="icon">
+              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Laporan Bulanan
+            </span>
+          </Link>
+          <Link to="/admin/laporan/bebas">
+            <span className="icon">
+              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+            </span>{" "}
+            <span style={{ display: text, paddingLeft: "4px" }}>
+              Laporan Bebas
+            </span>
+          </Link>
+          
 
-            {/* <a href="#">
+          {/* <a href="#">
           <span className="icon">
             <FontAwesomeIcon icon={faCreditCard} />
           </span>{" "}
@@ -557,13 +576,7 @@ const SideBar = () => {
 
           <ProtectedRoute
             exact
-            path="/admin/kenaikan-kelas"
-            component={KenaikanKelas}
-          />
-
-          <ProtectedRoute
-            exact
-            path="/admin/pembayaran"
+            path="/admin/pembayaran/"
             component={Pembayaran}
           />
           <ProtectedRoute
@@ -578,6 +591,94 @@ const SideBar = () => {
           />
         </div>
       </div>
+
+      {/* Route in class main */}
+      <div className={main}>
+        <ProtectedRoute path="/admin" exact component={Dashboard} />
+
+        <ProtectedRoute exact path="/admin/siswa" component={DataSiswa} />
+        <ProtectedRoute
+          exact
+          path="/admin/siswa/tambah"
+          component={TambahSiswa}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/siswa/ubah/:id"
+          component={UbahSiswa}
+        />
+
+        <ProtectedRoute exact path="/admin/jurusan" component={DataJurusan} />
+        <ProtectedRoute
+          exact
+          path="/admin/jurusan/ubah/:id"
+          component={UbahJurusan}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/jurusan/tambah"
+          component={TambahJurusan}
+        />
+
+        <ProtectedRoute exact path="/admin/pos/" component={DataPos} />
+        <ProtectedRoute exact path="/admin/pos/tambah" component={AddPos} />
+        <ProtectedRoute exact path="/admin/pos/ubah/:id" component={EditPos} />
+
+        <ProtectedRoute exact path="/admin/periode/" component={DataPeriode} />
+        <ProtectedRoute
+          exact
+          path="/admin/periode/tambah"
+          component={AddPeriode}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/periode/ubah/:id"
+          component={EditPeriode}
+        />
+
+        <ProtectedRoute exact path="/admin/kelas/" component={DataKelas} />
+        <ProtectedRoute
+          exact
+          path="/admin/kelas/tambah"
+          component={Tambahkelas}
+        />
+        <ProtectedRoute path="/admin/kelas/ubah/:id" component={UbahKelas} />
+
+        <ProtectedRoute
+          exact
+          path="/admin/jenispembayaran"
+          component={JenisPembayaran}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/pembayaran/set_tarif/:id"
+          component={SetTarif}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/jenispembayaran/tambah"
+          component={AddJenisPembayaran}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/jenispembayaran/ubah/:id"
+          component={UbahJenisPembayaran}
+        />
+
+        <ProtectedRoute exact path="/admin/kenaikan-kelas" component={KenaikanKelas} />
+
+        <ProtectedRoute exact path="/admin/pembayaran" component={Pembayaran} />
+        <ProtectedRoute
+          exact
+          path="/admin/pembayaran/tambah/:id"
+          component={AddPembayaran}
+        />
+        <ProtectedRoute exact path="/admin/pembayaran_bulan/tambah/:id" component={AddPembayaranBulanan} />
+
+        <ProtectedRoute exact path="/admin/laporan/bulanan" component={LaporanBulanan} />
+        <ProtectedRoute exact path="/admin/laporan/bebas" component={LaporanBebas} />
+      </div>
+    </div >
     </div>
   );
 };

@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { Button, Card, Col, Form, FormSelect, Row, Breadcrumb } from "react-bootstrap";
-import {Link} from 'react-router-dom'
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  FormSelect,
+  Row,
+  Breadcrumb,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import InformasiSIswa from "./InformasiSIswa";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export default class Pembayaran extends Component {
   constructor(props) {
@@ -13,9 +21,11 @@ export default class Pembayaran extends Component {
 
     this.state = {
       visible: false,
-      data: [],
+      periodes: [],
       nis: "",
       periode: "",
+      data:[],
+      databulanan:[]
     };
   }
 
@@ -28,38 +38,41 @@ export default class Pembayaran extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    if (this.validator.allValid()) {
-      axios.get(`http://localhost:8000/siswa_nis/${this.state.nis}`).then((res) => {
-        console.log(res.data[0])
-        if(res.data[0] === undefined){
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'NIS Siswa tidak ditemukan!',
-          })
-        }else{
-          this.setState({
-            visible: true,
-          })
-        }
-      })
-      .catch(() => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Gagal terhubung ke server!',
+    if (this.validator.allValid() && this.state.periode !== "") {
+      axios
+        .get(`http://localhost:8000/siswa_nis/${this.state.nis}`)
+        .then((res) => {
+          console.log(res.data.siswa_id);
+          if (res.data.siswa_id === undefined) {
+            console.log("error")
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "NIS Siswa tidak ditemukan!",
+            });
+          } else {
+            this.setState({
+              visible: true,
+            });
+          }
         })
-      })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Gagal terhubung ke server!",
+          });
+        });
     } else {
       this.validator.showMessages();
       this.forceUpdate();
     }
-  }
+  };
 
   componentDidMount() {
     axios.get(`http://localhost:8000/periode`).then((res) => {
       this.setState({
-        data: res.data, 
+        periodes: res.data,
       });
     });
   }
@@ -75,45 +88,51 @@ export default class Pembayaran extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/">Home</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br/>
+        <br />
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Pembayaran</Card.Title>
-            <hr/>
-            <Form
-              onSubmit={this.handleSubmit}
-            >
+            <hr />
+            <Form onSubmit={this.handleSubmit}>
               <Row>
                 <Col>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
                     <Form.Label column sm="auto">
                       Tahun Ajaran
+                      <span className="text-danger">*</span>
                     </Form.Label>
                     </Col>
                     <Col>
                       <FormSelect name="periode" onChange={this.handleChange}>
-                        <option>Pilih Tahun Ajaran</option>
-                        {this.state.data.map((item) => {
+                        <option value="">Pilih Tahun Ajaran</option>
+                        {this.state.periodes.map((item, key) => {
                           return (
-                            <option value={item.id}>
+                            <option key={item.id} value={item.id}>
                               {item.periode_mulai}/{item.periode_akhir}
                             </option>
                           );
                         })}
                       </FormSelect>
                       <div>
-                        {this.validator.message('periode', this.state.periode, `required`, {
-                          className: 'text-danger',
-                          messages : {
-                            required: 'Pilih tahun ajaran!',
+                        {this.validator.message(
+                          "periode",
+                          this.state.periode,
+                          `required`,
+                          {
+                            className: "text-danger",
+                            messages: {
+                              required: "Pilih tahun ajaran!",
+                            },
                           }
-                        })}
+                        )}
                       </div>
                     </Col>
                   </Form.Group>
@@ -123,6 +142,7 @@ export default class Pembayaran extends Component {
                     <Col md="auto">
                     <Form.Label column sm="auto">
                       Cari Siswa
+                      <span className="text-danger">*</span>
                     </Form.Label>
                     </Col>
                     <Col>
@@ -134,11 +154,17 @@ export default class Pembayaran extends Component {
                         onChange={this.handleChange}
                       />
                       <div>
-                        {this.validator.message("nis", this.state.nis, `required`, { className:"text-danger",
-                          messages: {
-                            required: "Masukkan NIS Siswa!",
-                            int : "NIS Siswa harus berupa angka!"
-                        }}
+                        {this.validator.message(
+                          "nis",
+                          this.state.nis,
+                          `required`,
+                          {
+                            className: "text-danger",
+                            messages: {
+                              required: "Masukkan NIS Siswa!",
+                              int: "NIS Siswa harus berupa angka!",
+                            },
+                          }
                         )}
                       </div>
                     </Col>
@@ -147,7 +173,7 @@ export default class Pembayaran extends Component {
                 <Col>
                   <Form.Group as={Row} className="mb-3">
                     <Col>
-                      <Button type="submit">Cari Siswa</Button>
+                      <Button type="submit" variant="outline-primary">Cari Siswa</Button>
                     </Col>
                   </Form.Group>
                 </Col>
