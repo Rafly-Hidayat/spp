@@ -31,10 +31,15 @@ export default class PembayaranBebas extends Component {
         const id = JSON.parse(localStorage.getItem('dataSiswa')).id;
         axios.get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
         .then((res) => {
-            console.log(res.data)
-            this.setState({
-                data: res.data
-            })
+            if(res.data.error === undefined) {
+                this.setState({
+                    data: res.data
+                })
+            } else {
+                this.setState({
+                    data : ""
+                })
+            }
         })
     }
 
