@@ -8,9 +8,11 @@ import {
   Card,
   InputGroup,
   FormSelect,
+  Breadcrumb,
 } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default class SetTarif extends Component {
@@ -26,26 +28,31 @@ export default class SetTarif extends Component {
       tipe: "",
       periode: "",
       dataError: "",
-      pos: ""
+      pos: "",
     };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-        pembayaran_tipe : this.state.tipe,
-        periode_id : this.state.periode,
-        pos_id : this.state.pos
-    }
+      pembayaran_tipe: this.state.tipe,
+      periode_id: this.state.periode,
+      pos_id: this.state.pos,
+    };
     if (this.validator.allValid()) {
-        axios.put(`http://localhost:8000/ubah/pembayaran/${this.state.pembayaran_id}`, data).then((res)=> {
-            console.log(res)
-        })
+      axios
+        .put(
+          `http://localhost:8000/ubah/pembayaran/${this.state.pembayaran_id}`,
+          data
+        )
+        .then((res) => {
+          console.log(res);
+        });
     } else {
-        this.validator.showMessages();
-        this.forceUpdate();
+      this.validator.showMessages();
+      this.forceUpdate();
     }
-}
+  };
 
   handleChange = (e) => {
     e.preventDefault();
@@ -54,20 +61,44 @@ export default class SetTarif extends Component {
     });
   };
 
-  
   componentDidMount() {
-      axios.get('http://localhost:8000/periode/').then(res => {this.setState({tahun_ajaran: res.data})})
-      axios.get('http://localhost:8000/pembayaran/').then(res => {this.setState({data_tipe: res.data})})
-      axios.get('http://localhost:8000/pos/').then(res => {this.setState({data_pos: res.data})})
+    axios.get("http://localhost:8000/periode/").then((res) => {
+      this.setState({ tahun_ajaran: res.data });
+    });
+    axios.get("http://localhost:8000/pembayaran/").then((res) => {
+      this.setState({ data_tipe: res.data });
+    });
+    axios.get("http://localhost:8000/pos/").then((res) => {
+      this.setState({ data_pos: res.data });
+    });
   }
   render() {
     return (
       <div>
         <Container>
+          <Card>
+            <Card.Body>
+              <Breadcrumb
+                style={{
+                  marginTop: "-10px",
+                  marginBottom: "-22px",
+                }}
+              >
+                <Breadcrumb.Item>
+                  <Link to="/admin">Home</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to="/admin/jenispembayaran/">Data</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>Ubah</Breadcrumb.Item>
+              </Breadcrumb>
+            </Card.Body>
+          </Card>
+          <br></br>
           <Card style={{ color: "black" }}>
             <Card.Body>
-            <Card.Title>Pembayaran</Card.Title>
-            <hr />
+              <Card.Title>Ubah Pembayaran</Card.Title>
+              <hr />
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Jenis Pembayaran</Form.Label>
@@ -85,18 +116,18 @@ export default class SetTarif extends Component {
                     })}
                   </FormSelect>
                   <div>
-                  {this.validator.message(
-                    "tipe",
-                    this.state.tipe,
-                    `required`,
-                    {
-                      className: "text-danger",
-                      messages: {
-                        required: "Pilih Jenis Pembayaran!",
-                      },
-                    }
-                  )}
-                </div>
+                    {this.validator.message(
+                      "tipe",
+                      this.state.tipe,
+                      `required`,
+                      {
+                        className: "text-danger",
+                        messages: {
+                          required: "Pilih Jenis Pembayaran!",
+                        },
+                      }
+                    )}
+                  </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Tahun Ajaran</Form.Label>
@@ -114,18 +145,18 @@ export default class SetTarif extends Component {
                     })}
                   </FormSelect>
                   <div>
-                  {this.validator.message(
-                    "periode",
-                    this.state.periode,
-                    `required`,
-                    {
-                      className: "text-danger",
-                      messages: {
-                        required: "Pilih Tahun Ajaran!",
-                      },
-                    }
-                  )}
-                </div>
+                    {this.validator.message(
+                      "periode",
+                      this.state.periode,
+                      `required`,
+                      {
+                        className: "text-danger",
+                        messages: {
+                          required: "Pilih Tahun Ajaran!",
+                        },
+                      }
+                    )}
+                  </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Pos</Form.Label>
@@ -133,34 +164,30 @@ export default class SetTarif extends Component {
                     <option>=== Pilih Pos ===</option>
                     {this.state.data_pos.map((pos) => {
                       return (
-                        <option
-                          key={pos.pos_id}
-                          value={pos.pos_id}
-                        >
+                        <option key={pos.pos_id} value={pos.pos_id}>
                           {pos.pos_nama}
                         </option>
                       );
                     })}
                   </FormSelect>
                   <div>
-                  {this.validator.message(
-                    "pos",
-                    this.state.pos,
-                    `required`,
-                    {
+                    {this.validator.message("pos", this.state.pos, `required`, {
                       className: "text-danger",
                       messages: {
                         required: "Pilih Pos!",
                       },
-                    }
-                  )}
-                </div>
+                    })}
+                  </div>
                 </Form.Group>
-                
-
                 <Button variant="primary" type="submit">
-                  Submit
+                  Ubah
                 </Button>
+                &ensp;
+                <Link to="/admin/jenispembayaran">
+                  <Button variant="outline-danger" type="submit">
+                    Batal
+                  </Button>
+                </Link>
               </Form>
             </Card.Body>
           </Card>

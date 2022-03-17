@@ -26,6 +26,7 @@ module.exports = {
   },
 
   getById: (req, res) => {
+
     siswa.getById(req.con, req.params.siswa_id, (err, rows) => {
       if (err) throw err;
       if (rows == 0)
@@ -63,7 +64,7 @@ module.exports = {
         jurusan_nama: rows[0].jurusan_nama,
         d_kelas_nama: rows[0].d_kelas_nama,
         siswa_img: img
-      });ß
+      });
     });
   },
 

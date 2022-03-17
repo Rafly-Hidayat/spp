@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Button, Card, Table, Tabs, Tab, Badge } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
+import Swal from "sweetalert2";
 
 export default class InformasiSIswa extends Component {
   constructor(props) {
@@ -14,6 +15,8 @@ export default class InformasiSIswa extends Component {
       nama: "",
       jenis_kelamin: "",
       siswa_id: "",
+      bebas_id: "",
+      periode: this.props.periode,
     };
   }
   handleChange = (e) => {
@@ -23,44 +26,72 @@ export default class InformasiSIswa extends Component {
     });
   };
 
-  getSiswa = () => {
+  getData = () => {
     const id = this.props.nis;
     axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
-      console.log(res.data);
-      this.setState({
-        nis: res.data[0].siswa_nis,
-        nama: res.data[0].siswa_nama,
-        jenis_kelamin: res.data[0].siswa_gender,
-        siswa_id: res.data[0].siswa_id,
-      });
-    });
-  };
-
-  getBebas = () => {
-    const id = this.props.nis;
-    axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
-      console.log(res.data);
-      this.setState({
-        data: res.data,
-      });
-    });
-  };
-
-  getBulanan = () => {
-    const id = this.props.nis;
-    axios.get(`http://localhost:8000/bulanan/${id}`).then((res) => {
       console.log(res);
-      this.setState({
-        databulanan: res.data,
-      });
+      if (res.data.siswa_id === undefined) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "NIS Siswa tidak ditemukan",
+        });
+        this.setState({
+          nis: "",
+          nama: "",
+          jenis_kelamin: "",
+          siswa_id: "",
+          periode: "",
+          data: "",
+          databulanan: "",
+        });
+      } else {
+        this.setState({
+          nis: res.data.siswa_nis,
+          nama: res.data.siswa_nama,
+          jenis_kelamin: res.data.siswa_gender,
+          siswa_id: res.data.siswa_id,
+          periode: this.props.periode,
+        });
+        const id = this.props.nis;
+        axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
+          if(res.data[0] === undefined){
+            this.setState({
+              data: "",
+            });
+            console.log(this.state.bebas_id)
+          } else {
+            this.setState({
+              data: res.data,
+              bebas_id : res.data[0].bebas_id
+            })
+          }
+        });
+        axios.get(`http://localhost:8000/bulanan/${id}`).then((res) => {
+          console.log(res)
+          if (res.data[0] === undefined) {
+            this.setState({
+              databulanan: ""
+            });
+          } else {
+            this.setState({
+              databulanan: res.data,
+            })
+          }
+        });
+      }
     });
   };
 
   componentDidMount() {
-    this.getSiswa();
-    this.getBebas();
-    this.getBulanan();
-    console.log(this.props.nis);
+    this.getData();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.nis !== this.props.nis) {
+      if (this.props.nis.length === 9) {
+        this.getData();
+      }
+    }
   }
 
   render() {
@@ -71,6 +102,9 @@ export default class InformasiSIswa extends Component {
         dataField: "month_id",
         text: "No",
         sort: true,
+        headerStyle: (colum, colIndex) => {
+          return { width: "80px" };
+        },
       },
       {
         dataField: "pos_nama",
@@ -129,12 +163,24 @@ export default class InformasiSIswa extends Component {
     ];
     const columns = [
       {
-        dataField: "pembayaran_tipe",
+        dataField: "pos_nama",
         text: "Tipe Pembayaran",
       },
       {
+        text: "Jumlah Tagihan",
+        formatter: (cell, row) => {
+          return <div>Rp. {row.bebas_tagihan.toLocaleString("id")}</div>;
+        },
+      },
+      {
+        text: "Jumlah yang dibayar",
+        formatter: (cell, row) => {
+          return <div>Rp. {row.bebas_total_bayar.toLocaleString("id")}</div>;
+        },
+      },
+      {
         dataField: "bebas_tagihan",
-        text: "Total Tagihan",
+        text: "Sisa Tagihan",
         formatter: (cell, row) => {
           // count bebas_tagihan minus bebas_total_bayar and turn to LocaleString("id")
           return (
@@ -148,16 +194,10 @@ export default class InformasiSIswa extends Component {
         },
       },
       {
-        text: "Dibayar",
-        formatter: (cell, row) => {
-          return <div>Rp. {row.bebas_total_bayar.toLocaleString("id")}</div>;
-        },
-      },
-      {
         text: "Bayar",
         formatter: () => {
           return (
-            <Link to={`/admin/pembayaran/tambah/${this.state.siswa_id}`}>
+            <Link to={`/admin/pembayaran/tambah/${this.state.bebas_id}`}>
               <Button>Bayar</Button>
             </Link>
           );
@@ -174,7 +214,7 @@ export default class InformasiSIswa extends Component {
               <tbody>
                 <tr>
                   <td>Tahun Ajaran</td>
-                  <td>{`${this.props.periode}`}</td>
+                  <td>{`${this.state.periode}`}</td>
                 </tr>
                 <tr>
                   <td>NIS</td>
@@ -208,6 +248,7 @@ export default class InformasiSIswa extends Component {
                   data={databulanan}
                   columns={column}
                   striped
+                  noDataIndication={() => "Data tidak ditemukan"}
                   hover
                   condensed
                   bordered={false}
@@ -221,6 +262,7 @@ export default class InformasiSIswa extends Component {
                   data={data}
                   columns={columns}
                   striped
+                  noDataIndication={() => "Data tidak ditemukan"}
                   hover
                   condensed
                   bordered={false}
