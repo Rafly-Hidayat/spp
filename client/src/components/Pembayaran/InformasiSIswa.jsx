@@ -30,7 +30,7 @@ export default class InformasiSIswa extends Component {
     const id = this.props.nis;
     axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
       console.log(res);
-      if (res.data[0] === undefined) {
+      if (res.data.siswa_id === undefined) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -47,10 +47,10 @@ export default class InformasiSIswa extends Component {
         });
       } else {
         this.setState({
-          nis: res.data[0].siswa_nis,
-          nama: res.data[0].siswa_nama,
-          jenis_kelamin: res.data[0].siswa_gender,
-          siswa_id: res.data[0].siswa_id,
+          nis: res.data.siswa_nis,
+          nama: res.data.siswa_nama,
+          jenis_kelamin: res.data.siswa_gender,
+          siswa_id: res.data.siswa_id,
           periode: this.props.periode,
         });
         const id = this.props.nis;
