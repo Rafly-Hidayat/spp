@@ -11,4 +11,5 @@ router.get('/bebas_id/:bebas_id', p_bebasController.getById)
 router.get('/bebas/:siswa_nis', p_bebasController.getByNis)
 router.post('/set_tarif/bebas', setTarifValidation, p_bebasController.add)
 router.post('/bebas/bayar/:bebas_id', bayarValidation, p_bebasController.transaction)
+router.get('/invoice/:d_bebas_id', p_bebasController.invoice)
 module.exports = router     
