@@ -9,6 +9,10 @@
   .card {
     color: #f1f1f1;
   }
+  .card1 {
+    color: #f1f1f1;
+    margin-top: 25px;
+  }
 
   .card .icon{
     font-size: 50px;

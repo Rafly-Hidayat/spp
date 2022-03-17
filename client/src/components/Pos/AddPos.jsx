@@ -33,12 +33,20 @@ export default class AddPos extends Component {
         .then((res) => {
           this.setState({
           });
-          Swal.fire({
-            icon: "success",
-            title: "Good Job!",
-            text: `${res.data}`,
-          })
-            this.props.history.push("/admin/pos");
+          if (res.data.error === true) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${res.data.message}`,
+            });
+          } else {
+            Swal.fire({
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
+          }
+          this.props.history.push("/admin/pos");
         })
         .catch((error) => {});
     } else {

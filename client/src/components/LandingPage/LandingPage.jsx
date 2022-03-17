@@ -30,6 +30,7 @@ import './LandingPage.css'
 
 export default class LandingPage extends Component {
     render() {
+        document.title = "Sistem Pembayaran Sekolah";
         const settings = {
             dots: true,
             infinite: true,

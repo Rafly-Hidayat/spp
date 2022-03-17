@@ -29,18 +29,24 @@ export default class Tambahkelas extends Component {
       axios
         .post("http://localhost:8000/tambah/kelas", data)
         .then((res) => {
-          this.setState({
-          });
+          this.setState({});
           console.log(res.data);
+          if (res.data.error === true) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${res.data.message}`,
+            });
+          } else {
             Swal.fire({
               icon: "success",
               title: "Good Job!",
-              text: `${res.data}`,
+              text: `${res.data.message}`,
             });
-          this.props.history.push("/admin/kelas");
+            this.props.history.push("/admin/kelas");
+          }
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     } else {
       this.validator.showMessages();
       // rerender to show messages for the first time
@@ -59,48 +65,61 @@ export default class Tambahkelas extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin">Home</Link></Breadcrumb.Item>
-              <Breadcrumb.Item><Link to="/admin/kelas/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin">Home</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/kelas/">Data</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Add</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br/>
+        <br />
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Tambah Kelas</Card.Title>
-          <Form onSubmit={this.Submit}>
-            <Form.Group className="mb-3">
-            <hr />
-              <Form.Label>Nama Kelas*</Form.Label>
-              <Form.Control
-                name="kelas_nama"
-                id="kelas_nama"
-                type="text"
-                value={this.state.kelas_nama}
-                placeholder="Nama Kelas"
-                noValidate
-                onChange={this.handleChange}
-              />
-              <div>
-                {this.validator.message(
-                  "kelas_nama",
-                  this.state.kelas_nama,
-                  `required`,
-                  { className: "text-danger" }
-                )}
-              </div>
-            </Form.Group>
-            <Button variant="outline-primary" type="submit">
-              Tambah
-            </Button>&ensp;
-            <Link to="/admin/kelas">
-              <Button variant="outline-danger" type="submit">Batal
-            </Button>
-            </Link>
-          </Form>
+            <Form onSubmit={this.Submit}>
+              <Form.Group className="mb-3">
+                <hr />
+                <Form.Label>
+                  Nama Kelas<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  name="kelas_nama"
+                  id="kelas_nama"
+                  type="text"
+                  value={this.state.kelas_nama}
+                  placeholder="Nama Kelas"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                <div>
+                  {this.validator.message(
+                    "kelas_nama",
+                    this.state.kelas_nama,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Masukkan Nama Kelas!",
+                      },
+                    }
+                  )}
+                </div>
+              </Form.Group>
+              <Button variant="outline-primary" type="submit">
+                Tambah
+              </Button>
+              &ensp;
+              <Link to="/admin/kelas">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
+            </Form>
           </Card.Body>
-          </Card>
+        </Card>
       </div>
     );
   }

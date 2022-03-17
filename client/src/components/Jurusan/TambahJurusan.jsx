@@ -13,8 +13,6 @@ export default class TambahJurusan extends Component {
 
     this.state = {
       jurusan_nama: "",
-      dataError: "",
-      errorMessage: "",
     };
   }
   handleChange = (e) => {
@@ -28,7 +26,7 @@ export default class TambahJurusan extends Component {
     const data = {
       jurusan_nama: this.state.jurusan_nama,
     };
-    if (this.validator.allValid()) {
+    if (this.validator.allValid())  {
       axios
         .post("http://localhost:8000/tambah/jurusan", data)
         .then((res) => {
@@ -79,7 +77,7 @@ export default class TambahJurusan extends Component {
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
             <hr />
-            <Form.Label>Nama Jurusan*</Form.Label>
+            <Form.Label>Nama Jurusan<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="jurusan_nama"
                 id="jurusan_nama"
@@ -90,14 +88,15 @@ export default class TambahJurusan extends Component {
                 onChange={this.handleChange}
               />
               <div>
-                {this.state.dataError ? (
-                  <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-                ) : null}
                 {this.validator.message(
                   "jurusan_nama",
                   this.state.jurusan_nama,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",
+                  messages : {
+                    required: 'Masukkan Nama Jurusan!',
+                  } 
+                }
                 )}
               </div>
             </Form.Group>
