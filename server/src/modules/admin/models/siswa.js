@@ -75,15 +75,15 @@ module.exports = {
     );
   },
 
-  upload: (con, data, res) => {
+  getJurusanId: (con, res, data, callback) => {
     con.beginTransaction((err) => {
       if (err) throw err;
       let file = data;
       let filename = file.name;
 
-      file.mv("./public/" + filename, function (err) {
+      file.mv("./public/" + filename, (err) => {
         if (err) {
-          res.send("gagal upload");
+          res.json({ error: true, message: "gagal upload" });
         } else {
           let result = importExcel({
             sourceFile: "./public/" + filename,
@@ -91,50 +91,252 @@ module.exports = {
             columnToKey: {
               A: "siswa_nis",
               B: "siswa_nama",
-              C: "siswa_password",
-              D: "siswa_gender",
-              E: "siswa_img",
-              F: "kelas_id",
-              G: "jurusan_id",
-              H: "d_kelas_id",
+              C: "siswa_gender",
+              D: "kelas",
+              E: "nama_jurusan",
+              F: "d_kelas",
             },
             sheets: ["Sheet1"],
           });
+          let data = [];
+          let response = [];
+          result.Sheet1.forEach((element, index) => {
+            data.push({
+              // siswa_nis: result.Sheet1[index].siswa_nis,
+              // siswa_nama: result.Sheet1[index].siswa_nama,
+              // siswa_gender: result.Sheet1[index].siswa_gender,
+              // kelas: result.Sheet1[index].kelas,
+              nama_jurusan: result.Sheet1[index].nama_jurusan,
+              // d_kelas: result.Sheet1[index].d_kelas
+            });
+            response.push(data[index].nama_jurusan);
+          });
 
-          con.query(`SELECT siswa_nis FROM siswa`, (err, rows) => {
-            if (err) console.log(err);
-            let siswa = rows.map((obj) => {
-              return obj.siswa_nis;
+          con.query(`SELECT jurusan_nama FROM jurusan`, (err, rows) => {
+            if (err) throw err;
+            let namaJurusan = rows.map((obj) => {
+              return obj.jurusan_nama;
             });
 
-            for (let i = 0; result.Sheet1.length > i; i++) {
-              let password = makeid(8);
-              if (
-                Array.from(siswa).includes(
-                  result.Sheet1[i].siswa_nis.toString()
-                ) == false
-              ) {
+            const containsAll = response.every((element) => {
+              return namaJurusan.includes(element);
+            });
+
+            let data2 = [];
+            if (containsAll) {
+              response.forEach((element, index) => {
                 con.query(
-                  `INSERT INTO siswa SET siswa_nis = '${result.Sheet1[i].siswa_nis}', siswa_nama = '${result.Sheet1[i].siswa_nama}', siswa_password = '${password}', siswa_gender = '${result.Sheet1[i].siswa_gender}', siswa_img = 'profile.png', kelas_id = '${result.Sheet1[i].kelas_id}', jurusan_id = '${result.Sheet1[i].jurusan_id}', d_kelas_id = '${result.Sheet1[i].d_kelas_id}'`
+                  `SELECT jurusan_id FROM jurusan WHERE jurusan_nama = '${response[index]}'`,
+                  (err, rows) => {
+                    if (err) throw err;
+                    data2.push(rows[0].jurusan_id);
+                  }
                 );
-              } else {
-                con.rollback();
-                return res.json({
-                  error: true,
-                  message: "NIS sudah terdaftar",
-                });
-              }
+              });
+            } else {
+              con.rollback();
+              return res.json({
+                error: true,
+                message: "nama jurusan tidak tersedia.",
+              });
             }
 
+            // console.log(data2)
             con.commit((err) => {
-              if (err) con.rollback();
-              return res.json({
-                error: false,
-                message: "Berhasil tambah data siswa",
-              });
+              if (err) throw err;
+              return callback(data2, filename);
             });
           });
         }
+      });
+    });
+  },
+
+  getKelasId: (con, res, filename, callback) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          A: "siswa_nis",
+          B: "siswa_nama",
+          C: "siswa_gender",
+          D: "kelas",
+          E: "nama_jurusan",
+          F: "d_kelas",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      let data = [];
+      let response = [];
+      result.Sheet1.forEach((element, index) => {
+        data.push({
+          // siswa_nis: result.Sheet1[index].siswa_nis,
+          // siswa_nama: result.Sheet1[index].siswa_nama,
+          // siswa_gender: result.Sheet1[index].siswa_gender,
+          kelas: result.Sheet1[index].kelas,
+          // nama_jurusan: result.Sheet1[index].nama_jurusan,
+          // d_kelas: result.Sheet1[index].d_kelas
+        });
+        response.push(data[index].kelas);
+      });
+
+      con.query(`SELECT kelas_nama FROM kelas`, (err, rows) => {
+        if (err) throw err;
+        let namaKelas = rows.map((obj) => {
+          return obj.kelas_nama;
+        });
+
+        const containsAll = response.every((element) => {
+          return namaKelas.includes(element);
+        });
+
+        let data2 = [];
+        if (containsAll) {
+          response.forEach((element, index) => {
+            con.query(
+              `SELECT kelas_id FROM kelas WHERE kelas_nama = '${response[index]}'`,
+              (err, rows) => {
+                if (err) throw err;
+                data2.push(rows[0].kelas_id);
+              }
+            );
+          });
+        } else {
+          con.rollback();
+          return res.json({
+            error: true,
+            message: "nama kelas tidak tersedia.",
+          });
+        }
+
+        // console.log(data2)
+        con.commit((err) => {
+          if (err) throw err;
+          return callback(data2);
+        });
+      });
+    });
+  },
+
+  getDkelasId: (con, res, filename, callback) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          A: "siswa_nis",
+          B: "siswa_nama",
+          C: "siswa_gender",
+          D: "kelas",
+          E: "nama_jurusan",
+          F: "d_kelas",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      let data = [];
+      let response = [];
+      result.Sheet1.forEach((element, index) => {
+        data.push({
+          // siswa_nis: result.Sheet1[index].siswa_nis,
+          // siswa_nama: result.Sheet1[index].siswa_nama,
+          // siswa_gender: result.Sheet1[index].siswa_gender,
+          // kelas: result.Sheet1[index].kelas,
+          // nama_jurusan: result.Sheet1[index].nama_jurusan,
+          d_kelas: result.Sheet1[index].d_kelas,
+        });
+        response.push(data[index].d_kelas);
+      });
+
+      con.query(`SELECT d_kelas_nama FROM d_kelas`, (err, rows) => {
+        if (err) throw err;
+        let namaDkelas = rows.map((obj) => {
+          return obj.d_kelas_nama;
+        });
+
+        const containsAll = response.every((element) => {
+          return namaDkelas.includes(element);
+        });
+
+        let data2 = [];
+        if (containsAll) {
+          response.forEach((element, index) => {
+            con.query(
+              `SELECT d_kelas_id FROM d_kelas WHERE d_kelas_nama = '${response[index]}'`,
+              (err, rows) => {
+                if (err) throw err;
+                data2.push(rows[0].d_kelas_id);
+              }
+            );
+          });
+        } else {
+          con.rollback();
+          return res.json({
+            error: true,
+            message: "nama d_kelas tidak tersedia.",
+          });
+        }
+
+        con.commit((err) => {
+          if (err) throw err;
+          return callback(data2);
+        });
+      });
+    });
+  },
+
+  upload: (con, res, filename, kelasId, jurusanId, dKelasID) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          A: "siswa_nis",
+          B: "siswa_nama",
+          C: "siswa_gender",
+          D: "kelas_id",
+          E: "nama_jurusan",
+          F: "d_kelas_id",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      con.query(`SELECT siswa_nis FROM siswa`, (err, rows) => {
+        if (err) console.log(err);
+        let siswa = rows.map((obj) => {
+          return obj.siswa_nis;
+        });
+
+        for (let i = 0; result.Sheet1.length > i; i++) {
+          let password = makeid(8);
+          if (
+            Array.from(siswa).includes(result.Sheet1[i].siswa_nis.toString()) ==
+            false
+          ) {
+            con.query(
+              `INSERT INTO siswa SET siswa_nis = '${result.Sheet1[i].siswa_nis}', siswa_nama = '${result.Sheet1[i].siswa_nama}', siswa_password = '${password}', siswa_gender = '${result.Sheet1[i].siswa_gender}', siswa_img = 'profile.png', kelas_id = '${kelasId[i]}', jurusan_id = '${jurusanId[i]}', d_kelas_id = '${dKelasID[i]}'`
+            );
+          } else {
+            con.rollback();
+            return res.json({
+              error: true,
+              message: "NIS sudah terdaftar",
+            });
+          }
+        }
+
+        con.commit((err) => {
+          if (err) con.rollback();
+          return res.json({
+            error: false,
+            message: "Berhasil tambah data siswa",
+          });
+        });
       });
     });
   },
