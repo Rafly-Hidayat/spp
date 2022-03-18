@@ -3,6 +3,7 @@ import { Card, Form, Col, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import bg from "../Assets/G10.png";
+import Swal from 'sweetalert2';
 
 export default class Login extends Component {
   constructor(props) {
@@ -10,51 +11,57 @@ export default class Login extends Component {
     this.validator = new SimpleReactValidator();
 
     this.state = {
-      email: "",
+      nis: "",
       password: "",
       dataError: "",
-      errorMessage: "",
       status: "",
     };
   }
   login = (e) => {
     e.preventDefault();
     const data = {
-      email: this.state.email,
+      nis: this.state.nis,
       password: this.state.password,
     };
-
     if (this.validator.allValid()) {
-      axios
-        .post("http://localhost:8000/admin/login", data)
+      axios.post("http://localhost:8000/siswa/login", data)
         .then((res) => {
-          this.setState({
-            dataError: res.data.error,
-            errorMessage: res.data.message,
-            status: res.data.status,
-          });
-
-          if (this.state.dataError) {
+          console.log(res)
+          if (res.data.error === true) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${res.data.message}`,
+            })
           } else {
             localStorage.setItem(
-              "dataAdmin",
+              "dataSiswa",
               JSON.stringify({
-                id: res.data.admin_id,
-                email: res.data.email,
+                id : res.data.siswa_id,
                 nama: res.data.nama,
-                password: res.data.password,
+                gender : res.data.gender,
                 status: res.data.status,
-                token: res.data.token,
+                kelas : res.data.kelas,
+                nis : res.data.nis
               })
-            );
-            this.props.history.push("/admin");
+              );
+              this.props.history.push("/user");
+            Swal.fire({
+              icon: 'success',
+              title: 'Login Success',
+              text: `${res.data.message}`,
+            })
           }
         })
-        .catch((error) => {});
+        .catch(() => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Gagal terhubung ke server!',
+          })
+        });
     } else {
       this.validator.showMessages();
-      // rerender to show messages for the first time
-      // you can use the autoForceUpdate option to do this automatically`
       this.forceUpdate();
     }
   };
@@ -65,9 +72,9 @@ export default class Login extends Component {
     });
   };
   render() {
-    const loggedIn = localStorage.getItem("dataAdmin");
+    const loggedIn = localStorage.getItem("dataSiswa");
     if (loggedIn) {
-      this.props.history.push("/admin");
+      this.props.history.push("/user");
     }
     return (
       <div
@@ -141,12 +148,12 @@ export default class Login extends Component {
                           fontSize: "16px",
                         }}
                       >
-                        Email
+                        NIS
                       </Form.Label>
                       <Form.Control
-                        name="email"
-                        id="email"
-                        placeholder="Email"
+                        name="nis"
+                        id="nis"
+                        placeholder="NIS"
                         className="form-control"
                         style={{
                           color: "white",
@@ -156,20 +163,15 @@ export default class Login extends Component {
                           border: "2px solid white",
                           borderRadius: "10px",
                         }}
-                        value={this.state.email}
+                        value={this.state.nis}
                         onChange={this.handleChange}
                         noValidate
                       />
                       <div>
-                        {this.state.dataError ? (
-                          <div style={{ color: "red" }}>
-                            {this.state.errorMessage}
-                          </div>
-                        ) : null}
                         {this.validator.message(
-                          "email",
-                          this.state.email,
-                          `required|email`,
+                          "nis",
+                          this.state.nis,
+                          `required|numeric|min:0,num`,
                           { className: "text-danger" }
                         )}
                       </div>
@@ -203,11 +205,6 @@ export default class Login extends Component {
                       noValidate
                     />
                     <div>
-                      {this.state.dataError ? (
-                        <div style={{ color: "red" }}>
-                          {this.state.errorMessage}
-                        </div>
-                      ) : null}
                       {this.validator.message(
                         "password",
                         this.state.password,

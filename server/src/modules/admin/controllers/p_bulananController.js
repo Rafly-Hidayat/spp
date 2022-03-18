@@ -38,9 +38,13 @@ module.exports = {
   },
 
   bayar: (req, res) => {
-    p_bulanan.bayar(req.con, req.params.bulanan_id, req.body, (err) => {
+    p_bulanan.bayar(req.con, res, req.params.bulanan_id, req.body, (err) => {
       if (err) throw err;
       return res.json({ error: false, message: "Pembayaran berhasil" });
     });
+  },
+
+  invoice: (req, res) => {
+    p_bulanan.invoice(req.con, req.params.bulanan_id, res);
   },
 };

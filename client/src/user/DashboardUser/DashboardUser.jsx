@@ -18,7 +18,6 @@ import {
   faBell,
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { Link } from "react-router-dom";
 // import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
@@ -31,7 +30,6 @@ import "./DashboardUser.css";
 export default class DashboardUser extends Component {
   constructor(props) {
     super(props);
-    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     let bayar = 70;
     let tagihan = 200;
     this.state = {
@@ -151,8 +149,8 @@ export default class DashboardUser extends Component {
                       <ProgressBar
                         animated
                         variant="info"
-                        now={this.state.bebas_percent}
-                        label={this.state.bebas_percent + "%"}
+                        now={this.state.count1}
+                        label={`${this.state.count1}%`}
                         className="bar"
                       />
                     </div>
@@ -215,8 +213,8 @@ export default class DashboardUser extends Component {
                         <ProgressBar
                           animated
                           variant="info"
-                          now={this.state.bulanan_percent}
-                          label={this.state.bulanan_percent + "%"}
+                          now={100}
+                          label={`${100}%`}
                           className="bar"
                         />
                       </div>

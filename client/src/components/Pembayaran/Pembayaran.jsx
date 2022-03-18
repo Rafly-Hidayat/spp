@@ -42,8 +42,8 @@ export default class Pembayaran extends Component {
       axios
         .get(`http://localhost:8000/siswa_nis/${this.state.nis}`)
         .then((res) => {
-          console.log(res.data.siswa_id);
-          if (res.data.siswa_id === undefined) {
+          console.log(res.data);
+          if (res.data[0] === undefined) {
             console.log("error")
             Swal.fire({
               icon: "error",
@@ -56,7 +56,8 @@ export default class Pembayaran extends Component {
             });
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err)
           Swal.fire({
             icon: "error",
             title: "Oops...",

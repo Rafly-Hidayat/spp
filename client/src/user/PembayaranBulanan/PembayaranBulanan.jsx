@@ -1,230 +1,155 @@
-import React, { Component } from "react";
-import axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Table,
-  Badge,
-  Button,
-  Form,
-  Nav,
-  Navbar,
-  FormControl,
-  NavDropdown,
-} from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faInfo,
-  faCreditCard,
-  faBell,
-  faChevronRight,
-  faPrint
-} from "@fortawesome/free-solid-svg-icons";
-import { Redirect, Link } from "react-router-dom";
-import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from "react-bootstrap-table2-paginator";
+import React, { Component } from 'react';
+import axios from 'axios'
+import { Container, Row, Col, Card, Table, Button, Form, Nav, Navbar, FormControl, NavDropdown } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo, faCreditCard, faBell, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { Redirect, Link } from 'react-router-dom'
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
-import user from "./user.jpg";
-import logo from "../Assets/LandingPageImg/Logo.png";
 
-import "./PembayaranBulanan.css";
+
+import user from './user.jpg';
+import logo from '../Assets/LandingPageImg/Logo.png'
+
+import './PembayaranBulanan.css';
 
 export default class PembayaranBulanan extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-  }
 
-  getPostAPI = () => {
-    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    console.log(id)
-    axios
-      .get(`http://localhost:8000/user/pembayaran/bulanan/${id}`)
-      .then((result) => {
-        if(result.data.error === undefined){
-          this.setState({
-            data: result.data,
-          });
-        } else 
-        this.setState({
-          data : ""
-        })
-      });
-  };
+    constructor(props) {
+        super(props)
 
-  // json-server --watch db.json --port 3004
+        const token = localStorage.getItem("token")
 
-  componentDidMount() {
-    this.getPostAPI();
-  }
-
-  render() {
-    const desktop = [
-      {
-        dataField: "month_id",
-        text: "No",
-        sort: true,
-        align: "center",
-        headerAlign: "center",
-        headerStyle: (colum, colIndex) => {
-          return { width: '40px' };
+        let loggedIn = true
+        if (token == null) {
+            loggedIn = false
         }
-      },
-      {
-        dataField: "pos_nama",
-        text: "Deskripsi",
-        headerAlign : 'center',
-        align : "center"
-      },
-      {
-        dataField: "bulanan_tanggal",
-        text: "Tanggal",
-        headerAlign : 'center',
-        align : "center",
-        // make type date with d m y only
-        formatter: (cell, row) => {
-          if(row.bulanan_status === 1){
-            return (
-              <div>
-                {new Date(cell).toLocaleDateString("id-ID")}
-              </div>
-            );
-          } else {
-            return (
-              <div>-</div>
-            )
-          }
-        },
-      },
-      {
-        dataField: "month_nama",
-        text: "Bulan",
-        headerAlign : 'center',
-        align : "center"
-      },
-      {
-        dataField: "bulanan_tagihan",
-        text: "Jumlah",
-        headerAlign : 'center',
-        align : "center"
-      },
-      {
-        text: "Status",
-        formatter(cell, row) {
-          if (row.bulanan_status === 1) {
-            return (
-                <Badge bg='success'>Lunas</Badge>
-            );
-          } else {
-            return (
-                <Badge bg='danger'>Belum Lunas</Badge>
-            );
-          }
-        },
-      },
-      {
-        text: "Detail",
-        formatter : (cell, row) => {
-          if (row.bulanan_status === 1) {
-            return (
-                <Button variant='warning'><FontAwesomeIcon icon={faPrint} /></Button>
-            );
-          } else {
-            return (
-              <Button variant='secondary' disabled><FontAwesomeIcon icon={faPrint} /></Button>
-            );
-          }
-        }
-      }
-    ];
 
-    const mobile = [
-      {
-        dataField: "month_id",
-        text: "No",
-        sort: true,
-      },
-      {
-        dataField: "month_nama",
-        text: "Bulan",
-      },
-      {
-        text: "Status",
-        formatter: (cell, row) => {
-          if (row.bulanan_status === 1) {
-            return (
-                <Badge bg='success'>Lunas</Badge>
-            )
-          } else {
-            return (
-                <Badge bg='danger'>Belum Lunas</Badge>
-            )
-          }
-        },
-      },
-      {
-        dataField: "Aksi",
-        text: "Aksi",
-        align: "center",
-        headerAlign: "center",
-        // make delete and update button
-        formatter: (cellContent, row) => {
-          return (
+        this.state = {
+            data: [],
+            loggedIn
+        }
+
+    }
+
+    // getPostAPI = () => {
+    //     axios.get('http://localhost:3004/bulanan')
+    //         .then((result) => {
+    //             this.setState({
+    //                 data: result.data
+    //             });
+    //         })
+    // }
+
+    // json-server --watch db.json --port 3004
+
+    // componentDidMount() {
+    //     this.getPostAPI();
+
+    // }
+
+    render() {
+
+        const desktop = [{
+            dataField: 'id',
+            text: 'No',
+            sort: true,
+            align: 'center',
+            headerAlign: 'center'
+        }, {
+            dataField: 'bulan',
+            text: 'Bulan'
+        }, {
+            dataField: 'tgl_bayar',
+            text: 'Tanggal Bayar'
+        }, {
+            dataField: 'jumlah',
+            text: 'Jumlah'
+        }, {
+            dataField: "terbayar",
+            text: "Terbayar"
+        }, {
+            dataField: 'status',
+            text: 'Status'
+        }
+
+        ];
+
+
+        const mobile = [{
+            dataField: 'id',
+            text: 'No',
+            sort: true
+        }, {
+            dataField: 'bulan',
+            text: 'Bulan'
+        }, {
+            dataField: 'status',
+            text: 'Status'
+        }, {
+            dataField: "Aksi",
+            text: "Aksi",
+            align: 'center',
+            headerAlign: 'center',
+            // make delete and update button
+            formatter: (cellContent, row) => {
+                return (
+                    <div>
+                        <Container>
+                            <Row>
+                                <Col>
+                                    {/* <Link to={`/admin/jurusan/ubah/${row.jurusan_id}`} > */}
+                                    <Button variant="warning" className="mr-2 " block >
+                                        <FontAwesomeIcon icon={faInfo} />
+                                    </Button>
+                                    {/* </Link> */}
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                );
+            },
+        }];
+
+        return (
             <div>
-              <Container>
-                <Row>
-                  <Col>
-                    {/* <Link to={`/admin/jurusan/ubah/${row.jurusan_id}`} > */}
-                    <Button variant="warning" className="mr-2 " block>
-                      <FontAwesomeIcon icon={faInfo} />
-                    </Button>
-                    {/* </Link> */}
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-          );
-        },
-      },
-    ];
+                <div className="data-user">
+                    {/* Navbar */}
 
-    return (
-      <div>
-        <div className="data-user">
-          {/* Navbar */}
 
-          {/* Sidebar */}
+                    {/* Sidebar */}
 
-          {/* Data Table  */}
-          <Card body>
-            {/* Tampilan Desktop */}
-            <div className="desktop">
-              <BootstrapTable
-                keyField="id"
-                data={this.state.data}
-                columns={desktop}
-                noDataIndication="Data tidak ditemukan"
-                bordered={false}
-              />
-            </div>
 
-            {/* Tampilan Mobile */}
-            <div className="mobile">
-              <BootstrapTable
-                keyField="id"
-                data={this.state.data}
-                columns={mobile}
-                noDataIndication="Data tidak ditemukan"
-                bordered={false}
-              />
-            </div>
-          </Card>
-        </div>
-      </div>
-    );
-  }
+                    {/* Data Table  */}
+                    <Card body>
+                        {/* Tampilan Desktop */}
+                        <div className="desktop">
+                            <BootstrapTable
+                                keyField='id'
+                                data={this.state.data}
+                                columns={desktop}
+                                noDataIndication="Table is Empty"
+                                bordered={false}
+                            />
+                        </div>
+
+
+                        {/* Tampilan Mobile */}
+                        <div className="mobile">
+                            <BootstrapTable
+                                keyField='id'
+                                data={this.state.data}
+                                columns={mobile}
+                                noDataIndication="Table is Empty"
+                                bordered={false}
+                            />
+                        </div>
+                    </Card>
+
+
+                </div>
+            </div >
+        );
+    }
 }

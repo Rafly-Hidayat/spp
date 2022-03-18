@@ -18,8 +18,11 @@ module.exports = {
   laporanBulanan: (req, res) => {
     rekap.laporanBulanan(req.con, req.body, (err, rows) => {
       if (err) throw err;
+      const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+      const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"]
       let data = [];
       Array.from(rows).forEach((element, index) => {
+        let d = new Date(rows[index].bulanan_tanggal.toString())
         data.push({
           siswa_nama: rows[index].siswa_nama,
           kelas_nama: rows[index].kelas_nama,
@@ -27,10 +30,10 @@ module.exports = {
           d_kelas_nama: rows[index].d_kelas_nama,
           pos_nama: rows[index].pos_nama,
           month_nama: rows[index].month_nama,
-          bulanan_tanggal: rows[index].bulanan_tanggal.toJSON().slice(0, 10),
           periode_mulai: rows[index].periode_mulai,
           periode_akhir: rows[index].periode_akhir,
           admin_nama: rows[index].admin_nama,
+          tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
         });
       });
       res.json(data);
@@ -40,8 +43,11 @@ module.exports = {
   laporanBebas: (req, res) => {
     rekap.laporanBebas(req.con, req.body, (err, rows) => {
       if (err) throw err;
+      const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+      const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"]
       let data = [];
       Array.from(rows).forEach((element, index) => {
+        let d = new Date(rows[index].d_bebas_tanggal.toString())
         data.push({
           siswa_nama: rows[index].siswa_nama,
           kelas_nama: rows[index].kelas_nama,
@@ -49,10 +55,10 @@ module.exports = {
           d_kelas_nama: rows[index].d_kelas_nama,
           pos_nama: rows[index].pos_nama,
           d_bebas_bayar: rows[index].d_bebas_bayar,
-          d_bebas_tanggal: rows[index].d_bebas_tanggal.toJSON().slice(0, 10),
           periode_mulai: rows[index].periode_mulai,
           periode_akhir: rows[index].periode_akhir,
           admin_nama: rows[index].admin_nama,
+          tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
         });
       });
       res.json(data);

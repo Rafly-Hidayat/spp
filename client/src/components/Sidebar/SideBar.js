@@ -69,9 +69,10 @@ import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
 import "./SideBar.css";
 import KenaikanKelas from "../Kelulusan/KenaikanKelas";
-import LaporanBulanan from "../Laporan/LaporanBulanan";
-import LaporanBebas from "../Laporan/LaporanBebas";
 import UploadSiswa from "../Siswa/UploadSiswa";
+
+import LaporanBulanan from "../Laporan/LaporanBulanan"
+import LaporanBebas from "../Laporan/LaporanBebas"
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -587,7 +588,13 @@ const SideBar = () => {
 
           <ProtectedRoute
             exact
-            path="/admin/pembayaran/"
+            path="/admin/kenaikan-kelas"
+            component={KenaikanKelas}
+          />
+
+          <ProtectedRoute
+            exact
+            path="/admin/pembayaran"
             component={Pembayaran}
           />
           <ProtectedRoute
@@ -599,6 +606,16 @@ const SideBar = () => {
             exact
             path="/admin/pembayaran_bulan/tambah/:id"
             component={AddPembayaranBulanan}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/laporan/bulanan"
+            component={LaporanBulanan}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/laporan/bebas"
+            component={LaporanBebas}
           />
         </div>
       </div>
