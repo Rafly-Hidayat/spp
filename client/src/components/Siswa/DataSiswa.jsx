@@ -21,9 +21,8 @@ export default class DataSiswa extends Component {
   }
 
   getSiswa = () => {
-    axios.get("http://localhost:8000/siswa/").then((res) => { 
-      console.log(res.data);
-
+    axios.get("http://localhost:8000/siswa/").then((res) => {
+      console.log(res)
       this.setState({
         data: res.data,
       });
@@ -134,7 +133,8 @@ export default class DataSiswa extends Component {
         text: "NIS",
         
       },
-      {     
+      {
+        
         text: "Jenis Kelamin",
         formatter: (cellContent, row) => {
           
