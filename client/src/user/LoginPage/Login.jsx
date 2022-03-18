@@ -9,6 +9,7 @@ import logosp from '../Assets/logosp.svg'
 import Kutas from '../Assets/KuTas.svg'
 import KuWah from '../Assets/KuWah.svg'
 import logo from '../Assets/logo.svg'
+import power from '../Assets/PoweredBy.svg'
 
 export default class Login extends Component {
   constructor(props) {
@@ -236,6 +237,11 @@ export default class Login extends Component {
             </Card>
           </CardGroup>
         </div>
+        <center>
+          <div>
+            <Image src={power} width={120} height={120} />
+          </div>
+        </center>
       </div>
     );
   }

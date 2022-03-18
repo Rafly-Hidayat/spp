@@ -76,6 +76,11 @@ export default class LaporanBulanan extends Component {
         headerAlign: "center",
         align: "center",
       },
+      {
+        dataField: "tanggal",
+        text: "Tanggal",
+        headerAlign: "center"
+      },
     ];
     return (
       <div>

@@ -43,4 +43,8 @@ module.exports = {
       return res.json({ error: false, message: "Pembayaran berhasil" });
     });
   },
+
+  invoice: (req, res) => {
+    p_bulanan.invoice(req.con, req.params.bulanan_id, res);
+  },
 };

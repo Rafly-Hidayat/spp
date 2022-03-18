@@ -82,12 +82,17 @@ export default class LaporanBebas extends Component {
         },
         align: "center",
         headerStyle: (colum, colIndex) => {
-          return { width: "250px", textAlign: "center" };
+          return { width: "150px", textAlign: "center" };
         },
       },
       {
         dataField: "admin_nama",
         text: "Admin",
+      },
+      {
+        dataField: "tanggal",
+        text: "Tanggal",
+        // headerAlign: "center"
       },
     ];
     return (
