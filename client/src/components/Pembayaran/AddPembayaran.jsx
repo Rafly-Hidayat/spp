@@ -44,7 +44,7 @@ export default class AddPembayaran extends Component {
               title: "Berhasil!",
               text: `Pembayaran Berhasil!`,
             })
-            // this.props.history.push("/admin/pembayaran");
+            this.props.history.push("/admin/pembayaran");
           }
         })
         .catch((error) => {});

@@ -1,21 +1,21 @@
 module.exports = {
   getAll: (con, callback) => {
     con.query(
-      "SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id",
+      "SELECT bebas_id, bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id",
       callback
     );
   },
 
   getById: (con, bebas_id, callback) => {
     con.query(
-      `SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bebas.bebas_id = ${bebas_id}`,
+      `SELECT bebas_id, bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bebas.bebas_id = ${bebas_id}`,
       callback
     );
   },
 
   getByNis: (con, siswa_nis, callback) => {
     con.query(
-      `SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.siswa_nis = ${siswa_nis}`,
+      `SELECT bebas_id, bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.siswa_nis = ${siswa_nis}`,
       callback
     );
   },
