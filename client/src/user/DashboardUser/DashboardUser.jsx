@@ -18,7 +18,6 @@ import {
   faBell,
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { Link } from "react-router-dom";
 // import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
@@ -31,30 +30,11 @@ import "./DashboardUser.css";
 export default class DashboardUser extends Component {
   constructor(props) {
     super(props);
-    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     let bayar = 70;
     let tagihan = 200;
     this.state = {
-      id: user.id,
-      bebas_percent : "",
-      bulanan_percent : "",
+      count1: (bayar / tagihan) * 100,
     };
-  }
-
-  componentDidMount() {
-    axios
-      .get(`http://localhost:8000/tagihan/bebas/${this.state.id}`)
-      .then((res) => {
-        const data = res.data[0]
-        this.setState({
-          bebas_percent : parseInt((data.bebas_tagihan - data.sisa_tagihan) / data.bebas_tagihan * 100)
-        })
-      });
-    axios.get(`http://localhost:8000/tagihan/lunas/${this.state.id}`)
-    .then((res) => {
-        const data = res.data
-        this.setState({bulanan_percent : parseInt( data.total_lunas / 12 * 100)})
-      })
   }
 
   render() {
@@ -99,8 +79,8 @@ export default class DashboardUser extends Component {
                       <ProgressBar
                         animated
                         variant="info"
-                        now={this.state.bulanan_percent}
-                        label={ `${this.state.bulanan_percent}%`}
+                        now={100}
+                        label={`${100}%`}
                         className="bar"
                       />
                     </div>
@@ -136,8 +116,8 @@ export default class DashboardUser extends Component {
                       <ProgressBar
                         animated
                         variant="info"
-                        now={this.state.bebas_percent}
-                        label={this.state.bebas_percent + "%"}
+                        now={this.state.count1}
+                        label={`${this.state.count1}%`}
                         className="bar"
                       />
                     </div>
@@ -200,8 +180,8 @@ export default class DashboardUser extends Component {
                         <ProgressBar
                           animated
                           variant="info"
-                          now={this.state.bulanan_percent}
-                          label={this.state.bulanan_percent + "%"}
+                          now={100}
+                          label={`${100}%`}
                           className="bar"
                         />
                       </div>
@@ -248,8 +228,8 @@ export default class DashboardUser extends Component {
                         <ProgressBar
                           animated
                           variant="info"
-                          now={this.state.bebas_percent}
-                          label={ this.state.bebas_percent + "%"}
+                          now={this.state.count1}
+                          label={`${this.state.count1}%`}
                           className="bar"
                         />
                       </div>

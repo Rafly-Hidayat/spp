@@ -40,11 +40,11 @@ export default class Login extends Component {
               "dataAdmin",
               JSON.stringify({
                 id: res.data.admin_id,
-                // email: res.data.email,
+                email: res.data.email,
                 nama: res.data.nama,
-                // password: res.data.password,
-                // status: res.data.status,
-                // token: res.data.token,
+                password: res.data.password,
+                status: res.data.status,
+                token: res.data.token,
               })
             );
             this.props.history.push("/admin");

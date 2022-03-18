@@ -34,7 +34,7 @@ module.exports = {
 
       let gambar = rows[0].siswa_img;
       let img = "http://127.0.0.1:8000/public/images/" + gambar;
-      res.json({
+      res.json([{
         siswa_id: rows[0].siswa_id,
         siswa_nis: rows[0].siswa_nis,
         siswa_nama: rows[0].siswa_nama,
@@ -43,7 +43,7 @@ module.exports = {
         jurusan_nama: rows[0].jurusan_nama,
         d_kelas_nama: rows[0].d_kelas_nama,
         siswa_img: img,
-      });
+      }]);
     });
   },
 
@@ -55,7 +55,7 @@ module.exports = {
 
       let gambar = rows[0].siswa_img;
       let img = "http://127.0.0.1:8000/public/images/" + gambar;
-      res.json({
+      res.json([{
         siswa_id: rows[0].siswa_id,
         siswa_nis: rows[0].siswa_nis,
         siswa_nama: rows[0].siswa_nama,
@@ -64,7 +64,7 @@ module.exports = {
         jurusan_nama: rows[0].jurusan_nama,
         d_kelas_nama: rows[0].d_kelas_nama,
         siswa_img: img
-      });
+      }]);
     });
   },
 
