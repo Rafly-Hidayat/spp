@@ -6,7 +6,7 @@ function makeNoTransaksi(length) {
     result += characters.charAt(Math.floor(Math.random() * 
 charactersLength));
  }
- value = "BLN - "+result;
+ value = "BBS - "+result;
  return value
 }
 
