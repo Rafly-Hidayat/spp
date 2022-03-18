@@ -50,81 +50,98 @@ export default class DashboardUser extends Component {
 
           <div className="dashboard">
             <Row>
-              <Col md={4}>
-                <Card
-                  style={{
-                    background:
-                      "linear-gradient(25deg, #0073f7, #2b91e9, #2caeda, #00cbcb)",
-                    color: "white",
-                    borderRadius: "16px",
-                  }}
-                  body
-                >
-                  <Container>
-                    <div className="content">
-                      <div className="icon-nis">
-                        <h6>{user.nis[0]}</h6>
-                        <Link to="#">
-                          <h6>
-                            <FontAwesomeIcon
-                              icon={faCog}
-                              style={{ color: "white" }}
-                            />
-                          </h6>
-                        </Link>
+              <Col md={5}>
+              <Card
+                    style={{
+                      background:
+                        "linear-gradient(25deg, #0073f7, #2b91e9, #2caeda, #00cbcb)",
+                      color: "white",
+                      borderRadius: "16px",
+                    }}
+                    body
+                  >
+                    <Container>
+                      <div className="content">
+                        <div
+                          className="icon-name"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            paddingBottom: "5px",
+                          }}
+                        >
+                          <h4>Bulanan</h4>
+                          <Link to="#">
+                            <h6>
+                              <FontAwesomeIcon
+                                icon={faCog}
+                                style={{ color: "white" }}
+                              />
+                            </h6>
+                          </Link>
+                        </div>
+                        {/* <br /> */}
+                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
+                        <h4>{user.nama[0]}</h4>
+                        <br />
+                        <br />
+                        <ProgressBar
+                          animated
+                          variant="info"
+                          now={100}
+                          label={`${100}%`}
+                          className="bar"
+                        />
                       </div>
-                      <h4>{user.nama[0]}</h4>
-                      <br />
-                      <br />
-                      <ProgressBar
-                        animated
-                        variant="info"
-                        now={100}
-                        label={`${100}%`}
-                        className="bar"
-                      />
-                    </div>
-                  </Container>
-                </Card>
+                    </Container>
+                  </Card>
                 <br />
                 <br />
                 <Card
-                  style={{
-                    background:
-                      "linear-gradient(25deg, #6618e7, #7860e3, #7d93de, #76c4d8)",
-                    color: "white",
-                    borderRadius: "16px",
-                  }}
-                  body
-                >
-                  <Container>
-                    <div className="content">
-                      <div className="icon-nis">
-                        <h6>{user.nis[0]}</h6>
-                        <Link to="#">
-                          <h6>
-                            <FontAwesomeIcon
-                              icon={faCog}
-                              style={{ color: "white" }}
-                            />
-                          </h6>
-                        </Link>
+                    style={{
+                      background:
+                        "linear-gradient(25deg, #6618e7, #7860e3, #7d93de, #76c4d8)",
+                      color: "white",
+                      borderRadius: "16px",
+                    }}
+                    body
+                  >
+                    <Container>
+                      <div className="content">
+                        <div
+                          className="icon-name"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            paddingBottom: "5px",
+                          }}
+                        >
+                          <h4>Bebas</h4>
+                          <Link to="#">
+                            <h6>
+                              <FontAwesomeIcon
+                                icon={faCog}
+                                style={{ color: "white" }}
+                              />
+                            </h6>
+                          </Link>
+                        </div>
+                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
+                        <h4>{user.nama[0]}</h4>
+                        <br />
+                        <br />
+                        <ProgressBar
+                          animated
+                          variant="info"
+                          now={this.state.count1}
+                          label={`${this.state.count1}%`}
+                          className="bar"
+                        />
                       </div>
-                      <h4>{user.nama[0]}</h4>
-                      <br />
-                      <br />
-                      <ProgressBar
-                        animated
-                        variant="info"
-                        now={this.state.count1}
-                        label={`${this.state.count1}%`}
-                        className="bar"
-                      />
-                    </div>
-                  </Container>
-                </Card>
+                    </Container>
+                  </Card>
               </Col>
-              <Col md={8}>
+              <Col md={7}>
                 <DatePicker
                   onChange={onChange}
                   style={{

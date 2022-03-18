@@ -15,6 +15,9 @@ import {
   faCreditCard,
   faUserCheck,
   faUserTimes,
+  faChalkboardTeacher,
+  faGraduationCap,
+  faFileInvoiceDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Dashboard.css";
 import axios from "axios";
@@ -29,6 +32,8 @@ export default class Dashboard extends Component {
       totalSiswa: "",
       totalJurusan: "",
       totalKelas: "",
+      bebas: [],
+      bulanan: [],
     };
   }
   componentDidMount() {
@@ -43,42 +48,99 @@ export default class Dashboard extends Component {
         totalJurusan: res.data.total,
       });
     });
-    axios.get("http://localhost:8000/total/kelas").then((res) => {
+    axios.get("http://localhost:8000/total/pos").then((res) => {
+      console.log(res.data.total);
       this.setState({
+        totalPos: res.data.total,
+      });
+    });
+    axios.get("http://localhost:8000/total/kelas").then((res) => {
+    this.setState({
         totalKelas: res.data.total,
+      });
+    });
+    axios.get("http://localhost:8000/laporan/harian/bebas").then((res) => {
+      this.setState({
+        bebas: res.data,
+      });
+    });
+    axios.get("http://localhost:8000/laporan/harian/bulanan").then((res) => {
+      this.setState({
+        bulanan: res.data,
       });
     });
   }
   render() {
 
+    const bebas = this.state.bebas;
+    const bulanan = this.state.bulanan;
     const onChange = (date) => {
       console.log(date.toString());
     };
 
     const columns = [
       {
-        dataField: "id",
+        dataField: "siswa_nama",
         text: "Nama Siswa",
         sort: true,
       },
       {
-        dataField: "bulan",
+        dataField: "kelas_nama",
         text: "Kelas",
+        formatter: (cellContent, row) => {
+          return (
+            <div>
+              {`${row.kelas_nama} ${row.jurusan_nama} ${row.d_kelas_nama}`}
+            </div>
+          );
+        },
       },
       {
-        dataField: "tgl_bayar",
+        dataField: "pos_nama",
         text: "Deskripsi",
       },
       {
-        dataField: "jumlah",
         text: "Nominal",
+        formatter: (cell, row) => {
+          return <div>Rp. {row.d_bebas_bayar.toLocaleString("id")}</div>;
+        },
       },
       {
-        dataField: "",
-        text: "Tanggal",
+        dataField: "admin_nama",
+        text: "Petugas",
+      },
+    ];
+    const defaultSorted = [{
+      dataField: 'siswa_nama',
+      order: 'desc'
+    }];
+    const column = [
+      {
+        dataField: "siswa_nama",
+        text: "Nama Siswa",
+        sort: true,
       },
       {
-        dataField: "terbayar",
+        dataField: "kelas_nama",
+        text: "Kelas",
+        formatter: (cellContent, row) => {
+          return (
+            <div>
+              {`${row.kelas_nama} ${row.jurusan_nama} ${row.d_kelas_nama}`}
+            </div>
+          );
+        },
+      },
+      {
+        dataField: "pos_nama",
+        text: "Deskripsi",
+      },
+      {
+        dataField: "month_nama",
+        text: "Bulan",
+      },
+      {
+        dataField: "admin_nama",
         text: "Petugas",
       },
     ];
@@ -104,7 +166,7 @@ export default class Dashboard extends Component {
             <Card body bg="success" className="card1">
               <Row>
                 <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faCreditCard} />
+                  <FontAwesomeIcon icon={faGraduationCap} />
                 </Col>
                 <Col md={8} className="content">
                   <h1> {this.state.totalJurusan}</h1>
@@ -118,7 +180,7 @@ export default class Dashboard extends Component {
             <Card body bg="danger" className="card">
               <Row>
                 <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faUserTimes} />
+                  <FontAwesomeIcon icon={faChalkboardTeacher} />
                 </Col>
                 <Col md={8} className="content">
                   <h1> {this.state.totalKelas}</h1>
@@ -130,11 +192,11 @@ export default class Dashboard extends Component {
             <Card body bg="secondary" className="card1">
               <Row>
                 <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faUserCheck} />
+                  <FontAwesomeIcon icon={faFileInvoiceDollar} />
                 </Col>
                 <Col md={8} className="content">
-                  <h1> 16</h1>
-                  <h6>Sudah Lunas</h6>
+                  <h1> {this.state.totalPos}</h1>
+                  <h6>Tipe Pembayaran</h6>
                 </Col>
               </Row>
             </Card>
@@ -160,10 +222,29 @@ export default class Dashboard extends Component {
             <div>
               <BootstrapTable
                 keyField="id"
-                data=""
+                data={bebas}
                 columns={columns}
                 noDataIndication="Data Tidak Ditemukan"
                 bordered={false}
+                defaultSorted={ defaultSorted } 
+              />
+            </div>
+          </Card.Body>
+        </Card>
+        <br />
+        <Card style={{ color: "black" }}>
+          <Card.Header>
+            Rekap Harian <strong>Pembayaran Bulanan*</strong>
+          </Card.Header>
+          <Card.Body>
+            <div>
+              <BootstrapTable
+                keyField="id"
+                data={bulanan}
+                columns={column}
+                noDataIndication="Data Tidak Ditemukan"
+                bordered={false}
+                defaultSorted={ defaultSorted } 
               />
             </div>
           </Card.Body>
