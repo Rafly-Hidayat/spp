@@ -116,13 +116,15 @@ module.exports = {
     con.beginTransaction((err) => {
       if (err) throw err;
       con.query(
-        `SELECT bebas_id FROM bebas WHERE bebas_id = '${bebas_id}'`,
+        `SELECT bebas_id, pos_nama FROM bebas INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id WHERE bebas_id = '${bebas_id}'`,
         (err, rows) => {
           if (err) throw err;
 
           const id_bebas = rows.map((obj) => {
             return obj.bebas_id;
           });
+
+        const pos = rows[0].pos_nama
 
           if (bebas_id == id_bebas) {
             con.query(
@@ -158,7 +160,12 @@ module.exports = {
                       .slice(0, 10)
                       .replace(/-/g, "-");
 
-                    let noTransaksi = makeNoTransaksi(8)
+                    let tgl = new Date(tanggal)
+                    let d = tgl.getDate()
+                    let m = tgl.toJSON().slice(5, 7)
+                    let y = tgl.toJSON().slice(2, 4)
+                    // noTransaksi = pos + "/" + makeNoTransaksi(8);
+                    let noTransaksi = pos + "/" + d + m + y;
 
                     con.query(
                       `INSERT INTO d_bebas SET no_transaksi = '${noTransaksi}',bebas_id = '${id_bebas}', d_bebas_bayar = '${data.nominal}', d_bebas_deskripsi = '${data.keterangan}', d_bebas_tanggal = '${tanggal}', admin_id = '${admin_id}'`,
