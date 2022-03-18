@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 export default class AddJenisPembayaran extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Tambah";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.state = {

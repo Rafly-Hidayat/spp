@@ -12,6 +12,7 @@ import {
   Navbar,
   FormControl,
   NavDropdown,
+  Badge,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -102,6 +103,19 @@ export default class PembayaranBebas extends Component {
         },
       },
       {
+        text: "Status",
+        formatter: (cell, row) => {
+          const data =
+            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar);
+          console.log(data);
+          if (data === 0) {
+            return <Badge bg="success"> Lunas</Badge>;
+          } else {
+            return <Badge bg="danger"> Belum Lunas</Badge>;
+          }
+        },
+      },
+      {
         text: "Aksi",
         formatter: (cell, row) => {
           return (
@@ -127,12 +141,30 @@ export default class PembayaranBebas extends Component {
         text: "Nama Pos",
       },
       {
-        dataField: "pos_deskripsi",
-        text: "Deskripsi",
+        text: "Sisa Tagihan",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              Rp.{" "}
+              {(
+                parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar)
+              ).toLocaleString("id")}
+            </div>
+          );
+        },
       },
       {
-        dataField: "sisa_tagihan",
-        text: "Sisa Tagihan",
+        text: "Status",
+        formatter: (cell, row) => {
+          const data =
+            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar);
+          console.log(data);
+          if (data === 0) {
+            return <Badge bg="success"> Lunas</Badge>;
+          } else {
+            return <Badge bg="danger"> Belum Lunas</Badge>;
+          }
+        },
       },
       {
         dataField: "Aksi",

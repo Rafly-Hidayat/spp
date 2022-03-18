@@ -19,7 +19,7 @@ export default class SetTarif extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
-
+    document.title = "Admin | Ubah";
     this.state = {
       pembayaran_id: this.props.match.params.id,
       data_tipe: [],

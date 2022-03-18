@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 export default class SetTarif extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Set Tarif";
     this.validator = new SimpleReactValidator();
 
     this.state = {
@@ -143,6 +144,8 @@ export default class SetTarif extends Component {
           <br></br>
           <Card style={{ color: "black" }}>
             <Card.Body>
+              <Card.Title>Set Tarif</Card.Title>
+              <hr/>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>

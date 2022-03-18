@@ -36,8 +36,8 @@ export default class DashboardUser extends Component {
     let tagihan = 200;
     this.state = {
       id: user.id,
-      bebas_percent : "",
-      bulanan_percent : "",
+      bebas_percent: "",
+      bulanan_percent: "",
     };
   }
 
@@ -45,16 +45,29 @@ export default class DashboardUser extends Component {
     axios
       .get(`http://localhost:8000/tagihan/bebas/${this.state.id}`)
       .then((res) => {
-        const data = res.data[0]
+        console.log(res.data[0]);
+        const data = res.data[0];
         this.setState({
-          bebas_percent : parseInt((data.bebas_tagihan - data.sisa_tagihan) / data.bebas_tagihan * 100)
-        })
+          bebas_percent: parseInt(
+            ((data.bebas_tagihan - data.sisa_tagihan) / data.bebas_tagihan) *
+              100
+          ),
+        });
       });
-    axios.get(`http://localhost:8000/tagihan/lunas/${this.state.id}`)
-    .then((res) => {
-        const data = res.data
-        this.setState({bulanan_percent : parseInt( data.total_lunas / 12 * 100)})
-      })
+    axios
+      .get(`http://localhost:8000/tagihan/lunas/${this.state.id}`)
+      .then((res) => {
+        if (res.data.error == true) {
+          this.setState({
+            bulanan_percent: 0,
+          });
+        } else {
+          const data = res.data[0];
+          this.setState({
+            bulanan_percent: parseInt((data.total_lunas / 12) * 100),
+          });
+        }       
+      });
   }
 
   render() {
@@ -62,6 +75,8 @@ export default class DashboardUser extends Component {
     const onChange = (date) => {
       console.log(date.toString());
     };
+    console.log(this.state.bulanan_percent);
+    console.log(this.state.bebas_percent);
     return (
       <div>
         <div className="dashboard-user">
@@ -100,7 +115,7 @@ export default class DashboardUser extends Component {
                         animated
                         variant="info"
                         now={this.state.bulanan_percent}
-                        label={ `${this.state.bulanan_percent}%`}
+                        label={`${this.state.bulanan_percent}%`}
                         className="bar"
                       />
                     </div>
@@ -249,7 +264,7 @@ export default class DashboardUser extends Component {
                           animated
                           variant="info"
                           now={this.state.bebas_percent}
-                          label={ this.state.bebas_percent + "%"}
+                          label={this.state.bebas_percent + "%"}
                           className="bar"
                         />
                       </div>

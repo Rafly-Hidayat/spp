@@ -9,6 +9,9 @@ import logosp from '../Assets/logosp.svg'
 import Kutas from '../Assets/KuTas.svg'
 import KuWah from '../Assets/KuWah.svg'
 import logo from '../Assets/logo.svg'
+import power from '../Assets/PoweredBy.svg'
+import loginimg from '../Assets/loginimg.JPG'
+import paandi from '../Assets/Andi_Photo.svg'
 
 export default class Login extends Component {
   constructor(props) {
@@ -111,7 +114,9 @@ export default class Login extends Component {
                  marginBottom : '20px' 
               }}
               />
-              <div>
+              <div style={{
+                textAlign : "justify",
+              }}>
                 Web nya sangat mudah dipahami. Kalau kesulitan selalu didampingi, jadi merasa punya tim IT sendiri.
               </div>
               <Image
@@ -120,10 +125,23 @@ export default class Login extends Component {
               height={15}
               style={{
                  marginTop : '20px',
-                 marginBottom : '50px',
-                 float : 'right'
+                 marginBottom : '40px',
+                 marginLeft : '320px'
+              
               }}
               />
+              <div className="comment d-flex">
+              <Image 
+              src={paandi}
+              width={80}
+              height={80}
+              />
+              <div style={{paddingLeft : '30px', marginTop : "10px"}}>
+                <h5 style={{fontSize : "23px" , fontWeight : "500"}}>Andi Susandi</h5>
+                <p style={{fontWeight : "200"}}>Kepala Pemrograman RPL</p>
+              </div>
+              </div>
+
             </Card>
             <Card className="form-login">
               <Card.Body>
@@ -236,6 +254,11 @@ export default class Login extends Component {
             </Card>
           </CardGroup>
         </div>
+        <center>
+          <div>
+            <Image src={power} width={120} height={120} />
+          </div>
+        </center>
       </div>
     );
   }

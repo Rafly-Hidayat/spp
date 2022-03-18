@@ -55,6 +55,7 @@ export default class InformasiSIswa extends Component {
         });
         const id = this.props.nis;
         axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
+          console.log(res);
           if(res.data[0] === undefined){
             this.setState({
               data: "",
@@ -115,7 +116,7 @@ export default class InformasiSIswa extends Component {
         text: "Bulan",
       },
       {
-        text: "Tagihan",
+        text: "Nominal",
         formatter: (cell, row) => {
           return <div>Rp. {row.bulanan_tagihan.toLocaleString("id")}</div>;
         },
@@ -141,7 +142,7 @@ export default class InformasiSIswa extends Component {
         },
       },
       {
-        text: "Bayar",
+        text: "Aksi",
         formatter: (cell, row) => {
           if (row.bulanan_status === 1) {
             return (
@@ -164,7 +165,7 @@ export default class InformasiSIswa extends Component {
     const columns = [
       {
         dataField: "pos_nama",
-        text: "Tipe Pembayaran",
+        text: "Deskripsi",
       },
       {
         text: "Jumlah Tagihan",
@@ -194,13 +195,23 @@ export default class InformasiSIswa extends Component {
         },
       },
       {
-        text: "Bayar",
-        formatter: () => {
+        text: "Aksi",
+        formatter: (cell, row) => {
+          const data =
+          parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar);
+        if (data !== 0) {
           return (
-            <Link to={`/admin/pembayaran/tambah/${this.state.bebas_id}`}>
-              <Button>Bayar</Button>
+            <Link to={`/admin/pembayaran/tambah/${row.bebas_id}`}>    
+              <Button variant="outline-primary">Bayar</Button>
             </Link>
           );
+        } else {
+          return (
+            <Link >    
+              <Button variant="outline-primary">Bayar</Button>
+            </Link>
+          );
+        }
         },
       },
     ];

@@ -71,7 +71,7 @@ export default class PembayaranBulanan extends Component {
         align: "center",
         headerAlign: "center",
         headerStyle: (colum, colIndex) => {
-          return { width: '80px' };
+          return { width: '40px' };
         }
       },
       {
@@ -87,11 +87,17 @@ export default class PembayaranBulanan extends Component {
         align : "center",
         // make type date with d m y only
         formatter: (cell, row) => {
-          return (
-            <div>
-              {new Date(cell).toLocaleDateString("id-ID")}
-            </div>
-          );
+          if(row.bulanan_status === 1){
+            return (
+              <div>
+                {new Date(cell).toLocaleDateString("id-ID")}
+              </div>
+            );
+          } else {
+            return (
+              <div>-</div>
+            )
+          }
         },
       },
       {
@@ -138,7 +144,7 @@ export default class PembayaranBulanan extends Component {
 
     const mobile = [
       {
-        dataField: "id",
+        dataField: "month_id",
         text: "No",
         sort: true,
       },
@@ -150,9 +156,13 @@ export default class PembayaranBulanan extends Component {
         text: "Status",
         formatter: (cell, row) => {
           if (row.bulanan_status === 1) {
-            return <p style={{ color: "green" }}>Lunas</p>;
+            return (
+                <Badge bg='success'>Lunas</Badge>
+            )
           } else {
-            return <p style={{ color: "red" }}>Belum Lunas</p>;
+            return (
+                <Badge bg='danger'>Belum Lunas</Badge>
+            )
           }
         },
       },
@@ -197,7 +207,7 @@ export default class PembayaranBulanan extends Component {
                 keyField="id"
                 data={this.state.data}
                 columns={desktop}
-                noDataIndication="Table is Empty"
+                noDataIndication="Data tidak ditemukan"
                 bordered={false}
               />
             </div>
@@ -208,7 +218,7 @@ export default class PembayaranBulanan extends Component {
                 keyField="id"
                 data={this.state.data}
                 columns={mobile}
-                noDataIndication="Table is Empty"
+                noDataIndication="Data tidak ditemukan"
                 bordered={false}
               />
             </div>

@@ -300,67 +300,78 @@ const SideBar = () => {
               </div>
             </div>
 
-          {/* -------- */}
-          <Link to="/admin/periode">
-            <span className="icon">
-              <FontAwesomeIcon
-                icon={faCalendar}
-                style={{ marginLeft: "3px" }}
-              />
-            </span>{" "}
-            <span style={{ display: text, paddingLeft: "4px" }}>
-              Tahun Ajaran
-            </span>
-          </Link>
+            {/* -------- */}
+            <Link to="/admin/periode">
+              <span className="icon">
+                <FontAwesomeIcon
+                  icon={faCalendar}
+                  style={{ marginLeft: "3px" }}
+                />
+              </span>{" "}
+              <span style={{ display: text, paddingLeft: "4px" }}>
+                Tahun Ajaran
+              </span>
+            </Link>
 
-          {/* --------- */}
-          <Link to="/admin/pos">
-            <span className="icon">
-              <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
-            </span>{" "}
-            <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
-          </Link>
+            {/* --------- */}
+            <Link to="/admin/pos">
+              <span className="icon">
+                <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
+              </span>{" "}
+              <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
+            </Link>
 
-          <Link to="/admin/pembayaran">
-            <span className="icon">
-              <FontAwesomeIcon
-                icon={faCreditCard}
-                style={{ marginLeft: "1px" }}
-              />
-            </span>{" "}
-            <span style={{ display: text, paddingLeft: "4px" }}>
-              Pembayaran
-            </span>
-          </Link>
+            <Link to="/admin/pembayaran">
+              <span className="icon">
+                <FontAwesomeIcon
+                  icon={faCreditCard}
+                  style={{ marginLeft: "1px" }}
+                />
+              </span>{" "}
+              <span style={{ display: text, paddingLeft: "4px" }}>
+                Pembayaran
+              </span>
+            </Link>
 
-          {/* ----------- */}
-          <Link to="/admin/jenispembayaran">
-            <span className="icon">
-              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-            </span>{" "}
-            <span style={{ display: text, paddingLeft: "4px" }}>
-              Jenis Pembayaran
-            </span>
-          </Link>
-          <Link to="/admin/laporan/bulanan">
-            <span className="icon">
-              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-            </span>{" "}
-            <span style={{ display: text, paddingLeft: "4px" }}>
-              Laporan Bulanan
-            </span>
-          </Link>
-          <Link to="/admin/laporan/bebas">
-            <span className="icon">
-              <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-            </span>{" "}
-            <span style={{ display: text, paddingLeft: "4px" }}>
-              Laporan Bebas
-            </span>
-          </Link>
-          
+            {/* ----------- */}
+            <Link to="/admin/jenispembayaran">
+              <span className="icon">
+                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
+              </span>{" "}
+              <span style={{ display: text, paddingLeft: "4px" }}>
+                Jenis Pembayaran
+              </span>
+            </Link>
 
-          {/* <a href="#">
+            <div className="dropdown">
+              <span className="drop">
+                <a onClick={changeDropdown}>
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faUsers} />
+                  </span>
+                  <span style={{ display: text }}>Laporan</span>
+                </a>
+              </span>
+
+              <div
+                id="myDropdown"
+                className="dropdown-content"
+                style={{ display: dropdown }}
+              >
+                <ul>
+                  <Link to="/admin/laporan/bulanan">
+                    <li>
+                      Laporan Bulanan
+                    </li>
+                  </Link>
+                  <Link to="/admin/laporan/bebas">
+                    <li>Laporan Bebas</li>
+                  </Link>
+                </ul>
+              </div>
+            </div>
+
+            {/* <a href="#">
           <span className="icon">
             <FontAwesomeIcon icon={faCreditCard} />
           </span>{" "}
@@ -665,7 +676,11 @@ const SideBar = () => {
           component={UbahJenisPembayaran}
         />
 
-        <ProtectedRoute exact path="/admin/kenaikan-kelas" component={KenaikanKelas} />
+        <ProtectedRoute
+          exact
+          path="/admin/kenaikan-kelas"
+          component={KenaikanKelas}
+        />
 
         <ProtectedRoute exact path="/admin/pembayaran" component={Pembayaran} />
         <ProtectedRoute
@@ -673,12 +688,24 @@ const SideBar = () => {
           path="/admin/pembayaran/tambah/:id"
           component={AddPembayaran}
         />
-        <ProtectedRoute exact path="/admin/pembayaran_bulan/tambah/:id" component={AddPembayaranBulanan} />
+        <ProtectedRoute
+          exact
+          path="/admin/pembayaran_bulan/tambah/:id"
+          component={AddPembayaranBulanan}
+        />
 
-        <ProtectedRoute exact path="/admin/laporan/bulanan" component={LaporanBulanan} />
-        <ProtectedRoute exact path="/admin/laporan/bebas" component={LaporanBebas} />
+        <ProtectedRoute
+          exact
+          path="/admin/laporan/bulanan"
+          component={LaporanBulanan}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin/laporan/bebas"
+          component={LaporanBebas}
+        />
       </div>
-    </div >
+    </div>
   );
 };
 
