@@ -47,7 +47,7 @@ module.exports = {
           bulanan_tagihan: rows[index].bulanan_tagihan,
           bulanan_status: rows[index].bulanan_status,
           bulanan_tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
-          admin_nama: rows[index].bulanan_id,
+          admin_nama: rows[index].admin_nama,
         });
       });
       res.json(data);
