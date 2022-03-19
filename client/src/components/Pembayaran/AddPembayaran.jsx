@@ -44,7 +44,7 @@ export default class AddPembayaran extends Component {
               title: "Berhasil!",
               text: `Pembayaran Berhasil!`,
             })
-            // this.props.history.push("/admin/pembayaran");
+            this.props.history.push("/admin/pembayaran");
           }
         })
         .catch((error) => {});
@@ -60,7 +60,6 @@ export default class AddPembayaran extends Component {
       <Card style={{ color: "black" }}>
         <Card.Body>
           <Card.Title>Pembayaran</Card.Title>
-          <hr/>
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
               <Form.Label>Nominal
@@ -103,7 +102,7 @@ export default class AddPembayaran extends Component {
                 })}
               </div>
             </Form.Group>
-            <Button variant="outline-primary" type="submit">
+            <Button variant="primary" type="submit">
               Bayar
             </Button>
             &ensp;

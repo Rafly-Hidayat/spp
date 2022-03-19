@@ -31,6 +31,7 @@ import Swal from "sweetalert2";
 import logo from "../Assets/LandingPageImg/Logo.png";
 
 import "./PembayaranBebas.css";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 export default class PembayaranBebas extends Component {
   constructor(props) {
@@ -50,9 +51,15 @@ export default class PembayaranBebas extends Component {
       .get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
       .then((res) => {
         console.log(res);
-        this.setState({
-          data: res.data,
-        });
+        if (res.data.error === true) {
+          this.setState({
+            data: "",
+          });
+        } else {
+          this.setState({
+            data: res.data,
+          });
+        }
       })
       .catch((err) => {
         Swal.fire({
@@ -74,16 +81,16 @@ export default class PembayaranBebas extends Component {
     const desktop = [
       {
         dataField: "pos_nama",
-        text: "Nama Pos",
+        text: "Deskripsi",
       },
       {
-        text: "Jumlah Tagihan",
+        text: "Jumlah",
         formatter: (cell, row) => {
           return <div>Rp. {row.bebas_tagihan.toLocaleString("id-ID")}</div>;
         },
       },
       {
-        text: "Jumlah yang dibayar",
+        text: "Dibayar",
         formatter: (cell, row) => {
           return <div>Rp. {row.bebas_total_bayar.toLocaleString("id-ID")}</div>;
         },
@@ -101,19 +108,24 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
+        
       },
       {
         text: "Status",
         formatter: (cell, row) => {
-          const data =
-            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar);
-          console.log(data);
-          if (data === 0) {
-            return <Badge bg="success"> Lunas</Badge>;
-          } else {
-            return <Badge bg="danger"> Belum Lunas</Badge>;
+          // if bebas_tagihan minus bebas_total_bayar is 0, then return "Lunas"
+          if (
+            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) === 0
+          ) {
+            return <Badge bg="success">Lunas</Badge>;
+          }
+          // else return "Belum Lunas"
+          else {
+            return <Badge bg="danger">Belum Lunas</Badge>;
           }
         },
+        align : 'center',
+        headerAlign : 'center'
       },
       {
         text: "Aksi",
@@ -130,6 +142,7 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
+        headerAlign : 'center'
       },
     ];
 
@@ -138,57 +151,43 @@ export default class PembayaranBebas extends Component {
     const mobile = [
       {
         dataField: "pos_nama",
-        text: "Nama Pos",
+        text:  "Tipe",
+        headerAlign : "center"
       },
       {
-        text: "Sisa Tagihan",
+        text: "Tagihan",
         formatter: (cell, row) => {
+          // count bebas_tagihan minus bebas_total_bayar and turn to LocaleString("id")
           return (
             <div>
-              Rp.{" "}
+              Rp.
               {(
                 parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar)
               ).toLocaleString("id")}
             </div>
           );
         },
-      },
-      {
-        text: "Status",
-        formatter: (cell, row) => {
-          const data =
-            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar);
-          console.log(data);
-          if (data === 0) {
-            return <Badge bg="success"> Lunas</Badge>;
-          } else {
-            return <Badge bg="danger"> Belum Lunas</Badge>;
-          }
-        },
+        headerAlign : "center"
       },
       {
         dataField: "Aksi",
         text: "Aksi",
-        align: "center",
-        headerAlign: "center",
-        // make delete and update button
         formatter: (cellContent, row) => {
-          return (
-            <div>
-              <Container>
-                <Row>
-                  <Col>
-                    {/* <Link to={`/admin/jurusan/ubah/${row.jurusan_id}`} > */}
-                    <Button variant="warning" className="mr-2 " block>
-                      <FontAwesomeIcon icon={faInfo} />
-                    </Button>
-                    {/* </Link> */}
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-          );
+          if(parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) === 0){
+            return <Button variant="warning">
+            <FontAwesomeIcon icon={faPrint} />
+          </Button>
+          } else {
+            return <Button variant="warning" disabled>
+            <FontAwesomeIcon icon={faPrint} />
+          </Button>
+          }
         },
+        align : 'center',
+        headerStyle : {
+          width : '20%',
+          textAlign : 'center'
+        }
       },
     ];
 

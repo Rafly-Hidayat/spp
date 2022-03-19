@@ -14,6 +14,8 @@ import Dashboard from '../DashboardUser/DashboardUser'
 import Transaksi from '../Transaksi/Transaksi'
 import Logout from '../Logout/Logout'
 import PembayaranBebas from '../PembayaranBebas/PembayaranBebas';
+import Profile from '../Profile/Profile'
+import Invoice from '../PembayaranBulanan/Invoice'
 
 const SideBar = () => {
     const [sidebar, setSidebar] = useState('sidebar');
@@ -128,6 +130,8 @@ const SideBar = () => {
 
 
                 <Route exact path="/user/transaksi" component={Transaksi} />
+
+                <ProtectedRoute exact path="/user/profile" component={Profile} />
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
             </div>
