@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: Mar 07, 2022 at 04:11 PM
--- Server version: 5.7.34
--- PHP Version: 8.0.8
+-- Host: localhost
+-- Generation Time: Mar 18, 2022 at 02:04 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -82,11 +82,9 @@ CREATE TABLE `bebas` (
 --
 
 INSERT INTO `bebas` (`bebas_id`, `siswa_id`, `pembayaran_id`, `bebas_tagihan`, `bebas_total_bayar`) VALUES
-(1, 5, 2, '1800000', '400000'),
+(1, 5, 2, '1800000', '0'),
 (2, 6, 2, '1800000', '0'),
-(3, 7, 2, '1800000', '0'),
-(4, 4, 2, '1800000', '0'),
-(5, 8, 2, '1800000', '0');
+(3, 7, 2, '1800000', '0');
 
 -- --------------------------------------------------------
 
@@ -100,8 +98,9 @@ CREATE TABLE `bulanan` (
   `pembayaran_id` int(11) NOT NULL,
   `month_id` int(11) NOT NULL,
   `bulanan_tagihan` decimal(10,0) NOT NULL,
+  `no_transaksi` varchar(50) NOT NULL,
   `bulanan_status` tinyint(1) NOT NULL,
-  `bulanan_tanggal` date NOT NULL,
+  `bulanan_tanggal` date DEFAULT NULL,
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -109,67 +108,43 @@ CREATE TABLE `bulanan` (
 -- Dumping data for table `bulanan`
 --
 
-INSERT INTO `bulanan` (`bulanan_id`, `siswa_id`, `pembayaran_id`, `month_id`, `bulanan_tagihan`, `bulanan_status`, `bulanan_tanggal`, `admin_id`) VALUES
-(1, 4, 1, 1, '300000', 1, '2022-03-03', 1),
-(2, 4, 1, 2, '300000', 1, '2022-03-03', 1),
-(3, 4, 1, 3, '300000', 1, '2022-03-03', 1),
-(4, 4, 1, 4, '300000', 1, '2022-03-03', 1),
-(5, 4, 1, 5, '300000', 1, '2022-03-03', 1),
-(6, 4, 1, 6, '300000', 1, '2022-03-03', 1),
-(7, 4, 1, 7, '300000', 1, '2022-03-07', 2),
-(8, 4, 1, 8, '300000', 1, '2022-03-03', 1),
-(9, 4, 1, 9, '300000', 1, '2022-03-03', 1),
-(10, 4, 1, 10, '300000', 1, '2022-03-03', 1),
-(11, 4, 1, 11, '300000', 1, '2022-03-03', 1),
-(12, 4, 1, 12, '300000', 1, '2022-03-03', 1),
-(13, 8, 1, 1, '300000', 1, '2022-03-03', 1),
-(14, 8, 1, 2, '300000', 1, '2022-03-03', 1),
-(15, 8, 1, 3, '300000', 1, '2022-03-03', 1),
-(16, 8, 1, 4, '300000', 1, '2022-03-03', 1),
-(17, 8, 1, 5, '300000', 1, '2022-03-03', 1),
-(18, 8, 1, 6, '300000', 1, '2022-03-03', 1),
-(19, 8, 1, 7, '300000', 1, '2022-03-03', 1),
-(20, 8, 1, 8, '300000', 1, '2022-03-03', 1),
-(21, 8, 1, 9, '300000', 1, '2022-03-03', 1),
-(22, 8, 1, 10, '300000', 1, '2022-03-03', 1),
-(23, 8, 1, 11, '300000', 0, '2022-03-03', 1),
-(24, 8, 1, 12, '300000', 1, '2022-03-03', 1),
-(25, 5, 1, 1, '300000', 0, '2022-03-05', 1),
-(26, 5, 1, 2, '300000', 0, '2022-03-05', 1),
-(27, 5, 1, 3, '300000', 0, '2022-03-05', 1),
-(28, 5, 1, 4, '300000', 0, '2022-03-05', 1),
-(29, 5, 1, 5, '300000', 0, '2022-03-05', 1),
-(30, 5, 1, 6, '300000', 0, '2022-03-05', 1),
-(31, 5, 1, 7, '300000', 0, '2022-03-05', 1),
-(32, 5, 1, 8, '300000', 0, '2022-03-05', 1),
-(33, 5, 1, 9, '300000', 0, '2022-03-05', 1),
-(34, 5, 1, 10, '300000', 0, '2022-03-05', 1),
-(35, 5, 1, 11, '300000', 0, '2022-03-05', 1),
-(36, 5, 1, 12, '300000', 0, '2022-03-05', 1),
-(37, 6, 1, 1, '300000', 0, '2022-03-05', 1),
-(38, 6, 1, 2, '300000', 0, '2022-03-05', 1),
-(39, 6, 1, 3, '300000', 0, '2022-03-05', 1),
-(40, 6, 1, 4, '300000', 0, '2022-03-05', 1),
-(41, 6, 1, 5, '300000', 0, '2022-03-05', 1),
-(42, 6, 1, 6, '300000', 0, '2022-03-05', 1),
-(43, 6, 1, 7, '300000', 0, '2022-03-05', 1),
-(44, 6, 1, 8, '300000', 0, '2022-03-05', 1),
-(45, 6, 1, 9, '300000', 0, '2022-03-05', 1),
-(46, 6, 1, 10, '300000', 0, '2022-03-05', 1),
-(47, 6, 1, 11, '300000', 0, '2022-03-05', 1),
-(48, 6, 1, 12, '300000', 0, '2022-03-05', 1),
-(49, 7, 1, 1, '300000', 0, '2022-03-05', 1),
-(50, 7, 1, 2, '300000', 0, '2022-03-05', 1),
-(51, 7, 1, 3, '300000', 0, '2022-03-05', 1),
-(52, 7, 1, 4, '300000', 0, '2022-03-05', 1),
-(53, 7, 1, 5, '300000', 0, '2022-03-05', 1),
-(54, 7, 1, 6, '300000', 0, '2022-03-05', 1),
-(55, 7, 1, 7, '300000', 0, '2022-03-05', 1),
-(56, 7, 1, 8, '300000', 0, '2022-03-05', 1),
-(57, 7, 1, 9, '300000', 0, '2022-03-05', 1),
-(58, 7, 1, 10, '300000', 0, '2022-03-05', 1),
-(59, 7, 1, 11, '300000', 0, '2022-03-05', 1),
-(60, 7, 1, 12, '300000', 0, '2022-03-05', 1);
+INSERT INTO `bulanan` (`bulanan_id`, `siswa_id`, `pembayaran_id`, `month_id`, `bulanan_tagihan`, `no_transaksi`, `bulanan_status`, `bulanan_tanggal`, `admin_id`) VALUES
+(1, 5, 1, 1, '300000', '', 1, '2022-03-08', 1),
+(2, 5, 1, 2, '300000', '', 1, '2022-03-16', 2),
+(3, 5, 1, 3, '300000', '', 1, '2022-03-18', 1),
+(4, 5, 1, 4, '300000', '', 0, '2022-03-08', 1),
+(5, 5, 1, 5, '300000', '', 0, '2022-03-08', 1),
+(6, 5, 1, 6, '300000', '', 0, '2022-03-08', 1),
+(7, 5, 1, 7, '300000', '', 0, '2022-03-08', 1),
+(8, 5, 1, 8, '300000', '', 0, '2022-03-08', 1),
+(9, 5, 1, 9, '300000', '', 0, '2022-03-08', 1),
+(10, 5, 1, 10, '300000', '', 0, '2022-03-08', 1),
+(11, 5, 1, 11, '300000', '', 0, '2022-03-08', 1),
+(12, 5, 1, 12, '300000', '', 0, '2022-03-08', 1),
+(13, 6, 1, 1, '300000', '', 1, '2022-03-16', 2),
+(14, 6, 1, 2, '300000', '', 1, '2022-03-17', 1),
+(15, 6, 1, 3, '300000', '', 1, '2022-03-18', 1),
+(16, 6, 1, 4, '300000', '', 0, '2022-03-08', 1),
+(17, 6, 1, 5, '300000', '', 0, '2022-03-08', 1),
+(18, 6, 1, 6, '300000', '', 0, '2022-03-08', 1),
+(19, 6, 1, 7, '300000', '', 0, '2022-03-08', 1),
+(20, 6, 1, 8, '300000', '', 0, '2022-03-08', 1),
+(21, 6, 1, 9, '300000', '', 0, '2022-03-08', 1),
+(22, 6, 1, 10, '300000', '', 0, '2022-03-08', 1),
+(23, 6, 1, 11, '300000', '', 0, '2022-03-08', 1),
+(24, 6, 1, 12, '300000', '', 0, '2022-03-08', 1),
+(25, 7, 1, 1, '300000', '', 0, '2022-03-08', 1),
+(26, 7, 1, 2, '300000', '', 0, '2022-03-08', 1),
+(27, 7, 1, 3, '300000', '', 0, '2022-03-08', 1),
+(28, 7, 1, 4, '300000', '', 0, '2022-03-08', 1),
+(29, 7, 1, 5, '300000', '', 0, '2022-03-08', 1),
+(30, 7, 1, 6, '300000', '', 0, '2022-03-08', 1),
+(31, 7, 1, 7, '300000', '', 0, '2022-03-08', 1),
+(32, 7, 1, 8, '300000', '', 0, '2022-03-08', 1),
+(33, 7, 1, 9, '300000', '', 0, '2022-03-08', 1),
+(34, 7, 1, 10, '300000', '', 0, '2022-03-08', 1),
+(35, 7, 1, 11, '300000', '', 0, '2022-03-08', 1),
+(36, 7, 1, 12, '300000', '', 0, '2022-03-08', 1);
 
 -- --------------------------------------------------------
 
@@ -179,20 +154,13 @@ INSERT INTO `bulanan` (`bulanan_id`, `siswa_id`, `pembayaran_id`, `month_id`, `b
 
 CREATE TABLE `d_bebas` (
   `d_bebas_id` int(11) NOT NULL,
+  `no_transaksi` varchar(50) NOT NULL,
   `bebas_id` int(11) NOT NULL,
   `d_bebas_bayar` decimal(10,0) NOT NULL,
   `d_bebas_deskripsi` varchar(100) NOT NULL,
   `d_bebas_tanggal` date NOT NULL,
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `d_bebas`
---
-
-INSERT INTO `d_bebas` (`d_bebas_id`, `bebas_id`, `d_bebas_bayar`, `d_bebas_deskripsi`, `d_bebas_tanggal`, `admin_id`) VALUES
-(1, 1, '200000', 'nyicil 200k', '2022-02-16', 2),
-(2, 1, '200000', 'nyicil 200k', '2022-02-16', 2);
 
 -- --------------------------------------------------------
 
@@ -370,14 +338,47 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`siswa_id`, `siswa_nis`, `siswa_nama`, `siswa_password`, `siswa_gender`, `siswa_img`, `kelas_id`, `jurusan_id`, `d_kelas_id`) VALUES
-(1, '192010001', 'Ade', 'Ade', 'L', 'profile.png', 3, 2, 3),
-(2, '192010002', 'Abel N', 'Abel', 'L', 'profile.png', 3, 2, 3),
-(4, '192010003', 'Asti', 'asti', 'P', 'profile.png', 2, 2, 3),
+(4, '192010003', 'Asti', 'asti', 'P', 'profile.png', 3, 2, 3),
 (5, '192010004', 'Angga', 'angga', 'L', 'profile.png', 1, 2, 3),
 (6, '192010005', 'Fadil', 'fadil', 'L', 'profile.png', 1, 2, 3),
 (7, '192010006', 'Fajar', 'fajar', 'L', 'profile.png', 1, 2, 3),
-(8, '192010007', 'Rafly', 'rafly', 'L', 'profile.png', 2, 2, 3),
-(9, '192010008', 'Raka', 'raka', 'L', 'profile.png', 3, 2, 3);
+(8, '192010007', 'Rafly', 'rafly', 'L', 'profile.png', 3, 2, 3),
+(9, '192010008', 'Raka', 'raka', 'L', 'profile.png', 3, 2, 3),
+(82, '192010429', 'ABEL NATANAEL HUTAPEA', 'NMKfF9LH', 'L', 'profile.png', 3, 2, 3),
+(83, '192010430', 'ADE RAFIF HILMANSYAH', 'qkJWOTqO', 'L', 'profile.png', 3, 2, 3),
+(84, '192010431', 'ADILLA MARSYA SOFHIANTI', 'vnqrN5sD', 'P', 'profile.png', 3, 2, 3),
+(85, '192010432', 'AGNIA PINASTI AULIA', '0ZAa2gDr', 'P', 'profile.png', 3, 2, 3),
+(86, '192010433', 'AGUSTIN WULANDARI', 'frd0rYjX', 'P', 'profile.png', 3, 2, 3),
+(87, '192010434', 'AHMAD FADHILAH', 'XKk37U3e', 'L', 'profile.png', 3, 2, 3),
+(88, '192010435', 'AMELIA ADESTI', 'vACrBDkF', 'P', 'profile.png', 3, 2, 3),
+(89, '192010436', 'ANDRI HARTONO', 'LeEjcsGR', 'L', 'profile.png', 3, 2, 3),
+(90, '192010437', 'ANGGA DWI ADITYA', 'E5k59pUq', 'L', 'profile.png', 3, 2, 3),
+(91, '192010438', 'ANISA NUR FADILA', 'E7EgFiTU', 'P', 'profile.png', 3, 2, 3),
+(92, '192010439', 'ARIPIN', 'X9RgfQpc', 'L', 'profile.png', 3, 2, 3),
+(93, '192010440', 'AYUM ADAWIYAH', 'J7kpyXvv', 'P', 'profile.png', 3, 2, 3),
+(94, '192010441', 'CUT SETIAWATI', 'WEib0lj5', 'P', 'profile.png', 3, 2, 3),
+(95, '192010442', 'DAMAHYANTI', 'c4OcVZOO', 'P', 'profile.png', 3, 2, 3),
+(96, '192010443', 'DHAFIN MUKTI AL FARIZI', '2MTuBZVb', 'L', 'profile.png', 3, 2, 3),
+(97, '192010444', 'DIAN NURLAELA', 'g331pt3I', 'P', 'profile.png', 3, 2, 3),
+(98, '192010445', 'EDELWEISS HARUMI JINGGA', 'Dh5sC2dn', 'P', 'profile.png', 3, 2, 3),
+(99, '192010446', 'ELIS SALLEHA', 'GVtjbFu1', 'P', 'profile.png', 3, 2, 3),
+(100, '192010447', 'FAJAR NUR HIDAYAT', 'KKiaDWgQ', 'L', 'profile.png', 3, 2, 3),
+(101, '192010448', 'HISYAM DAFFA RABBANI', 'JUuIV2Vq', 'L', 'profile.png', 3, 2, 3),
+(102, '192010449', 'LUTHFI RAFIF PRADJOKO', 'b35tQbOE', 'L', 'profile.png', 3, 2, 3),
+(103, '192010450', 'MUHAMMAD MAGHVI FAJAR', 'fvVHiEp4', 'L', 'profile.png', 3, 2, 3),
+(104, '192010451', 'PUTRI RAHAYU', 'vf1CFVA7', 'P', 'profile.png', 3, 2, 3),
+(105, '192010452', 'RADEN FATAHILLAH SOENDJOTO', 'MFbzqntG', 'L', 'profile.png', 3, 2, 3),
+(106, '192010453', 'RAFLY HIDAYAT', 'udCIs4YV', 'L', 'profile.png', 3, 2, 3),
+(107, '192010454', 'RAKA SANTANG RABBANI', 'Pv6DrVbE', 'L', 'profile.png', 3, 2, 3),
+(108, '192010455', 'RIFQI ABDUL AZIZ AFIFI', 'NsOwYuAw', 'L', 'profile.png', 3, 2, 3),
+(109, '192010456', 'ROSITA', 'L4X1an5s', 'P', 'profile.png', 3, 2, 3),
+(110, '192010457', 'SANTI', 'gWNwn27B', 'P', 'profile.png', 3, 2, 3),
+(111, '192010458', 'SITI KHUMAIROH', 'YIRp81jL', 'P', 'profile.png', 3, 2, 3),
+(112, '192010459', 'SITI NUR HOSITOH', '8HgEKFGY', 'P', 'profile.png', 3, 2, 3),
+(113, '192010460', 'SYAFA RANI ZAHIRA', 'Kohysv6i', 'P', 'profile.png', 3, 2, 3),
+(114, '192010461', 'VANIA ANDRYANI', '2Q3VNT8t', 'P', 'profile.png', 3, 2, 3),
+(115, '192010462', 'VARITS GORGA', 'FLZElS4j', 'L', 'profile.png', 3, 2, 3),
+(116, '192010463', 'YUNI OCTAVIANI', 'RF8syJ15', 'P', 'profile.png', 3, 2, 3);
 
 --
 -- Indexes for dumped tables
@@ -496,19 +497,19 @@ ALTER TABLE `akses_token`
 -- AUTO_INCREMENT for table `bebas`
 --
 ALTER TABLE `bebas`
-  MODIFY `bebas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `bebas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `bulanan`
 --
 ALTER TABLE `bulanan`
-  MODIFY `bulanan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `bulanan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `d_bebas`
 --
 ALTER TABLE `d_bebas`
-  MODIFY `d_bebas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `d_bebas_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `d_kelas`
@@ -538,7 +539,7 @@ ALTER TABLE `month`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `pembayaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pembayaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `periode`
@@ -556,7 +557,7 @@ ALTER TABLE `pos`
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- Constraints for dumped tables
