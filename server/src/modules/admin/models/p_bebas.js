@@ -147,14 +147,6 @@ module.exports = {
                     message: "Nominal yang anda masukkan melebihi tagihan",
                   });
                 } else {
-                  con.query("SELECT admin_id FROM akses_token", (err, rows) => {
-                    if (err) throw err;
-                    let kd_admin = rows.map((obj) => {
-                      return obj.admin_id;
-                    });
-                    // console.log(kd_admin)
-                    admin_id = kd_admin[kd_admin.length - 1];
-                    // console.log(admin_id)
                     let tanggal = new Date()
                       .toJSON()
                       .slice(0, 10)
@@ -168,7 +160,7 @@ module.exports = {
                     let noTransaksi = pos + "/" + d + m + y;
 
                     con.query(
-                      `INSERT INTO d_bebas SET no_transaksi = '${noTransaksi}',bebas_id = '${id_bebas}', d_bebas_bayar = '${data.nominal}', d_bebas_deskripsi = '${data.keterangan}', d_bebas_tanggal = '${tanggal}', admin_id = '${admin_id}'`,
+                      `INSERT INTO d_bebas SET no_transaksi = '${noTransaksi}',bebas_id = '${id_bebas}', d_bebas_bayar = '${data.nominal}', d_bebas_deskripsi = '${data.keterangan}', d_bebas_tanggal = '${tanggal}', admin_id = '${data.admin_id}'`,
                       (err) => {
                         if (err) throw err;
 
@@ -203,7 +195,7 @@ module.exports = {
                         );
                       }
                     );
-                  });
+                  
                 }
               }
             );
