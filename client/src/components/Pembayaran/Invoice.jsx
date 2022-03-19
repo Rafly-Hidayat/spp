@@ -40,6 +40,7 @@ export default class Invoice extends Component {
             siswa_nis: res.data.siswa_nis,
             pos_nama: res.data.pos_nama,
             month_nama: res.data.month_nama,
+            no_transaksi: res.data.no_transaksi,
           });
         }
       });
@@ -105,7 +106,7 @@ export default class Invoice extends Component {
               >
                 <div className="nomor">
                   <h6 style={{ fontWeight: "700" }}>No. Pembayaran</h6>
-                  <p style={{ marginTop: "14px" }}>004/2022</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.no_transaksi}</p>
                 </div>
                 <div className="tanggal " style={{ textAlign: "right" }}>
                   <h6 style={{ fontWeight: "700" }}>Tgl. Pembayaran</h6>

@@ -34,13 +34,20 @@ export default class ProfileSiswa extends Component {
                 siswa_nama : res.data[0].siswa_nama,
                 siswa_gender : res.data[0].siswa_gender,
                 kelas_nama : res.data[0].kelas_nama,
-                jurusan_nama : res.data[0].jurusan_nama
+                jurusan_nama : res.data[0].jurusan_nama,
+                d_kelas_nama : res.data[0].d_kelas_nama,
+                gambar: res.data[0].siswa_img
           })
       })
   }
-
-  
   render() {
+  let gender = ""
+  if (this.state.siswa_gender == "L") {
+    gender += "Laki-laki"
+  } else if (this.state.siswa_gender == "P") {
+    gender += "Perempuan"
+  }
+  
     return (
       <div>
         <Card>
@@ -66,6 +73,7 @@ export default class ProfileSiswa extends Component {
             <Form>
               <Row>
                 <Col>
+                <img src={"http://127.0.0.1:8000/public/images/" + this.state.gambar} width={40} height={40} />
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
@@ -102,10 +110,10 @@ export default class ProfileSiswa extends Component {
                       <span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="gender"
-                      value={this.state.siswa_gender}
+                      name="gender"   
+                      value={gender}
                       onChange={this.handleChange}
-                    ></Form.Control>
+                      ></Form.Control>
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <Form.Label>
@@ -113,7 +121,7 @@ export default class ProfileSiswa extends Component {
                     </Form.Label>
                     <Form.Control
                       name="kelas_nama"
-                      value={this.state.kelas_nama + " " + this.state.jurusan_nama}
+                      value={this.state.kelas_nama + " " + this.state.jurusan_nama + " " + this.state.d_kelas_nama}
                       onChange={this.handleChange}
                     ></Form.Control>
                   </Form.Group>
