@@ -75,7 +75,6 @@ export default class SetTarif extends Component {
   render() {
     return (
       <div>
-        <Container>
           <Card>
             <Card.Body>
               <Breadcrumb
@@ -191,7 +190,6 @@ export default class SetTarif extends Component {
               </Form>
             </Card.Body>
           </Card>
-        </Container>
       </div>
     );
   }
