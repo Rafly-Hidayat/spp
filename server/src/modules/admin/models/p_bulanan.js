@@ -1,13 +1,12 @@
 function makeNoTransaksi(length) {
-  var result           = '';
-  var characters       = '0123456789';
+  var result = "";
+  var characters = "0123456789";
   var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * 
-charactersLength));
- }
- value = "BLN - "+result;
- return value
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  // value = "BLN - " + result;
+  return result;
 }
 
 module.exports = {
@@ -54,7 +53,7 @@ module.exports = {
   bayar: (con, res, bulanan_id, data, callback) => {
     let tanggal = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
     con.query(
-      `SELECT * FROM bulanan WHERE bulanan_id = ${bulanan_id}`,
+      `SELECT bulanan_id, pos_nama FROM bulanan INNER JOIN pembayaran ON bulanan.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id WHERE bulanan_id = ${bulanan_id}`,
       (err, rows) => {
         if (err) throw err;
         if (rows == 0)
@@ -62,7 +61,14 @@ module.exports = {
             error: true,
             message: "Id pembayaran bulanan tidak ditemukan.'",
           });
-          noTransaksi = makeNoTransaksi(8)
+        
+        let pos = rows[0].pos_nama
+        let tgl = new Date(tanggal)
+        let d = tgl.getDate()
+        let m = tgl.toJSON().slice(5, 7)
+        let y = tgl.toJSON().slice(2, 4)
+        // noTransaksi = pos + "/" + makeNoTransaksi(8);
+        let noTransaksi = pos + "/" + d + m + y;
         con.query(
           `UPDATE bulanan SET bulanan_status = '1',
                         bulanan_tanggal = '${tanggal}', admin_id = '${data.admin_id}', no_transaksi = '${noTransaksi}'  WHERE bulanan_id = ${bulanan_id}`,
@@ -129,14 +135,10 @@ module.exports = {
                     ) {
                       const jumlah_siswa = siswa.length;
                       const jumlah_bulan = month.length;
-                      let tanggal = new Date()
-                        .toJSON()
-                        .slice(0, 10)
-                        .replace(/-/g, "-");
                       for (let i = 0; i < jumlah_siswa; i++) {
                         for (let j = 0; j < jumlah_bulan; j++) {
                           con.query(
-                            `INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0', bulanan_tanggal = '${tanggal}', admin_id = '1' `
+                            `INSERT INTO bulanan SET siswa_id = '${siswa[i]}', pembayaran_id = '${data.pembayaran_id}', bulanan_tagihan = '${data.tagihan}', month_id = '${month[j]}', bulanan_status = '0'`
                           );
                         }
                       }
@@ -179,22 +181,27 @@ module.exports = {
             message: "Data pembayaran siswa tidak ditemukan.",
           });
 
-          const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
-          const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"]
-          let d = new Date(rows[0].bulanan_tanggal.toString())
+        
 
-          res.json({
-            month_nama: rows[0].month_nama,
-            tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
-            no_transaksi: rows[0].no_transaksi,
-            admin_nama: rows[0].admin_nama,
-            siswa_nama: rows[0].siswa_nama,
-            siswa_nis: rows[0].siswa_nis,
-            kelas_nama: rows[0].kelas_nama,
-            jurusan_nama: rows[0].jurusan_nama,
-            d_kelas_nama: rows[0].d_kelas_nama,
-            pos_nama: rows[0].pos_nama,
-          })
+        res.json({
+          month_nama: rows[0].month_nama,
+          tanggal:
+            days[d.getDay()] +
+            ", " +
+            d.getDate() +
+            " " +
+            months[d.getMonth()] +
+            " " +
+            d.getFullYear(),
+          no_transaksi: rows[0].no_transaksi,
+          admin_nama: rows[0].admin_nama,
+          siswa_nama: rows[0].siswa_nama,
+          siswa_nis: rows[0].siswa_nis,
+          kelas_nama: rows[0].kelas_nama,
+          jurusan_nama: rows[0].jurusan_nama,
+          d_kelas_nama: rows[0].d_kelas_nama,
+          pos_nama: rows[0].pos_nama,
+        });
       }
     );
   },

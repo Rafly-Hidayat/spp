@@ -30,7 +30,7 @@ export default class InformasiSIswa extends Component {
     const id = this.props.nis;
     axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
       console.log(res);
-      if (res.data.siswa_id === undefined) {
+      if (res.data[0].siswa_id === undefined) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -47,37 +47,36 @@ export default class InformasiSIswa extends Component {
         });
       } else {
         this.setState({
-          nis: res.data.siswa_nis,
-          nama: res.data.siswa_nama,
-          jenis_kelamin: res.data.siswa_gender,
-          siswa_id: res.data.siswa_id,
+          nis: res.data[0].siswa_nis,
+          nama: res.data[0].siswa_nama,
+          jenis_kelamin: res.data[0].siswa_gender,
+          siswa_id: res.data[0].siswa_id,
           periode: this.props.periode,
         });
         const id = this.props.nis;
         axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
-          console.log(res);
-          if(res.data[0] === undefined){
+          if (res.data[0] === undefined) {
             this.setState({
               data: "",
             });
-            console.log(this.state.bebas_id)
+            console.log(this.state.bebas_id);
           } else {
             this.setState({
               data: res.data,
-              bebas_id : res.data[0].bebas_id
-            })
+              bebas_id: res.data[0].bebas_id,
+            });
           }
         });
         axios.get(`http://localhost:8000/bulanan/${id}`).then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.data[0] === undefined) {
             this.setState({
-              databulanan: ""
+              databulanan: "",
             });
           } else {
             this.setState({
               databulanan: res.data,
-            })
+            });
           }
         });
       }
@@ -116,7 +115,7 @@ export default class InformasiSIswa extends Component {
         text: "Bulan",
       },
       {
-        text: "Nominal",
+        text: "Tagihan",
         formatter: (cell, row) => {
           return <div>Rp. {row.bulanan_tagihan.toLocaleString("id")}</div>;
         },
@@ -142,7 +141,7 @@ export default class InformasiSIswa extends Component {
         },
       },
       {
-        text: "Aksi",
+        text: "Bayar",
         formatter: (cell, row) => {
           if (row.bulanan_status === 1) {
             return (
@@ -165,7 +164,7 @@ export default class InformasiSIswa extends Component {
     const columns = [
       {
         dataField: "pos_nama",
-        text: "Deskripsi",
+        text: "Tipe Pembayaran",
       },
       {
         text: "Jumlah Tagihan",
@@ -195,23 +194,13 @@ export default class InformasiSIswa extends Component {
         },
       },
       {
-        text: "Aksi",
-        formatter: (cell, row) => {
-          const data =
-          parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar);
-        if (data !== 0) {
+        text: "Bayar",
+        formatter: () => {
           return (
-            <Link to={`/admin/pembayaran/tambah/${row.bebas_id}`}>    
-              <Button variant="outline-primary">Bayar</Button>
+            <Link to={`/admin/pembayaran/tambah/${this.state.bebas_id}`}>
+              <Button>Bayar</Button>
             </Link>
           );
-        } else {
-          return (
-            <Link >    
-              <Button variant="outline-primary">Bayar</Button>
-            </Link>
-          );
-        }
         },
       },
     ];
