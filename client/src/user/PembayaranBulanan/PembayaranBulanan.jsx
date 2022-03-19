@@ -56,6 +56,7 @@ export default class PembayaranBulanan extends Component {
   }
 
   render() {
+    const id =  JSON.parse(localStorage.getItem("dataSiswa")).id;
     const desktop = [
       {
         dataField: "month_id",
@@ -159,7 +160,7 @@ export default class PembayaranBulanan extends Component {
                 if (row.bulanan_status == 1) {
                     return (
                         <div>
-                            <Link>
+                            <Link to={`/user/invoice/bulanan/${id}`}>
                                 <Button variant="warning"><FontAwesomeIcon icon={faPrint}/></Button>
                             </Link>
                         </div>

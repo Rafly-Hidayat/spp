@@ -146,7 +146,9 @@ export default class InformasiSIswa extends Component {
           if (row.bulanan_status === 1) {
             return (
               <div>
+                <Link to={`/admin/invoice/${row.bulanan_id}`}>
                 <Button variant="outline-warning">Cetak</Button>
+                </Link>
               </div>
             );
           } else {
