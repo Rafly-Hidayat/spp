@@ -33,6 +33,7 @@ import navlogo from "../Assets/logotextwhite.svg";
 
 // Import File
 import img from "../Assets/user.jpg";
+import Invoice from '../Pembayaran/Invoice'
 
 // Admin
 
@@ -603,7 +604,12 @@ const SideBar = () => {
           <ProtectedRoute
             exact
             path="/admin/laporan/bebas"
-            component={LaporanBebas}
+            component={Invoice}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/invoice/"
+            component={Invoice}
           />
         </div>
       </div>

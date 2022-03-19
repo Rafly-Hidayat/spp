@@ -5,14 +5,14 @@ import axios from "axios";
 import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
 
-import InvoicePrint from './InvoicePrint';
+import InvoicePrint from "./InvoicePrint";
 
 // import './Invoice.css'
 export default class Invoice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.match.params.id,
+      // id: this.props.match.params.id,
     };
   }
   componentDidMount() {
@@ -198,11 +198,15 @@ export default class Invoice extends Component {
               <br />
               <div className="btn-print-download ">
                 <ReactToPrint
-                  trigger={() => <Button variant="primary">Print this out!</Button>}
+                  trigger={() => (
+                    <Button variant="primary">Print this out!</Button>
+                  )}
                   content={() => this.componentRef}
-                  
                 />
-                <InvoicePrint ref={el => (this.componentRef = el)} />
+                <div style={{ display: "none" }}>
+                  <InvoicePrint ref={(el) => (this.componentRef = el)} />
+                </div>
+                {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
                 <Button variant="danger">Download</Button>
               </div>

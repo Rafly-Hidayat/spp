@@ -132,6 +132,7 @@ const SideBar = () => {
                 <Route exact path="/user/transaksi" component={Transaksi} />
 
                 <ProtectedRoute exact path="/user/profile" component={Profile} />
+                <ProtectedRoute exact path="/user/invoice/bulanan/:id" component={Invoice} />
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
             </div>
