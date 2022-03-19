@@ -9,24 +9,38 @@ export default class InvoicePrint extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // id: this.props.match.params.id,
+            id: this.props.bulanan_id,
+            tanggal: "",
+            siswa_nama: "",
+            siswa_nis: "",
+            pos_nama: "",
+            month_nama: "",
         }
     }
     componentDidMount() {
-        axios.get(`http://localhost:8000/user/pembayaran/bulanan/${this.state.id}`)
-        .then((res) => {
-            console.log(res.data);
+        axios
+          .get(`http://localhost:8000/invoice/bulanan/${this.state.id}`)
+          .then((res) => {
+            console.log(res.data.tanggal);
             if (res.data.error === true) {
-                this.setState({
-                    data: "",
-                });
+              this.setState({
+                tanggal: "",
+                siswa_nama: "",
+                siswa_nis: "",
+                pos_nama: "",
+                month_nama: "",
+              });
             } else {
-                this.setState({
-                    data: res.data,
-                });
+              this.setState({
+                tanggal: res.data.tanggal,
+                siswa_nama: res.data.siswa_nama,
+                siswa_nis: res.data.siswa_nis,
+                pos_nama: res.data.pos_nama,
+                month_nama: res.data.month_nama,
+              });
             }
-        });
-    }
+          });
+      }
     render() {
         return (
             <div>
@@ -51,18 +65,18 @@ export default class InvoicePrint extends Component {
                                 </div>
                                 <div className="tanggal " style={{ textAlign: "right" }}>
                                     <h6 style={{ fontWeight: '700' }}>Tgl. Pembayaran</h6>
-                                    <p style={{ marginTop: '14px' }}>Maret 15, 2022</p>
+                                    <p style={{ marginTop: '14px' }}>{this.state.tanggal}</p>
                                 </div>
                             </div>
                             <hr />
                             <div className="nama-nis d-flex " style={{ justifyContent: "space-between", marginBottom: '-8px' }}>
                                 <div className="nama">
                                     <h6 style={{ fontWeight: '700' }}>Nama Lengkap</h6>
-                                    <p style={{ marginTop: '14px' }}>Angga Aditya</p>
+                                    <p style={{ marginTop: '14px' }}>{this.state.siswa_nama} </p>
                                 </div>
                                 <div className="kelas">
                                     <h6 style={{ fontWeight: '700', textAlign: 'right' }}>NIS</h6>
-                                    <p style={{ marginTop: '14px' }}>192010005</p>
+                                    <p style={{ marginTop: '14px' }}>{this.state.siswa_nis}</p>
                                 </div>
                             </div>
                             <hr />
@@ -77,11 +91,9 @@ export default class InvoicePrint extends Component {
                             <hr />
                             <div className="desk-total-isi d-flex" style={{ justifyContent: "space-between", marginBottom: '-2px' }}>
                                 <div className="nama-isi">
-                                    <p>Pembayaran SPP Bulan Januari</p>
-                                    <p>Pembayaran SPP Bulan Februari</p>
+                                    <p>{this.state.pos_nama + " " + this.state.month_nama}</p>
                                 </div>
                                 <div className="kelas-isi">
-                                    <p>Rp 300.000</p>
                                     <p>Rp 300.000</p>
                                 </div>
                             </div>

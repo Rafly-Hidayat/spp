@@ -604,11 +604,11 @@ const SideBar = () => {
           <ProtectedRoute
             exact
             path="/admin/laporan/bebas"
-            component={Invoice}
+            component={LaporanBebas}
           />
           <ProtectedRoute
             exact
-            path="/admin/invoice/"
+            path="/admin/invoice/:id"
             component={Invoice}
           />
         </div>

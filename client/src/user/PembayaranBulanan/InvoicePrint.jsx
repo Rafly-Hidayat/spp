@@ -9,24 +9,10 @@ export default class InvoicePrint extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.match.params.id,
+            // id: this.props.match.params.id,
         }
     }
-    componentDidMount() {
-        axios.get(`http://localhost:8000/user/pembayaran/bulanan/${this.state.id}`)
-        .then((res) => {
-            console.log(res.data);
-            if (res.data.error === true) {
-                this.setState({
-                    data: "",
-                });
-            } else {
-                this.setState({
-                    data: res.data,
-                });
-            }
-        });
-    }
+    // componentDidMounrs
     render() {
         return (
             <div>
