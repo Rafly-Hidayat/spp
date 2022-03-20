@@ -55,28 +55,28 @@ export default class InformasiSIswa extends Component {
         });
         const id = this.props.nis;
         axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
-          if(res.data[0] === undefined){
+          if (res.data[0] === undefined) {
             this.setState({
               data: "",
             });
-            console.log(this.state.bebas_id)
+            console.log(this.state.bebas_id);
           } else {
             this.setState({
               data: res.data,
-              bebas_id : res.data[0].bebas_id
-            })
+              bebas_id: res.data[0].bebas_id,
+            });
           }
         });
         axios.get(`http://localhost:8000/bulanan/${id}`).then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.data[0] === undefined) {
             this.setState({
-              databulanan: ""
+              databulanan: "",
             });
           } else {
             this.setState({
               databulanan: res.data,
-            })
+            });
           }
         });
       }
@@ -146,7 +146,9 @@ export default class InformasiSIswa extends Component {
           if (row.bulanan_status === 1) {
             return (
               <div>
+                <Link to={`/admin/invoice/${row.bulanan_id}`}>
                 <Button variant="outline-warning">Cetak</Button>
+                </Link>
               </div>
             );
           } else {

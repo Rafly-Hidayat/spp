@@ -3,7 +3,7 @@ import { Button, Row, Col, Form, Card, FormSelect } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export default class AddPembayaran extends Component {
   constructor(props) {
@@ -11,6 +11,8 @@ export default class AddPembayaran extends Component {
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       id: this.props.match.params.id,
+      admin: "",
+      data: [],
       nominal: "",
       keterangan: "",
     };
@@ -24,6 +26,7 @@ export default class AddPembayaran extends Component {
   Submit = (e) => {
     e.preventDefault();
     const data = {
+      admin_id: this.state.admin,
       nominal: this.state.nominal,
       keterangan: this.state.keterangan,
     };
@@ -31,7 +34,7 @@ export default class AddPembayaran extends Component {
       axios
         .post(`http://localhost:8000/bebas/bayar/${this.state.id}`, data)
         .then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.data.error) {
             Swal.fire({
               icon: "error",
@@ -43,8 +46,8 @@ export default class AddPembayaran extends Component {
               icon: "success",
               title: "Berhasil!",
               text: `Pembayaran Berhasil!`,
-            })
-            // this.props.history.push("/admin/pembayaran");
+            });
+            this.props.history.push("/admin/pembayaran");
           }
         })
         .catch((error) => {});
@@ -55,6 +58,13 @@ export default class AddPembayaran extends Component {
       this.forceUpdate();
     }
   };
+  componentDidMount() {
+    axios.get("http://localhost:8000/admin").then((res) => {
+      this.setState({
+        data: res.data,
+      });
+    });
+  }
   render() {
     return (
       <Card style={{ color: "black" }}>
@@ -62,8 +72,32 @@ export default class AddPembayaran extends Component {
           <Card.Title>Pembayaran</Card.Title>
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
-              <Form.Label>Nominal
-              <span className="text-danger">*</span>
+              <hr />
+              <Form.Label>
+                Nama Admin
+                <span className="text-danger">*</span>
+              </Form.Label>
+              <FormSelect name="admin" onChange={this.handleChange}>
+                <option>=== Pilih Admin ===</option>
+                {this.state.data.map((item) => (
+                  <option key="" value={item.admin_id}>
+                    {item.admin_nama}
+                  </option>
+                ))}
+              </FormSelect>
+              <div>
+                {this.validator.message("admin", this.state.admin, `required`, {
+                  className: "text-danger",
+                  messages: {
+                    required: "Pilih Nama Admin!",
+                  },
+                })}
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Nominal
+                <span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
                 name="nominal"
@@ -76,17 +110,23 @@ export default class AddPembayaran extends Component {
                 value={this.state.nominal}
               />
               <div>
-                {this.validator.message("nominal", this.state.nominal, `required`, {
-                  className: "text-danger",
-                  messages: {
-                    required: "Masukkan Nominal yang ingin dibayarkan!",
-                  },
-                })}
+                {this.validator.message(
+                  "nominal",
+                  this.state.nominal,
+                  `required`,
+                  {
+                    className: "text-danger",
+                    messages: {
+                      required: "Masukkan Nominal yang ingin dibayarkan!",
+                    },
+                  }
+                )}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Keterangan
-              <span className="text-danger">*</span>
+              <Form.Label>
+                Keterangan
+                <span className="text-danger">*</span>
               </Form.Label>
               <FormSelect name="keterangan" onChange={this.handleChange}>
                 <option value="">=== Pilih Keterangan ===</option>
@@ -94,23 +134,28 @@ export default class AddPembayaran extends Component {
                 <option value="Lunas">Lunas</option>
               </FormSelect>
               <div>
-                {this.validator.message("keterangan", this.state.keterangan, `required`, {
-                  className: "text-danger",
-                  messages: {
-                    required: "Masukkan keterangan!",
-                  },
-                })}
+                {this.validator.message(
+                  "keterangan",
+                  this.state.keterangan,
+                  `required`,
+                  {
+                    className: "text-danger",
+                    messages: {
+                      required: "Masukkan keterangan!",
+                    },
+                  }
+                )}
               </div>
             </Form.Group>
             <Button variant="primary" type="submit">
               Bayar
             </Button>
             &ensp;
-              <Link to="/admin/pembayaran">
-                <Button variant="outline-danger" type="submit">
-                  Batal
-                </Button>
-              </Link>
+            <Link to="/admin/pembayaran">
+              <Button variant="outline-danger" type="submit">
+                Batal
+              </Button>
+            </Link>
           </Form>
         </Card.Body>
       </Card>

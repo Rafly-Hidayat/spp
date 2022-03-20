@@ -14,15 +14,9 @@ module.exports = {
         });
 
         Array.from(siswa).forEach((element, index) => {
-          if (data.kelas == 1) {
             con.query(
-              `UPDATE siswa SET kelas_id = '2' WHERE siswa_id = '${siswa[index]}'`
+              `UPDATE siswa SET kelas_id = '${data.ke_kelas}' WHERE siswa_id = '${siswa[index]}'`
             );
-          } else if (data.kelas == 2) {
-            con.query(
-              `UPDATE siswa SET kelas_id = '3' WHERE siswa_id = '${siswa[index]}'`
-            );
-          }
         });
 
         return res.json({ error: false, message: "Siswa berhasil naik kelas" });

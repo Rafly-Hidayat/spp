@@ -1,21 +1,33 @@
+function makeNoTransaksi(length) {
+  var result           = '';
+  var characters       = '0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+charactersLength));
+ }
+ value = "BBS - "+result;
+ return value
+}
+
 module.exports = {
   getAll: (con, callback) => {
     con.query(
-      "SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id",
+      "SELECT bebas_id, bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id",
       callback
     );
   },
 
   getById: (con, bebas_id, callback) => {
     con.query(
-      `SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bebas.bebas_id = ${bebas_id}`,
+      `SELECT bebas_id, bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bebas.bebas_id = ${bebas_id}`,
       callback
     );
   },
 
   getByNis: (con, siswa_nis, callback) => {
     con.query(
-      `SELECT bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.siswa_nis = ${siswa_nis}`,
+      `SELECT bebas_id, bebas_tagihan, bebas_total_bayar, siswa.siswa_id, siswa_nama, pembayaran_tipe, pos_nama, periode_mulai, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.siswa_nis = ${siswa_nis}`,
       callback
     );
   },
@@ -104,13 +116,15 @@ module.exports = {
     con.beginTransaction((err) => {
       if (err) throw err;
       con.query(
-        `SELECT bebas_id FROM bebas WHERE bebas_id = '${bebas_id}'`,
+        `SELECT bebas_id, pos_nama FROM bebas INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id WHERE bebas_id = '${bebas_id}'`,
         (err, rows) => {
           if (err) throw err;
 
           const id_bebas = rows.map((obj) => {
             return obj.bebas_id;
           });
+
+        const pos = rows[0].pos_nama
 
           if (bebas_id == id_bebas) {
             con.query(
@@ -133,21 +147,20 @@ module.exports = {
                     message: "Nominal yang anda masukkan melebihi tagihan",
                   });
                 } else {
-                  con.query("SELECT admin_id FROM akses_token", (err, rows) => {
-                    if (err) throw err;
-                    let kd_admin = rows.map((obj) => {
-                      return obj.admin_id;
-                    });
-                    // console.log(kd_admin)
-                    admin_id = kd_admin[kd_admin.length - 1];
-                    // console.log(admin_id)
                     let tanggal = new Date()
                       .toJSON()
                       .slice(0, 10)
                       .replace(/-/g, "-");
 
+                    let tgl = new Date(tanggal)
+                    let d = tgl.getDate()
+                    let m = tgl.toJSON().slice(5, 7)
+                    let y = tgl.toJSON().slice(2, 4)
+                    // noTransaksi = pos + "/" + makeNoTransaksi(8);
+                    let noTransaksi = pos + "/" + d + m + y;
+
                     con.query(
-                      `INSERT INTO d_bebas SET bebas_id = '${id_bebas}', d_bebas_bayar = '${data.nominal}', d_bebas_deskripsi = '${data.keterangan}', d_bebas_tanggal = '${tanggal}', admin_id = '${admin_id}'`,
+                      `INSERT INTO d_bebas SET no_transaksi = '${noTransaksi}',bebas_id = '${id_bebas}', d_bebas_bayar = '${data.nominal}', d_bebas_deskripsi = '${data.keterangan}', d_bebas_tanggal = '${tanggal}', admin_id = '${data.admin_id}'`,
                       (err) => {
                         if (err) throw err;
 
@@ -182,7 +195,7 @@ module.exports = {
                         );
                       }
                     );
-                  });
+                  
                 }
               }
             );
@@ -200,7 +213,7 @@ module.exports = {
 
   invoice: (con, d_bebas_id, res) => {
     con.query(
-      `SELECT d_bebas_bayar, d_bebas_deskripsi, d_bebas_tanggal, admin_nama, kelas_nama, jurusan_nama, d_kelas_nama, siswa_nama, siswa_nis, pos_nama FROM d_bebas INNER JOIN bebas ON bebas.bebas_id = d_bebas.bebas_id INNER JOIN siswa ON bebas.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN periode ON pembayaran.periode_id = periode.periode_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN admin ON admin.admin_id = d_bebas.admin_id WHERE d_bebas.d_bebas_id = ${d_bebas_id}`,
+      `SELECT no_transaksi, d_bebas_bayar, d_bebas_deskripsi, d_bebas_tanggal, admin_nama, kelas_nama, jurusan_nama, d_kelas_nama, siswa_nama, siswa_nis, pos_nama FROM d_bebas INNER JOIN bebas ON bebas.bebas_id = d_bebas.bebas_id INNER JOIN siswa ON bebas.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN periode ON pembayaran.periode_id = periode.periode_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN admin ON admin.admin_id = d_bebas.admin_id WHERE d_bebas.d_bebas_id = ${d_bebas_id}`,
       (err, rows) => {
         if (err) throw err;
         if (rows == 0)
@@ -213,6 +226,7 @@ module.exports = {
         let d = new Date(rows[0].d_bebas_tanggal.toString())
 
         return res.json({
+          no_tansaksi: rows[0].no_transaksi,
           d_bebas_bayar: rows[0].d_bebas_bayar,
           d_bebas_deskripsi: rows[0].d_bebas_deskripsi,
           tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),

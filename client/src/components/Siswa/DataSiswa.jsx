@@ -119,7 +119,7 @@ export default class DataSiswa extends Component {
       },
       {
         dataField: "siswa_img",
-        text: "Image Siswa",
+        text: "Foto Siswa",
         align: "center",
         headerAlign: "center",
         formatter: (cellContent, row) => {

@@ -100,10 +100,25 @@ export default class DataSiswa extends Component {
         headerAlign: "center",
       },
       {
-        dataField: "siswa_gender",
         text: "Jenis Kelamin",
-        align: "center",
-        headerAlign: "center",
+        formatter: (cellContent, row) => {
+          
+          if(row.siswa_gender === "L"){
+            return (
+            <div>
+              Laki-Laki
+            </div>  
+            )
+            
+          } else {
+            return(
+            <div>
+              Perempuan
+            </div>  
+            )
+            
+          }
+        },
       },
       {
         dataField: "kelas_nama",
