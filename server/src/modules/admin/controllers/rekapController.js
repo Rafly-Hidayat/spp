@@ -64,4 +64,27 @@ module.exports = {
       res.json(data);
     });
   },
+
+  laporanKelasBebas: (req, res) => {
+    rekap.laporanKelasBebas(req.con, res, req.body, (err, rows) => {
+      if(err) throw err
+      if(rows.length == 0 || rows[0].siswa_nama == null) {
+        return res.json({error: true, message: "Tidak ada data yang ditemukan"})
+      } else {
+        return res.json({error: false, message: "Data ditemukan", data: rows})
+      }
+    })
+  },
+  
+  laporanKelasBulanan: (req, res) => {
+    rekap.laporanKelasBulanan(req.con, res, req.body, (err, rows) => {
+      if(err) throw err
+      if(rows.length == 0 || rows[0].siswa_nama == null) {
+        return res.json({error: true, message: "Tidak ada data yang ditemukan"})
+      } else {
+        return res.json({error: false, message: "Data ditemukan", data: rows})
+      }
+    })
+  },
+
 };
