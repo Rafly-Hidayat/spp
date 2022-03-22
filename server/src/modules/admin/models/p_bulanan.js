@@ -68,7 +68,7 @@ module.exports = {
         let m = tgl.toJSON().slice(5, 7)
         let y = tgl.toJSON().slice(2, 4)
         // noTransaksi = pos + "/" + makeNoTransaksi(8);
-        let noTransaksi = pos + "/" + d + m + y;
+        let noTransaksi = pos + "/" + d + m + y + "/" + makeNoTransaksi(6);
         con.query(
           `UPDATE bulanan SET bulanan_status = '1',
                         bulanan_tanggal = '${tanggal}', admin_id = '${data.admin_id}', no_transaksi = '${noTransaksi}'  WHERE bulanan_id = ${bulanan_id}`,
