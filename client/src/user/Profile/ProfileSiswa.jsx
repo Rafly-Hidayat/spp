@@ -1,4 +1,4 @@
-import  axios from "axios";
+import axios from "axios";
 import React, { Component } from "react";
 import { Card, Breadcrumb, Form, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -7,15 +7,16 @@ import { Swal } from "sweetalert2";
 export default class ProfileSiswa extends Component {
   constructor(props) {
     super(props);
-    document.title = "Siswa | Profile";
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
 
     this.state = {
+      id: id,
       siswa_nis: "",
       siswa_gender: "",
       siswa_nama: "",
       kelas_nama: "",
       jurusan_nama: "",
-
+      gambar: "",
     };
   }
 
@@ -27,29 +28,26 @@ export default class ProfileSiswa extends Component {
   };
 
   componentDidMount() {
-      const siswa_id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-      axios.get(`http://localhost:8000/profile/${siswa_id}`)
-      .then((res) => {
-          this.setState({
-                siswa_nis: res.data[0].siswa_nis,
-                siswa_nama : res.data[0].siswa_nama,
-                siswa_gender : res.data[0].siswa_gender,
-                kelas_nama : res.data[0].kelas_nama,
-                jurusan_nama : res.data[0].jurusan_nama
-          })
-      })
+    axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
+      this.setState({
+        siswa_nis: res.data[0].siswa_nis,
+        siswa_nama: res.data[0].siswa_nama,
+        siswa_gender: res.data[0].siswa_gender,
+        kelas_nama: res.data[0].kelas_nama,
+        jurusan_nama: res.data[0].jurusan_nama,
+        d_kelas_nama: res.data[0].d_kelas_nama,
+        gambar: res.data[0].siswa_img,
+      });
+    });
   }
-
-  
   render() {
+    let gender = this.state.siswa_gender;
+    if (this.state.siswa_gender == "L") {
+      gender = "Laki-laki";
+    } else if (this.state.siswa_gender == "P") {
+      gender = "Perempuan";
+    }
 
-    let siswa_gender = this.state.siswa_gender;
-    if(siswa_gender === "L"){
-      siswa_gender = "Laki-laki"
-    } else if(siswa_gender === "P") {
-      siswa_gender = "Perempuan"
-    };
-    console.log(this.state.siswa_gender);
     return (
       <div>
         <Card>
@@ -73,19 +71,36 @@ export default class ProfileSiswa extends Component {
             <Card.Title>Profile</Card.Title>
             <hr />
             <Form>
-              <Row>
+              <Row xs={2} md={8} lg={1}>
+                <Col>
+                <div style={{
+                  marginBottom: "29px",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+
+                }}>
+
+                  <img
+                    src={
+                      "http://localhost:8000/public/images/" + this.state.gambar
+                    }
+                    width={90}
+                    height={90}
+                    style={{ borderRadius: "10px" }}
+                    border= "1px solid black"
+                  />
+                </div>
+                </Col>
                 <Col>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="nis"
-                      id="nis"
+                      name="siswa_nis"
                       type="text"
                       value={this.state.siswa_nis}
                       placeholder="NIS"
-                      noValidate
                       onChange={this.handleChange}
                       readOnly
                     />
@@ -95,13 +110,14 @@ export default class ProfileSiswa extends Component {
                       Nama Siswa<span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="nama"
+                      name="siswa_nama"
                       id="nama"
                       type="text"
                       value={this.state.siswa_nama}
                       placeholder="Nama Siswa"
                       noValidate
                       onChange={this.handleChange}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -112,8 +128,8 @@ export default class ProfileSiswa extends Component {
                       <span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="gender"
-                      value={this.state.siswa_gender}
+                      name="siswa_gender"
+                      value={gender}
                       onChange={this.handleChange}
                       readOnly
                     ></Form.Control>
@@ -124,23 +140,25 @@ export default class ProfileSiswa extends Component {
                     </Form.Label>
                     <Form.Control
                       name="kelas_nama"
-                      value={this.state.kelas_nama + " " + this.state.jurusan_nama}
+                      value={
+                        this.state.kelas_nama +
+                        " " +
+                        this.state.jurusan_nama +
+                        " " +
+                        this.state.d_kelas_nama
+                      }
                       onChange={this.handleChange}
                       readOnly
                     ></Form.Control>
                   </Form.Group>
                 </Col>
+
               </Row>
-              <Link to={`/user/profile/ubah/`}>
-              <Button variant="outline-primary" type="submit">
-                Ubah Profile
-              </Button></Link>
-              &ensp;
-              <Link to="/user/">
-                <Button variant="outline-danger" type="submit">
-                  Kembali
-                </Button>
-              </Link>
+                <Link to="/user/profile/ubah">
+                  <Button variant="outline-primary" type="submit" block="">
+                    Ubah Profile
+                  </Button>
+                </Link>
             </Form>
           </Card.Body>
         </Card>

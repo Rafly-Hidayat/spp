@@ -18,7 +18,16 @@ export default class DataSiswa extends Component {
 
     this.state = {
       data: [],
+      modal : false
     };
+  }
+
+  onClick = (e) => {
+    // if modal is true then setstate to false
+    // if modal is false then setstate to true
+    this.setState({
+      modal: !this.state.modal
+    })
   }
 
   getSiswa = () => {

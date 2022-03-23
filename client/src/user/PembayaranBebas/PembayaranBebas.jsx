@@ -32,6 +32,7 @@ import logo from "../Assets/LandingPageImg/Logo.png";
 
 import "./PembayaranBebas.css";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import Feedback from "react-bootstrap/esm/Feedback";
 
 export default class PembayaranBebas extends Component {
   constructor(props) {
@@ -42,6 +43,8 @@ export default class PembayaranBebas extends Component {
     this.state = {
       data: [],
       datasiswa: [],
+      details: false,
+      data_details: [],
     };
   }
 
@@ -70,14 +73,71 @@ export default class PembayaranBebas extends Component {
       });
   };
 
+  getDetails = () => {
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    axios.get(`http://localhost:8000/user/detail/bebas/${id}`).then((res) => {
+      console.log(res);
+      this.setState({
+        details: true,
+        data_details: res.data,
+      });
+    });
+  };
+
   componentDidMount() {
+    // this.getDetails();
     this.getSiswa();
     document.title = "User | Pembayaran";
   }
 
   render() {
-    console.log(this.state.data);
+    console.log(this.state.details);
 
+    const detail = [
+      {
+        dataField: "no_transaksi",
+        text: "No Transaksi",
+      },
+      {
+        dataField: "d_bebas_deskripsi",
+        text: "Deskripsi",
+      },
+      {
+        dataField: "d_bebas_bayar",
+        text: "Nominal",
+      },
+      {
+        dataField: "d_bebas_tanggal",
+        text: "Tanggal",
+      },
+      {
+        dataField: "admin_id",
+        text: "Admin",
+        formatter: (cell, row) => {
+          if (row.admin_id === "1") {
+            return "admin";
+          } else {
+            return "admin2";
+          }
+        },
+      },
+      // make a action print
+      {
+        dataField: "d_bebas_id",
+        text: "Action",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              <Link to={`/user/pembayaran/bebas/print/${row.d_bebas_id}`}>
+                <Button variant="outline-primary" size="sm">
+                  <FontAwesomeIcon icon={faPrint} /> Cetak
+                </Button>
+              </Link>
+            </div>
+          );
+        },
+      },
+    ];
     const desktop = [
       {
         dataField: "pos_nama",
@@ -108,14 +168,14 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
-        
       },
       {
         text: "Status",
         formatter: (cell, row) => {
           // if bebas_tagihan minus bebas_total_bayar is 0, then return "Lunas"
           if (
-            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) === 0
+            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) ===
+            0
           ) {
             return <Badge bg="success">Lunas</Badge>;
           }
@@ -124,25 +184,21 @@ export default class PembayaranBebas extends Component {
             return <Badge bg="danger">Belum Lunas</Badge>;
           }
         },
-        align : 'center',
-        headerAlign : 'center'
+        align: "center",
+        headerAlign: "center",
       },
       {
         text: "Aksi",
         formatter: (cell, row) => {
           return (
             <div>
-              <Button variant="outline-warning">
-                <FontAwesomeIcon icon={faFileArchive} /> Cetak
-              </Button>
-              &ensp;
-              <Button variant="outline-success">
+              <Button onClick={this.getDetails} variant="outline-success">
                 <FontAwesomeIcon icon={faInfo} /> Info
               </Button>
             </div>
           );
         },
-        headerAlign : 'center'
+        // headerAlign : 'center'
       },
     ];
 
@@ -151,8 +207,8 @@ export default class PembayaranBebas extends Component {
     const mobile = [
       {
         dataField: "pos_nama",
-        text:  "Tipe",
-        headerAlign : "center"
+        text: "Tipe",
+        headerAlign: "center",
       },
       {
         text: "Tagihan",
@@ -167,27 +223,34 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
-        headerAlign : "center"
+        headerAlign: "center",
       },
       {
         dataField: "Aksi",
         text: "Aksi",
         formatter: (cellContent, row) => {
-          if(parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) === 0){
-            return <Button variant="warning">
-            <FontAwesomeIcon icon={faPrint} />
-          </Button>
+          if (
+            parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) ===
+            0
+          ) {
+            return (
+              <Button variant="warning">
+                <FontAwesomeIcon icon={faPrint} />
+              </Button>
+            );
           } else {
-            return <Button variant="warning" disabled>
-            <FontAwesomeIcon icon={faPrint} />
-          </Button>
+            return (
+              <Button variant="warning" disabled>
+                <FontAwesomeIcon icon={faPrint} />
+              </Button>
+            );
           }
         },
-        align : 'center',
-        headerStyle : {
-          width : '20%',
-          textAlign : 'center'
-        }
+        align: "center",
+        headerStyle: {
+          width: "20%",
+          textAlign: "center",
+        },
       },
     ];
 
@@ -200,11 +263,24 @@ export default class PembayaranBebas extends Component {
             <div className="desktop">
               <BootstrapTable
                 keyField="id"
-                data={data}
-                columns={desktop}
+                data={
+                  this.state.details === false
+                    ? this.state.data
+                    : this.state.data_details
+                }
+                columns={this.state.details === false ? desktop : detail}
                 noDataIndication="Table is Empty"
                 bordered={false}
               />
+              {this.state.details === true ? (
+                <Button
+                  onClick={() => {
+                    this.setState({ details: false });
+                  }}
+                >
+                  Kembali
+                </Button>
+              ) : null}
             </div>
 
             {/* Tampilan Mobile */}

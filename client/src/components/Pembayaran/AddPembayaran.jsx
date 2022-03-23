@@ -132,6 +132,8 @@ export default class AddPembayaran extends Component {
                 <option value="">=== Pilih Keterangan ===</option>
                 <option value="Cicil">Cicil</option>
                 <option value="Lunas">Lunas</option>
+                <option value="TRF-BJB">TRF-BJB</option>
+                <option value="TRF-BNI">TRF-BNI</option>
               </FormSelect>
               <div>
                 {this.validator.message(
