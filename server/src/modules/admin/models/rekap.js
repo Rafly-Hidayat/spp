@@ -34,73 +34,172 @@ module.exports = {
   },
 
   laporanKelasBebas: (con, res, data, callback) => {
-    con.query(`SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`, (err, rows) => {
-      if(err) throw err
-      if(rows.length == 0) return res.json({error: true, message: "Kelas tidak ditemukan"})
+    con.query(
+      `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
+      (err, rows) => {
+        if (err) throw err;
+        if (rows.length == 0)
+          return res.json({ error: true, message: "Kelas tidak ditemukan" });
 
-      con.query(`SELECT jurusan_id FROM jurusan WHERE jurusan_id = '${data.jurusan_id}'`, (err, rows) => {
-        if(err) throw err
-        if(rows.length == 0) return res.json({error: true, message: "jurusan tidak ditemukan"})
+        con.query(
+          `SELECT jurusan_id FROM jurusan WHERE jurusan_id = '${data.jurusan_id}'`,
+          (err, rows) => {
+            if (err) throw err;
+            if (rows.length == 0)
+              return res.json({
+                error: true,
+                message: "jurusan tidak ditemukan",
+              });
 
-        con.query(`SELECT d_kelas_id FROM d_kelas WHERE d_kelas_id = '${data.d_kelas_id}'`, (err, rows) => {
-          if(err) throw err
-          if(rows.length == 0) return res.json({error: true, message: "d_kelas tidak ditemukan"})
+            con.query(
+              `SELECT d_kelas_id FROM d_kelas WHERE d_kelas_id = '${data.d_kelas_id}'`,
+              (err, rows) => {
+                if (err) throw err;
+                if (rows.length == 0)
+                  return res.json({
+                    error: true,
+                    message: "d_kelas tidak ditemukan",
+                  });
 
-          con.query(`SELECT SUM(bebas_tagihan - bebas_total_bayar) over (partition by bebas.siswa_id) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`, (err, rows) => {
-            if(err) throw err
-            if(rows.length == 0 || rows[0].siswa_nama == null) {
-              return res.json({error: true, message: "Tidak ada data yang ditemukan"})
-            } else {
-              con.query(`SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_kelas FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`, (err, result) => {
-                if(err) throw err
-                return res.json({error: false, message: "Data ditemukan", data: rows, sisa_tagihan_kelas: result[0].sisa_tagihan_kelas})
-              })
-            }
-          });
-
-        })
-      })
-    })
-
+                con.query(
+                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' GROUP BY bebas.siswa_id`,
+                  (err, rows) => {
+                    if (err) throw err;
+                    if (rows.length == 0 || rows[0].siswa_nama == null) {
+                      return res.json({
+                        error: true,
+                        message: "Tidak ada data yang ditemukan",
+                      });
+                    } else {
+                      con.query(
+                        `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_kelas, pembayaran_id FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`,
+                        (err, result) => {
+                          if (err) throw err;
+                          return res.json({
+                            error: false,
+                            message: "Data ditemukan",
+                            data: rows,
+                            sisa_tagihan_kelas: result[0].sisa_tagihan_kelas,
+                          });
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            );
+          }
+        );
+      }
+    );
   },
 
   laporanKelasBulanan: (con, res, data, callback) => {
-    con.query(`SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`, (err, rows) => {
+    con.beginTransaction((err) => {
       if(err) throw err
-      if(rows.length == 0) return res.json({error: true, message: "Kelas tidak ditemukan"})
-
-      con.query(`SELECT jurusan_id FROM jurusan WHERE jurusan_id = '${data.jurusan_id}'`, (err, rows) => {
-        if(err) throw err
-        if(rows.length == 0) return res.json({error: true, message: "jurusan tidak ditemukan"})
-
-        con.query(`SELECT d_kelas_id FROM d_kelas WHERE d_kelas_id = '${data.d_kelas_id}'`, (err, rows) => {
-          if(err) throw err
-          if(rows.length == 0) return res.json({error: true, message: "d_kelas tidak ditemukan"})
-
-          con.query(`SELECT bulanan_tagihan FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`, (err, rows) => {
-            if(err) throw err
-            if (rows.length == 0) return res.json({error: true, message: "Tidak ada data yang ditemukan"})
-            let bulanan_tagihan = rows[0].bulanan_tagihan
-            // return res.json(bulanan_tagihan)
-            con.query(
-              `SELECT bulanan_id,  bulanan_status, SUM(bulanan_tagihan) over(partition by bulanan.siswa_id) as tagihan, siswa_nama, month_id FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND bulanan_status = 0 GROUP BY bulanan.siswa_id`,(err, rows) => {
-                if(err) throw err
-                let month = rows.map((obj) => {
-                  return obj.month_id
-                })
-
-                return res.json(rows)
-              }
-            );
-
-            // con.query(`SELECT siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`, (err, rows) => {
-            //   if(err) throw err
-            //   return res.json({error: false, message: "Data ditemukan", data: rows, bulanan_tagihan: bulanan_tagihan})
-            // })
-
-          })
-        })
-      })
+      con.query(
+        `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
+        (err, rows) => {
+          if (err) throw err;
+          if (rows.length == 0)
+            return res.json({ error: true, message: "Kelas tidak ditemukan" });
+  
+          con.query(
+            `SELECT jurusan_id FROM jurusan WHERE jurusan_id = '${data.jurusan_id}'`,
+            (err, rows) => {
+              if (err) throw err;
+              if (rows.length == 0)
+                return res.json({
+                  error: true,
+                  message: "jurusan tidak ditemukan",
+                });
+  
+              con.query(
+                `SELECT d_kelas_id FROM d_kelas WHERE d_kelas_id = '${data.d_kelas_id}'`,
+                (err, rows) => {
+                  if (err) throw err;
+                  if (rows.length == 0)
+                    return res.json({
+                      error: true,
+                      message: "d_kelas tidak ditemukan",
+                    });
+  
+                  con.query(
+                    `SELECT bulanan_id,  bulanan_status, COUNT(bulanan_tagihan) as belum_lunas,  bulanan_tagihan, siswa_nama, month_id FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = 3 AND siswa.jurusan_id = 4 AND siswa.d_kelas_id = 2 AND bulanan_status = 0 GROUP BY bulanan.siswa_id`,
+                    (err, rows) => {
+                      if (err) throw err;
+                      let belum_lunas = rows.map((obj) => {
+                        return obj.belum_lunas;
+                      });
+  
+                      // console.log(belum_lunas.length)
+                      data =  []
+                      // belum_lunas.forEach((element, index) => {
+                      //  for(let i = 0; i<belum_lunas.length; i++){
+                          // console.log("atas" + i)
+                          
+                          con.query(`SELECT (${belum_lunas}*bulanan_tagihan) as sisa_tagihan over (partition by bulanan.siswa_id), bulanan_tagihan FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = 3 AND siswa.jurusan_id = 4 AND siswa.d_kelas_id = 2 AND bulanan_status = 0 GROUP BY bulanan.siswa_id`, (err, rows) => {
+                            if(err) throw err
+                            // data.push(rows.map((obj) => {return obj.sisa_tagihan}))
+                            console.log(rows)
+                          })
+                          // console.log(i)
+                      // }
+                      // });
+                      // con.commit((err) => {
+                      //   if(err) throw err
+                      //   console.log(data)
+                      //   return res.json({data: data})
+                        
+                      //   // callback(data)
+                      // })
+  
+  
+                    }
+                  );
+                  
+                }
+              );
+            }
+          );
+        }
+      );
     })
+  },
+
+  laporanAngkatanBebas: (con, res, data) => {
+    con.query(
+      `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
+      (err, rows) => {
+        if (err) throw err;
+        if (rows.length == 0)
+          return res.json({ error: true, message: "Kelas tidak ditemukan" });
+
+          con.query(
+            `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id  = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' GROUP BY bebas.siswa_id`,
+            (err, rows) => {
+              if (err) throw err;
+              if (rows.length == 0 || rows[0].siswa_nama == null) {
+                return res.json({
+                  error: true,
+                  message: "Tidak ada data yang ditemukan",
+                });
+              } else {
+                con.query(
+                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_angkatan FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id WHERE siswa.kelas_id = '${data.kelas_id}'`,
+                  (err, result) => {
+                    if (err) throw err;
+                    return res.json({
+                      error: false,
+                      message: "Data ditemukan",
+                      data: rows,
+                      sisa_tagihan_kelas: result[0].sisa_tagihan_angkatan,
+                    });
+                  }
+                );
+              }
+            }
+          );
+      })
   }
 };

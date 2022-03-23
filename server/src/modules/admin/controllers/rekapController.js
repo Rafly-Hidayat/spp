@@ -87,4 +87,8 @@ module.exports = {
     })
   },
 
+  laporanAngkatanBebas: (req, res) => {
+    rekap.laporanAngkatanBebas(req.con, res, req.body)
+  }
+
 };
