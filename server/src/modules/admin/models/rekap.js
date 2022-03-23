@@ -62,7 +62,7 @@ module.exports = {
                   });
 
                 con.query(
-                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) over (partition by bebas.siswa_id) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`,
+                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' GROUP BY bebas.siswa_id`,
                   (err, rows) => {
                     if (err) throw err;
                     if (rows.length == 0 || rows[0].siswa_nama == null) {
@@ -72,7 +72,7 @@ module.exports = {
                       });
                     } else {
                       con.query(
-                        `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_kelas FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`,
+                        `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_kelas, pembayaran_id FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`,
                         (err, result) => {
                           if (err) throw err;
                           return res.json({
@@ -93,7 +93,7 @@ module.exports = {
       }
     );
   },
-
+  
   laporanKelasBulanan: (con, res, data) => {
     con.beginTransaction((err) => {
       if (err) throw err
@@ -200,4 +200,40 @@ module.exports = {
     })
 
   },
+
+  laporanAngkatanBebas: (con, res, data) => {
+    con.query(
+      `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
+      (err, rows) => {
+        if (err) throw err;
+        if (rows.length == 0)
+          return res.json({ error: true, message: "Kelas tidak ditemukan" });
+
+          con.query(
+            `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id  = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' GROUP BY bebas.siswa_id`,
+            (err, rows) => {
+              if (err) throw err;
+              if (rows.length == 0 || rows[0].siswa_nama == null) {
+                return res.json({
+                  error: true,
+                  message: "Tidak ada data yang ditemukan",
+                });
+              } else {
+                con.query(
+                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_angkatan FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id WHERE siswa.kelas_id = '${data.kelas_id}'`,
+                  (err, result) => {
+                    if (err) throw err;
+                    return res.json({
+                      error: false,
+                      message: "Data ditemukan",
+                      data: rows,
+                      sisa_tagihan_kelas: result[0].sisa_tagihan_angkatan,
+                    });
+                  }
+                );
+              }
+            }
+          );
+      })
+  }
 };

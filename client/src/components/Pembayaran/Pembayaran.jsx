@@ -76,41 +76,9 @@ export default class Pembayaran extends Component {
         periodes: res.data,
       });
     });
-    if(this.props.location.state){
-      this.setState({
-        nis: this.props.location.state.nis,
-        periode: this.props.location.state.periode
-      })
-      axios
-        .get(`http://localhost:8000/siswa_nis/${this.props.location.state.nis}`)
-        .then((res) => {
-          console.log(res.data);
-          if (res.data[0] === undefined) {
-            console.log("error")
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "NIS Siswa tidak ditemukan!",
-            });
-          } else {
-            this.setState({
-              visible: true,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Gagal terhubung ke server!",
-          });
-        });
-    }
   }
 
   render() {
-    console.log(this.state.nis)
     return (
       <div>
         <Card>
