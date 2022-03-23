@@ -13,6 +13,8 @@ export default class AddPembayaranBulanan extends Component {
       id: this.props.match.params.id,
       admin: "",
       data: [],
+      nis : "",
+      periode : ""
     };
   }
 
@@ -45,7 +47,7 @@ export default class AddPembayaranBulanan extends Component {
               title: "Berhasil!",
               text: `${res.data.message}`,
             });
-            this.props.history.push("/admin/pembayaran"); 
+            this.props.history.push({pathname: "/admin/pembayaran", state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}}); 
           }
         })
         .catch(() => {
@@ -66,8 +68,16 @@ export default class AddPembayaranBulanan extends Component {
         data: res.data,
       });
     });
+    if(this.props.location){
+      this.setState({
+        nis : this.props.location.state.nis,
+        periode : this.props.location.state.periode
+      })
+    }
   }
   render() {
+    console.log(this.state.nis)
+    console.log(this.state.periode)
     return (
       <div>
         <Card style={{ color: "black" }}>
@@ -105,7 +115,7 @@ export default class AddPembayaranBulanan extends Component {
                 Bayar
               </Button>
               &ensp;
-              <Link to="/admin/pembayaran">
+              <Link to={{pathname: `/admin/pembayaran`, state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}}}>
                 <Button variant="outline-danger" type="submit">
                   Batal
                 </Button>

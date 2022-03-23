@@ -63,7 +63,7 @@ export default class Data extends Component {
       },
       {
         dataField: "pos_nama",
-        text: "Nama Pos",
+        text: "Nama Pos"
       },
       {
         text: "Set Tarif",
@@ -71,7 +71,7 @@ export default class Data extends Component {
           return (
             <div>
               <Link to={`/admin/pembayaran/set_tarif/${row.pembayaran_id}`}>
-                <Button variant="primary" className="mr-2" block>
+                <Button variant="outline-primary" className="mr-2" block>
                   Set Tarif
                 </Button>
               </Link>
@@ -120,13 +120,17 @@ export default class Data extends Component {
           </Card.Body>
         </Card>
         <br></br>
-        <Card>
+        <Card style={{color : "black"}}>
           <Card.Body>
+            <Card.Title>Jenis Pembayaran</Card.Title>
+            <hr/>
             <Link to={"/admin/jenispembayaran/tambah"}>
               <Button className="mr-2" variant="outline-primary" block="">
                 Create
               </Button>
             </Link>
+            <br/>
+            <br/>
             <BootstrapTable
               keyField="id"
               data={data}
