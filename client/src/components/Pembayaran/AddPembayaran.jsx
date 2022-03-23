@@ -47,7 +47,7 @@ export default class AddPembayaran extends Component {
               title: "Berhasil!",
               text: `Pembayaran Berhasil!`,
             });
-            this.props.history.push("/admin/pembayaran");
+            this.props.history.push({pathname :"/admin/pembayaran" , state: {nis : `${this.state.nis}`, periode : `${this.state.periode}`}});
           }
         })
         .catch((error) => {});
@@ -64,7 +64,16 @@ export default class AddPembayaran extends Component {
         data: res.data,
       });
     });
+
+    if(this.props.location){
+      this.setState({
+        nis : this.props.location.state.nis,
+        periode : this.props.location.state.periode
+      })
+    }
+
   }
+  
   render() {
     return (
       <Card style={{ color: "black" }}>
@@ -147,11 +156,11 @@ export default class AddPembayaran extends Component {
                 )}
               </div>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="outline-primary" type="submit">
               Bayar
             </Button>
             &ensp;
-            <Link to="/admin/pembayaran">
+            <Link to={{pathname : "/admin/pembayaran/", state : {nis : `${this.state.nis}`, periode : `${this.state.periode}`}}}>
               <Button variant="outline-danger" type="submit">
                 Batal
               </Button>
