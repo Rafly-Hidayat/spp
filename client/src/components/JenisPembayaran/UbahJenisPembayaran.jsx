@@ -100,7 +100,7 @@ export default class SetTarif extends Component {
               <hr />
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Jenis Pembayaran</Form.Label>
+                  <Form.Label>Jenis Pembayaran<span className="text-danger">*</span></Form.Label>
                   <FormSelect name="tipe" onChange={this.handleChange}>
                     <option>=== Pilih Jenis Pembayaran ===</option>
                     {this.state.data_tipe.map((tipe) => {
@@ -129,7 +129,7 @@ export default class SetTarif extends Component {
                   </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Tahun Ajaran</Form.Label>
+                 <Form.Label>Tahun Ajaran<span className="text-danger">*</span></Form.Label>
                   <FormSelect name="periode" onChange={this.handleChange}>
                     <option>=== Pilih Tahun Ajaran ===</option>
                     {this.state.tahun_ajaran.map((periode) => {
@@ -158,7 +158,7 @@ export default class SetTarif extends Component {
                   </div>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Pos</Form.Label>
+                  <Form.Label>Pos<span className="text-danger">*</span></Form.Label>
                   <FormSelect name="pos" onChange={this.handleChange}>
                     <option>=== Pilih Pos ===</option>
                     {this.state.data_pos.map((pos) => {
@@ -178,7 +178,7 @@ export default class SetTarif extends Component {
                     })}
                   </div>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="outline-primary" type="submit">
                   Ubah
                 </Button>
                 &ensp;
