@@ -93,71 +93,104 @@ module.exports = {
       }
     );
   },
-
-  laporanKelasBulanan: (con, res, data, callback) => {
+  
+  laporanKelasBulanan: (con, res, data) => {
     con.beginTransaction((err) => {
-      if(err) throw err
+      if (err) throw err
+
       con.query(
         `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
         (err, rows) => {
           if (err) throw err;
+          let kelas = rows.map((obj) => {
+            return obj.kelas_id;
+          });
           if (rows.length == 0)
             return res.json({ error: true, message: "Kelas tidak ditemukan" });
-  
+
           con.query(
             `SELECT jurusan_id FROM jurusan WHERE jurusan_id = '${data.jurusan_id}'`,
             (err, rows) => {
               if (err) throw err;
+              let jurusan = rows.map((obj) => {
+                return obj.jurusan_id;
+              });
               if (rows.length == 0)
                 return res.json({
                   error: true,
                   message: "jurusan tidak ditemukan",
                 });
-  
+
               con.query(
                 `SELECT d_kelas_id FROM d_kelas WHERE d_kelas_id = '${data.d_kelas_id}'`,
                 (err, rows) => {
                   if (err) throw err;
+                  let d_kelas = rows.map((obj) => {
+                    return obj.d_kelas_id;
+                  });
                   if (rows.length == 0)
                     return res.json({
                       error: true,
                       message: "d_kelas tidak ditemukan",
                     });
-  
+
                   con.query(
-                    `SELECT bulanan_id,  bulanan_status, COUNT(bulanan_tagihan) as belum_lunas,  bulanan_tagihan, siswa_nama, month_id FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = 3 AND siswa.jurusan_id = 4 AND siswa.d_kelas_id = 2 AND bulanan_status = 0 GROUP BY bulanan.siswa_id`,
+                    `SELECT bulanan_id,  bulanan_status, bulanan_tagihan, siswa_nama, bulanan.siswa_id FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND bulanan_status = 0 GROUP BY bulanan.siswa_id`,
                     (err, rows) => {
                       if (err) throw err;
-                      let belum_lunas = rows.map((obj) => {
-                        return obj.belum_lunas;
+                      let siswa_id = rows.map((obj) => {
+                        return obj.siswa_id;
                       });
-  
-                      // console.log(belum_lunas.length)
-                      data =  []
-                      // belum_lunas.forEach((element, index) => {
-                      //  for(let i = 0; i<belum_lunas.length; i++){
-                          // console.log("atas" + i)
-                          
-                          con.query(`SELECT (${belum_lunas}*bulanan_tagihan) as sisa_tagihan over (partition by bulanan.siswa_id), bulanan_tagihan FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = 3 AND siswa.jurusan_id = 4 AND siswa.d_kelas_id = 2 AND bulanan_status = 0 GROUP BY bulanan.siswa_id`, (err, rows) => {
-                            if(err) throw err
-                            // data.push(rows.map((obj) => {return obj.sisa_tagihan}))
-                            console.log(rows)
+
+                      let data = []
+                      siswa_id.forEach((element, index) => {
+                        con.query(
+                          `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
+                          (err, rows) => {
+                            if (err) throw err;
+
+                            data.push({
+                              sisa_tagihan: rows[0].tagihan,
+                              siswa_nama: rows[0].siswa_nama,
+                              kelas_nama: rows[0].kelas_nama,
+                              jurusan_nama: rows[0].jurusan_nama,
+                              d_kelas_nama: rows[0].d_kelas_nama,
+                              sisa_bulan: rows[0].sisa_bulan,
+                            })
+                          }
+                        );
+                      });
+
+                      let total_sisa = []
+                      siswa_id.forEach((element, index) => {
+                        con.query(
+                          `SELECT SUM(bulanan_tagihan) as tagihan FROM bulanan WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
+                          (err, rows) => {
+                            if (err) throw err;
+
+                            total_sisa.push({
+                              sisa_tagihan: rows[0].tagihan,
+                            })
+                            
                           })
-                          // console.log(i)
-                      // }
-                      // });
-                      // con.commit((err) => {
-                      //   if(err) throw err
-                      //   console.log(data)
-                      //   return res.json({data: data})
-                        
-                      //   // callback(data)
-                      // })
-  
-  
+                      })
+
+                      con.commit((err) => {
+                        if (err) throw err;
+                        let sum_sisa = 0
+                        total_sisa.forEach((element, index) => {
+                          sum_sisa += total_sisa[index].sisa_tagihan
+                        })
+                        return res.json({
+                          error: false,
+                          message: "Data ditemukan",
+                          data: data,
+                          sisa_tagihan_kelas: sum_sisa,
+                        });
+                      })
+
                     }
                   );
-                  
                 }
               );
             }
@@ -165,6 +198,7 @@ module.exports = {
         }
       );
     })
+
   },
 
   laporanAngkatanBebas: (con, res, data) => {
