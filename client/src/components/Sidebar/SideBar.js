@@ -344,7 +344,33 @@ const SideBar = () => {
                 Jenis Pembayaran
               </span>
             </Link>
-            <Link to="/admin/laporan/bulanan">
+            <div className="dropdown">
+              <span className="drop">
+                <a onClick={changeDropdown}>
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faUsers} />
+                  </span>
+                  <span style={{ display: text }}>Laporan</span>
+                </a>
+              </span>
+
+              <div
+                id="myDropdown"
+                className="dropdown-content"
+                style={{ display: dropdown }}
+              >
+                <ul>
+                  <Link to="/admin/laporan/bulanan">
+                    <li>Laporan Bulanan </li>
+                  </Link>
+                  <Link to="/admin/laporan/bebas">
+                    <li>Laporan Bebas </li>
+                  </Link>
+                </ul>
+              </div>
+            </div>
+
+            {/* <Link to="/admin/laporan/bulanan">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
@@ -359,7 +385,7 @@ const SideBar = () => {
               <span style={{ display: text, paddingLeft: "4px" }}>
                 Laporan Bebas
               </span>
-            </Link>
+            </Link> */}
 
             {/* Button for hide and show sidebar */}
             <div className={button}>

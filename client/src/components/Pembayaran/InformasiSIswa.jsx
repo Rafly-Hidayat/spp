@@ -95,6 +95,7 @@ export default class InformasiSIswa extends Component {
   }
 
   render() {
+    console.log(this.state.periode)
     const data = this.state.data;
     const databulanan = this.state.databulanan;
     const defaultSorted = [{
@@ -159,7 +160,12 @@ export default class InformasiSIswa extends Component {
           } else {
             return (
               <div>
-                <Link to={`/admin/pembayaran_bulan/tambah/${row.bulanan_id}`}>
+                 <Link to={{
+                  pathname : `/admin/pembayaran_bulan/tambah/${row.bulanan_id}`, 
+                  state :{
+                    nis : `${this.state.nis}`, 
+                    periode : `${this.state.periode}`
+                }}}>
                   <Button variant="outline-primary">Bayar</Button>
                 </Link>
               </div>
@@ -204,8 +210,8 @@ export default class InformasiSIswa extends Component {
         text: "Bayar",
         formatter: () => {
           return (
-            <Link to={`/admin/pembayaran/tambah/${this.state.bebas_id}`}>
-              <Button>Bayar</Button>
+            <Link to={{pathname : `/admin/pembayaran/tambah/${this.state.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.nis}`}}}>
+              <Button variant="outline-primary">Bayar</Button>
             </Link>
           );
         },
