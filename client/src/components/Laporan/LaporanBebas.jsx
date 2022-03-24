@@ -42,18 +42,22 @@ export default class LaporanBebas extends Component {
         dataField: "siswa_nama",
         text: "Nama Siswa",
         headerStyle: (colum, colIndex) => {
-          return { width: "250px" };
+          return { width: "200px" };
         },
       },
       {
         dataField: "pos_nama",
-        text: "Deskripsi",
+        text: "Pembayaran",
         headerStyle: (colum, colIndex) => {
           return { width: "200px", textAlign: "center" };
         },
         style: (colum, colIndex) => {
           return { textAlign: "center" };
         },
+      },
+      {
+        dataField: "d_bebas_deskripsi",
+        text: "Keterangan",
       },
       {
         text: "Dibayar",
@@ -99,7 +103,7 @@ export default class LaporanBebas extends Component {
       <div>
         <Card style={{ color: "black" }}>
           <Card.Body>
-            <Card.Title>Laporan Pembayaran Bulanan</Card.Title>
+            <Card.Title>Laporan Pembayaran Bebas</Card.Title>
             <hr />
             <Form onSubmit={this.handleSubmit}>
               <div className="d-flex">

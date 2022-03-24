@@ -171,8 +171,14 @@ export default class InformasiSIswa extends Component {
     ];
     const columns = [
       {
-        dataField: "pos_nama",
         text: "Tipe Pembayaran",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              {`${row.pos_nama}- T.A ${row.periode_mulai}/${row.periode_akhir}`}
+            </div>
+          );
+        }
       },
       {
         text: "Jumlah Tagihan",

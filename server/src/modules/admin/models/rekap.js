@@ -11,7 +11,7 @@ module.exports = {
   harianBebas: (con, callback) => {
     let tanggal = new Date().toJSON().slice(0, 10);
     con.query(
-      `SELECT siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, pos_nama, d_bebas_bayar, admin_nama
+      `SELECT siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, pos_nama, d_bebas_deskripsi, d_bebas_bayar, admin_nama
         FROM d_bebas INNER JOIN bebas ON d_bebas.bebas_id = bebas.bebas_id INNER JOIN siswa ON bebas.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN admin ON d_bebas.admin_id = admin.admin_id WHERE d_bebas_tanggal = '${tanggal}'`,
       callback
     );
@@ -27,13 +27,13 @@ module.exports = {
 
   laporanBebas: (con, data, callback) => {
     con.query(
-      `SELECT siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, pos_nama, d_bebas_bayar, d_bebas_tanggal, periode_mulai, periode_akhir, admin_nama
+      `SELECT siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, pos_nama, d_bebas_deskripsi, d_bebas_bayar, d_bebas_tanggal, periode_mulai, periode_akhir, admin_nama
         FROM d_bebas INNER JOIN bebas ON d_bebas.bebas_id = bebas.bebas_id INNER JOIN siswa ON bebas.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id INNER JOIN pembayaran ON bebas.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id  INNER JOIN periode ON pembayaran.periode_id = periode.periode_id INNER JOIN admin ON d_bebas.admin_id = admin.admin_id WHERE d_bebas_tanggal BETWEEN '${data.tanggal_awal}' AND '${data.tanggal_akhir}'`,
       callback
     );
   },
 
-  laporanKelasBebas: (con, res, data, callback) => {
+  laporanKelasBebas: (con, res, data) => {
     con.query(
       `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
       (err, rows) => {
@@ -175,19 +175,6 @@ module.exports = {
                           })
                       })
 
-                      // con.commit((err) => {
-                      //   if (err) throw err;
-                      //   let sum_sisa = 0
-                      //   total_sisa.forEach((element, index) => {
-                      //     sum_sisa += total_sisa[index].sisa_tagihan
-                      //   })
-                      //   return res.json({
-                      //     error: false,
-                      //     message: "Data ditemukan",
-                      //     data: data,
-                      //     sisa_tagihan_kelas: sum_sisa,
-                      //   });
-                      // })
                       if (data.length == 0) {
                         con.rollback((err) => {
                           if (err) throw err;
