@@ -8,13 +8,17 @@ export default class UbahProfileSiswa extends Component {
   constructor(props) {
     super(props);
     document.title = "Siswa | Ubah Profile";
-
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     this.state = {
+      id: id,
       siswa_nis: "",
       siswa_gender: "",
       siswa_nama: "",
+      siswa_password: "",
       kelas_nama: "",
       jurusan_nama: "",
+      gambar: "",
+      uploadedFile: null,
     };
   }
 
@@ -24,42 +28,41 @@ export default class UbahProfileSiswa extends Component {
       [e.target.name]: e.target.value,
     });
   };
+  imageHandler = (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0]);
+    this.setState({ uploadedFile: e.target.files[0] });
+  };
 
   componentDidMount() {
-    const siswa_id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/profile/${siswa_id}`).then((res) => {
+    axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
       console.log(res);
       this.setState({
         siswa_nis: res.data[0].siswa_nis,
         siswa_nama: res.data[0].siswa_nama,
         siswa_gender: res.data[0].siswa_gender,
         kelas_nama: res.data[0].kelas_nama,
+        d_kelas_nama: res.data[0].d_kelas_nama,
         jurusan_nama: res.data[0].jurusan_nama,
+        gambar: res.data[0].siswa_img,
+        siswa_password: res.data[0].siswa_password,
       });
     });
   }
-
   editData = (e) => {
     e.preventDefault();
-    const data = {
-      siswa_nis: this.state.siswa_nis,
-      siswa_gender: this.state.siswa_gender,
-      siswa_nama: this.state.siswa_nama,
-      kelas_nama: this.state.kelas_nama,
-      jurusan_nama: this.state.jurusan_nama,
-    };
-    const siswa_id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    const formData = new FormData();
+    const data = {siswa_password: this.state.siswa_password};
+    formData.append("img", this.state.uploadedFile);
+    console.log(formData);
     axios
-      .put(`http://localhost/profile/edit/${siswa_id}`, data)
+      .put(`http://localhost:8000/profile/edit/${this.state.id}`, formData, data, {
+        headers: {
+          "content-type": "application/json",
+        },
+      })
       .then((res) => {
         console.log(res);
-        this.setState({
-          siswa_nis: "",
-          siswa_gender: "",
-          siswa_nama: "",
-          kelas_nama: "",
-          jurusan_nama: "",
-        });
         if (res.data.error === true) {
           Swal.fire({
             icon: "error",
@@ -74,12 +77,21 @@ export default class UbahProfileSiswa extends Component {
           });
         }
         this.props.history.push("/user/profile");
-      })
-      .catch((err) => {
-          console.log(err);
       });
   };
   render() {
+
+
+    if (this.state.gambar) {
+      var imagestr = this.state.gambar;
+      imagestr = imagestr.replace("public/image/", "");
+      var profilePic = "http://localhost:8000/public/images/" + imagestr;
+    } else {
+      // profilePic = this.state.gambar;
+      console.log("else condition");
+    }
+    console.log(profilePic);
+    console.log(this.state.uploadedFile);
     return (
       <div>
         <Card>
@@ -93,25 +105,63 @@ export default class UbahProfileSiswa extends Component {
               <Breadcrumb.Item>
                 <Link to="/user/">Home</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item active>Profile</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/user/profile">Profile</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item active>Ubah</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
         <br />
         <Card style={{ color: "black" }}>
           <Card.Body>
-            <Card.Title>Profile</Card.Title>
+            <Card.Title>Ubah Profile</Card.Title>
             <hr />
             <Form onSubmit={this.editData}>
-              <Row>
+              <Row xs={2} md={8} lg={1}>
+                <Col>
+                  <Form.Group className="mb-3">
+                      <Form.Label>Foto Siswa<span className="text-danger">*</span></Form.Label>
+                    <div
+                     style={{
+                      marginBottom: "29px",
+                    
+                    }}
+                    >
+                      <img
+                        src={
+                          "http://localhost:8000/public/images/" +
+                          this.state.gambar
+                        }
+                        width={90}
+                        height={90}
+                        style={{
+                          display: "flex",
+                          borderRadius: "10px",
+                          border: "1px solid black",
+                        }}
+                      />
+                    </div>
+                    <Form.Control
+                    style={{
+                      marginTop: "1px",
+                      display: "flex",
+                    }}
+                      name="img"
+                      accept="image/*"
+                      type="file"
+                      onChange={this.imageHandler}
+                    />
+                  </Form.Group>
+                </Col>
                 <Col>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="nis"
-                      id="nis"
+                      name="siswa_nis"
+                      id="siswa_nis"
                       type="text"
                       value={this.state.siswa_nis}
                       placeholder="NIS"
@@ -125,13 +175,14 @@ export default class UbahProfileSiswa extends Component {
                       Nama Siswa<span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="nama"
-                      id="nama"
+                      name="siswa_nama"
+                      id="siswa_nama"
                       type="text"
                       value={this.state.siswa_nama}
                       placeholder="Nama Siswa"
                       noValidate
                       onChange={this.handleChange}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -142,7 +193,7 @@ export default class UbahProfileSiswa extends Component {
                       <span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="gender"
+                      name="siswa_gender"
                       value={this.state.siswa_gender}
                       onChange={this.handleChange}
                       readOnly
@@ -155,11 +206,29 @@ export default class UbahProfileSiswa extends Component {
                     <Form.Control
                       name="kelas_nama"
                       value={
-                        this.state.kelas_nama + " " + this.state.jurusan_nama
+                        this.state.kelas_nama +
+                        " " +
+                        this.state.jurusan_nama +
+                        " " +
+                        this.state.d_kelas_nama
                       }
                       onChange={this.handleChange}
                       readOnly
                     ></Form.Control>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>
+                      Password<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      name="siswa_password"
+                      id="siswa_password"
+                      type="text"
+                      value={this.state.siswa_password}
+                      placeholder="Masukkan Password"
+                      noValidate
+                      onChange={this.handleChange}
+                    />
                   </Form.Group>
                 </Col>
               </Row>

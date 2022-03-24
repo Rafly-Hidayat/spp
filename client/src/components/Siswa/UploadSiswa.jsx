@@ -24,6 +24,13 @@ export default class UploadSiswa extends Component {
   };
 
   handleSubmit = (e) => {
+    if (!this.state.selectedFile) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Silahkan Masukkan File!",
+      });
+    }
     e.preventDefault();
     const formData = new FormData();
     formData.append(
@@ -57,7 +64,10 @@ export default class UploadSiswa extends Component {
         console.log(err);
       });
   };
-
+  resetFile() {
+    // Reset file input control
+    document.getElementsByName("filename")[0].value = null;
+  }
   render() {
     return (
       <div>
