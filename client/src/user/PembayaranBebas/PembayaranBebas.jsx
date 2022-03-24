@@ -92,6 +92,7 @@ export default class PembayaranBebas extends Component {
 
   render() {
     console.log(this.state.details);
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
 
     const detail = [
       {
@@ -128,8 +129,8 @@ export default class PembayaranBebas extends Component {
         formatter: (cell, row) => {
           return (
             <div>
-              <Link to={`/user/pembayaran/bebas/print/${row.d_bebas_id}`}>
-                <Button variant="outline-primary" size="sm">
+              <Link to={`/user/invoice/bebas/${id}`}>
+                <Button variant="outline-warning" size="sm">
                   <FontAwesomeIcon icon={faPrint} /> Cetak
                 </Button>
               </Link>
