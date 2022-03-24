@@ -47,7 +47,14 @@ module.exports = {
                 d_bebas_bayar: rows[index].d_bebas_bayar,
                 d_bebas_deskripsi: rows[index].d_bebas_deskripsi,
                 d_bebas_tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
-                admin_id: rows[index].admin_id,
+                admin_nama: rows[index].admin_nama,
+                siswa_nama: rows[index].siswa_nama,
+                siswa_kelas: rows[index].siswa_kelas,
+                siswa_jurusan: rows[index].siswa_jurusan,
+                siswa_nis: rows[index].siswa_nis,
+                kelas_nama: rows[index].kelas_nama,
+                jurusan_nama: rows[index].jurusan_nama,
+                d_kelas_nama: rows[index].d_kelas_nama
               })
           });
       res.json(data)
