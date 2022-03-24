@@ -202,9 +202,12 @@ export default class Invoice extends Component {
                   content={() => this.componentRef}
                   
                 />
+                <div style={{display: "none"}}>
+
                 <InvoicePrint ref={el => (this.componentRef = el)} />
+                <Button variant="danger">Back</Button>
+                </div>
                 &ensp;
-                <Button variant="danger">Download</Button>
               </div>
             </div>
           </div>

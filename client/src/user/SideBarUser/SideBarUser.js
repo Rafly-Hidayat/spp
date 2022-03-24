@@ -17,6 +17,7 @@ import PembayaranBebas from '../PembayaranBebas/PembayaranBebas';
 import ProfileSiswa from './../Profile/ProfileSiswa';
 import UbahProfileSiswa from '../Profile/UbahProfileSiswa'
 import Invoice from '../PembayaranBulanan/Invoice'
+import InvoiceBebas from './../PembayaranBebas/InvoiceBebas';
 
 const SideBar = () => {
     const [sidebar, setSidebar] = useState('sidebar');
@@ -62,15 +63,6 @@ const SideBar = () => {
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="me-auto">
-                                {/* <Nav.Link href="#features">Features</Nav.Link>
-                            <Nav.Link href="#pricing">Pricing</Nav.Link>
-                            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                            </NavDropdown> */}
                             </Nav>
                             <Nav className='nav'>
                                 <Nav.Link href="#deets"><FontAwesomeIcon icon={faBell} /></Nav.Link>
@@ -136,6 +128,7 @@ const SideBar = () => {
 
                 <ProtectedRoute exact path="/user/profile" component={ProfileSiswa} />
                 <ProtectedRoute exact path="/user/invoice/bulanan/:id" component={Invoice} />
+                <ProtectedRoute exact path="/user/invoice/bebas/:id" component={InvoiceBebas} />
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
             </div>

@@ -98,6 +98,11 @@ export default class InformasiSIswa extends Component {
     console.log(this.state.periode)
     const data = this.state.data;
     const databulanan = this.state.databulanan;
+    const defaultSorted = [{
+      dataField: 'month_id',
+      order: 'asc'
+    }];
+    
     const column = [
       {
         dataField: "month_id",
@@ -266,6 +271,7 @@ export default class InformasiSIswa extends Component {
                   hover
                   condensed
                   bordered={false}
+                  defaultSorted={defaultSorted}
                 />
               </Tab>
               <Tab eventKey="home" title="Bebas">
