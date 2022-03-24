@@ -108,7 +108,7 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
-        
+
       },
       {
         text: "Status",
@@ -124,8 +124,8 @@ export default class PembayaranBebas extends Component {
             return <Badge bg="danger">Belum Lunas</Badge>;
           }
         },
-        align : 'center',
-        headerAlign : 'center'
+        align: 'center',
+        headerAlign: 'center'
       },
       {
         text: "Aksi",
@@ -142,7 +142,7 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
-        headerAlign : 'center'
+        headerAlign: 'center'
       },
     ];
 
@@ -151,8 +151,7 @@ export default class PembayaranBebas extends Component {
     const mobile = [
       {
         dataField: "pos_nama",
-        text:  "Tipe",
-        headerAlign : "center"
+        text: "Tipe",
       },
       {
         text: "Tagihan",
@@ -167,26 +166,26 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
-        headerAlign : "center"
+        headerAlign: "center"
       },
       {
         dataField: "Aksi",
         text: "Aksi",
         formatter: (cellContent, row) => {
-          if(parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) === 0){
+          if (parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) === 0) {
             return <Button variant="warning">
-            <FontAwesomeIcon icon={faPrint} />
-          </Button>
+              <FontAwesomeIcon icon={faPrint} />
+            </Button>
           } else {
             return <Button variant="warning" disabled>
-            <FontAwesomeIcon icon={faPrint} />
-          </Button>
+              <FontAwesomeIcon icon={faPrint} />
+            </Button>
           }
         },
-        align : 'center',
-        headerStyle : {
-          width : '20%',
-          textAlign : 'center'
+        align: 'center',
+        headerStyle: {
+          width: '20%',
+          textAlign: 'center'
         }
       },
     ];

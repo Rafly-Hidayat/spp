@@ -236,7 +236,6 @@ const SideBar = () => {
                     </p>
                   </div>
                 </span>
-                <hr style={{ color: "white" }} />
               </Container>
 
               {/* Img Admin kecil */}
@@ -252,6 +251,7 @@ const SideBar = () => {
                   display: btnright,
                 }}
               />
+              <hr style={{ color: "white" }} />
             </center>
 
             {/* Menu Sidebar */}
@@ -348,7 +348,7 @@ const SideBar = () => {
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
               <span style={{ display: text, paddingLeft: "4px" }}>
-                Lapran Bulanan
+                Laporan Bulanan
               </span>
             </Link>
             <Link to="/admin/laporan/bebas">

@@ -135,6 +135,7 @@ const SideBar = () => {
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
             </div>
+            <br />
         </div>
     )
 }

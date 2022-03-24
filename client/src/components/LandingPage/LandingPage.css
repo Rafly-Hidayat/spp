@@ -238,6 +238,11 @@
     padding-top: 58px;  
 }
 
+.page4 .page4-content .cont{
+    width: 80%;
+    margin: 0 auto;
+}
+
 .page4 .page4-content .col{
     padding-top: 30px;
 }
@@ -337,6 +342,11 @@
 /* Phone Display or Responsive */
 @media (max-width:991px) 
 {
+    .container{
+        left:0;
+        padding: 0;
+        margin: 0;
+    }
 
     .navForLandingPage .navbar .title1{
         display: none;
@@ -447,6 +457,9 @@
     }
     .page4 .page4-content{
         padding-top: 24px;  
+    }
+    .page4 .page4-content .cont{
+        width: 100%;
     }
 
 

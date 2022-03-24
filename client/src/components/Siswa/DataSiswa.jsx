@@ -8,7 +8,8 @@ import { faInfoCircle, faSearch, faTrashAlt, faUserEdit } from "@fortawesome/fre
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import Swal from "sweetalert2";
-import ToolkitProvider, {Search,} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min";
+import ToolkitProvider, { Search, } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min";
+import QRCode from "react-qr-code";
 
 
 export default class DataSiswa extends Component {
@@ -27,14 +28,14 @@ export default class DataSiswa extends Component {
         data: res.data,
       });
     })
-    .catch((err) => {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Gagal terhubung ke server, silahkan coba lagi!`,
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Gagal terhubung ke server, silahkan coba lagi!`,
+        });
       });
-    });
-    };
+  };
 
   handleRemove = (siswa_id) => {
     Swal.fire({
@@ -75,12 +76,12 @@ export default class DataSiswa extends Component {
     });
   };
 
-  
+
   componentDidMount() {
     this.getSiswa();
   }
   render() {
-    
+
     const { SearchBar } = Search;
     const data = this.state.data;
     const selectRow = {
@@ -131,34 +132,34 @@ export default class DataSiswa extends Component {
       {
         dataField: "siswa_nis",
         text: "NIS",
-        
+
       },
       {
-        
+
         text: "Jenis Kelamin",
         formatter: (cellContent, row) => {
-          
-          if(row.siswa_gender === "L"){
+
+          if (row.siswa_gender === "L") {
             return (
-            <div>
-              Laki-Laki
-            </div>  
+              <div>
+                Laki-Laki
+              </div>
             )
-            
+
           } else {
-            return(
-            <div>
-              Perempuan
-            </div>  
+            return (
+              <div>
+                Perempuan
+              </div>
             )
-            
+
           }
         },
       },
       {
         dataField: "kelas_nama",
         text: "Kelas",
-        
+
         formatter: (cellContent, row) => {
           return (
             <div>
@@ -168,8 +169,22 @@ export default class DataSiswa extends Component {
         },
       },
       {
+        text: "QR Code",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              <QRCode
+                className="code"
+                value={row.siswa_nis}
+                size={80}
+              />
+            </div>
+          )
+        }
+      },
+      {
         text: "Aksi",
-        
+
         align: "center",
         headerAlign: "center",
         // make delete and update button
@@ -178,20 +193,20 @@ export default class DataSiswa extends Component {
             <div>
               {/* <Sidebar /> */}
               <Container>
-                      <Button variant="outline-primary" className="mr-2" block>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                      </Button>&ensp;
+                <Button variant="outline-primary" className="mr-2" block>
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                </Button>&ensp;
                 <Link to={`/admin/siswa/ubah/${row.siswa_id}`}>
-                      <Button variant="outline-warning" className="mr-2" block>
-                        <FontAwesomeIcon icon={faUserEdit} />
-                      </Button>
-                    </Link>&ensp;
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => this.handleRemove(row.siswa_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
+                  <Button variant="outline-warning" className="mr-2" block>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Button>
+                </Link>&ensp;
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.handleRemove(row.siswa_id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
               </Container>
             </div>
           );
@@ -219,31 +234,31 @@ export default class DataSiswa extends Component {
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br/>
-        <Card style={{color: "black"}}>
+        <br />
+        <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Data Siswa</Card.Title>
-            <hr/>
+            <hr />
             <ToolkitProvider keyField="id" data={data} columns={columns} search>
               {(props) => (
                 <div>
-                  <div style={{display: 'flex',}}>
-                  <Link to={"/admin/siswa/tambah/"}>
-                    <Button variant="outline-primary" block>
-                      Tambah
-                    </Button></Link>&ensp;
-                  <Link to={"/admin/siswa/upload/"}>
-                    <Button variant="outline-success" block>
-                      Upload
-                    </Button></Link>&ensp;
-                      <div style={{display: 'flex',marginLeft: 'auto', }}>
-                        <InputGroup>
+                  <div style={{ display: 'flex', }}>
+                    <Link to={"/admin/siswa/tambah/"}>
+                      <Button variant="outline-primary" block>
+                        Tambah
+                      </Button></Link>&ensp;
+                    <Link to={"/admin/siswa/upload/"}>
+                      <Button variant="outline-success" block>
+                        Upload
+                      </Button></Link>&ensp;
+                    <div style={{ display: 'flex', marginLeft: 'auto', }}>
+                      <InputGroup>
                         <SearchBar style={{ outline: 'none' }} placeholder='Cari Siswa ...' {...props.searchProps} />
-                      <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
-                        </InputGroup>
-                      </div>
-                      </div>
-                    <br/>
+                        <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
+                      </InputGroup>
+                    </div>
+                  </div>
+                  <br />
                   <BootstrapTable
                     keyField="id"
                     data={data}
