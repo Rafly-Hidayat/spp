@@ -203,9 +203,9 @@ export default class InformasiSIswa extends Component {
       },
       {
         text: "Bayar",
-        formatter: () => {
+        formatter: (cell, row) => {
           return (
-            <Link to={{pathname : `/admin/pembayaran/tambah/${this.state.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.nis}`}}}>
+            <Link to={{pathname : `/admin/pembayaran/tambah/${row.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.nis}`}}}>
               <Button variant="outline-primary">Bayar</Button>
             </Link>
           );
