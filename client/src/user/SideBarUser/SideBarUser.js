@@ -14,7 +14,8 @@ import Dashboard from '../DashboardUser/DashboardUser'
 import Transaksi from '../Transaksi/Transaksi'
 import Logout from '../Logout/Logout'
 import PembayaranBebas from '../PembayaranBebas/PembayaranBebas';
-import Profile from '../Profile/Profile'
+import ProfileSiswa from './../Profile/ProfileSiswa';
+import UbahProfileSiswa from '../Profile/UbahProfileSiswa'
 import Invoice from '../PembayaranBulanan/Invoice'
 
 const SideBar = () => {
@@ -130,6 +131,8 @@ const SideBar = () => {
 
 
                 <Route exact path="/user/transaksi" component={Transaksi} />
+                <Route exact path="/user/profile" component={ProfileSiswa} />
+                <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
 
                 <ProtectedRoute exact path="/user/profile" component={Profile} />
                 <ProtectedRoute exact path="/user/invoice/bulanan/:id" component={Invoice} />
