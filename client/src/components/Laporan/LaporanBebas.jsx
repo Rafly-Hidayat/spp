@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { Card, Form, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import BootstrapTable from "react-bootstrap-table-next";
+import SimpleReactValidator from "simple-react-validator";
+import Swal from "sweetalert2";
 
 export default class LaporanBebas extends Component {
   constructor(props) {
     super(props);
+    this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       date_awal: "",
       date_akhir: "",
@@ -23,16 +26,31 @@ export default class LaporanBebas extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      tanggal_awal: this.state.date_awal,
-      tanggal_akhir: this.state.date_akhir,
-    };
-    axios.post("http://localhost:8000/laporan/bebas", data).then((res) => {
-      this.setState({
-        data: res.data,
+    if (this.validator.allValid()) {
+      const data = {
+        tanggal_awal: this.state.date_awal,
+        tanggal_akhir: this.state.date_akhir,
+      };
+      axios.post("http://localhost:8000/laporan/bebas", data).then((res) => {
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Data tidak ditemukan!"
+        });
       });
-    });
-  };
+    } else {
+      this.validator.showMessages();
+      // rerender to show messages for the first time
+      // you can use the autoForceUpdate option to do this automatically`
+      this.forceUpdate();
+    }
+  }
+    
 
   render() {
     const data = this.state.data;
@@ -117,6 +135,19 @@ export default class LaporanBebas extends Component {
                         type="date"
                         placeholder="Tanggal Awal"
                       />
+                      <div>
+                        {this.validator.message(
+                          "date_awal",
+                          this.state.date_awal,
+                          `required`,
+                          {
+                            className: "text-danger",
+                            messages: {
+                              required: "Pilih Tanggal Awal",
+                            },
+                          }
+                        )}
+                      </div>
                     </Col>
                   </Form.Group>
                 </Col>
@@ -135,6 +166,19 @@ export default class LaporanBebas extends Component {
                         type="date"
                         placeholder="Tanggal Akhir"
                       />
+                      <div>
+                        {this.validator.message(
+                          "date_akhir",
+                          this.state.date_akhir,
+                          `required`,
+                          {
+                            className: "text-danger",
+                            messages: {
+                              required: "Pilih Tanggal Akhir",
+                            },
+                          }
+                        )}
+                      </div>
                     </Col>
                   </Form.Group>
                 </Col>
