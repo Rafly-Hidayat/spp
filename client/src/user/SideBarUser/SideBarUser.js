@@ -134,7 +134,7 @@ const SideBar = () => {
                 <Route exact path="/user/profile" component={ProfileSiswa} />
                 <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
 
-                <ProtectedRoute exact path="/user/profile" component={Profile} />
+                <ProtectedRoute exact path="/user/profile" component={ProfileSiswa} />
                 <ProtectedRoute exact path="/user/invoice/bulanan/:id" component={Invoice} />
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
