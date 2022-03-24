@@ -17,6 +17,7 @@ import PembayaranBebas from '../PembayaranBebas/PembayaranBebas';
 import ProfileSiswa from './../Profile/ProfileSiswa';
 import UbahProfileSiswa from '../Profile/UbahProfileSiswa'
 import Invoice from '../PembayaranBulanan/Invoice'
+import InvoiceBebas from './../PembayaranBebas/InvoiceBebas';
 
 const SideBar = () => {
     const [sidebar, setSidebar] = useState('sidebar');
@@ -125,6 +126,7 @@ const SideBar = () => {
                 <Route exact path="/user/profile" component={ProfileSiswa} />
                 <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
                 <ProtectedRoute exact path="/user/invoice/bulanan/:id" component={Invoice} />
+                <ProtectedRoute exact path="/user/invoice/bebas/:id" component={InvoiceBebas} />
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
             </div>

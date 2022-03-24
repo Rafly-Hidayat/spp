@@ -14,6 +14,7 @@ export default class UbahProfileSiswa extends Component {
       siswa_nis: "",
       siswa_gender: "",
       siswa_nama: "",
+      siswa_password: "",
       kelas_nama: "",
       jurusan_nama: "",
       gambar: "",
@@ -44,16 +45,18 @@ export default class UbahProfileSiswa extends Component {
         d_kelas_nama: res.data[0].d_kelas_nama,
         jurusan_nama: res.data[0].jurusan_nama,
         gambar: res.data[0].siswa_img,
+        siswa_password: res.data[0].siswa_password,
       });
     });
   }
   editData = (e) => {
     e.preventDefault();
     const formData = new FormData();
+    const data = {siswa_password: this.state.siswa_password};
     formData.append("img", this.state.uploadedFile);
     console.log(formData);
     axios
-      .post(`http://localhost:8000/profile/edit/${this.state.id}`, formData, {
+      .put(`http://localhost:8000/profile/edit/${this.state.id}`, formData, data, {
         headers: {
           "content-type": "application/json",
         },
@@ -78,12 +81,6 @@ export default class UbahProfileSiswa extends Component {
   };
   render() {
 
-    let gender = "";
-    if (this.state.siswa_gender === "L") {
-      gender += "Laki-laki";
-    } else if (this.state.siswa_gender === "P") {
-      gender += "Perempuan";
-    }
 
     if (this.state.gambar) {
       var imagestr = this.state.gambar;
@@ -218,6 +215,20 @@ export default class UbahProfileSiswa extends Component {
                       onChange={this.handleChange}
                       readOnly
                     ></Form.Control>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>
+                      Password<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      name="siswa_password"
+                      id="siswa_password"
+                      type="text"
+                      value={this.state.siswa_password}
+                      placeholder="Masukkan Password"
+                      noValidate
+                      onChange={this.handleChange}
+                    />
                   </Form.Group>
                 </Col>
               </Row>

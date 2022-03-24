@@ -16,6 +16,7 @@ export default class ProfileSiswa extends Component {
       siswa_nama: "",
       kelas_nama: "",
       jurusan_nama: "",
+      password: "",
       gambar: "",
     };
   }
@@ -36,6 +37,7 @@ export default class ProfileSiswa extends Component {
         kelas_nama: res.data[0].kelas_nama,
         jurusan_nama: res.data[0].jurusan_nama,
         d_kelas_nama: res.data[0].d_kelas_nama,
+        password: res.data[0].siswa_password,
         gambar: res.data[0].siswa_img,
       });
     });
@@ -150,6 +152,20 @@ export default class ProfileSiswa extends Component {
                       onChange={this.handleChange}
                       readOnly
                     ></Form.Control>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>
+                      Password<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      name="password"
+                      id="password"
+                      type="text"
+                      value={this.state.password}
+                      placeholder="Masukkan Password"
+                      noValidate
+                      onChange={this.handleChange}
+                    />
                   </Form.Group>
                 </Col>
 
