@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { Card, Form, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import BootstrapTable from "react-bootstrap-table-next";
+import SimpleReactValidator from "simple-react-validator";
+import Swal from "sweetalert2";
 
 export default class LaporanBulanan extends Component {
   constructor(props) {
     super(props);
+    this.validator = new SimpleReactValidator();
     this.state = {
       date_awal: "",
       date_akhir: "",
@@ -23,16 +26,27 @@ export default class LaporanBulanan extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      tanggal_awal: this.state.date_awal,
-      tanggal_akhir: this.state.date_akhir,
-    };
-    axios.post("http://localhost:8000/laporan/bulanan", data).then((res) => {
-      console.log(res)
-      this.setState({
-        data: res.data,
-      });
-    });
+    if (this.validator.allValid()) {
+      const data = {
+        tanggal_awal: this.state.date_awal,
+        tanggal_akhir: this.state.date_akhir,
+      };
+      axios.post("http://localhost:8000/laporan/bulanan", data).then((res) => {
+        console.log(res);
+        this.setState({ 
+          data: res.data,
+        });
+      }) .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Data tidak ditemukan!"
+        });
+      })
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
 
   render() {
@@ -79,7 +93,7 @@ export default class LaporanBulanan extends Component {
       {
         dataField: "tanggal",
         text: "Tanggal",
-        headerAlign: "center"
+        headerAlign: "center",
       },
     ];
     return (
@@ -91,51 +105,77 @@ export default class LaporanBulanan extends Component {
             <Form onSubmit={this.handleSubmit}>
               <div className="d-flex">
                 {/* <Row> */}
-                  <Col xs={6} md={4}>
-                    <Form.Group as={Row} className="mb-3">
-                      <Col md="auto">
-                        <Form.Label column sm="auto">
-                          Tanggal Awal
-                        </Form.Label>
-                      </Col>
-                      <Col>
-                        <Form.Control
-                          onChange={this.handleChange}
-                          name="date_awal"
-                          type="date"
-                          placeholder="Tanggal Awal"
-                        />
-                      </Col>
-                    </Form.Group>
-                  </Col>
-                  &ensp;
-                  <Col xs={6} md={4}>
-                    <Form.Group as={Row} className="mb-3">
-                      <Col md="auto">
-                        <Form.Label column sm="auto">
-                          Tanggal Akhir
-                        </Form.Label>
-                      </Col>
-                      <Col>
-                        <Form.Control
-                          onChange={this.handleChange}
-                          name="date_akhir"
-                          type="date"
-                          placeholder="Tanggal Akhir"
-                        />
-                      </Col>
-                    </Form.Group>
-                  </Col>
-                  &ensp;
-                  <Col xs={6} md={4}>
-                    <Form.Group as={Row} className="mb-3">
-                      <Col md="auto">
-                        <Button variant="primary" type="submit">
-                          Cari
-                        </Button>
-                      </Col>
-                    </Form.Group>
-                  </Col>
+                <Col xs={6} md={4}>
+                  <Form.Group as={Row} className="mb-3">
+                    <Col md="auto">
+                      <Form.Label column sm="auto">
+                        Tanggal Awal
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        onChange={this.handleChange}
+                        name="date_awal"
+                        type="date"
+                        placeholder="Tanggal Awal"
+                      />
+                      <div>
+                        {this.validator.message(
+                          "date_awal",
+                          this.state.date_awal,
+                          `required`,
+                          {
+                            className: "text-danger",
+                            messages: {
+                              required: "Pilih Tanggal Awal",
+                            },
+                          }
+                        )}
+                      </div>
+                    </Col>
+                  </Form.Group>
+                </Col>
+                &ensp;
+                <Col xs={6} md={4}>
+                  <Form.Group as={Row} className="mb-3">
+                    <Col md="auto">
+                      <Form.Label column sm="auto">
+                        Tanggal Akhir
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        onChange={this.handleChange}
+                        name="date_akhir"
+                        type="date"
+                        placeholder="Tanggal Akhir"
+                      />
+                      <div>
+                        {this.validator.message(
+                          "date_akhir",
+                          this.state.date_akhir,
+                          `required`,
+                          {
+                            className: "text-danger",
+                            messages: {
+                              required: "Pilih Tanggal Awal",
+                            },
+                          }
+                        )}
+                      </div>
+                    </Col>
+                  </Form.Group>
+                </Col>
+                &ensp;
+                <Col xs={6} md={4}>
+                  <Form.Group as={Row} className="mb-3">
+                    <Col md="auto">
+                      <Button variant="primary" type="submit">
+                        Cari
+                      </Button>
+                    </Col>
+                  </Form.Group>
+                </Col>
                 {/* </Row> */}
               </div>
             </Form>
