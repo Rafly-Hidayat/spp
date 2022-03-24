@@ -129,11 +129,8 @@ export default class AddJenisPembayaran extends Component {
                 </Form.Label>
                 <FormSelect name="jenispembayaran" onChange={this.handleChange}>
                   <option value="">Pilih Jenis Pembayaran </option>
-                  {this.state.datapembayaran.map((item) => (
-                    <option value={item.pembayaran_tipe}>
-                      {item.pembayaran_tipe}
-                    </option>
-                  ))}
+                  <option value="BULANAN">BULANAN </option>
+                  <option value="BEBAS">BEBAS </option>
                 </FormSelect>
                 <div>
                   {this.validator.message(

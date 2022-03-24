@@ -97,7 +97,11 @@ export default class Dashboard extends Component {
       },
       {
         dataField: "pos_nama",
-        text: "Deskripsi",
+        text: "Pembayaran",
+      },
+      {
+        dataField: "d_bebas_deskripsi",
+        text: "Keterangan",
       },
       {
         text: "Nominal",

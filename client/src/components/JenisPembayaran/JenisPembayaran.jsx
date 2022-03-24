@@ -126,7 +126,7 @@ export default class Data extends Component {
             <hr/>
             <Link to={"/admin/jenispembayaran/tambah"}>
               <Button className="mr-2" variant="outline-primary" block="">
-                Create
+                Tambah
               </Button>
             </Link>
             <br />
