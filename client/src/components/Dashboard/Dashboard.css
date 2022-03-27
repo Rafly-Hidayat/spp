@@ -6,21 +6,22 @@
 
 /* Card */
 
-  .card {
+.dashboard  .card {
+    height: 45%;
     color: #f1f1f1;
   }
-  .card1 {
+  .dashboard  .card1 {
     color: #f1f1f1;
     margin-top: 25px;
   }
 
-  .card .icon{
+  .dashboard  .card .icon{
     font-size: 50px;
   }
 
-  .card .content h1{
+  .dashboard  .card .content h1{
     text-align: end;
   }
-    .card .content h6{
+  .dashboard  .card .content h6{
     text-align: end;
   }

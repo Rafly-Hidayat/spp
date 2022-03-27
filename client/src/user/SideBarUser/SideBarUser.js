@@ -15,6 +15,7 @@ import Transaksi from '../Transaksi/Transaksi'
 import Logout from '../Logout/Logout'
 import PembayaranBebas from '../PembayaranBebas/PembayaranBebas';
 import ProfileSiswa from './../Profile/ProfileSiswa';
+import Profile from './../Profile/Profile';
 import UbahProfileSiswa from '../Profile/UbahProfileSiswa'
 import Invoice from '../PembayaranBulanan/Invoice'
 import InvoiceBebas from './../PembayaranBebas/InvoiceBebas';
@@ -123,15 +124,18 @@ const SideBar = () => {
 
 
                 <Route exact path="/user/transaksi" component={Transaksi} />
-                <Route exact path="/user/profile" component={ProfileSiswa} />
+                <Route exact path="/user/profile" component={Profile} />
                 <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
 
-                <ProtectedRoute exact path="/user/profile" component={ProfileSiswa} />
+
+                {/* <ProtectedRoute exact path="/user/profile" component={Profile} /> */}
+
                 <ProtectedRoute exact path="/user/invoice/bulanan/:id" component={Invoice} />
                 <ProtectedRoute exact path="/user/invoice/bebas/:id" component={InvoiceBebas} />
 
                 <ProtectedRoute exact path="/logout" component={Logout} />
             </div>
+            <br />
         </div>
     )
 }

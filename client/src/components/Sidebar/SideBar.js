@@ -87,6 +87,7 @@ const SideBar = () => {
   const [btnright, setBtnright] = useState("none");
 
   const [dropdown, setDown] = useState("none");
+  const [dropdown2, setDown2] = useState("none");
 
   const [mode, setMode] = useState(1);
 
@@ -123,6 +124,22 @@ const SideBar = () => {
       setMode(1);
     } else {
       setDown("none");
+      setMode(0);
+    }
+  };
+
+  const changeDropdown2 = () => {
+    if (mode === 0) {
+      setSidebar("sidebar");
+      setMain("main");
+      setbutton("button");
+      setText("block");
+      setDown2("block");
+      setBtnleft("block");
+      setBtnright("none");
+      setMode(1);
+    } else {
+      setDown2("none");
       setMode(0);
     }
   };
@@ -237,7 +254,6 @@ const SideBar = () => {
                     </p>
                   </div>
                 </span>
-                <hr style={{ color: "white" }} />
               </Container>
 
               {/* Img Admin kecil */}
@@ -253,6 +269,7 @@ const SideBar = () => {
                   display: btnright,
                 }}
               />
+              <hr style={{ color: "white" }} />
             </center>
 
             {/* Menu Sidebar */}
@@ -344,9 +361,10 @@ const SideBar = () => {
                 Jenis Pembayaran
               </span>
             </Link>
+
             <div className="dropdown">
               <span className="drop">
-                <a onClick={changeDropdown}>
+                <a onClick={changeDropdown2}>
                   <span className="icon">
                     <FontAwesomeIcon icon={faUsers} />
                   </span>
@@ -357,7 +375,7 @@ const SideBar = () => {
               <div
                 id="myDropdown"
                 className="dropdown-content"
-                style={{ display: dropdown }}
+                style={{ display: dropdown2 }}
               >
                 <ul>
                   <Link to="/admin/laporan/bulanan">
@@ -370,14 +388,15 @@ const SideBar = () => {
               </div>
             </div>
 
-            {/* <Link to="/admin/laporan/bulanan">
+            <Link to="/admin/laporan/bulanan">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
               <span style={{ display: text, paddingLeft: "4px" }}>
-                Lapran Bulanan
+                Laporan Bulanan
               </span>
             </Link>
+
             <Link to="/admin/laporan/bebas">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
@@ -385,7 +404,14 @@ const SideBar = () => {
               <span style={{ display: text, paddingLeft: "4px" }}>
                 Laporan Bebas
               </span>
-            </Link> */}
+            </Link>
+
+            <a href="#">
+              <span className="icon">
+                <FontAwesomeIcon icon={faCreditCard} />
+              </span>{" "}
+              <span style={{ display: text }}>Set Tarif</span>
+            </a>
 
             {/* Button for hide and show sidebar */}
             <div className={button}>
