@@ -24,6 +24,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Invoice from './Invoice';
 
+
 import user from "./user.jpg";
 import logo from "../Assets/LandingPageImg/Logo.png";
 
@@ -34,6 +35,7 @@ export default class PembayaranBulanan extends Component {
     super(props);
     this.state = {
       data: [],
+      modal: false
     };
   }
 
@@ -55,7 +57,14 @@ export default class PembayaranBulanan extends Component {
       });
   }
 
+  onModal = () => {
+    this.setState({
+      modal: !this.state.modal
+    })
+  }
+
   render() {
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     const desktop = [
       {
         dataField: "month_id",
@@ -63,37 +72,37 @@ export default class PembayaranBulanan extends Component {
         sort: true,
         align: "center",
         headerStyle: {
-            width: "5%",
-            textAlign: "center",
+          width: "5%",
+          textAlign: "center",
         }
       },
       {
         dataField: "month_nama",
         text: "Bulan",
-        align : "center",
+        align: "center",
         headerStyle: {
-            width: "15%",
-            textAlign: "center",
+          width: "15%",
+          textAlign: "center",
         }
       },
       {
-        text : "Status",
+        text: "Status",
         formatter: (cell, row) => {
-            console.log(row.bulanan_status)
-            if(row.bulanan_status === 1){
-                return (
-                    <Badge bg="success">Lunas</Badge>
-                )
-            } else {
-                return (
-                    <Badge bg="danger">Belum Lunas</Badge>
-                )
-            }
+          console.log(row.bulanan_status)
+          if (row.bulanan_status === 1) {
+            return (
+              <Badge bg="success">Lunas</Badge>
+            )
+          } else {
+            return (
+              <Badge bg="danger">Belum Lunas</Badge>
+            )
+          }
         },
-        align : "center",
-        headerAlign : "center",
+        align: "center",
+        headerAlign: "center",
         headerStyle: {
-            width : "10%",
+          width: "10%",
         }
       },
       {
@@ -111,72 +120,72 @@ export default class PembayaranBulanan extends Component {
             var dayName = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
             // get name of the month
             var monthNames = [
-                "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" ];
+              "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             var monthName = monthNames[month - 1];
             return (
-                <div>
-                    {dayName[dayOfWeek]}, {day} {monthName} {year}
-                </div>
+              <div>
+                {dayName[dayOfWeek]}, {day} {monthName} {year}
+              </div>
             );
           } else {
             return <div>-</div>;
           }
         },
-        align : "center",
+        align: "center",
         headerStyle: {
-            width: "20%",
-            textAlign: "center",
+          width: "20%",
+          textAlign: "center",
         }
       },
       {
         text: "Jumlah",
         formatter: (cell, row) => {
-            if (row.bulanan_status == 1) {
-                return <div>Rp. {row.bulanan_tagihan.toLocaleString("id-ID")}</div>;
-            } else {
-                return <div>Rp. 0</div>;
-            }
+          if (row.bulanan_status == 1) {
+            return <div>Rp. {row.bulanan_tagihan.toLocaleString("id-ID")}</div>;
+          } else {
+            return <div>Rp. 0</div>;
+          }
         },
         headerStyle: {
-            width: "10%",
+          width: "10%",
         }
       },
       {
         dataField: "admin_nama",
         text: "Petugas",
-        align : "center",
+        align: "center",
         headerStyle: {
-            width: "15%",
-            textAlign: "center",
+          width: "15%",
+          textAlign: "center",
         }
 
       },
       {
-          text: "Aksi",
-            formatter: (cell, row) => {
-                // if bulanan status is 1, then make a button to cetak
-                // else, make a disabled button to cetak
-                if (row.bulanan_status == 1) {
-                    return (
-                        <div>
-                            <Link>
-                                <Button variant="warning"><FontAwesomeIcon icon={faPrint}/></Button>
-                            </Link>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div>
-                            <Button variant="warning" disabled><FontAwesomeIcon icon={faPrint}/></Button>
-                        </div>
-                    );
-                }
-            },
-            align : "center",
-            headerStyle: {
-                width: "10%",
-                textAlign: "center",
-            }
+        text: "Aksi",
+        formatter: (cell, row) => {
+          // if bulanan status is 1, then make a button to cetak
+          // else, make a disabled button to cetak
+          if (row.bulanan_status == 1) {
+            return (
+              <div>
+                <Link to={`/user/invoice/bulanan/${id}`}>
+                  <Button variant="warning"><FontAwesomeIcon icon={faPrint} /></Button>
+                </Link>
+              </div>
+            );
+          } else {
+            return (
+              <div>
+                <Button variant="warning" disabled><FontAwesomeIcon icon={faPrint} /></Button>
+              </div>
+            );
+          }
+        },
+        align: "center",
+        headerStyle: {
+          width: "10%",
+          textAlign: "center",
+        }
       }
     ];
 
@@ -196,19 +205,19 @@ export default class PembayaranBulanan extends Component {
         text: "Bulan",
       },
       {
-        align : "center",
-        headerAlign : "center",
+        align: "center",
+        headerAlign: "center",
         text: "Status",
         formatter: (cell, row) => {
-            if(row.bulanan_status === 1){
-                return (
-                    <Badge bg="success">Lunas</Badge>
-                )
-            } else {
-                return (
-                    <Badge bg="danger">Belum Lunas</Badge>
-                )
-            }
+          if (row.bulanan_status === 1) {
+            return (
+              <Badge bg="success">Lunas</Badge>
+            )
+          } else {
+            return (
+              <Badge bg="danger">Belum Lunas</Badge>
+            )
+          }
         }
       },
       {
@@ -220,22 +229,20 @@ export default class PembayaranBulanan extends Component {
           if (row.bulanan_status == 1) {
             return (
               <div>
-                <Link>
-                  <Button variant="outline-warning"><FontAwesomeIcon icon={faPrint}/></Button>
-                </Link>
+                <Button onClick={this.onModal} variant="outline-warning"><FontAwesomeIcon icon={faPrint} /></Button>
               </div>
             );
           } else {
             return (
               <div>
-                <Button variant="outline-warning" disabled><FontAwesomeIcon icon={faPrint}/></Button>
+                <Button variant="outline-warning" disabled><FontAwesomeIcon icon={faPrint} /></Button>
               </div>
             );
           }
         },
         headerStyle: {
-            width: "20%",
-            textAlign: "center",
+          width: "20%",
+          textAlign: "center",
         }
       },
     ];

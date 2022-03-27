@@ -150,7 +150,7 @@ export default class TambahSiswa extends Component {
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br></br>
+        <br/>
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Tambah Siswa</Card.Title>

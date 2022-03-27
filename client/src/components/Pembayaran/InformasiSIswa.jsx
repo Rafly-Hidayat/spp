@@ -95,6 +95,7 @@ export default class InformasiSIswa extends Component {
   }
 
   render() {
+    console.log(this.state.periode)
     const data = this.state.data;
     const databulanan = this.state.databulanan;
     const column = [
@@ -146,13 +147,20 @@ export default class InformasiSIswa extends Component {
           if (row.bulanan_status === 1) {
             return (
               <div>
+                <Link to={`/admin/invoice/${row.bulanan_id}`}>
                 <Button variant="outline-warning">Cetak</Button>
+                </Link>
               </div>
             );
           } else {
             return (
               <div>
-                <Link to={`/admin/pembayaran_bulan/tambah/${row.bulanan_id}`}>
+                 <Link to={{
+                  pathname : `/admin/pembayaran_bulan/tambah/${row.bulanan_id}`, 
+                  state :{
+                    nis : `${this.state.nis}`, 
+                    periode : `${this.state.periode}`
+                }}}>
                   <Button variant="outline-primary">Bayar</Button>
                 </Link>
               </div>
@@ -163,8 +171,14 @@ export default class InformasiSIswa extends Component {
     ];
     const columns = [
       {
-        dataField: "pos_nama",
         text: "Tipe Pembayaran",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              {`${row.pos_nama}- T.A ${row.periode_mulai}/${row.periode_akhir}`}
+            </div>
+          );
+        }
       },
       {
         text: "Jumlah Tagihan",
@@ -195,10 +209,10 @@ export default class InformasiSIswa extends Component {
       },
       {
         text: "Bayar",
-        formatter: () => {
+        formatter: (cell, row) => {
           return (
-            <Link to={`/admin/pembayaran/tambah/${this.state.bebas_id}`}>
-              <Button>Bayar</Button>
+            <Link to={{pathname : `/admin/pembayaran/tambah/${row.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.nis}`}}}>
+              <Button variant="outline-primary">Bayar</Button>
             </Link>
           );
         },

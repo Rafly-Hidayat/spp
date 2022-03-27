@@ -55,7 +55,7 @@ export default class Dashboard extends Component {
       });
     });
     axios.get("http://localhost:8000/total/kelas").then((res) => {
-    this.setState({
+      this.setState({
         totalKelas: res.data.total,
       });
     });
@@ -97,7 +97,11 @@ export default class Dashboard extends Component {
       },
       {
         dataField: "pos_nama",
-        text: "Deskripsi",
+        text: "Pembayaran",
+      },
+      {
+        dataField: "d_bebas_deskripsi",
+        text: "Keterangan",
       },
       {
         text: "Nominal",
@@ -146,73 +150,73 @@ export default class Dashboard extends Component {
     ];
     return (
       <div>
-        <Container>
+        <div className="dashboard">
+          <Row>
+            {/* Card */}
+            <Col md={3} sm={6}>
+              <Card body bg="primary" className="card" sm={5}>
+                <Row>
+                  <Col md={4} className="icon">
+                    <FontAwesomeIcon icon={faUsers} />
+                  </Col>
+                  <Col md={8} className="content">
+                    <h1>{this.state.totalSiswa}</h1>
+                    <h6>Jumlah Siswa</h6>
+                  </Col>
+                </Row>
+              </Card>
 
-        <Row>
-          {/* Card */}
-          <Col md={3} sm={6}>
-            <Card body bg="primary" className="card" sm={5}>
-              <Row>
-                <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faUsers} />
-                </Col>
-                <Col md={8} className="content">
-                  <h1>{this.state.totalSiswa}</h1>
-                  <h6>Jumlah Siswa</h6>
-                </Col>
-              </Row>
-            </Card>
-            
-            <Card body bg="success" className="card1">
-              <Row>
-                <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faGraduationCap} />
-                </Col>
-                <Col md={8} className="content">
-                  <h1> {this.state.totalJurusan}</h1>
-                  <h6>Jurusan</h6>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
+              <Card body bg="success" className="card1">
+                <Row>
+                  <Col md={4} className="icon">
+                    <FontAwesomeIcon icon={faGraduationCap} />
+                  </Col>
+                  <Col md={8} className="content">
+                    <h1> {this.state.totalJurusan}</h1>
+                    <h6>Jurusan</h6>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
 
-          <Col md={3} sm={6}>
-            <Card body bg="danger" className="card">
-              <Row>
-                <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faChalkboardTeacher} />
-                </Col>
-                <Col md={8} className="content">
-                  <h1> {this.state.totalKelas}</h1>
-                  <h6>Kelas</h6>
-                </Col>
-              </Row>
-            </Card>
-            
-            <Card body bg="secondary" className="card1">
-              <Row>
-                <Col md={4} className="icon">
-                  <FontAwesomeIcon icon={faFileInvoiceDollar} />
-                </Col>
-                <Col md={8} className="content">
-                  <h1> {this.state.totalPos}</h1>
-                  <h6>Tipe Pembayaran</h6>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        <Col md={1}>
-                <DatePicker
-                  onChange={onChange}
-                  style={{
-                    width: "755%",
-                    height: "100%",
-                    border: "5px absolute",
-                  }}
-                  />
-              </Col>
+            <Col md={3} sm={6}>
+              <Card body bg="danger" className="card">
+                <Row>
+                  <Col md={4} className="icon">
+                    <FontAwesomeIcon icon={faChalkboardTeacher} />
+                  </Col>
+                  <Col md={8} className="content">
+                    <h1> {this.state.totalKelas}</h1>
+                    <h6>Kelas</h6>
+                  </Col>
+                </Row>
+              </Card>
+
+              <Card body bg="secondary" className="card1">
+                <Row>
+                  <Col md={3} className="icon">
+                    <FontAwesomeIcon icon={faFileInvoiceDollar} />
+                  </Col>
+                  <Col md={9} className="content">
+                    <h1> {this.state.totalPos}</h1>
+                    <h6 >Tipe Pembayaran</h6>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+            <Col md={6}>
+              <DatePicker
+                onChange={onChange}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  border: "5px absolute",
+                }}
+              />
+            </Col>
           </Row>
-        </Container>
+        </div>
+
         <br />
         <Card style={{ color: "black" }}>
           <Card.Header>
@@ -226,7 +230,7 @@ export default class Dashboard extends Component {
                 columns={columns}
                 noDataIndication="Data Tidak Ditemukan"
                 bordered={false}
-                defaultSorted={ defaultSorted } 
+                defaultSorted={defaultSorted}
               />
             </div>
           </Card.Body>
@@ -244,7 +248,7 @@ export default class Dashboard extends Component {
                 columns={column}
                 noDataIndication="Data Tidak Ditemukan"
                 bordered={false}
-                defaultSorted={ defaultSorted } 
+                defaultSorted={defaultSorted}
               />
             </div>
           </Card.Body>

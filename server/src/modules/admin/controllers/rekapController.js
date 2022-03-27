@@ -54,6 +54,7 @@ module.exports = {
           jurusan_nama: rows[index].jurusan_nama,
           d_kelas_nama: rows[index].d_kelas_nama,
           pos_nama: rows[index].pos_nama,
+          d_bebas_deskripsi: rows[index].d_bebas_deskripsi,
           d_bebas_bayar: rows[index].d_bebas_bayar,
           periode_mulai: rows[index].periode_mulai,
           periode_akhir: rows[index].periode_akhir,
@@ -64,4 +65,21 @@ module.exports = {
       res.json(data);
     });
   },
+
+  laporanKelasBebas: (req, res) => {
+    rekap.laporanKelasBebas(req.con, res, req.body)
+  },
+  
+  laporanKelasBulanan: (req, res) => {
+    rekap.laporanKelasBulanan(req.con, res, req.body)
+  },
+
+  laporanAngkatanBebas: (req, res) => {
+    rekap.laporanAngkatanBebas(req.con, res, req.body)
+  },
+
+  laporanAngkatanBulanan: (req, res) => {
+    rekap.laporanAngkatanBulanan(req.con, res, req.body)
+  }
+
 };

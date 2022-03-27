@@ -5,33 +5,48 @@ import axios from "axios";
 import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
 
-import InvoicePrint from './InvoicePrint';
+import InvoicePrint from "./InvoicePrint";
 
 // import './Invoice.css'
 export default class Invoice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // id: this.props.match.params.id,
+      id: this.props.match.params.id,
+      tanggal: "",
+      siswa_nama: "",
+      siswa_nis: "",
+      pos_nama: "",
+      month_nama: "",
     };
   }
-  // componentDidMount() {
-  //   axios
-  //     .get(`http://localhost:8000/user/pembayaran/bulanan/${this.state.id}`)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       if (res.data.error === true) {
-  //         this.setState({
-  //           data: "",
-  //         });
-  //       } else {
-  //         this.setState({
-  //           data: res.data,
-  //         });
-  //       }
-  //     });
-  // }
+  componentDidMount() {
+    axios
+      .get(`http://localhost:8000/invoice/bulanan/${this.state.id}`)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.error === true) {
+          this.setState({
+            tanggal: "",
+            siswa_nama: "",
+            siswa_nis: "",
+            pos_nama: "",
+            month_nama: "",
+          });
+        } else {
+          this.setState({
+            tanggal: res.data.tanggal,
+            siswa_nama: res.data.siswa_nama,
+            siswa_nis: res.data.siswa_nis,
+            pos_nama: res.data.pos_nama,
+            month_nama: res.data.month_nama,
+            no_transaksi: res.data.no_transaksi,
+          });
+        }
+      });
+  }
   render() {
+    console.log(this.state.tanggal);
     return (
       <div>
         <div
@@ -91,11 +106,11 @@ export default class Invoice extends Component {
               >
                 <div className="nomor">
                   <h6 style={{ fontWeight: "700" }}>No. Pembayaran</h6>
-                  <p style={{ marginTop: "14px" }}>004/2022</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.no_transaksi}</p>
                 </div>
                 <div className="tanggal " style={{ textAlign: "right" }}>
                   <h6 style={{ fontWeight: "700" }}>Tgl. Pembayaran</h6>
-                  <p style={{ marginTop: "14px" }}>Maret 15, 2022</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.tanggal}</p>
                 </div>
               </div>
               <hr />
@@ -108,11 +123,11 @@ export default class Invoice extends Component {
               >
                 <div className="nama">
                   <h6 style={{ fontWeight: "700" }}>Nama Lengkap</h6>
-                  <p style={{ marginTop: "14px" }}>Angga Aditya</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.siswa_nama}</p>
                 </div>
                 <div className="kelas">
                   <h6 style={{ fontWeight: "700", textAlign: "right" }}>NIS</h6>
-                  <p style={{ marginTop: "14px" }}>192010005</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.siswa_nis}</p>
                 </div>
               </div>
               <hr />
@@ -139,11 +154,9 @@ export default class Invoice extends Component {
                 }}
               >
                 <div className="nama-isi">
-                  <p>Pembayaran SPP Bulan Januari</p>
-                  <p>Pembayaran SPP Bulan Februari</p>
+                  <p>{this.state.pos_nama + " " + this.state.month_nama}</p>
                 </div>
                 <div className="kelas-isi">
-                  <p>Rp 300.000</p>
                   <p>Rp 300.000</p>
                 </div>
               </div>
@@ -198,11 +211,15 @@ export default class Invoice extends Component {
               <br />
               <div className="btn-print-download ">
                 <ReactToPrint
-                  trigger={() => <Button variant="primary">Print this out!</Button>}
+                  trigger={() => (
+                    <Button variant="primary">Print this out!</Button>
+                  )}
                   content={() => this.componentRef}
-                  
                 />
-                <InvoicePrint ref={el => (this.componentRef = el)} />
+                <div style={{ display: "none" }}>
+                  <InvoicePrint bulanan_id={this.state.id} ref={(el) => (this.componentRef = el)} />
+                </div>
+                {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
                 <Button variant="danger">Download</Button>
               </div>

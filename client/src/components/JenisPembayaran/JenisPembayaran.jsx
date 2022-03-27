@@ -29,8 +29,8 @@ export default class Data extends Component {
   handleRemove = (pembayaran_id) => {
     axios
       .delete(`http://localhost:8000/hapus/pembayaran/${pembayaran_id}`)
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => { })
+      .catch((err) => { });
     this.getAdmin();
   };
 
@@ -63,7 +63,7 @@ export default class Data extends Component {
       },
       {
         dataField: "pos_nama",
-        text: "Nama Pos",
+        text: "Nama Pos"
       },
       {
         text: "Set Tarif",
@@ -71,7 +71,7 @@ export default class Data extends Component {
           return (
             <div>
               <Link to={`/admin/pembayaran/set_tarif/${row.pembayaran_id}`}>
-                <Button variant="primary" className="mr-2" block>
+                <Button variant="outline-primary" className="mr-2" block>
                   Set Tarif
                 </Button>
               </Link>
@@ -88,16 +88,16 @@ export default class Data extends Component {
             <div>
               <Container>
                 <Link to={`/admin/jenispembayaran/ubah/${row.pembayaran_id}`}>
-                      <Button variant="outline-warning" block>
-                        <FontAwesomeIcon icon={faUserEdit} />
-                      </Button>
-                    </Link>&ensp;
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => this.handleRemove(row.pembayaran_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
+                  <Button variant="outline-warning" block>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Button>
+                </Link>&ensp;
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.handleRemove(row.pembayaran_id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
               </Container>
             </div>
           );
@@ -120,13 +120,17 @@ export default class Data extends Component {
           </Card.Body>
         </Card>
         <br></br>
-        <Card>
+        <Card style={{ color: "black" }}>
           <Card.Body>
+            <Card.Title>Jenis Pembayaran</Card.Title>
+            <hr />
             <Link to={"/admin/jenispembayaran/tambah"}>
               <Button className="mr-2" variant="outline-primary" block="">
-                Create
+                Tambah
               </Button>
             </Link>
+            <br />
+            <br />
             <BootstrapTable
               keyField="id"
               data={data}
@@ -135,7 +139,7 @@ export default class Data extends Component {
               hover
               condensed
               bordered={false}
-              // selectRow={ selectRow }
+            // selectRow={ selectRow }
             />
           </Card.Body>
         </Card>

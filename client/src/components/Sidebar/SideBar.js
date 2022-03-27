@@ -33,6 +33,7 @@ import navlogo from "../Assets/logotextwhite.svg";
 
 // Import File
 import img from "../Assets/user.jpg";
+import Invoice from '../Pembayaran/Invoice'
 
 // Admin
 
@@ -86,6 +87,7 @@ const SideBar = () => {
   const [btnright, setBtnright] = useState("none");
 
   const [dropdown, setDown] = useState("none");
+  const [dropdown2, setDown2] = useState("none");
 
   const [mode, setMode] = useState(1);
 
@@ -122,6 +124,22 @@ const SideBar = () => {
       setMode(1);
     } else {
       setDown("none");
+      setMode(0);
+    }
+  };
+
+  const changeDropdown2 = () => {
+    if (mode === 0) {
+      setSidebar("sidebar");
+      setMain("main");
+      setbutton("button");
+      setText("block");
+      setDown2("block");
+      setBtnleft("block");
+      setBtnright("none");
+      setMode(1);
+    } else {
+      setDown2("none");
       setMode(0);
     }
   };
@@ -343,6 +361,33 @@ const SideBar = () => {
                 Jenis Pembayaran
               </span>
             </Link>
+
+            <div className="dropdown">
+              <span className="drop">
+                <a onClick={changeDropdown2}>
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faUsers} />
+                  </span>
+                  <span style={{ display: text }}>Laporan</span>
+                </a>
+              </span>
+
+              <div
+                id="myDropdown"
+                className="dropdown-content"
+                style={{ display: dropdown2 }}
+              >
+                <ul>
+                  <Link to="/admin/laporan/bulanan">
+                    <li>Laporan Bulanan </li>
+                  </Link>
+                  <Link to="/admin/laporan/bebas">
+                    <li>Laporan Bebas </li>
+                  </Link>
+                </ul>
+              </div>
+            </div>
+
             <Link to="/admin/laporan/bulanan">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
@@ -351,6 +396,7 @@ const SideBar = () => {
                 Laporan Bulanan
               </span>
             </Link>
+
             <Link to="/admin/laporan/bebas">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
@@ -360,12 +406,12 @@ const SideBar = () => {
               </span>
             </Link>
 
-            {/* <a href="#">
-          <span className="icon">
-            <FontAwesomeIcon icon={faCreditCard} />
-          </span>{" "}
-          <span style={{ display: text }}>Set Tarif</span>
-        </a> */}
+            <a href="#">
+              <span className="icon">
+                <FontAwesomeIcon icon={faCreditCard} />
+              </span>{" "}
+              <span style={{ display: text }}>Set Tarif</span>
+            </a>
 
             {/* Button for hide and show sidebar */}
             <div className={button}>
@@ -604,6 +650,11 @@ const SideBar = () => {
             exact
             path="/admin/laporan/bebas"
             component={LaporanBebas}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/invoice/:id"
+            component={Invoice}
           />
         </div>
       </div>

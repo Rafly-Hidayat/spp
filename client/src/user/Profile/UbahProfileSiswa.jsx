@@ -1,12 +1,13 @@
-import axios from "axios";
 import React, { Component } from "react";
 import { Card, Breadcrumb, Form, Row, Col, Button } from "react-bootstrap";
+import axios from "axios";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { Swal } from "sweetalert2";
 
-export default class ProfileSiswa extends Component {
+export default class UbahProfileSiswa extends Component {
   constructor(props) {
     super(props);
+    document.title = "Siswa | Ubah Profile";
 
     this.state = {
       siswa_nis: "",
@@ -14,7 +15,6 @@ export default class ProfileSiswa extends Component {
       siswa_nama: "",
       kelas_nama: "",
       jurusan_nama: "",
-
     };
   }
 
@@ -26,28 +26,60 @@ export default class ProfileSiswa extends Component {
   };
 
   componentDidMount() {
-    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/profile/${id}`)
-      .then((res) => {
-        this.setState({
-          siswa_nis: res.data[0].siswa_nis,
-          siswa_nama: res.data[0].siswa_nama,
-          siswa_gender: res.data[0].siswa_gender,
-          kelas_nama: res.data[0].kelas_nama,
-          jurusan_nama: res.data[0].jurusan_nama,
-          d_kelas_nama: res.data[0].d_kelas_nama,
-          gambar: res.data[0].siswa_img
-        })
-      })
+    const siswa_id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    axios.get(`http://localhost:8000/profile/${siswa_id}`).then((res) => {
+      console.log(res);
+      this.setState({
+        siswa_nis: res.data[0].siswa_nis,
+        siswa_nama: res.data[0].siswa_nama,
+        siswa_gender: res.data[0].siswa_gender,
+        kelas_nama: res.data[0].kelas_nama,
+        jurusan_nama: res.data[0].jurusan_nama,
+      });
+    });
   }
-  render() {
-    let gender = ""
-    if (this.state.siswa_gender == "L") {
-      gender += "Laki-laki"
-    } else if (this.state.siswa_gender == "P") {
-      gender += "Perempuan"
-    }
 
+  editData = (e) => {
+    e.preventDefault();
+    const data = {
+      siswa_nis: this.state.siswa_nis,
+      siswa_gender: this.state.siswa_gender,
+      siswa_nama: this.state.siswa_nama,
+      kelas_nama: this.state.kelas_nama,
+      jurusan_nama: this.state.jurusan_nama,
+    };
+    const siswa_id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    axios
+      .put(`http://localhost/profile/edit/${siswa_id}`, data)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          siswa_nis: "",
+          siswa_gender: "",
+          siswa_nama: "",
+          kelas_nama: "",
+          jurusan_nama: "",
+        });
+        if (res.data.error === true) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${res.data.message}`,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data.message}`,
+          });
+        }
+        this.props.history.push("/user/profile");
+      })
+      .catch((err) => {
+          console.log(err);
+      });
+  };
+  render() {
     return (
       <div>
         <Card>
@@ -70,10 +102,9 @@ export default class ProfileSiswa extends Component {
           <Card.Body>
             <Card.Title>Profile</Card.Title>
             <hr />
-            <Form>
+            <Form onSubmit={this.editData}>
               <Row>
                 <Col>
-                  <img src={"http://127.0.0.1:8000/public/images/" + this.state.gambar} width={40} height={40} />
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
@@ -86,6 +117,7 @@ export default class ProfileSiswa extends Component {
                       placeholder="NIS"
                       noValidate
                       onChange={this.handleChange}
+                      readOnly
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
@@ -111,8 +143,9 @@ export default class ProfileSiswa extends Component {
                     </Form.Label>
                     <Form.Control
                       name="gender"
-                      value={gender}
+                      value={this.state.siswa_gender}
                       onChange={this.handleChange}
+                      readOnly
                     ></Form.Control>
                   </Form.Group>
                   <Form.Group className="mb-3">
@@ -121,19 +154,22 @@ export default class ProfileSiswa extends Component {
                     </Form.Label>
                     <Form.Control
                       name="kelas_nama"
-                      value={this.state.kelas_nama + " " + this.state.jurusan_nama + " " + this.state.d_kelas_nama}
+                      value={
+                        this.state.kelas_nama + " " + this.state.jurusan_nama
+                      }
                       onChange={this.handleChange}
+                      readOnly
                     ></Form.Control>
                   </Form.Group>
                 </Col>
               </Row>
               <Button variant="outline-primary" type="submit">
-                Tambah
+                Ubah Profile
               </Button>
               &ensp;
-              <Link to="/user/profile">
+              <Link to="/user/profile/">
                 <Button variant="outline-danger" type="submit">
-                  Batal
+                  Kembali
                 </Button>
               </Link>
             </Form>

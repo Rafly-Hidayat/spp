@@ -143,14 +143,14 @@ export default class KenaikanKelas extends Component {
             <hr />
             <Form onSubmit={this.handleSubmit}>
               <Row>
-                <Col>
+                <Col xs={3} md={4}>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
                       <Form.Label column sm="auto">
                         Dari Kelas<span className="text-danger">*</span>
                       </Form.Label>
                     </Col>
-                    <Col md={8}>
+                    <Col>
                       <FormSelect
                         name="selected_kelas"
                         onChange={this.handleChange}
@@ -175,14 +175,14 @@ export default class KenaikanKelas extends Component {
                     </Col>
                   </Form.Group>
                 </Col>
-                <Col>
+                <Col xs={6} md={4}>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
                       <Form.Label column sm="auto">
                         Ke Kelas<span className="text-danger">*</span>
                       </Form.Label>
                     </Col>
-                    <Col md={8}>
+                    <Col>
                       <Form.Control
                         name="selected_ubah_kelas"
                         id="selected_ubah_kelas"
@@ -208,7 +208,7 @@ export default class KenaikanKelas extends Component {
                     </Col>
                   </Form.Group>
                 </Col>
-                <Col>
+                <Col xs={6} md={4}>
                   <FormGroup>
                     <Col>
                       <Button variant="outline-primary" type="submit">Ubah Kelas</Button>

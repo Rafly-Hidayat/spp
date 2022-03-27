@@ -286,7 +286,7 @@ export default class DashboardUser extends Component {
                 variant="pills"
                 className="justify-content-center flex-column"
               >
-                <Button variant="secondary" onClick={this.onModal}> Qr code</Button>
+                <Button variant="secondary" onClick={this.onModal}> Qr Code</Button>
                 <br />
                 <br />
 
@@ -299,7 +299,7 @@ export default class DashboardUser extends Component {
                       <QRCode
                         className="qrcode"
                         value={user.nis[0]}
-                        size={200}
+                        size={220}
                       />
                     </div>
 

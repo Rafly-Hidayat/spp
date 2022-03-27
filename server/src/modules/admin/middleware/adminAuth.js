@@ -4,7 +4,7 @@ require("dotenv").config();
 
 module.exports = {
   getAll: (req, res) => {
-    con.query("SELECT admin_id, admin_nama FROM admin", (err, rows) => {
+    con.query("SELECT admin_id, admin_nama FROM admin where admin_id != '0'", (err, rows) => {
       if (err) throw err;
       return res.json(rows);
     });
