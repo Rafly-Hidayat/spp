@@ -6,6 +6,7 @@ import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
 
 import InvoicePrint from "./InvoicePrint";
+import { Link } from "react-router-dom";
 
 // import './Invoice.css'
 export default class Invoice extends Component {
@@ -217,11 +218,16 @@ export default class Invoice extends Component {
                   content={() => this.componentRef}
                 />
                 <div style={{ display: "none" }}>
-                  <InvoicePrint bulanan_id={this.state.id} ref={(el) => (this.componentRef = el)} />
+                  <InvoicePrint
+                    bulanan_id={this.state.id}
+                    ref={(el) => (this.componentRef = el)}
+                  />
                 </div>
                 {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
-                <Button variant="danger">Download</Button>
+                <Link to="/admin/pembayaran">
+                  <Button variant="danger">Kembali</Button>
+                </Link>
               </div>
             </div>
           </div>
