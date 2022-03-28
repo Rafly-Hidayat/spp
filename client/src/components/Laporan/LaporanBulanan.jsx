@@ -57,7 +57,7 @@ export default class LaporanBulanan extends Component {
         dataField: "siswa_nama",
         text: "Nama Siswa",
         headerStyle: (colum, colIndex) => {
-          return { width: "170px" };
+          return { width: "200px" };
         },
       },
       {
