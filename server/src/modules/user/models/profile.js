@@ -1,10 +1,10 @@
 module.exports = {
 
-  getProfile: (con,res, siswa_id, callback) => {
+  getProfile: (con, res, siswa_id, callback) => {
     con.query(`SELECT siswa_id FROM siswa WHERE siswa_id = '${siswa_id}'`, (err, rows) => {
-      if(err) throw err
-      if(rows.length == 0) {
-        return res.json({error: true, message: 'Siswa tidak ditemukan'})
+      if (err) throw err
+      if (rows.length == 0) {
+        return res.json({ error: true, message: 'Siswa tidak ditemukan' })
       } else {
 
         con.query(
@@ -113,24 +113,24 @@ module.exports = {
     let filename = file.name;
     file.mv("./public/images/" + filename, function (err) {
       if (err) {
-        res.json({error: true, message: "gagal mengubah foto profile"});
+        res.json({ error: true, message: "gagal mengubah foto profile" });
       } else {
         con.query(`SELECT siswa_id FROM siswa WHERE siswa_id = ${siswa_id}`, (err, rows) => {
           if (err) throw err;
           if (rows == 0) {
-            return res.json({error: true, message: "id siswa tidak ditemukan"});
+            return res.json({ error: true, message: "id siswa tidak ditemukan" });
           } else {
             con.query(
-            `UPDATE siswa SET siswa_img = '${data.name}', siswa_password = '${siswa_password}' WHERE siswa_id = ${siswa_id}`,
-            callback
-          );
+              `UPDATE siswa SET siswa_img = '${data.name}', siswa_password = '${siswa_password}' WHERE siswa_id = ${siswa_id}`,
+              callback
+            );
 
           }
         })
       }
-  }
-  );
+    }
+    );
   },
-    
+
 
 };
