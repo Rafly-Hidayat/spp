@@ -41,21 +41,23 @@
 
 /* The sidebar menu */
 .admin .sidebar {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 220px; /* Set the width of the sidebar */
-  position: fixed;/* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  top: 52px; /* Stay at the top */
+
+  height: auto; 
+  width: 238px; 
+  position: fixed;
+  z-index: 1;
+  top: 42px;
   left: 0;
-  background-color: #25262D; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  display: block;
+  background-color: #25262D; 
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto; 
   transition: 0.5s;
 }
 
 /* The navigation menu links */
 .admin .sidebar a {
-  padding: 22px 8px 0px 14px;
+  padding: 18px 8px 0px 14px;
   text-decoration: none;
   font-size: 15px;
   color: #f1f1f1;
@@ -143,8 +145,8 @@
 /* Style page content */
 .admin .main {
   margin-top: 96px;
-  margin-left: 238px; /* Same as the width of the sidebar */
-  margin-right: 18px;
+  margin-left: 248px; /* Same as the width of the sidebar */
+  margin-right: 12px;
   transition: 0.5s;
 }
 

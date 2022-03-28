@@ -199,6 +199,7 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
+
         // headerAlign : 'center'
       },
     ];
@@ -209,7 +210,6 @@ export default class PembayaranBebas extends Component {
       {
         dataField: "pos_nama",
         text: "Tipe",
-        headerAlign: "center",
       },
       {
         text: "Tagihan",
@@ -224,12 +224,14 @@ export default class PembayaranBebas extends Component {
             </div>
           );
         },
-        headerAlign: "center",
+
+        headerAlign: "center"
       },
       {
         dataField: "Aksi",
         text: "Aksi",
         formatter: (cellContent, row) => {
+
           if (
             parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) ===
             0

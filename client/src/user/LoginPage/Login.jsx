@@ -87,45 +87,48 @@ export default class Login extends Component {
       <div>
         <div className="wrapper-login"
           style={{
-            justifyItems : "center",
+            justifyItems: "center",
             display: "block",
             marginLeft: "auto",
             marginRight: "auto",
           }}
         >
           <CardGroup>
+            {/* card blue */}
             <Card className="form-content">
               <Image
-              src={logosp}
-              width={60}
-              height={60}
-              style={{
-                 marginLeft : '15px' 
-              }}
+                src={logosp}
+                width={60}
+                height={60}
+                style={{
+                  marginLeft: '15px'
+                }}
               />
               <Image
-              src={Kutas}
-              width={15}
-              height={15}
-              style={{
-                 marginTop : '50px',
-                 marginBottom : '20px' 
-              }}
+                src={Kutas}
+                width={15}
+                height={15}
+                style={{
+                  marginTop: '50px',
+                  marginBottom: '20px'
+                }}
               />
               <div>
                 Web nya sangat mudah dipahami. Kalau kesulitan selalu didampingi, jadi merasa punya tim IT sendiri.
               </div>
               <Image
-              src={KuWah}
-              width={15}
-              height={15}
-              style={{
-                 marginTop : '20px',
-                 marginBottom : '50px',
-                 float : 'right'
-              }}
+                src={KuWah}
+                width={15}
+                height={15}
+                style={{
+                  marginTop: '20px',
+                  marginBottom: '50px',
+                  float: 'right'
+                }}
               />
             </Card>
+
+            {/* Card login */}
             <Card className="form-login">
               <Card.Body>
                 <div className="header">W E L C O M E</div>
@@ -145,7 +148,7 @@ export default class Login extends Component {
                           NIS
                         </Form.Label>
                         <Form.Control
-                        placeholder="NIS"
+                          placeholder="NIS"
                           name="nis"
                           value={this.state.nis}
                           onChange={this.handleChange}
@@ -172,7 +175,7 @@ export default class Login extends Component {
                         Password
                       </Form.Label>
                       <Form.Control
-                      placeholder="Password"
+                        placeholder="Password"
                         name="password"
                         type="password"
                         value={this.state.password}
@@ -188,7 +191,7 @@ export default class Login extends Component {
                         )}
                       </div>
                     </Form.Group>
-                    <Row>
+                    {/* <Row>
                       <Form.Group as={Col} className="mb-3">
                         <Form.Check
                           type="checkbox"
@@ -216,7 +219,7 @@ export default class Login extends Component {
                           Forgot Password ?
                         </a>
                       </Form.Group>
-                    </Row>
+                    </Row> */}
                     <Row style={{ padding: 10 }}>
                       <Button
                         type="submit"
