@@ -175,13 +175,13 @@ module.exports = {
                           })
                       })
 
-                      if (data.length == 0) {
-                        con.rollback((err) => {
-                          if (err) throw err;
-                          return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
-                        })
-                      } else {
-                        con.commit((err) => {
+                      con.commit((err) => {
+                        if (data.length == 0) {
+                          con.rollback((err) => {
+                            if (err) throw err;
+                            return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
+                          })
+                        } else {
                           if (err) throw err;
                           let sum_sisa = 0
                           total_sisa.forEach((element, index) => {
@@ -193,8 +193,8 @@ module.exports = {
                             data: data,
                             sisa_tagihan_kelas: sum_sisa,
                           });
-                        })
-                      }
+                        }
+                      })
 
                     }
                   );
@@ -303,13 +303,13 @@ module.exports = {
                   })
               })
 
-              if (data.length == 0) {
-                con.rollback((err) => {
-                  if (err) throw err;
-                  return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
-                })
-              } else {
-                con.commit((err) => {
+              con.commit((err) => {
+                if (data.length == 0) {
+                  con.rollback((err) => {
+                    if (err) throw err;
+                    return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
+                  })
+                } else {
                   if (err) throw err;
                   let sum_sisa = 0
                   total_sisa.forEach((element, index) => {
@@ -321,8 +321,8 @@ module.exports = {
                     data: data,
                     sisa_tagihan_kelas: sum_sisa,
                   });
-                })
-              }
+                }
+              })
             }
           );
         }
