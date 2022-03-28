@@ -74,6 +74,8 @@ import UploadSiswa from "../Siswa/UploadSiswa";
 
 import LaporanBulanan from "../Laporan/LaporanBulanan"
 import LaporanBebas from "../Laporan/LaporanBebas"
+import LaporanAngkatan from './../Laporan/LaporanAngkatan';
+import LaporanKelas from './../Laporan/LaporanKelas';
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -366,6 +368,12 @@ const SideBar = () => {
                   <Link to="/admin/laporan/bebas">
                     <li>Laporan Bebas </li>
                   </Link>
+                  <Link to="/admin/laporan/angkatan">
+                    <li>Laporan Angkatan </li>
+                  </Link> 
+                  <Link to="/admin/laporan/angkatan/bulanan">
+                    <li>Laporan Angkatan Bulanan </li>
+                  </Link>
                 </ul>
               </div>
             </div>
@@ -519,6 +527,16 @@ const SideBar = () => {
             exact
             path="/admin/laporan/bebas"
             component={LaporanBebas}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/laporan/angkatan"
+            component={LaporanAngkatan}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/laporan/angkatan/bulanan"
+            component={LaporanKelas}
           />
           <ProtectedRoute
             exact

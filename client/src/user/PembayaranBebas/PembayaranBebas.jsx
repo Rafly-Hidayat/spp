@@ -45,6 +45,7 @@ export default class PembayaranBebas extends Component {
       datasiswa: [],
       details: false,
       data_details: [],
+      d_bebas_id: "",
     };
   }
 
@@ -122,6 +123,7 @@ export default class PembayaranBebas extends Component {
           }
         },
       },
+
       // make a action print
       {
         dataField: "d_bebas_id",
@@ -129,7 +131,7 @@ export default class PembayaranBebas extends Component {
         formatter: (cell, row) => {
           return (
             <div>
-              <Link to={`/user/invoice/bebas/${id}`}>
+              <Link to={`/user/invoice/bebas/${id}/${row.d_bebas_id}`}>
                 <Button variant="outline-warning" size="sm">
                   <FontAwesomeIcon icon={faPrint} /> Cetak
                 </Button>

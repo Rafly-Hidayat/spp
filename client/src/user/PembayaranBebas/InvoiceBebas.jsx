@@ -5,6 +5,7 @@ import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
 import { Link, } from "react-router-dom";
 import { Button } from 'react-bootstrap';
+import InvoiceOutput from '../PembayaranBebas/InvoiceOutput'
 
 export default class InvoiceBebas extends Component {
   constructor(props) {
@@ -23,12 +24,13 @@ export default class InvoiceBebas extends Component {
       kelas_nama: "",
       jurusan_nama: "",
       d_kelas_nama: "",
+      d_bebas_id: this.props.match.params.d_bebas_id,
     };
   }
-  
   componentDidMount = () => {
+    console.log(this.state.d_bebas_id)
       const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/user/detail/bebas/${id}`).then((res) => {
+    axios.get(`http://localhost:8000/user/detail/bebas/${id}/${this.state.d_bebas_id}`).then((res) => {
       console.log(res.data);
       if (res.data.error === true) {
         this.setState({
@@ -45,16 +47,16 @@ export default class InvoiceBebas extends Component {
         });
       } else {
         this.setState({
-          no_transaksi: res.data.no_transaksi,
-          d_bebas_bayar: res.data.d_bebas_bayar,
-          d_bebas_deskripsi: res.data.d_bebas_deskripsi,
-          d_bebas_tanggal: res.data.d_bebas_tanggal,
-          admin_nama: res.data.admin_nama,
-          siswa_nama: res.data.siswa_nama,
-          siswa_nis: res.data.siswa_nis,
-          kelas_nama: res.data.kelas_nama,
-          jurusan_nama: res.data.jurusan_nama,
-          d_kelas_nama: res.data.d_kelas_nama,
+          no_transaksi: res.data[0].no_transaksi,
+          d_bebas_bayar: res.data[0].d_bebas_bayar,
+          d_bebas_deskripsi: res.data[0].d_bebas_deskripsi,
+          d_bebas_tanggal: res.data[0].d_bebas_tanggal,
+          admin_nama: res.data[0].admin_nama,
+          siswa_nama: res.data[0].siswa_nama,
+          siswa_nis: res.data[0].siswa_nis,
+          kelas_nama: res.data[0].kelas_nama,
+          jurusan_nama: res.data[0].jurusan_nama,
+          d_kelas_nama: res.data[0].d_kelas_nama,
         });
       }
     });
@@ -138,6 +140,7 @@ export default class InvoiceBebas extends Component {
                 <div className="nama">
                   <h6 style={{ fontWeight: "700" }}>Nama Lengkap</h6>
                   <p style={{ marginTop: "14px" }}>{this.state.siswa_nama}</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.kelas_nama + " " + this.state.jurusan_nama + " " + this.state.d_kelas_nama}</p>
                 </div>
                 <div className="kelas">
                   <h6 style={{ fontWeight: "700", textAlign: "right" }}>NIS</h6>
@@ -168,7 +171,7 @@ export default class InvoiceBebas extends Component {
                 }}
               >
                 <div className="nama-isi">
-                  <p>{this.state.pos_nama + " " + this.state.month_nama}</p>
+                  <p>{this.state.d_bebas_deskripsi}</p>
                 </div>
                 <div className="kelas-isi">
                   <p>{this.state.d_bebas_bayar}</p>
@@ -225,22 +228,16 @@ export default class InvoiceBebas extends Component {
               <br />
               <div className="btn-print-download ">
                 <ReactToPrint
-                  trigger={() => (
-                    <Button variant="primary">Print this out!</Button>
-                  )}
+                  trigger={() => <Button variant="primary">Print this out!</Button>}
                   content={() => this.componentRef}
+                  
                 />
-                {/* <div style={{ display: "none" }}>
-                  <InvoicePrint
-                    bulanan_id={this.state.id}
-                    ref={(el) => (this.componentRef = el)}
-                  />
-                </div> */}
-                {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
+                <div style={{display: "none"}}>
+
+                <InvoiceOutput ref={el => (this.componentRef = el)} id = {this.state.d_bebas_id} />
+                <Button variant="danger">Back</Button>
+                </div>
                 &ensp;
-                <Link to="/user/transaksi/">
-                  <Button variant="danger">Kembali</Button>
-                </Link>
               </div>
             </div>
           </div>

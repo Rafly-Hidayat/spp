@@ -89,10 +89,6 @@ export default class DataSiswa extends Component {
   render() {
     const { SearchBar } = Search;
     const data = this.state.data;
-    const selectRow = {
-      mode: "radio",
-      clickToSelect: true,
-    };
     const options = {
       paginationSize: 4,
       pageStartIndex: 1,
