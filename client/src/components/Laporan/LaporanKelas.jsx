@@ -1,16 +1,8 @@
 import React, { Component } from "react";
-<<<<<<< HEAD
-import { Card, Col, Form, FormSelect, Row, Button } from "react-bootstrap";
-import axios from "axios";
-import SimpleReactValidator from "simple-react-validator";
-import Swal from "sweetalert2";
-import BootstrapTable from "react-bootstrap-table-next";
-=======
 import { Card, Form, Row, Col, FormSelect, Button, Tabs, Tab } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
->>>>>>> 146535ea43651d4bf72a813cbefaba1b67d3750c
 
 export default class LaporanKelas extends Component {
   constructor(props) {
