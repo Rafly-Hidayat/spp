@@ -154,15 +154,20 @@ export default class LandingPage extends Component {
                                 </Col>
                             </Row>
                         </div>
+                    </Container>
 
-                        <div className="page4" id='features'>
+                    <div className="page4" id='features'>
+
+                        <div className="container">
                             <div className="page4-title">
                                 <h1>FEATURES</h1>
                                 <p>Merupakan jasa layanan bagi lembaga pendidikan berupa penerimaan biaya pendidikan dan biaya lainnya <br />
                                     yang terkait dengan penyelenggaraan pendidikan secara daring ataupun tatap muka
                                 </p>
                             </div>
-                            <div className="page4-content">
+                        </div>
+                        <div className="page4-content">
+                            <div className="cont">
                                 <Row>
                                     <Col md={4} className='col'>
                                         <div className="contentBx">
@@ -211,7 +216,7 @@ export default class LandingPage extends Component {
                                 </Row>
                             </div>
                         </div>
-                    </Container>
+                    </div>
                     <div className="footer">
                         <Container>
                             <div className="footer-content">

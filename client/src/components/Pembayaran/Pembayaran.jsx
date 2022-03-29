@@ -13,6 +13,8 @@ import InformasiSIswa from "./InformasiSIswa";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
+import QRScan from 'qrscan'
+
 
 export default class Pembayaran extends Component {
   constructor(props) {
@@ -24,9 +26,13 @@ export default class Pembayaran extends Component {
       periodes: [],
       nis: "",
       periode: "",
-      data:[],
-      databulanan:[]
+      value: '',
+      watching: false,
+      data: [],
+      databulanan: []
     };
+
+    this.onFind = this.onFind.bind(this)
   }
 
   handleChange = (e) => {
@@ -109,6 +115,11 @@ export default class Pembayaran extends Component {
     }
   }
 
+  onFind(nis) {
+    this.setState({ nis, watching: false })
+  }
+
+
   render() {
     console.log(this.state.nis)
     return (
@@ -138,10 +149,10 @@ export default class Pembayaran extends Component {
                 <Col>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
-                    <Form.Label column sm="auto">
-                      Tahun Ajaran
-                      <span className="text-danger">*</span>
-                    </Form.Label>
+                      <Form.Label column sm="auto">
+                        Tahun Ajaran
+                        <span className="text-danger">*</span>
+                      </Form.Label>
                     </Col>
                     <Col>
                       <FormSelect name="periode" onChange={this.handleChange}>
@@ -173,10 +184,10 @@ export default class Pembayaran extends Component {
                 <Col>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
-                    <Form.Label column sm="auto">
-                      Cari Siswa
-                      <span className="text-danger">*</span>
-                    </Form.Label>
+                      <Form.Label column sm="auto">
+                        Cari Siswa
+                        <span className="text-danger">*</span>
+                      </Form.Label>
                     </Col>
                     <Col>
                       <Form.Control
@@ -205,15 +216,34 @@ export default class Pembayaran extends Component {
                 </Col>
                 <Col>
                   <Form.Group as={Row} className="mb-3">
-                    <Col>
+                    <Col className="d-flex">
                       <Button type="submit" variant="outline-primary">Cari Siswa</Button>
+                      &ensp;
+                      <Button type="scan" variant="outline-primary" onClick={() => this.setState({ watching: true })}>Scan</Button>
                     </Col>
+
                   </Form.Group>
                 </Col>
               </Row>
             </Form>
           </Card.Body>
         </Card>
+        <br />
+        {this.state.watching
+          ? (
+            <Card body style={{ width: 'auto' }}>
+              <center>
+                <QRScan
+                  onFind={this.onFind}
+                />
+              </center>
+            </Card>
+          )
+          : (
+            <span>
+            </span>
+          )
+        }
         <br />
         {this.state.visible ? (
           <InformasiSIswa periode={this.state.periode} nis={this.state.nis} />

@@ -22,6 +22,8 @@ import { Link } from "react-router-dom";
 // import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import DatePicker from "sassy-datepicker";
+import QRCode from "react-qr-code";
+
 
 import Bulanan from "../PembayaranBulanan/PembayaranBulanan";
 import Bebas from "../PembayaranBebas/PembayaranBebas";
@@ -34,8 +36,16 @@ export default class DashboardUser extends Component {
     let tagihan = 200;
     this.state = {
       count1: (bayar / tagihan) * 100,
+      modal: false
     };
   }
+
+  onModal = (e) => {
+    this.setState({
+      modal: !this.state.modal
+    })
+  }
+
 
   render() {
     const user = JSON.parse(localStorage.getItem("dataSiswa"));
@@ -50,98 +60,98 @@ export default class DashboardUser extends Component {
 
           <div className="dashboard">
             <Row>
-              <Col md={5}>
-              <Card
-                    style={{
-                      background:
-                        "linear-gradient(25deg, #0073f7, #2b91e9, #2caeda, #00cbcb)",
-                      color: "white",
-                      borderRadius: "16px",
-                    }}
-                    body
-                  >
-                    <Container>
-                      <div className="content">
-                        <div
-                          className="icon-name"
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            paddingBottom: "5px",
-                          }}
-                        >
-                          <h4>Bulanan</h4>
-                          <Link to="#">
-                            <h6>
-                              <FontAwesomeIcon
-                                icon={faCog}
-                                style={{ color: "white" }}
-                              />
-                            </h6>
-                          </Link>
-                        </div>
-                        {/* <br /> */}
-                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
-                        <h4>{user.nama[0]}</h4>
-                        <br />
-                        <br />
-                        <ProgressBar
-                          animated
-                          variant="info"
-                          now={100}
-                          label={`${100}%`}
-                          className="bar"
-                        />
+              <Col md={4}>
+                <Card
+                  style={{
+                    background:
+                      "linear-gradient(25deg, #0073f7, #2b91e9, #2caeda, #00cbcb)",
+                    color: "white",
+                    borderRadius: "16px",
+                  }}
+                  body
+                >
+                  <Container>
+                    <div className="content">
+                      <div
+                        className="icon-name"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          paddingBottom: "5px",
+                        }}
+                      >
+                        <h5>Bulanan</h5>
+                        <Link to="#">
+                          <h6>
+                            <FontAwesomeIcon
+                              icon={faCog}
+                              style={{ color: "white" }}
+                            />
+                          </h6>
+                        </Link>
                       </div>
-                    </Container>
-                  </Card>
+                      {/* <br /> */}
+                      <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
+                      <h4>{user.nama[0]}</h4>
+                      <br />
+                      <br />
+                      <ProgressBar
+                        animated
+                        variant="info"
+                        now={100}
+                        label={`${100}%`}
+                        className="bar"
+                      />
+                    </div>
+                  </Container>
+                </Card>
                 <br />
                 <br />
                 <Card
-                    style={{
-                      background:
-                        "linear-gradient(25deg, #6618e7, #7860e3, #7d93de, #76c4d8)",
-                      color: "white",
-                      borderRadius: "16px",
-                    }}
-                    body
-                  >
-                    <Container>
-                      <div className="content">
-                        <div
-                          className="icon-name"
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            paddingBottom: "5px",
-                          }}
-                        >
-                          <h4>Bebas</h4>
-                          <Link to="#">
-                            <h6>
-                              <FontAwesomeIcon
-                                icon={faCog}
-                                style={{ color: "white" }}
-                              />
-                            </h6>
-                          </Link>
-                        </div>
-                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
-                        <h4>{user.nama[0]}</h4>
-                        <br />
-                        <br />
-                        <ProgressBar
-                          animated
-                          variant="info"
-                          now={this.state.count1}
-                          label={`${this.state.count1}%`}
-                          className="bar"
-                        />
+                  style={{
+                    background:
+                      "linear-gradient(25deg, #6618e7, #7860e3, #7d93de, #76c4d8)",
+                    color: "white",
+                    borderRadius: "16px",
+                  }}
+                  body
+                >
+                  <Container>
+                    <div className="content">
+                      <div
+                        className="icon-name"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          paddingBottom: "5px",
+                        }}
+                      >
+                        <h5>Bebas</h5>
+                        <Link to="#">
+                          <h6>
+                            <FontAwesomeIcon
+                              icon={faCog}
+                              style={{ color: "white" }}
+                            />
+                          </h6>
+                        </Link>
                       </div>
-                    </Container>
-                  </Card>
+                      <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
+                      <h4>{user.nama[0]}</h4>
+                      <br />
+                      <br />
+                      <ProgressBar
+                        animated
+                        variant="info"
+                        now={this.state.count1}
+                        label={`${this.state.count1}%`}
+                        className="bar"
+                      />
+                    </div>
+                  </Container>
+                </Card>
               </Col>
-              <Col md={7}>
+              <Col md={8}>
                 <DatePicker
                   onChange={onChange}
                   style={{
@@ -154,6 +164,7 @@ export default class DashboardUser extends Component {
             </Row>
           </div>
           {/* --------------------- */}
+
 
           {/* Tampilan Mobile */}
           <div className="transaksi-dashboard">
@@ -275,6 +286,28 @@ export default class DashboardUser extends Component {
                 variant="pills"
                 className="justify-content-center flex-column"
               >
+                <Button variant="secondary" onClick={this.onModal}> Qr Code</Button>
+                <br />
+                <br />
+
+                {/* <div id="myModal" class="modal" > */}
+                {this.state.modal === true ? <div className="">
+                  <div id="myModal" class="modal">
+
+                    {/* <!-- Modal content --> */}
+                    <div class="modal-content" onClick={this.onModal}>
+                      <QRCode
+                        className="qrcode"
+                        value={user.nis[0]}
+                        size={220}
+                      />
+                    </div>
+
+                  </div >
+                </div> : null}
+
+                {/* </div > */}
+
                 <Container>
                   <Row>
                     <Col>
@@ -316,7 +349,7 @@ export default class DashboardUser extends Component {
             </Tab.Container>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }
