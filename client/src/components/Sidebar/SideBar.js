@@ -405,24 +405,6 @@ const SideBar = () => {
               </div>
             </div>
 
-            <Link to="/admin/laporan/bulanan">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Laporan Bulanan
-              </span>
-            </Link>
-
-            <Link to="/admin/laporan/bebas">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Laporan Bebas
-              </span>
-            </Link>
-
             <a href="#">
               <span className="icon">
                 <FontAwesomeIcon icon={faCreditCard} />
