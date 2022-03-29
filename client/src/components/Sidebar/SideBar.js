@@ -78,7 +78,7 @@ import LaporanBebas from "../Laporan/LaporanBebas"
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
 import LaporanKelas from './../Laporan/LaporanKelas';
 
-import LaporanKelas from "../Laporan/LaporanKelas";
+// import LaporanKelas from "../Laporan/LaporanKelas";
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
@@ -392,10 +392,11 @@ const SideBar = () => {
 
                   <Link to="/admin/laporan/angkatan">
                     <li>Laporan Angkatan </li>
-                  </Link> 
+                  </Link>
                   <Link to="/admin/laporan/angkatan/bulanan">
                     <li>Laporan Angkatan Bulanan </li>
 
+                  </Link>
                   <Link to="/admin/laporan/kelas">
                     <li>Laporan Kelas </li>
 
@@ -443,7 +444,7 @@ const SideBar = () => {
               />
             </div>
           </div>
-         </div>
+        </div>
 
         {/* Route in class main */}
         <div className={main}>
