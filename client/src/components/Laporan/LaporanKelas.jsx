@@ -11,7 +11,8 @@ export default class LaporanKelas extends Component {
     this.state = {
       data_bebas: [],
       data_bulanan: [],
-      total: [],
+      total_bebas: "",
+      total_bulanan : "",
       data_kelas: [],
       data_jurusan: [],
       data_d_kelas: [],
@@ -52,7 +53,7 @@ export default class LaporanKelas extends Component {
             console.log(res.data);
             this.setState({
               data_bebas: res.data.data,
-              total: res.data,
+              total_bebas: res.data.sisa_tagihan_kelas,
             });
           } else {
             this.setState({
@@ -63,10 +64,11 @@ export default class LaporanKelas extends Component {
       axios
         .post("http://localhost:8000/laporan/kelas/bulanan", data)
         .then((res) => {
+          console.log(res.data.data)
           if (res.data.error !== true) {
-            console.log(res.data);
             this.setState({
-              data_bulanan: res.data,
+              data_bulanan: res.data.data,
+              total_bulanan : res.data.sisa_tagihan_kelas
             });
           } else {
             this.setState({
@@ -89,30 +91,110 @@ export default class LaporanKelas extends Component {
   };
   render() {
     console.log(this.state.data_bulanan);
+    // data bebas
     const data = this.state.data_bebas;
-    const data2 = this.state.data_bulanan;
     const as = [];
-    const total = this.state.total;
-    const sisa = [
+    const total_bebas = this.state.total_bebas;
+
+    // data bulanan
+    const data2 = this.state.data_bulanan;
+    const total_bulanan = this.state.total_bulanan;
+
+    // bulanan
+    const sisa_bulanan =[
       {
         text: "Total Sisa Tagihan Kelas",
         headerStyle: (colum, colIndex) => {
-          return { width: "60%", fontWeight: "light" };
+          return { width: "70%", fontWeight: "light" };
         },
       },
       {
         // if sisa_tagihan_kelas is undefined, then it will be 0
-        text: total.sisa_tagihan_kelas
-          ? `Rp. ${parseInt(total.sisa_tagihan_kelas).toLocaleString()}`
+        text: total_bulanan
+          ? `Rp. ${parseInt(total_bulanan).toLocaleString()}`
+          : `Rp. 0`,
+      },
+    ]
+    const data_bulanan = [
+      {
+        text : "Nama Siswa",
+        dataField : "siswa_nama",
+        headerStyle : {
+          width : "30%"
+        }
+      },
+      {
+        text: "Kelas",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              {`${row.kelas_nama} ${row.jurusan_nama} ${row.d_kelas_nama}`}
+            </div>
+          );
+        },
+        headerStyle : {
+          width : "20%"
+        }
+      },
+      {
+        text : "Sisa Bulan",
+        dataField : "sisa_bulan",
+        headerStyle : {
+          width : "20%"
+        }
+      },
+      {
+        text : "Sisa Tagihan",
+        headerStyle : {
+          width : "30%"
+        },
+        formatter : (cell , row) => {
+          return (
+            <div>
+              {`Rp. ${parseInt(row.sisa_tagihan).toLocaleString()}`}
+            </div>
+          );
+        }
+      }
+    ]
+    const headers = [
+      {
+        label : "Siswa Nama", key : "siswa_nama",
+      },
+      {
+        label : "Kelas", key : "kelas_nama",
+
+      },
+      {
+        label : "Sisa Bulan", key : "sisa_bulan",
+      },
+      {
+        label : "Sisa Tagihan", key : "sisa_tagihan",
+      }
+    ]
+
+
+    // bebas
+    const sisa_bebas = [
+      {
+        text: "Total Sisa Tagihan Kelas",
+        headerStyle: (colum, colIndex) => {
+          return { width: "50%", fontWeight: "light" };
+        },
+      },
+      {
+        // if sisa_tagihan_kelas is undefined, then it will be 0
+        text: total_bebas
+          ? `Rp. ${parseInt(total_bebas).toLocaleString()}`
           : `Rp. 0`,
       },
     ];
-    const columns = [
+    const data_bebas = [
       {
         dataField: "siswa_nama",
         text: "Nama Siswa",
         headerStyle: (colum, colIndex) => {
-          return { width: "40%" };
+          return { width: "30%" };
         },
       },
       {
@@ -133,6 +215,9 @@ export default class LaporanKelas extends Component {
         formatter: (cell, row) => {
           return <div>Rp. {parseInt(row.sisa_tagihan).toLocaleString()}</div>;
         },
+        headerStyle: {
+          width: "50%",
+        }
       },
     ];
     return (
@@ -143,7 +228,7 @@ export default class LaporanKelas extends Component {
             <hr />
             <Form onSubmit={this.handleSubmit}>
               <div className="d-flex">
-                {/* <Row> */}
+                <Row>
                 <Col xs={6} md="auto">
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
@@ -178,7 +263,6 @@ export default class LaporanKelas extends Component {
                     </Col>
                   </Form.Group>
                 </Col>
-                &ensp;
                 <Col xs={6} md="auto">
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
@@ -213,7 +297,6 @@ export default class LaporanKelas extends Component {
                     </Col>
                   </Form.Group>
                 </Col>
-                &ensp;
                 <Col xs={6} md="auto">
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
@@ -248,7 +331,6 @@ export default class LaporanKelas extends Component {
                     </Col>
                   </Form.Group>
                 </Col>
-                &ensp;
                 <Col xs={6} md="auto">
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
@@ -258,6 +340,7 @@ export default class LaporanKelas extends Component {
                     </Col>
                   </Form.Group>
                 </Col>
+                </Row>
               </div>
             </Form>
             <br />
@@ -269,15 +352,10 @@ export default class LaporanKelas extends Component {
               <Tab eventKey="bulan" title="Bulanan">
                 <br />
                 <br />
-                ASS
-              </Tab>
-              <Tab eventKey="bebas" title="Bebas">
-                <br />
-                <br />
                 <BootstrapTable
                   keyField="id"
-                  data={data}
-                  columns={columns}
+                  data={data2}
+                  columns={data_bulanan}
                   striped
                   hover
                   condensed
@@ -287,7 +365,27 @@ export default class LaporanKelas extends Component {
                 <BootstrapTable
                   keyField="id"
                   data={as}
-                  columns={sisa}
+                  columns={sisa_bulanan}
+                  bordered={false}
+                />
+              </Tab>
+              <Tab eventKey="bebas" title="Bebas">
+                <br />
+                <br />
+                <BootstrapTable
+                  keyField="id"
+                  data={data}
+                  columns={data_bebas}
+                  striped
+                  hover
+                  condensed
+                  bordered={false}
+                  noDataIndication="Data tidak ditemukan"
+                />
+                <BootstrapTable
+                  keyField="id"
+                  data={as}
+                  columns={sisa_bebas}
                   bordered={false}
                 />
               </Tab>
