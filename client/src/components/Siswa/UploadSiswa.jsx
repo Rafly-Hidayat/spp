@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 export default class UploadSiswa extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Siswa | Upload";
     this.state = {
       data: [],
       selectedFile: null,

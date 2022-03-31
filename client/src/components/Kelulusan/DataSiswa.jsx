@@ -15,7 +15,7 @@ import {
 export default class DataSiswa extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Kenaikan Kelas";
     this.state = {
       data: [],
       modal : false

@@ -11,6 +11,7 @@ export default class UbahKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
+    document.title = "Kelas | Ubah";
 
     this.state = {
       id: this.props.match.params.id,

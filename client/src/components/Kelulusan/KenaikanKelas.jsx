@@ -19,7 +19,7 @@ export default class KenaikanKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
-
+    document.title = "Kenaikan Kelas";
     this.state = {
       data: [],
       selected_kelas: "",

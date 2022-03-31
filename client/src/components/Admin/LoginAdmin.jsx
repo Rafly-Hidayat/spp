@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Form, Col, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
-import bg from "../Assets/G10.png";
+import bg from "../Assets/Background_log.png";
 
 export default class Login extends Component {
   constructor(props) {
@@ -73,9 +73,11 @@ export default class Login extends Component {
       <div
         className="background"
         style={{
-          backgroundColor: "rgb(229,229,229)",
+          // backgroundColor: "rgb(229,229,229)",
           backgroundImage: `url(${bg})`,
-          width: "100wh",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           height: "100vh",
         }}
       >
@@ -97,7 +99,6 @@ export default class Login extends Component {
           <Card
             style={{
               width: "446px",
-              height: "502px",
               backgroundImage: `linear-gradient(180deg, #67C3F3, #5A98F2)`,
               border: "none",
               paddingTop: "48px",
@@ -105,6 +106,7 @@ export default class Login extends Component {
               paddingLeft: "50px",
               paddingRight: "50px",
               borderRadius: "15px",
+              height: "512px",
             }}
           >
             <Card.Body>
@@ -123,7 +125,6 @@ export default class Login extends Component {
                 style={{
                   color: "white",
                   fontWeight: "bold",
-                  marginTop: "10px",
                   fontSize: "16px",
                 }}
               >
@@ -254,6 +255,7 @@ export default class Login extends Component {
                         backgroundColor: "#ffff",
                         fontWeight: "bold",
                         borderRadius: "10px",
+                        marginBottom : "10px"
                       }}
                     >
                       L O G I N

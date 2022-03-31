@@ -19,6 +19,7 @@ export default class LaporanKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
+    document.title = "Laporan Kelas";
     this.state = {
       data_bebas: [],
       data_bulanan: [],

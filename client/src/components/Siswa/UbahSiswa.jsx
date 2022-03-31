@@ -18,7 +18,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb'
 export default class UbahSiswa extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Siswa | Ubah";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     console.log(this.props.match.params.id);

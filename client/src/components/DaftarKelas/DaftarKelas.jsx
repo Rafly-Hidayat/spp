@@ -2,42 +2,37 @@ import React, { Component } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Container, Col, Button, Card, Breadcrumb } from "react-bootstrap";
+import { Row, Container, Breadcrumb, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faTrashAlt,
-  faUserEdit,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faEye, faTrashAlt, faUser, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 export default class Data extends Component {
   constructor(props) {
     super(props);
-    document.title = "Tahun Ajaran";
+    document.title = "Daftar Kelas";
     this.state = {
       data: [],
     };
   }
 
   getAdmin = () => {
-    axios
-      .get("http://localhost:8000/periode/")
-      .then((res) => {
-        this.setState({
-          data: res.data,
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: `Gagal terhubung ke server, silahkan coba lagi!`,
-        });
+    axios.get("http://localhost:8000/d_kelas/").then((res) => {
+      console.log(res)
+      this.setState({
+        data: res.data,
       });
-  };
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Gagal terhubung ke server, silahkan coba lagi!`,
+      });
+    });
+    };
 
-  handleRemove = (periode_id) => {
+  handleRemove = (d_kelas_id) => {
     Swal.fire({
       title: "Apakah anda yakin?",
       text: "Data akan terhapus, tidak bisa dikembalikan",
@@ -49,9 +44,10 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/periode/${periode_id}`)
+          .delete(`http://localhost:8000/hapus/d_kelas/${d_kelas_id}`)
           .then((res) => {
-             if (res.data.error === true) {
+            console.log(res);
+            if (res.data.error === true ) {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -59,16 +55,15 @@ export default class Data extends Component {
               });
             } else {
               Swal.fire({
-                icon: "success",
-                title: "Good Job!",
-                text: `${res.data.message}`,
-              });
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,});
+              this.props.history.push("/admin/d-kelas");
             }
           })
           .catch((err) => {
             console.log(err);
           });
-        this.props.history.push("/admin/periode");
       }
     });
   };
@@ -77,43 +72,40 @@ export default class Data extends Component {
     this.getAdmin();
   }
   render() {
-    const data = this.state.data;
+
     const selectRow = {
-      mode: "radio",
-      clickToSelect: true,
+      mode: 'checkbox',
+      clickToSelect: true
     };
+    const data = this.state.data;
     const columns = [
       {
-        dataField: "periode_id",
+        dataField: "d_kelas_id",
         text: "No",
       },
       {
-        dataField: "periode_mulai",
-        text: "Tahun Ajaran",
-        formatter: (cellContent, row) => {
-          return <div>{`${row.periode_mulai}/${row.periode_akhir}`}</div>;
-        },
+        dataField: "d_kelas_nama",
+        text: "Daftar Kelas",
       },
       {
         dataField: "Aksi",
         text: "Aksi",
-        // make delete and update button
+        
         formatter: (cellContent, row) => {
           return (
             <div>
               <Container>
-                <Link to={`/admin/periode/ubah/${row.periode_id}`}>
-                  <Button variant="outline-warning" className="mr-2" block>
-                    <FontAwesomeIcon icon={faUserEdit} />
-                  </Button>
-                </Link>
-                &ensp;
-                <Button
-                  variant="outline-danger"
-                  onClick={() => this.handleRemove(row.periode_id)}
-                >
-                  <FontAwesomeIcon icon={faTrashAlt} />
-                </Button>
+                <Link to={`/admin/d-kelas/ubah/${row.d_kelas_id}`}>
+                      <Button variant="outline-warning" block>
+                        <FontAwesomeIcon icon={faUserEdit} />
+                      </Button>
+                    </Link>&ensp;
+                    <Button
+                      variant="outline-danger"
+                      onClick={() => this.handleRemove(row.d_kelas_id)}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </Button>
               </Container>
             </div>
           );
@@ -130,25 +122,23 @@ export default class Data extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item>
-                <Link to="/admin/">Home</Link>
-              </Breadcrumb.Item>
+              <Breadcrumb.Item href="/admin/">Home</Breadcrumb.Item>
               <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br />
+        <br/>
         <Card style={{color: 'black'}}>
           <Card.Body>
-          <Card.Title>Data Periode</Card.Title>
+          <Card.Title>Data Daftar Kelas</Card.Title>
             <hr/>
-            <Link to={"/admin/periode/tambah"}>
-              <Button className="mr-2" variant="outline-primary" block="">
+            <Link to={"/admin/d-kelas/tambah"}>
+              <Button variant="outline-primary" block="">
                 Tambah
               </Button>
             </Link>
-            <br />
-            <br />
+              <br/>
+              <br/>
             <BootstrapTable
               keyField="id"
               data={data}
@@ -157,6 +147,7 @@ export default class Data extends Component {
               hover
               condensed
               bordered={false}
+              noDataIndication="Data Tidak Ditemukan"
               // selectRow={ selectRow }
             />
           </Card.Body>

@@ -10,6 +10,7 @@ export default class LaporanBebas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
+    document.title = "Laporan Bebas";
     this.state = {
       date_awal: "",
       date_akhir: "",
