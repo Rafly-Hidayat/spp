@@ -119,10 +119,6 @@ module.exports = {
         })
       })
     })
-    // siswa.upload(req.con, req.files.filename, res, (err, rows) => {
-    //   if (err) throw err;
-    //   return res.json({ error: "false", message: "upload success", data: rows});
-    // });
   },
 
   update: (req, res) => {

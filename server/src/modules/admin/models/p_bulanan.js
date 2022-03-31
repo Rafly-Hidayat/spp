@@ -8,6 +8,8 @@ function makeNoTransaksi(length) {
   // value = "BLN - " + result;
   return result;
 }
+var fs = require("fs");
+let importExcel = require("convert-excel-to-json");
 
 module.exports = {
   getAll: (con, callback) => {
@@ -61,12 +63,12 @@ module.exports = {
             error: true,
             message: "Id pembayaran bulanan tidak ditemukan.'",
           });
-        
-        let pos = rows[0].pos_nama
-        let tgl = new Date(tanggal)
-        let d = tgl.getDate()
-        let m = tgl.toJSON().slice(5, 7)
-        let y = tgl.toJSON().slice(2, 4)
+
+        let pos = rows[0].pos_nama;
+        let tgl = new Date(tanggal);
+        let d = tgl.getDate();
+        let m = tgl.toJSON().slice(5, 7);
+        let y = tgl.toJSON().slice(2, 4);
         // noTransaksi = pos + "/" + makeNoTransaksi(8);
         let noTransaksi = pos + "/" + d + m + y + "/" + makeNoTransaksi(6);
         con.query(
@@ -180,9 +182,30 @@ module.exports = {
             error: true,
             message: "Data pembayaran siswa tidak ditemukan.",
           });
-        const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
-        const months = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"]
-        let d = new Date(rows[0].bulanan_tanggal.toString())
+        const days = [
+          "Minggu",
+          "Senin",
+          "Selasa",
+          "Rabu",
+          "Kamis",
+          "Jumat",
+          "Sabtu",
+        ];
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "Mei",
+          "Jun",
+          "Jul",
+          "Ags",
+          "Sep",
+          "Okt",
+          "Nov",
+          "Des",
+        ];
+        let d = new Date(rows[0].bulanan_tanggal.toString());
 
         res.json({
           bulanan_id: rows[0].bulanan_id,
@@ -207,4 +230,338 @@ module.exports = {
       }
     );
   },
+
+  getIdSiswa: (con, res, data, callback) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let file = data;
+      let filename = file.name;
+
+      file.mv("./public/" + filename, (err) => {
+        if (err) {
+          res.json({ error: true, message: "gagal upload" });
+        } else {
+          let result = importExcel({
+            sourceFile: "./public/" + filename,
+            header: { rows: 1 },
+            columnToKey: {
+              A: "siswa_nis",
+              // B: "siswa_nama",
+              // C: "kelas",
+              // D: "jurusan",
+              // E: "d_kelas",
+              // F: "periode_mulai",
+              // G: "periode_akhir",
+              // H: "nama_pos",
+              // I: "bulan",
+              // J: "tagihan",
+              // K: "no_transaksi",
+              // L: "status",
+              // M: "tanggal_bayar",
+              // N: "nama_admin",
+            },
+            sheets: ["Sheet1"],
+          });
+
+          let data = [];
+          let response = [];
+          result.Sheet1.forEach((element, index) => {
+            data.push({
+              siswa_nis: result.Sheet1[index].siswa_nis,
+              // siswa_nama: result.Sheet1[index].siswa_nama,
+              // kelas: result.Sheet1[index].kelas,
+              // nama_jurusan: result.Sheet1[index].jurusan,
+              // d_kelas: result.Sheet1[index].d_kelas,
+            });
+            response.push(data[index]);
+          });
+          // console.log("response : ",response);
+
+          con.query(`SELECT siswa_nis FROM siswa`, (err, rows) => {
+            if (err) throw err;
+            let siswaNis = rows.map((obj) => {
+              return obj.siswa_nis;
+            });
+
+            let data2 = [];
+            for (let i = 0; i < result.Sheet1.length; i++) {
+              if (
+                Array.from(siswaNis).includes(
+                  result.Sheet1[i].siswa_nis.toString()
+                ) == true
+              ) {
+                con.query(
+                  `SELECT siswa_id FROM siswa WHERE siswa_nis = ${result.Sheet1[i].siswa_nis}`,
+                  (err, rows) => {
+                    if (err) throw err;
+                    const siswaId = rows[0].siswa_id;
+                    data2.push(siswaId);
+                  }
+                );
+              } else {
+                con.rollback();
+                return res.json({
+                  error: true,
+                  message:
+                    "tidak ada id siswa yang cocok dengan nis yang di input.",
+                });
+              }
+            }
+            con.commit((err) => {
+              if (err) throw err;
+              return callback(data2, filename);
+            });
+          });
+        }
+      });
+    });
+  },
+
+  getNamaSiswa: (con, res, siswaId, filename, callback) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          // A: "siswa_nis",
+          B: "siswa_nama",
+          // C: "kelas",
+          // D: "jurusan",
+          // E: "d_kelas",
+          // F: "periode_mulai",
+          // G: "periode_akhir",
+          // H: "nama_pos",
+          // I: "bulan",
+          // J: "tagihan",
+          // K: "no_transaksi",
+          // L: "status",
+          // M: "tanggal_bayar",
+          // N: "nama_admin",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      let data = [];
+      for (let i = 0; i < siswaId.length; i++) {
+        con.query(
+          `SELECT siswa_nama FROM siswa WHERE siswa_nama = '${result.Sheet1[i].siswa_nama}'`,
+          (err, rows) => {
+            if (err) throw err;
+            console.log(rows);
+            if (rows.length != 0) {
+              const siswa_nama = rows[0].siswa_nama;
+              data.push(siswa_nama);
+            } else {
+              con.rollback();
+              return res.json({
+                error: true,
+                message: "nama siswa tidak cocok dengan NIS yang di input.",
+              });
+            }
+          }
+        );
+      }
+
+      con.commit((err) => {
+        if (err) throw err;
+        console.log(data);
+        return callback();
+      });
+    });
+  },
+
+  getPembayaranId: (con, res, filename, callback) => {
+    con.beginTransaction((err) => {
+      if (err) throw err;
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          // A: "siswa_nis",
+          // B: "siswa_nama",
+          // C: "kelas",
+          // D: "jurusan",
+          // E: "d_kelas",
+          F: "periode_mulai",
+          G: "periode_akhir",
+          H: "nama_pos",
+          // I: "bulan",
+          // J: "tagihan",
+          // K: "no_transaksi",
+          // L: "status",
+          // M: "tanggal_bayar",
+          // N: "nama_admin",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      let data = [];
+      for (let i = 0; i < result.Sheet1.length; i++) {
+        con.query(
+          `SELECT pembayaran_id FROM pembayaran INNER JOIN periode ON periode.periode_id = pembayaran.periode_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id WHERE pos_nama = '${result.Sheet1[i].nama_pos}' AND periode_mulai = ${result.Sheet1[i].periode_mulai} AND periode_akhir = ${result.Sheet1[i].periode_akhir} AND pembayaran_tipe = 'BULAN'`,
+          (err, rows) => {
+            if (err) throw err;
+            if (rows.length != 0) {
+              const pembayaranId = rows[0].pembayaran_id
+              data.push(pembayaranId);
+            } else {
+              con.rollback();
+              return res.json({
+                error: true,
+                message: "id pembayaran dengan data periode/nama pos tidak ditemukan.",
+              });
+            }
+          }
+        );
+      }
+      con.commit((err) => {
+        if (err) throw err;
+        console.log(data);
+        return callback(data)
+      });
+    });
+  },
+
+  getMonth: (con, res, filename, callback) => {
+    con.beginTransaction((err) => {
+      if(err) throw err
+
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          // A: "siswa_nis",
+          // B: "siswa_nama",
+          // C: "kelas",
+          // D: "jurusan",
+          // E: "d_kelas",
+          // F: "periode_mulai",
+          // G: "periode_akhir",
+          // H: "nama_pos",
+          I: "bulan",
+          // J: "tagihan",
+          // K: "no_transaksi",
+          // L: "status",
+          // M: "tanggal_bayar",
+          // N: "nama_admin",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      let data = []
+      for(let i = 0; i< result.Sheet1.length; i++) {
+        con.query(`SELECT month_id FROM month WHERE month_nama = '${result.Sheet1[i].bulan}'`, (err, rows) => {
+          if(err) throw err
+          if(rows.length != 0) {
+            data.push(rows[0].month_id)
+          } else {
+            con.rollback();
+            return res.json({error: true, message: "Nama bulan tidak sesuai!"})
+          }
+        })
+      }
+
+      con.commit((err) => {
+        if(err) throw err
+        return callback(data)
+      })
+    })
+  },
+
+  getAdminId: (con, res, filename, callback) => {
+    con.beginTransaction((err) => {
+      if(err) throw err
+
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          // A: "siswa_nis",
+          // B: "siswa_nama",
+          // C: "kelas",
+          // D: "jurusan",
+          // E: "d_kelas",
+          // F: "periode_mulai",
+          // G: "periode_akhir",
+          // H: "nama_pos",
+          // I: "bulan",
+          // J: "tagihan",
+          // K: "no_transaksi",
+          // L: "status",
+          // M: "tanggal_bayar",
+          N: "nama_admin",
+        },
+        sheets: ["Sheet1"],
+      });
+
+      let data = []
+      for(let i = 0; i<result.Sheet1.length; i++) {
+        con.query(`SELECT admin_id FROM admin WHERE admin_nama = '${result.Sheet1[i].nama_admin}'`, (err, rows) => {
+          if(err) throw err
+          if(rows.length != 0) {
+            data.push(rows[0].admin_id)
+          } else {
+            con.rollback();
+            return res.json({error: true, message: "Nama admin tidak ditemukan."})
+          }
+        })
+      }
+
+      con.commit((err) => {
+        if(err) throw err
+        return callback(data)
+      })
+
+    })
+  },
+
+  upload: (con, res, filename, siswaId, pembayaranId, monthId, adminId) => {
+    con.beginTransaction((err) => {
+      if(err) throw err
+
+      let result = importExcel({
+        sourceFile: "./public/" + filename,
+        header: { rows: 1 },
+        columnToKey: {
+          A: "siswa_nis",
+          B: "siswa_nama",
+          C: "kelas",
+          D: "jurusan",
+          E: "d_kelas",
+          F: "periode_mulai",
+          G: "periode_akhir",
+          H: "nama_pos",
+          I: "bulan",
+          J: "tagihan",
+          K: "no_transaksi",
+          L: "status",
+          M: "tanggal_bayar",
+          N: "nama_admin"
+        },
+        sheets: ["Sheet1"],
+      });
+      
+      let blnStatus = []
+      for(let i = 0; i< result.Sheet1.length; i ++) {
+        let status = result.Sheet1[i].status
+        if(status.toLowerCase() == 'lunas'){
+          blnStatus.push(1)
+        } else {
+          blnStatus.push(0)
+        }
+      }
+
+      for(let i = 0; i<result.Sheet1.length;i++){
+        con.query(`INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan},no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`, (err) => {
+          if(err) throw err
+        })
+      }
+
+      con.commit((err) => {
+        if(err) throw err
+        return res.json({error: false, message: "berhasil upload pembayaran."})
+      })
+    })
+  }
 };
