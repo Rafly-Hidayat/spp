@@ -42,7 +42,7 @@
 /* The sidebar menu */
 .admin .sidebar {
 
-  height: auto; 
+  height: 100%; 
   width: 238px; 
   position: fixed;
   z-index: 1;

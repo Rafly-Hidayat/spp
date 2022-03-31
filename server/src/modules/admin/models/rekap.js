@@ -170,33 +170,32 @@ module.exports = {
 
                             total_sisa.push({
                               sisa_tagihan: rows[0].tagihan,
-                            });
-                          }
-                        );
-                      });
+                            })
+
+                          })
+                      })
+
                       con.commit((err) => {
                         if (data.length == 0) {
                           con.rollback((err) => {
                             if (err) throw err;
-                            return res.json({
-                              error: true,
-                              message: "Tidak ada data yang ditemukan",
-                            });
-                          });
+                            return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
+                          })
                         } else {
                           if (err) throw err;
-                          let sum_sisa = 0;
+                          let sum_sisa = 0
                           total_sisa.forEach((element, index) => {
-                            sum_sisa += total_sisa[index].sisa_tagihan;
-                            return res.json({
-                              error: false,
-                              message: "Data ditemukan",
-                              data: data,
-                              sisa_tagihan_kelas: sum_sisa,
-                            });
+                            sum_sisa += total_sisa[index].sisa_tagihan
+                          })
+                          return res.json({
+                            error: false,
+                            message: "Data ditemukan",
+                            data: data,
+                            sisa_tagihan_kelas: sum_sisa,
                           });
                         }
-                      });
+                      })
+
                     }
                   );
                 }
@@ -302,33 +301,31 @@ module.exports = {
 
                     total_sisa.push({
                       sisa_tagihan: rows[0].tagihan,
-                    });
-                  }
-                );
-              });
+                    })
+
+                  })
+              })
+
               con.commit((err) => {
                 if (data.length == 0) {
                   con.rollback((err) => {
                     if (err) throw err;
-                    return res.json({
-                      error: true,
-                      message: "Tidak ada data yang ditemukan",
-                    });
-                  });
+                    return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
+                  })
                 } else {
                   if (err) throw err;
-                  let sum_sisa = 0;
+                  let sum_sisa = 0
                   total_sisa.forEach((element, index) => {
-                    sum_sisa += total_sisa[index].sisa_tagihan;
-                    return res.json({
-                      error: false,
-                      message: "Data ditemukan",
-                      data: data,
-                      sisa_tagihan_kelas: sum_sisa,
-                    });
+                    sum_sisa += total_sisa[index].sisa_tagihan
+                  })
+                  return res.json({
+                    error: false,
+                    message: "Data ditemukan",
+                    data: data,
+                    sisa_tagihan_kelas: sum_sisa,
                   });
                 }
-              });
+              })
             }
           );
         }

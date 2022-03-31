@@ -5,7 +5,6 @@ import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
 import { Link, } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-import InvoiceOutput from '../PembayaranBebas/InvoiceOutput'
 
 export default class InvoiceBebas extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ export default class InvoiceBebas extends Component {
       kelas_nama: "",
       jurusan_nama: "",
       d_kelas_nama: "",
-      d_bebas_id: this.props.match.params.d_bebas_id,
+      d_bebas_id: this.props.id,
     };
   }
   componentDidMount = () => {
@@ -228,16 +227,22 @@ export default class InvoiceBebas extends Component {
               <br />
               <div className="btn-print-download ">
                 <ReactToPrint
-                  trigger={() => <Button variant="primary">Print this out!</Button>}
+                  trigger={() => (
+                    <Button variant="primary">Print this out!</Button>
+                  )}
                   content={() => this.componentRef}
-                  
                 />
-                <div style={{display: "none"}}>
-
-                <InvoiceOutput ref={el => (this.componentRef = el)} id = {this.state.d_bebas_id} />
-                <Button variant="danger">Back</Button>
-                </div>
+                {/* <div style={{ display: "none" }}>
+                  <InvoicePrint
+                    bulanan_id={this.state.id}
+                    ref={(el) => (this.componentRef = el)}
+                  />
+                </div> */}
+                {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
+                <Link to="/user/transaksi/">
+                  <Button variant="danger">Kembali</Button>
+                </Link>
               </div>
             </div>
           </div>
