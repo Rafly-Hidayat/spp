@@ -26,6 +26,8 @@ import icon7 from '../Assets/LandingPageImg/konsultan.svg'
 import icon8 from '../Assets/LandingPageImg/PaymentReminder.svg'
 import icon9 from '../Assets/LandingPageImg/keamanan.svg'
 
+import guru1 from '../Assets/LandingPageImg/guru1.svg'
+
 import './LandingPage.css'
 
 export default class LandingPage extends Component {
@@ -41,9 +43,20 @@ export default class LandingPage extends Component {
             speed: 2000,
             autoplaySpeed: 4000
         };
+
+        const feedback = {
+            dots: true,
+            infinite: true,
+            fade: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            // autoplay: true,
+            speed: 1000,
+            autoplaySpeed: 5000
+        };
         return (
             <div>
-                <div>
+                <div style={{ overflowX: "hidden" }}>
                     <div className="navForLandingPage" id='home'>
                         <NavBar />
                         <Navbar collapseOnSelect expand="lg" className='navbar'>
@@ -217,6 +230,62 @@ export default class LandingPage extends Component {
                             </div>
                         </div>
                     </div>
+
+                    <div className="page5">
+                        <Container>
+                            <div className="contentBox">
+                                <div className="title text-center">
+                                    <h3>Apa <span style={{ borderBottom: "3px solid" }}>Kata</span> Pengguna</h3>
+                                </div>
+                                <br />
+                                <Slider {...feedback}>
+                                    <div>
+                                        <div className="content">
+                                            <Row>
+                                                <Col md={2}>
+                                                    <Image className='guru-img' src={guru1} />
+                                                </Col>
+                                                <Col md={5}>
+                                                    <div className="profile">
+                                                        <h6>Andi Susandi S.Kom</h6>
+                                                        <p>Ketua Pemrograman RPL</p>
+                                                    </div>
+                                                </Col>
+                                                <Col md={5}>
+                                                    <div className="testimoni">
+                                                        <h6>"Web ini sangat simple dan praktis untuk staf Tata usaha gunakan"</h6>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div className="content">
+                                            <Row>
+                                                <Col md={2}>
+                                                    <Image className='guru-img' src={guru1} />
+                                                </Col>
+                                                <Col md={5}>
+                                                    <div className="profile">
+                                                        <h6>Otong Nasihin S.Pd</h6>
+                                                        <p>Staf Tata Usaha</p>
+                                                    </div>
+                                                </Col>
+                                                <Col md={5}>
+                                                    <div className="testimoni">
+                                                        <h6>"Web ini sangat membantu dan memudahkan pekerjaan kami"</h6>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </div>
+                                </Slider>
+
+                            </div>
+                        </Container>
+                    </div>
+
                     <div className="footer">
                         <Container>
                             <div className="footer-content">
@@ -255,9 +324,6 @@ export default class LandingPage extends Component {
                             <br />
                             <br />
                         </Container>
-                    </div>
-                    <div className="copyright">
-                        &copy;XII RPL 3 2022. All rights reserved
                     </div>
                 </div>
             </div>

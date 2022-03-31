@@ -41,8 +41,7 @@
 
 /* The sidebar menu */
 .admin .sidebar {
-
-  height: auto; 
+  height: 100%; 
   width: 238px; 
   position: fixed;
   z-index: 1;
@@ -145,7 +144,7 @@
 /* Style page content */
 .admin .main {
   margin-top: 96px;
-  margin-left: 248px; /* Same as the width of the sidebar */
+  margin-left: 250px; /* Same as the width of the sidebar */
   margin-right: 12px;
   transition: 0.5s;
 }
