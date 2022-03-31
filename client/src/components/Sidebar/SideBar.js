@@ -46,6 +46,7 @@ import TambahJurusan from "../Jurusan/TambahJurusan";
 
 import DaftarKelas from "../DaftarKelas/DaftarKelas";
 import TambahDaftarKelas from "../DaftarKelas/TambahDaftarKelas";
+import UbahDaftarKelas from "../DaftarKelas/UbahDaftarKelas"
 
 import DataSiswa from "../Siswa/DataSiswa";
 import TambahSiswa from "../Siswa/TambahSiswa";
