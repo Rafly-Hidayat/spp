@@ -181,7 +181,7 @@ export default class InformasiSIswa extends Component {
         formatter: (cell, row) => {
           return (
             <div>
-              {`${row.pos_nama}- T.A ${row.periode_mulai}/${row.periode_akhir}`}
+              {`${row.pos_nama} - T.A ${row.periode_mulai}/${row.periode_akhir}`}
             </div>
           );
         }

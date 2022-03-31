@@ -32,26 +32,27 @@ export default class LaporanBebas extends Component {
         tanggal_awal: this.state.date_awal,
         tanggal_akhir: this.state.date_akhir,
       };
-      axios.post("http://localhost:8000/laporan/bebas", data).then((res) => {
-        this.setState({
-          data: res.data,
+      axios
+        .post("http://localhost:8000/laporan/bebas", data)
+        .then((res) => {
+          this.setState({
+            data: res.data,
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: "Data tidak ditemukan!",
+          });
         });
-      })
-      .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal!",
-          text: "Data tidak ditemukan!"
-        });
-      });
     } else {
       this.validator.showMessages();
       // rerender to show messages for the first time
       // you can use the autoForceUpdate option to do this automatically`
       this.forceUpdate();
     }
-  }
-    
+  };
 
   render() {
     const data = this.state.data;

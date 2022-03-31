@@ -10,7 +10,7 @@ import {
   Row,
   Col,
   Button,
-  Image,
+  Image,Offcanvas
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

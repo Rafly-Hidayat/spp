@@ -14,7 +14,7 @@ export default class UbahProfileSiswa extends Component {
       siswa_nis: "",
       siswa_gender: "",
       siswa_nama: "",
-      siswa_password: "",
+      password: "",
       kelas_nama: "",
       jurusan_nama: "",
       gambar: "",
@@ -36,7 +36,8 @@ export default class UbahProfileSiswa extends Component {
 
   componentDidMount() {
     axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
-      console.log(res);
+      const img = new File([res.data[0].siswa_img], "image.jpg");
+      console.log(img);
       this.setState({
         siswa_nis: res.data[0].siswa_nis,
         siswa_nama: res.data[0].siswa_nama,
@@ -45,24 +46,23 @@ export default class UbahProfileSiswa extends Component {
         d_kelas_nama: res.data[0].d_kelas_nama,
         jurusan_nama: res.data[0].jurusan_nama,
         gambar: res.data[0].siswa_img,
-        siswa_password: res.data[0].siswa_password,
+        uploadedFile : img,
+        password: res.data[0].siswa_password,
       });
     });
   }
   editData = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    const data = {siswa_password: this.state.siswa_password};
-    formData.append("img", this.state.uploadedFile);
-    console.log(formData);
+    // ambil data img dan password dari state
+    const data = new FormData();
+    data.append("password", this.state.password);
+    data.append("img", this.state.uploadedFile);
+    console.log(this.state.password)
+    console.log(data);
     axios
-      .put(`http://localhost:8000/profile/edit/${this.state.id}`, formData, data, {
-        headers: {
-          "content-type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res);
+    .put(`http://localhost:8000/profile/edit/${this.state.id}`, data)
+    .then((res) => {
+        console.log(res)
         if (res.data.error === true) {
           Swal.fire({
             icon: "error",
@@ -70,13 +70,14 @@ export default class UbahProfileSiswa extends Component {
             text: `${res.data.message}`,
           });
         } else {
+          console.log(res)
+          this.props.history.push("/user/profile");
           Swal.fire({
             icon: "success",
             title: "Good Job!",
             text: `${res.data.message}`,
           });
         }
-        this.props.history.push("/user/profile");
       });
   };
   render() {
@@ -90,8 +91,8 @@ export default class UbahProfileSiswa extends Component {
       // profilePic = this.state.gambar;
       console.log("else condition");
     }
-    console.log(profilePic);
-    console.log(this.state.uploadedFile);
+    console.log(this.state.uploadedFile)
+    console.log(this.state.gambar)
     return (
       <div>
         <Card>
@@ -221,10 +222,9 @@ export default class UbahProfileSiswa extends Component {
                       Password<span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      name="siswa_password"
-                      id="siswa_password"
-                      type="text"
-                      value={this.state.siswa_password}
+                      name="password"
+                      type="password"
+                      value={this.state.password}
                       placeholder="Masukkan Password"
                       noValidate
                       onChange={this.handleChange}
