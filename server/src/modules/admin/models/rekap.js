@@ -96,7 +96,7 @@ module.exports = {
 
   laporanKelasBulanan: (con, res, data) => {
     con.beginTransaction((err) => {
-      if (err) throw err
+      if (err) throw err;
 
       con.query(
         `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
@@ -142,7 +142,7 @@ module.exports = {
                         return obj.siswa_id;
                       });
 
-                      let data = []
+                      let data = [];
                       siswa_id.forEach((element, index) => {
                         con.query(
                           `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
@@ -156,12 +156,12 @@ module.exports = {
                               jurusan_nama: rows[0].jurusan_nama,
                               d_kelas_nama: rows[0].d_kelas_nama,
                               sisa_bulan: rows[0].sisa_bulan,
-                            })
+                            });
                           }
                         );
                       });
 
-                      let total_sisa = []
+                      let total_sisa = [];
                       siswa_id.forEach((element, index) => {
                         con.query(
                           `SELECT SUM(bulanan_tagihan) as tagihan FROM bulanan WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
@@ -170,32 +170,33 @@ module.exports = {
 
                             total_sisa.push({
                               sisa_tagihan: rows[0].tagihan,
-                            })
-
-                          })
-                      })
-
-                      if (data.length == 0) {
-                        con.rollback((err) => {
-                          if (err) throw err;
-                          return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
-                        })
-                      } else {
-                        con.commit((err) => {
-                          if (err) throw err;
-                          let sum_sisa = 0
-                          total_sisa.forEach((element, index) => {
-                            sum_sisa += total_sisa[index].sisa_tagihan
-                          })
-                          return res.json({
-                            error: false,
-                            message: "Data ditemukan",
-                            data: data,
-                            sisa_tagihan_kelas: sum_sisa,
+                            });
+                          }
+                        );
+                      });
+                      con.commit((err) => {
+                        if (data.length == 0) {
+                          con.rollback((err) => {
+                            if (err) throw err;
+                            return res.json({
+                              error: true,
+                              message: "Tidak ada data yang ditemukan",
+                            });
                           });
-                        })
-                      }
-
+                        } else {
+                          if (err) throw err;
+                          let sum_sisa = 0;
+                          total_sisa.forEach((element, index) => {
+                            sum_sisa += total_sisa[index].sisa_tagihan;
+                            return res.json({
+                              error: false,
+                              message: "Data ditemukan",
+                              data: data,
+                              sisa_tagihan_kelas: sum_sisa,
+                            });
+                          });
+                        }
+                      });
                     }
                   );
                 }
@@ -204,8 +205,7 @@ module.exports = {
           );
         }
       );
-    })
-
+    });
   },
 
   laporanAngkatanBebas: (con, res, data) => {
@@ -241,12 +241,13 @@ module.exports = {
             }
           }
         );
-      })
+      }
+    );
   },
 
   laporanAngkatanBulanan: (con, res, data) => {
     con.beginTransaction((err) => {
-      if (err) throw err
+      if (err) throw err;
 
       con.query(
         `SELECT kelas_id FROM kelas WHERE kelas_id = '${data.kelas_id}'`,
@@ -258,8 +259,11 @@ module.exports = {
           if (rows.length == 0) {
             con.rollback((err) => {
               if (err) throw err;
-              return res.json({ error: true, message: "Kelas tidak ditemukan" })
-            })
+              return res.json({
+                error: true,
+                message: "Kelas tidak ditemukan",
+              });
+            });
           }
 
           con.query(
@@ -270,7 +274,7 @@ module.exports = {
                 return obj.siswa_id;
               });
 
-              let data = []
+              let data = [];
               siswa_id.forEach((element, index) => {
                 con.query(
                   `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
@@ -284,12 +288,12 @@ module.exports = {
                       jurusan_nama: rows[0].jurusan_nama,
                       d_kelas_nama: rows[0].d_kelas_nama,
                       sisa_bulan: rows[0].sisa_bulan,
-                    })
+                    });
                   }
                 );
               });
 
-              let total_sisa = []
+              let total_sisa = [];
               siswa_id.forEach((element, index) => {
                 con.query(
                   `SELECT SUM(bulanan_tagihan) as tagihan FROM bulanan WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
@@ -298,36 +302,37 @@ module.exports = {
 
                     total_sisa.push({
                       sisa_tagihan: rows[0].tagihan,
-                    })
-
-                  })
-              })
-
-              if (data.length == 0) {
-                con.rollback((err) => {
-                  if (err) throw err;
-                  return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
-                })
-              } else {
-                con.commit((err) => {
-                  if (err) throw err;
-                  let sum_sisa = 0
-                  total_sisa.forEach((element, index) => {
-                    sum_sisa += total_sisa[index].sisa_tagihan
-                  })
-                  return res.json({
-                    error: false,
-                    message: "Data ditemukan",
-                    data: data,
-                    sisa_tagihan_kelas: sum_sisa,
+                    });
+                  }
+                );
+              });
+              con.commit((err) => {
+                if (data.length == 0) {
+                  con.rollback((err) => {
+                    if (err) throw err;
+                    return res.json({
+                      error: true,
+                      message: "Tidak ada data yang ditemukan",
+                    });
                   });
-                })
-              }
+                } else {
+                  if (err) throw err;
+                  let sum_sisa = 0;
+                  total_sisa.forEach((element, index) => {
+                    sum_sisa += total_sisa[index].sisa_tagihan;
+                    return res.json({
+                      error: false,
+                      message: "Data ditemukan",
+                      data: data,
+                      sisa_tagihan_kelas: sum_sisa,
+                    });
+                  });
+                }
+              });
             }
           );
         }
       );
-    })
-  }
-
+    });
+  },
 };
