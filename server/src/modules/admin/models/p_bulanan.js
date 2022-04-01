@@ -403,13 +403,14 @@ module.exports = {
           (err, rows) => {
             if (err) throw err;
             if (rows.length != 0) {
-              const pembayaranId = rows[0].pembayaran_id
+              const pembayaranId = rows[0].pembayaran_id;
               data.push(pembayaranId);
             } else {
               con.rollback();
               return res.json({
                 error: true,
-                message: "id pembayaran dengan data periode/nama pos tidak ditemukan.",
+                message:
+                  "id pembayaran dengan data periode/nama pos tidak ditemukan.",
               });
             }
           }
@@ -418,14 +419,14 @@ module.exports = {
       con.commit((err) => {
         if (err) throw err;
         console.log(data);
-        return callback(data)
+        return callback(data);
       });
     });
   },
 
   getMonth: (con, res, filename, callback) => {
     con.beginTransaction((err) => {
-      if(err) throw err
+      if (err) throw err;
 
       let result = importExcel({
         sourceFile: "./public/" + filename,
@@ -449,29 +450,35 @@ module.exports = {
         sheets: ["Sheet1"],
       });
 
-      let data = []
-      for(let i = 0; i< result.Sheet1.length; i++) {
-        con.query(`SELECT month_id FROM month WHERE month_nama = '${result.Sheet1[i].bulan}'`, (err, rows) => {
-          if(err) throw err
-          if(rows.length != 0) {
-            data.push(rows[0].month_id)
-          } else {
-            con.rollback();
-            return res.json({error: true, message: "Nama bulan tidak sesuai!"})
+      let data = [];
+      for (let i = 0; i < result.Sheet1.length; i++) {
+        con.query(
+          `SELECT month_id FROM month WHERE month_nama = '${result.Sheet1[i].bulan}'`,
+          (err, rows) => {
+            if (err) throw err;
+            if (rows.length != 0) {
+              data.push(rows[0].month_id);
+            } else {
+              con.rollback();
+              return res.json({
+                error: true,
+                message: "Nama bulan tidak sesuai!",
+              });
+            }
           }
-        })
+        );
       }
 
       con.commit((err) => {
-        if(err) throw err
-        return callback(data)
-      })
-    })
+        if (err) throw err;
+        return callback(data);
+      });
+    });
   },
 
   getAdminId: (con, res, filename, callback) => {
     con.beginTransaction((err) => {
-      if(err) throw err
+      if (err) throw err;
 
       let result = importExcel({
         sourceFile: "./public/" + filename,
@@ -495,30 +502,35 @@ module.exports = {
         sheets: ["Sheet1"],
       });
 
-      let data = []
-      for(let i = 0; i<result.Sheet1.length; i++) {
-        con.query(`SELECT admin_id FROM admin WHERE admin_nama = '${result.Sheet1[i].nama_admin}'`, (err, rows) => {
-          if(err) throw err
-          if(rows.length != 0) {
-            data.push(rows[0].admin_id)
-          } else {
-            con.rollback();
-            return res.json({error: true, message: "Nama admin tidak ditemukan."})
+      let data = [];
+      for (let i = 0; i < result.Sheet1.length; i++) {
+        con.query(
+          `SELECT admin_id FROM admin WHERE admin_nama = '${result.Sheet1[i].nama_admin}'`,
+          (err, rows) => {
+            if (err) throw err;
+            if (rows.length != 0) {
+              data.push(rows[0].admin_id);
+            } else {
+              con.rollback();
+              return res.json({
+                error: true,
+                message: "Nama admin tidak ditemukan.",
+              });
+            }
           }
-        })
+        );
       }
 
       con.commit((err) => {
-        if(err) throw err
-        return callback(data)
-      })
-
-    })
+        if (err) throw err;
+        return callback(data);
+      });
+    });
   },
 
   upload: (con, res, filename, siswaId, pembayaranId, monthId, adminId) => {
     con.beginTransaction((err) => {
-      if(err) throw err
+      if (err) throw err;
 
       let result = importExcel({
         sourceFile: "./public/" + filename,
@@ -537,31 +549,37 @@ module.exports = {
           K: "no_transaksi",
           L: "status",
           M: "tanggal_bayar",
-          N: "nama_admin"
+          N: "nama_admin",
         },
         sheets: ["Sheet1"],
       });
-      
-      let blnStatus = []
-      for(let i = 0; i< result.Sheet1.length; i ++) {
-        let status = result.Sheet1[i].status
-        if(status.toLowerCase() == 'lunas'){
-          blnStatus.push(1)
+
+      let blnStatus = [];
+      for (let i = 0; i < result.Sheet1.length; i++) {
+        let status = result.Sheet1[i].status;
+        if (status.toLowerCase() == "lunas") {
+          blnStatus.push(1);
         } else {
-          blnStatus.push(0)
+          blnStatus.push(0);
         }
       }
 
-      for(let i = 0; i<result.Sheet1.length;i++){
-        con.query(`INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan},no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`, (err) => {
-          if(err) throw err
-        })
+      for (let i = 0; i < result.Sheet1.length; i++) {
+        con.query(
+          `INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan},no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`,
+          (err) => {
+            if (err) throw err;
+          }
+        );
       }
 
       con.commit((err) => {
-        if(err) throw err
-        return res.json({error: false, message: "berhasil upload pembayaran."})
-      })
-    })
-  }
+        if (err) throw err;
+        return res.json({
+          error: false,
+          message: "berhasil upload pembayaran.",
+        });
+      });
+    });
+  },
 };
