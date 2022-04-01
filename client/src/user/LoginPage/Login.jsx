@@ -1,15 +1,27 @@
 import React, { Component } from "react";
-import { Card, Form, Col, Row, Button, CardGroup, Image, FormControl } from "react-bootstrap";
+import {
+  Card,
+  Form,
+  Col,
+  Row,
+  Button,
+  CardGroup,
+  Image,
+  FormControl,
+} from "react-bootstrap";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
+import { Link } from "react-router-dom";
+
 import bg from "../Assets/G10.png";
 import Swal from "sweetalert2";
 import "./Login.css";
-import logosp from '../Assets/logosp.svg'
-import Kutas from '../Assets/KuTas.svg'
-import KuWah from '../Assets/KuWah.svg'
-import logo from '../Assets/logo.svg'
-import power from '../Assets/PoweredBy.svg'
+import logosp from "../Assets/logosp.svg";
+import Kutas from "../Assets/KuTas.svg";
+import KuWah from "../Assets/KuWah.svg";
+import logo from "../Assets/logo.svg";
+import power from "../Assets/PoweredBy.svg";
+import Profile from "../Assets/Andi_Photo.svg";
 
 export default class Login extends Component {
   constructor(props) {
@@ -85,7 +97,8 @@ export default class Login extends Component {
     }
     return (
       <div>
-        <div className="wrapper-login"
+        <div
+          className="wrapper-login"
           style={{
             justifyItems: "center",
             display: "block",
@@ -101,31 +114,55 @@ export default class Login extends Component {
                 width={60}
                 height={60}
                 style={{
-                  marginLeft: '15px'
+                  marginLeft: "15px",
                 }}
               />
+              <br />
               <Image
                 src={Kutas}
                 width={15}
                 height={15}
                 style={{
-                  marginTop: '50px',
-                  marginBottom: '20px'
+                  marginTop: "40px",
+                  marginBottom: "20px",
                 }}
               />
-              <div>
-                Web nya sangat mudah dipahami. Kalau kesulitan selalu didampingi, jadi merasa punya tim IT sendiri.
+              <div style={{ color: "white" }}>
+                Web nya sangat mudah dipahami.
+                <br />
+                Kalau kesulitan selalu didampingi, jadi merasa punya tim IT
+                sendiri.
               </div>
               <Image
                 src={KuWah}
                 width={15}
                 height={15}
                 style={{
-                  marginTop: '20px',
-                  marginBottom: '50px',
-                  float: 'right'
+                  marginTop: "10px",
+                  marginBottom: "50px",
+                  float: "right",
                 }}
               />
+              <br />
+              <div className="d-flex">
+                <Image
+                  src={Profile}
+                  width={100}
+                  height={100}
+                  style={{
+                    marginBottom: "20px",
+                    marginLeft: "15px",
+                    marginTop: "50px",
+                  }}
+                />
+                <div>
+                  
+                <div className="profile-name">Andi Susandi S.Kom</div>
+                <div className="comment">
+                  Kepala Pemrograman RPL
+                </div>
+                </div>
+              </div>
             </Card>
 
             {/* Card login */}
@@ -135,7 +172,7 @@ export default class Login extends Component {
                 <div className="content">Sign in to continue.</div>
                 <div>
                   <Form noValidate onSubmit={this.login}>
-                    <div className="mt-4">
+                    <div className="mt-5">
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
@@ -229,10 +266,18 @@ export default class Login extends Component {
                           backgroundColor: "#ffff",
                           fontWeight: "bold",
                           borderRadius: "10px",
+                          marginBottom: "10px",
                         }}
                       >
                         L O G I N
                       </Button>
+                      <br />
+                      <Link
+                        to="/"
+                        style={{ color: "black", textDecoration: "none" }}
+                      >
+                        Kembali
+                      </Link>
                     </Row>
                   </Form>
                 </div>
@@ -242,7 +287,7 @@ export default class Login extends Component {
         </div>
         <center>
           <div>
-            <Image src={power} width={120} height={120} />
+            <Image src={power} width={150} height={150} />
           </div>
         </center>
       </div>

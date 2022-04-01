@@ -10,7 +10,7 @@ export default class TambahJurusan extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
-
+    document.title = "Jurusan | Tambah";
     this.state = {
       jurusan_nama: "",
     };

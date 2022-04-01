@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 export default class DataPos extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Data Pos";
     this.state = {
       data: [],
     };

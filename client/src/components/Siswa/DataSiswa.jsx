@@ -20,7 +20,7 @@ import QRCode from "react-qr-code";
 export default class DataSiswa extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Siswa";
     this.state = {
       data: [],
     };

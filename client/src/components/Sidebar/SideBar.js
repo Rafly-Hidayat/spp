@@ -15,7 +15,8 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -43,6 +44,10 @@ import DataJurusan from "../Jurusan/DataJurusan";
 import UbahJurusan from "../Jurusan/UbahJurusan";
 import TambahJurusan from "../Jurusan/TambahJurusan";
 
+import DaftarKelas from "../DaftarKelas/DaftarKelas";
+import TambahDaftarKelas from "../DaftarKelas/TambahDaftarKelas";
+import UbahDaftarKelas from "../DaftarKelas/UbahDaftarKelas"
+
 import DataSiswa from "../Siswa/DataSiswa";
 import TambahSiswa from "../Siswa/TambahSiswa";
 import UbahSiswa from "../Siswa/UbahSiswa"; //ini yg ga tampil
@@ -64,7 +69,7 @@ import AddPembayaran from "../Pembayaran/AddPembayaran";
 import AddPembayaranBulanan from "../Pembayaran/AddPembayaranBulanan";
 
 import JenisPembayaran from "../JenisPembayaran/JenisPembayaran";
-import AddJenisPembayaran from "../JenisPembayaran/AddJenisPembayaran";
+import AddJenisPembayaran from "../JenisPembayaran/TambahJenisPembayaran";
 import SetTarif from "../JenisPembayaran/SetTarif";
 import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
@@ -76,6 +81,7 @@ import LaporanBulanan from "../Laporan/LaporanBulanan"
 import LaporanBebas from "../Laporan/LaporanBebas"
 
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
+import LaporanAngkatanBln from './../Laporan/LaporanAngkatanBln';
 import LaporanKelas from './../Laporan/LaporanKelas';
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
@@ -311,11 +317,14 @@ const SideBar = () => {
                   <Link to="/admin/siswa">
                     <li>Siswa </li>
                   </Link>
+                  <Link to="/admin/kelas">
+                    <li>Kelas</li>{" "}
+                  </Link>
                   <Link to="/admin/jurusan">
                     <li>Jurusan</li>{" "}
                   </Link>
-                  <Link to="/admin/kelas">
-                    <li>Kelas</li>{" "}
+                  <Link to="/admin/d-kelas">
+                    <li>Daftar Kelas</li>{" "}
                   </Link>
                   <Link to="/admin/kenaikan-kelas">
                     <li>Kenaikan Kelas</li>{" "}
@@ -358,7 +367,7 @@ const SideBar = () => {
             </Link>
 
             {/* ----------- */}
-            <Link to="/admin/jenispembayaran">
+            <Link to="/admin/jenis-pembayaran">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
@@ -404,24 +413,6 @@ const SideBar = () => {
                 </ul>
               </div>
             </div>
-
-            <Link to="/admin/laporan/bulanan">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Laporan Bulanan
-              </span>
-            </Link>
-
-            <Link to="/admin/laporan/bebas">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Laporan Bebas
-              </span>
-            </Link>
 
             <a href="#">
               <span className="icon">
@@ -478,6 +469,9 @@ const SideBar = () => {
             path="/admin/jurusan/tambah"
             component={TambahJurusan}
           />
+          <ProtectedRoute exact path="/admin/d-kelas" component={DaftarKelas}/>
+          <ProtectedRoute exact path="/admin/d-kelas/tambah" component={TambahDaftarKelas}/>
+          <ProtectedRoute exact path="/admin/d-kelas/ubah/:id" component={UbahDaftarKelas}/>
 
           <ProtectedRoute exact path="/admin/pos/" component={DataPos} />
           <ProtectedRoute exact path="/admin/pos/tambah" component={AddPos} />
@@ -513,7 +507,7 @@ const SideBar = () => {
 
           <ProtectedRoute
             exact
-            path="/admin/jenispembayaran"
+            path="/admin/jenis-pembayaran"
             component={JenisPembayaran}
           />
           <ProtectedRoute
@@ -523,12 +517,12 @@ const SideBar = () => {
           />
           <ProtectedRoute
             exact
-            path="/admin/jenispembayaran/tambah"
+            path="/admin/jenis-pembayaran/tambah"
             component={AddJenisPembayaran}
           />
           <ProtectedRoute
             exact
-            path="/admin/jenispembayaran/ubah/:id"
+            path="/admin/jenis-pembayaran/ubah/:id"
             component={UbahJenisPembayaran}
           />
 
@@ -576,7 +570,7 @@ const SideBar = () => {
           <ProtectedRoute
             exact
             path="/admin/laporan/angkatan/bulanan"
-            component={LaporanKelas}
+            component={LaporanAngkatanBln}
           />
           <ProtectedRoute
             exact

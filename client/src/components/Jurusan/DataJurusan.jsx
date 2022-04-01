@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 export default class Data extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Jurusan";
     this.state = {
       data: [],
     };

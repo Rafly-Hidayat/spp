@@ -8,7 +8,7 @@ const { bulananValidation } = require('../validator/bulanan/bayar/bulanan.valida
 router.get('/bulanan', p_bulananController.getAll)
 router.get('/total/pembayaran/bulanan', p_bulananController.getTotal)
 router.get('/bulanan_id/:bulanan_id', p_bulananController.getById)
-router.get('/bulanan/:siswa_nis', p_bulananController.getByNis)
+router.get('/bulanan/:siswa_nis/:periode_mulai/:periode_akhir', p_bulananController.getByNis)
 router.put('/bulanan/bayar/:bulanan_id', bulananValidation, p_bulananController.bayar)
 router.post('/bulanan/upload', p_bulananController.upload)
 router.post('/set_tarif/bulanan', setTarifValidation, p_bulananController.add)

@@ -9,7 +9,7 @@ export default class AddPos extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
-
+    document.title = "Tambah Pos";
     this.state = {
       pos_nama: "",
       pos_deskripsi: "",

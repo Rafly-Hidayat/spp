@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 export default class Data extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Tahun Ajaran";
     this.state = {
       data: [],
     };

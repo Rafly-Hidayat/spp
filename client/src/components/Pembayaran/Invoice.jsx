@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 export default class Invoice extends Component {
   constructor(props) {
     super(props);
+    document.title = "Pembayaran | Cetak";
     this.state = {
       id: this.props.match.params.id,
       tanggal: "",

@@ -9,7 +9,7 @@ export default class Tambahkelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
-
+    document.title = "Kelas | Tambah";
     this.state = {
       kelas_nama: "",
     };

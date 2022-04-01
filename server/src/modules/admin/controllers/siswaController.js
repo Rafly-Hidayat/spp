@@ -110,11 +110,8 @@ module.exports = {
 
   upload: (req, res) => {
     siswa.getJurusanId(req.con, res, req.files.filename, (jurusanId, filename) => {
-      console.log(jurusanId)
       siswa.getKelasId(req.con,res,filename,(kelasId) => {
-        console.log(kelasId)
         siswa.getDkelasId(req.con, res, filename, (dKelasId) => {
-          console.log(dKelasId)
           siswa.upload(req.con, res, filename, kelasId, jurusanId, dKelasId)
         })
       })
