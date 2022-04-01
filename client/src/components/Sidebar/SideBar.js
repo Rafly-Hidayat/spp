@@ -76,6 +76,7 @@ import LaporanBulanan from "../Laporan/LaporanBulanan"
 import LaporanBebas from "../Laporan/LaporanBebas"
 
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
+import LaporanAngkatanBln from './../Laporan/LaporanAngkatanBln';
 import LaporanKelas from './../Laporan/LaporanKelas';
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
@@ -558,7 +559,7 @@ const SideBar = () => {
           <ProtectedRoute
             exact
             path="/admin/laporan/angkatan/bulanan"
-            component={LaporanKelas}
+            component={LaporanAngkatanBln}
           />
           <ProtectedRoute
             exact

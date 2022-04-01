@@ -21,7 +21,7 @@ module.exports = {
   },
 
   getByNis: (req, res) => {
-    bebas.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
+    bebas.getByNis(req.con, req.params.siswa_nis, req.params.periode_mulai, req.params.periode_akhir, (err, rows) => {
       if (err) throw err;
       if (rows == 0)
         return res.json({ error: true, message: "Nis Siswa tidak ditemukan." });

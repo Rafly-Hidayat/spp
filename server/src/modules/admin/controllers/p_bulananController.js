@@ -18,7 +18,7 @@ module.exports = {
   },
 
   getByNis: (req, res) => {
-    p_bulanan.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
+    p_bulanan.getByNis(req.con, req.params.siswa_nis, req.params.periode_mulai, req.params.periode_akhir, (err, rows) => {
       if (err) throw err;
       if (rows == 0)
         return res.json({ error: true, message: "Nis siswa tidak ditemukan." });
