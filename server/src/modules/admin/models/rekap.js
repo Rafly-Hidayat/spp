@@ -143,13 +143,13 @@ module.exports = {
                     let data_siswa = []
                     for (let i = 0; i < rows.length; i++) {
                       data_siswa.push({
-                        sisa_tagihan: rows[i].tagihan,
                         siswa_nama: rows[i].siswa_nama,
                         kelas_nama: rows[i].kelas_nama,
                         jurusan_nama: rows[i].jurusan_nama,
                         d_kelas_nama: rows[i].d_kelas_nama,
+                        periode: rows[i].periode + "/" + rows[i].periode_akhir,
                         sisa_bulan: rows[i].sisa_bulan,
-                        periode: rows[i].periode + "/" + rows[i].periode_akhir
+                        sisa_tagihan: rows[i].tagihan
                       })
                     }
 

@@ -408,7 +408,7 @@ module.exports = {
       let data = [];
       for (let i = 0; i < result.Sheet1.length; i++) {
         con.query(
-          `SELECT pembayaran_id FROM pembayaran INNER JOIN periode ON periode.periode_id = pembayaran.periode_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id WHERE pos_nama = '${result.Sheet1[i].nama_pos}' AND periode_mulai = ${result.Sheet1[i].periode_mulai} AND periode_akhir = ${result.Sheet1[i].periode_akhir} AND pembayaran_tipe = 'BULAN'`,
+          `SELECT pembayaran_id FROM pembayaran INNER JOIN periode ON periode.periode_id = pembayaran.periode_id INNER JOIN pos ON pos.pos_id = pembayaran.pos_id WHERE pos_nama = '${result.Sheet1[i].nama_pos}' AND periode_mulai = ${result.Sheet1[i].periode_mulai} AND periode_akhir = ${result.Sheet1[i].periode_akhir} AND pembayaran_tipe = 'BULANAN'`,
           (err, rows) => {
             if (err) throw err;
             if (rows.length != 0) {
@@ -589,7 +589,7 @@ module.exports = {
 
       for (let i = 0; i < result.Sheet1.length; i++) {
         con.query(
-          `INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan},no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`,
+          `INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan}, no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`,
           (err) => {
             if (err) throw err;
           }
