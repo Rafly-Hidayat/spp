@@ -158,6 +158,13 @@ export default class LaporanKelas extends Component {
         },
       },
       {
+        dataField: "periode",
+        text: "periode",
+        headerStyle: {
+          width: "20%",
+        },
+      },
+      {
         text: "Sisa Bulan",
         dataField: "sisa_bulan",
         headerStyle: {
@@ -232,12 +239,19 @@ export default class LaporanKelas extends Component {
         },
       },
       {
+        dataField: "periode",
+        text: "periode",
+        headerStyle: {
+          width: "25%",
+        },
+      },
+      {
         text: "Sisa Tagihan",
         formatter: (cell, row) => {
           return <div>Rp. {parseInt(row.sisa_tagihan).toLocaleString()}</div>;
         },
         headerStyle: {
-          width: "50%",
+          width: "25%",
         },
       },
     ];

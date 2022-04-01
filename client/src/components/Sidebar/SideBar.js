@@ -81,6 +81,7 @@ import LaporanBulanan from "../Laporan/LaporanBulanan"
 import LaporanBebas from "../Laporan/LaporanBebas"
 
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
+import LaporanAngkatanBln from './../Laporan/LaporanAngkatanBln';
 import LaporanKelas from './../Laporan/LaporanKelas';
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
@@ -413,24 +414,6 @@ const SideBar = () => {
               </div>
             </div>
 
-            <Link to="/admin/laporan/bulanan">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Laporan Bulanan
-              </span>
-            </Link>
-
-            <Link to="/admin/laporan/bebas">
-              <span className="icon">
-                <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
-              </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
-                Laporan Bebas
-              </span>
-            </Link>
-
             <a href="#">
               <span className="icon">
                 <FontAwesomeIcon icon={faCreditCard} />
@@ -587,7 +570,7 @@ const SideBar = () => {
           <ProtectedRoute
             exact
             path="/admin/laporan/angkatan/bulanan"
-            component={LaporanKelas}
+            component={LaporanAngkatanBln}
           />
           <ProtectedRoute
             exact
