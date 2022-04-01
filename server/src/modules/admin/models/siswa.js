@@ -141,7 +141,6 @@ module.exports = {
               });
             }
 
-            // console.log(data2)
             con.commit((err) => {
               if (err) throw err;
               return callback(data2, filename);
