@@ -320,6 +320,8 @@ module.exports = {
   getNamaSiswa: (con, res, siswaId, filename, callback) => {
     con.beginTransaction((err) => {
       if (err) throw err;
+
+      let error = false;
       let result = importExcel({
         sourceFile: "./public/" + filename,
         header: { rows: 1 },
@@ -354,10 +356,7 @@ module.exports = {
               data.push(siswa_nama);
             } else {
               con.rollback();
-              return res.json({
-                error: true,
-                message: "nama siswa tidak cocok dengan NIS yang di input.",
-              });
+              error = true;
             }
           }
         );
@@ -366,7 +365,15 @@ module.exports = {
       con.commit((err) => {
         if (err) throw err;
         console.log(data);
-        return callback();
+        if (error == false) {
+          return callback();
+        } else {
+          return res.json({
+            error: true,
+            message:
+              "Tidak ada nama siswa yang cocok dengan NIS yang di input.",
+          });
+        }
       });
     });
   },
@@ -374,6 +381,8 @@ module.exports = {
   getPembayaranId: (con, res, filename, callback) => {
     con.beginTransaction((err) => {
       if (err) throw err;
+
+      let error = false;
       let result = importExcel({
         sourceFile: "./public/" + filename,
         header: { rows: 1 },
@@ -407,11 +416,7 @@ module.exports = {
               data.push(pembayaranId);
             } else {
               con.rollback();
-              return res.json({
-                error: true,
-                message:
-                  "id pembayaran dengan data periode/nama pos tidak ditemukan.",
-              });
+              error = true;
             }
           }
         );
@@ -419,7 +424,15 @@ module.exports = {
       con.commit((err) => {
         if (err) throw err;
         console.log(data);
-        return callback(data);
+        if (error == false) {
+          return callback(data);
+        } else {
+          return res.json({
+            error: true,
+            message:
+              "id pembayaran dengan data periode/nama pos tidak ditemukan.",
+          });
+        }
       });
     });
   },
@@ -428,6 +441,7 @@ module.exports = {
     con.beginTransaction((err) => {
       if (err) throw err;
 
+      let error = false
       let result = importExcel({
         sourceFile: "./public/" + filename,
         header: { rows: 1 },
@@ -460,18 +474,22 @@ module.exports = {
               data.push(rows[0].month_id);
             } else {
               con.rollback();
-              return res.json({
-                error: true,
-                message: "Nama bulan tidak sesuai!",
-              });
+              error = true
             }
           }
-        );
-      }
-
-      con.commit((err) => {
-        if (err) throw err;
-        return callback(data);
+          );
+        }
+        
+        con.commit((err) => {
+          if (err) throw err;
+          if(error == false) {
+            return callback(data);
+          } else {
+          return res.json({
+            error: true,
+            message: "Nama bulan tidak sesuai!",
+          });
+        }
       });
     });
   },
@@ -479,6 +497,7 @@ module.exports = {
   getAdminId: (con, res, filename, callback) => {
     con.beginTransaction((err) => {
       if (err) throw err;
+      let error = false;
 
       let result = importExcel({
         sourceFile: "./public/" + filename,
@@ -512,10 +531,7 @@ module.exports = {
               data.push(rows[0].admin_id);
             } else {
               con.rollback();
-              return res.json({
-                error: true,
-                message: "Nama admin tidak ditemukan.",
-              });
+              error = true;
             }
           }
         );
@@ -523,7 +539,14 @@ module.exports = {
 
       con.commit((err) => {
         if (err) throw err;
-        return callback(data);
+        if (error == false) {
+          return callback(data);
+        } else {
+          return res.json({
+            error: true,
+            message: "Nama admin tidak ditemukan.",
+          });
+        }
       });
     });
   },
