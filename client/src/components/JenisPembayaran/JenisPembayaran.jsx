@@ -10,7 +10,7 @@ import Sidebar from "../Sidebar/SideBar";
 export default class Data extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Jenis Pembayaran";
     this.state = {
       data: [],
       tipe: "",
@@ -87,7 +87,7 @@ export default class Data extends Component {
           return (
             <div>
               <Container>
-                <Link to={`/admin/jenispembayaran/ubah/${row.pembayaran_id}`}>
+                <Link to={`/admin/jenis-pembayaran/ubah/${row.pembayaran_id}`}>
                   <Button variant="outline-warning" block>
                     <FontAwesomeIcon icon={faUserEdit} />
                   </Button>
@@ -124,7 +124,7 @@ export default class Data extends Component {
           <Card.Body>
             <Card.Title>Jenis Pembayaran</Card.Title>
             <hr />
-            <Link to={"/admin/jenispembayaran/tambah"}>
+            <Link to={"/admin/jenis-pembayaran/tambah"}>
               <Button className="mr-2" variant="outline-primary" block="">
                 Tambah
               </Button>

@@ -11,28 +11,29 @@ import SimpleReactValidator from "simple-react-validator";
 import { Breadcrumb } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export default class UbahJurusan extends Component {
+export default class UbahDaftarKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
-    document.title = "Jurusan | Ubah";
+    document.title = "Daftar Kelas | Ubah";
     this.state = {
       id: this.props.match.params.id,
-      jurusan_nama: "",
-      jurusan_id: "",
+      d_kelas_nama: "",
+      d_kelas_id: "",
       dataError: "",
       errorMessage: "",
     };
   }
 
   getData() {
-    const jurusan_id = this.state.id;
+    const d_kelas_id = this.state.id;
     axios
-      .get(`http://localhost:8000/jurusan/${jurusan_id}`)
+      .get(`http://localhost:8000/d_kelas/${d_kelas_id}`)
       .then((res) => {
+          console.log(res)
         this.setState({
-          jurusan_id: res.data[0].jurusan_id,
-          jurusan_nama: res.data[0].jurusan_nama,
+          d_kelas_id: res.data[0].d_kelas_id,
+          d_kelas_nama: res.data[0].d_kelas_nama,
         });
       })
       .catch((err) => {});
@@ -52,12 +53,12 @@ export default class UbahJurusan extends Component {
   editData = (e) => {
     e.preventDefault();
     const data = {
-      jurusan_nama: this.state.jurusan_nama,
+      d_kelas_nama: this.state.d_kelas_nama,
     };
-    const jurusan_id = this.state.jurusan_id;
+    const d_kelas_id = this.state.d_kelas_id;
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/jurusan/${jurusan_id}`, data)
+        .put(`http://localhost:8000/ubah/d_kelas/${d_kelas_id}`, data)
         .then((res) => {
           if (res.data.error === true ) {
             Swal.fire({
@@ -66,7 +67,7 @@ export default class UbahJurusan extends Component {
               text: `${res.data.message}`,
             });
             this.setState({
-              jurusan_nama: "",
+              d_kelas_nama: "",
             });
           } else {
             Swal.fire({
@@ -74,7 +75,7 @@ export default class UbahJurusan extends Component {
             title: "Good Job!",
             text: `${res.data.message}`,});
           }
-          this.props.history.push("/admin/jurusan");
+          this.props.history.push("/admin/d-kelas");
         })
         .catch((err) => {});
     } else {
@@ -100,7 +101,7 @@ export default class UbahJurusan extends Component {
                 <Link to="/admin">Home</Link>
               </Breadcrumb.Item>
               <Breadcrumb.Item>
-                <Link to="/admin/jurusan/">Data</Link>
+                <Link to="/admin/d-kelas/">Data</Link>
               </Breadcrumb.Item>
               <Breadcrumb.Item active>Edit</Breadcrumb.Item>
             </Breadcrumb>
@@ -110,30 +111,30 @@ export default class UbahJurusan extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Form.Group className="mb-3">
-              <Card.Title> Ubah Jurusan</Card.Title>
+              <Card.Title> Ubah Daftar Kelas</Card.Title>
               <hr />
               <Form onSubmit={this.editData}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Id jurusan*</Form.Label>
+                  <Form.Label>Id Daftar Kelas*</Form.Label>
                   <Form.Control
-                    name="jurusan_id"
-                    id="jurusan_id"
+                    name="d_kelas_id"
+                    id="d_kelas_id"
                     type="text"
-                    value={this.state.jurusan_id}
-                    placeholder="Id jurusan"
+                    value={this.state.d_kelas_id}
+                    placeholder="ID Daftar Kelas"
                     noValidate
                     onChange={this.handleChange}
                     readOnly
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Nama Jurusan*</Form.Label>
+                  <Form.Label>Nama Daftar Kelas*</Form.Label>
                   <Form.Control
-                    name="jurusan_nama"
-                    id="jurusan_nama"
+                    name="d_kelas_nama"
+                    id="d_kelas_nama"
                     type="text"
-                    value={this.state.jurusan_nama}
-                    placeholder="Nama Jurusan"
+                    value={this.state.d_kelas_nama}
+                    placeholder="Nama Daftar Kelas"
                     noValidate
                     onChange={this.handleChange}
                   />
@@ -144,13 +145,13 @@ export default class UbahJurusan extends Component {
                       </div>
                     ) : null}
                     {this.validator.message(
-                      "Nama Jurusan",
-                      this.state.jurusan_nama,
+                      "d_kelas_nama",
+                      this.state.d_kelas_nama,
                       `required`,
                       {
                         className: "text-danger",
                         messages: {
-                          required: "Masukkan Nama Jurusan!",
+                          required: "Masukkan Nama Daftar Kelas!",
                         },
                       }
                     )}
@@ -159,7 +160,7 @@ export default class UbahJurusan extends Component {
                     <Button variant="outline-primary" type="submit">
                       Ubah
                     </Button>&ensp;
-                    <Link to="/admin/jurusan">
+                    <Link to="/admin/d-kelas">
                       <Button variant="outline-danger" type="submit">
                         Batal
                       </Button>

@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 export default class InformasiSIswa extends Component {
   constructor(props) {
     super(props);
+    document.title = "Pembayaran";
     this.state = {
       data: [],
       databulanan: [],

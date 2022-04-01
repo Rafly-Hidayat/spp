@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 export default class AddJenisPembayaran extends Component {
   constructor(props) {
     super(props);
+    document.title = "Jenis Pembayaran | Tambah";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.state = {
@@ -57,7 +58,7 @@ export default class AddJenisPembayaran extends Component {
               title: "Berhasil",
               text: "Jenis Pembayaran berhasil ditambahkan",
             });
-            this.props.history.push("/admin/jenispembayaran");
+            this.props.history.push("/admin/jenis-pembayaran");
           } else {
             Swal.fire({
               icon: "error",
@@ -128,7 +129,7 @@ export default class AddJenisPembayaran extends Component {
                   Jenis Pembayaran<span className="text-danger">*</span>
                 </Form.Label>
                 <FormSelect name="jenispembayaran" onChange={this.handleChange}>
-                  <option value="">Pilih Jenis Pembayaran </option>
+                  <option value="">=== Pilih Jenis Pembayaran ===</option>
                   <option value="BULANAN">BULANAN </option>
                   <option value="BEBAS">BEBAS </option>
                 </FormSelect>
@@ -152,7 +153,7 @@ export default class AddJenisPembayaran extends Component {
                   <span className="text-danger">*</span>
                 </Form.Label>
                 <FormSelect name="periode" onChange={this.handleChange}>
-                  <option value="">Pilih Tahun Ajaran </option>
+                  <option value="">=== Pilih Tahun Ajaran ===</option>
                   {this.state.periodes.map((item) => (
                     <option value={item.periode_id}>
                       {item.periode_mulai}/{item.periode_akhir}
@@ -178,7 +179,7 @@ export default class AddJenisPembayaran extends Component {
                   Pos<span className="text-danger">*</span>
                 </Form.Label>
                 <FormSelect name="pos" onChange={this.handleChange}>
-                  <option value="">Pilih Pos</option>
+                  <option value="">=== Pilih Pos ===</option>
                   {this.state.datapos.map((item) => (
                     <option value={item.pos_id}>{item.pos_nama}</option>
                   ))}
@@ -196,7 +197,7 @@ export default class AddJenisPembayaran extends Component {
                 Tambah
               </Button>
               &ensp;
-              <Link to="/admin/jenispembayaran">
+              <Link to="/admin/jenis-pembayaran">
                 <Button variant="outline-danger" type="submit">
                   Batal
                 </Button>

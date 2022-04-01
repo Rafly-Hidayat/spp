@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 export default class DataKelas extends Component {
   constructor(props) {
     super(props);
-
+    document.title = "Kelas";
     this.state = {
       data: [],
     };

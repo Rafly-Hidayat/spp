@@ -12,11 +12,14 @@ import {
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 export default class LaporanKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
+    document.title = "Laporan Kelas";
     this.state = {
       data_bebas: [],
       data_bulanan: [],
@@ -99,7 +102,16 @@ export default class LaporanKelas extends Component {
     });
   };
   render() {
-    console.log(this.state.data_bulanan);
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+    const exportToCSV = (data2, fileName) => {
+      const ws = XLSX.utils.json_to_sheet(data2);
+      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      const data = new Blob([excelBuffer], { type: fileType });
+      FileSaver.saveAs(data, fileName + fileExtension);
+    };
     // data bebas
     const data = this.state.data_bebas;
     const as = [];
@@ -366,6 +378,7 @@ export default class LaporanKelas extends Component {
                 </Row>
               </div>
             </Form>
+            <button onClick={(e) => exportToCSV(data2, 'fileName')}>Export</button>
             <br />
             <Tabs
               defaultActiveKey="bulan"
