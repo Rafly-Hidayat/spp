@@ -65,7 +65,7 @@ import AddPembayaran from "../Pembayaran/AddPembayaran";
 import AddPembayaranBulanan from "../Pembayaran/AddPembayaranBulanan";
 
 import JenisPembayaran from "../JenisPembayaran/JenisPembayaran";
-import AddJenisPembayaran from "../JenisPembayaran/AddJenisPembayaran";
+import AddJenisPembayaran from "../JenisPembayaran/TambahJenisPembayaran";
 import SetTarif from "../JenisPembayaran/SetTarif";
 import UbahJenisPembayaran from "../JenisPembayaran/UbahJenisPembayaran";
 
