@@ -10,7 +10,7 @@ import {
   Row,
   Col,
   Button,
-  Image,Offcanvas
+  Image, Offcanvas
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +19,7 @@ import {
   faHome,
   faBell,
   faCog,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -72,15 +73,21 @@ const SideBar = () => {
       <div className="user">
         {/* Navbar */}
         <Navbar bg="light" expand={false} className="navbar" fixed="top">
-          <Container fluid>
+          <Container >
             <Navbar.Brand style={{
-                color: 'white',
-                border: '5px',
+              color: 'white',
+              border: '5px',
             }}>
               <Image onClick={changeSidebar} className="logo" src={logo} />{" "}
               SPS
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="offcanvasNavbar" />
+            <Navbar.Text className="text justify-content-end">
+              <span style={{
+                fontSize: '16px',
+                fontWeight: '600',
+              }}>Hi, Fajar</span>
+            </Navbar.Text>
+            <Navbar.Toggle className="burger" aria-controls="offcanvasNavbar" />
             <Navbar.Offcanvas
               id="offcanvasNavbar"
               aria-labelledby="offcanvasNavbarLabel"
@@ -88,14 +95,15 @@ const SideBar = () => {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id="offcanvasNavbarLabel">
+
                   Hi, Fajar
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="#action2">Transaksi</Nav.Link>
-                  <Nav.Link href="#action2">Profile</Nav.Link>
+                  <Nav.Link href="/user">Home</Nav.Link>
+                  <Nav.Link href="/user/transaksi">Transaksi</Nav.Link>
+                  <Nav.Link href="/user/profile">Profile</Nav.Link>
                   <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
@@ -139,11 +147,11 @@ const SideBar = () => {
         </Link>
 
         <br />
-        <span className="menu">
+        <span className="menu" onClick={handleLogout}>
           <center className="logo">
-            <FontAwesomeIcon icon={faCog} />
+            <FontAwesomeIcon icon={faSignOutAlt} />
           </center>
-          <p style={{ display: text }}>Setting</p>
+          <p style={{ display: text }}>Log out</p>
         </span>
       </div>
 
