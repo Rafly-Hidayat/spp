@@ -18,8 +18,9 @@ import * as XLSX from "xlsx";
 export default class LaporanKelas extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Laporan Kelas";
+
     this.validator = new SimpleReactValidator();
-    document.title = "Laporan Kelas";
     this.state = {
       data_bebas: [],
       data_bulanan: [],

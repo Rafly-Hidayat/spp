@@ -10,7 +10,8 @@ import Swal from "sweetalert2";
 export default class DataKelas extends Component {
   constructor(props) {
     super(props);
-    document.title = "Kelas";
+    document.title = "Admin | Data Kelas";
+
     this.state = {
       data: [],
     };
@@ -78,7 +79,7 @@ export default class DataKelas extends Component {
     const columns = [
       {
         dataField: "kelas_id",
-        text: "ID Kelas",
+        text: "No",
         sort: true,
       },
       {

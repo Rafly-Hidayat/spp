@@ -8,8 +8,9 @@ import SimpleReactValidator from "simple-react-validator";
 export default class Editperiode extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Ubah Periode";
+
     this.validator = new SimpleReactValidator();
-    document.title = "Tahun Ajaran | Ubah";
     this.state = {
       id: this.props.match.params.id,
       periode_mulai: "",
@@ -106,7 +107,7 @@ export default class Editperiode extends Component {
           <Form onSubmit={this.editData}>
             <Form.Group className="mb-3">
             <hr />
-              <Form.Label>Periode ID</Form.Label>
+              <Form.Label>Periode ID<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="periode_id"
                 id="periode_id"
@@ -114,17 +115,17 @@ export default class Editperiode extends Component {
                 value={this.state.id}
                 noValidate
                 onChange={this.handleChange}
-                readOnly
+                disabled
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Periode Mulai</Form.Label>
+              <Form.Label>Periode Mulai<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="periode_mulai"
                 id="periode_mulai"
                 type="text"
                 value={this.state.periode_mulai}
-                placeholder="Periode Mulai"
+                placeholder="Periode Awal"
                 noValidate
                 onChange={this.handleChange}
               />
@@ -133,12 +134,14 @@ export default class Editperiode extends Component {
                   "Periode Mulai",
                   this.state.periode_mulai,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Periode Awal!",
+                  },}
                 )}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Periode Akhir</Form.Label>
+              <Form.Label>Periode Akhir<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="periode_akhir"
                 id="periode_akhir"
@@ -153,7 +156,9 @@ export default class Editperiode extends Component {
                   "Periode Akhir",
                   this.state.periode_akhir,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Periode Akhir!",
+                  }, }
                 )}
               </div>
             </Form.Group>

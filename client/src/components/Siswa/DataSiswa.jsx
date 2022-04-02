@@ -13,21 +13,22 @@ import {
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Swal from "sweetalert2";
-import ToolkitProvider, { Search, } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min";
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min";
 import QRCode from "react-qr-code";
-
 
 export default class DataSiswa extends Component {
   constructor(props) {
     super(props);
-    document.title = "Siswa";
+    document.title = "Admin | Data Siswa";
+
     this.state = {
       data: [],
     };
   }
 
   getSiswa = () => {
-
     axios
       .get("http://localhost:8000/siswa/")
       .then((res) => {
@@ -36,7 +37,7 @@ export default class DataSiswa extends Component {
           data: res.data,
         });
       })
-    
+
       .catch((err) => {
         Swal.fire({
           icon: "error",
@@ -89,7 +90,6 @@ export default class DataSiswa extends Component {
     this.getSiswa();
   }
   render() {
-    
     const { SearchBar } = Search;
     const data = this.state.data;
     const options = {
@@ -129,7 +129,9 @@ export default class DataSiswa extends Component {
         text: "Foto Siswa",
         align: "center",
         headerStyle: {
-           width: "120px", textAlign: "center" },
+          width: "120px",
+          textAlign: "center",
+        },
         formatter: (cellContent, row) => {
           return (
             <img
@@ -152,7 +154,6 @@ export default class DataSiswa extends Component {
       {
         dataField: "siswa_nis",
         text: "NIS",
-
       },
       {
         text: "Jenis Kelamin",
@@ -161,7 +162,6 @@ export default class DataSiswa extends Component {
             return <div>Laki-Laki</div>;
           } else {
             return <div>Perempuan</div>;
-
           }
         },
       },
@@ -177,20 +177,20 @@ export default class DataSiswa extends Component {
           );
         },
       },
-      {
-        text: "QR Code",
-        formatter: (cell, row) => {
-          return (
-            <div>
-              <QRCode
-                className="code"
-                value={row.siswa_nis}
-                size={80}
-              />
-            </div>
-          )
-        }
-      },
+      // {
+      //   text: "QR Code",
+      //   formatter: (cell, row) => {
+      //     return (
+      //       <div>
+      //         <QRCode
+      //           className="code"
+      //           value={row.siswa_nis}
+      //           size={80}
+      //         />
+      //       </div>
+      //     )
+      //   }
+      // },
       {
         text: "Aksi",
 
@@ -204,17 +204,14 @@ export default class DataSiswa extends Component {
               <Container>
                 <Button variant="outline-primary" className="mr-2" block>
                   <FontAwesomeIcon icon={faInfoCircle} />
-
                 </Button>
                 &ensp;
-
                 <Link to={`/admin/siswa/ubah/${row.siswa_id}`}>
                   <Button variant="outline-warning" className="mr-2" block>
                     <FontAwesomeIcon icon={faUserEdit} />
                   </Button>
                 </Link>
                 &ensp;
-
                 <Button
                   variant="outline-danger"
                   onClick={() => this.handleRemove(row.siswa_id)}
@@ -258,7 +255,6 @@ export default class DataSiswa extends Component {
             <ToolkitProvider keyField="id" data={data} columns={columns} search>
               {(props) => (
                 <div>
-
                   <div style={{ display: "flex" }}>
                     <Link to={"/admin/siswa/tambah/"}>
                       <Button variant="outline-primary" block>
@@ -282,7 +278,6 @@ export default class DataSiswa extends Component {
                         <InputGroup.Text id="basic-addon1">
                           <FontAwesomeIcon icon={faSearch} />
                         </InputGroup.Text>
-
                       </InputGroup>
                     </div>
                   </div>

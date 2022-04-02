@@ -6,6 +6,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import SideBar from "./components/Sidebar/SideBar";
 import Login from './user/LoginPage/Login'
 import SidebarUser from './user/SideBarUser/SideBarUser'
+import NotFound from './components/Pages/NotFound';
 
 export default class App extends Component {
   render() {
@@ -20,6 +21,7 @@ export default class App extends Component {
             <Route path="/admin" component={SideBar} />
 
             <Route path="/user/login" component={Login} />
+            {/* <Route path="*" component={NotFound} /> */}
             <Route path="/user" component={SidebarUser} />
           </Switch>
         </BrowserRouter>

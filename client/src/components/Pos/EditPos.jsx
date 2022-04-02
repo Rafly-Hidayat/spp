@@ -8,8 +8,8 @@ import SimpleReactValidator from "simple-react-validator";
 export default class EditPos extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Ubah Pos";
     this.validator = new SimpleReactValidator();
-    document.title = "Ubah Pos";
     this.state = {
       id: this.props.match.params.id,
       pos_nama: "",
@@ -108,7 +108,7 @@ export default class EditPos extends Component {
           <Form onSubmit={this.editData}>
             <Form.Group className="mb-3">
             <hr />
-              <Form.Label>ID Pos*</Form.Label>
+              <Form.Label>Pos Id<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="pos_id"
                 id="pos_id"
@@ -117,11 +117,11 @@ export default class EditPos extends Component {
                 placeholder="Id pos"
                 noValidate
                 onChange={this.handleChange}
-                readOnly
+                disabled
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Nama Pos*</Form.Label>
+              <Form.Label>Nama Pos<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="pos_nama"
                 id="pos_nama"
@@ -132,37 +132,35 @@ export default class EditPos extends Component {
                 onChange={this.handleChange}
               />
               <div>
-                {this.state.dataError ? (
-                  <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-                ) : null}
                 {this.validator.message(
                   "Nama Pos",
                   this.state.pos_nama,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Nama Pos!",
+                  }, }
                 )}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Pos Deskripsi*</Form.Label>
+              <Form.Label>Pos Deskripsi<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="pos_deskripsi"
                 id="pos_deskripsi"
                 type="text"
                 value={this.state.pos_deskripsi}
-                placeholder="Nama pos"
+                placeholder="Pos Deskripsi"
                 noValidate
                 onChange={this.handleChange}
               />
               <div>
-                {this.state.dataError ? (
-                  <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-                ) : null}
                 {this.validator.message(
                   "pos_deskripsi",
                   this.state.pos_deskripsi,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Pos Deskripsi!",
+                  }, }
                 )}
               </div>
             </Form.Group>

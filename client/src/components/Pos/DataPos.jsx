@@ -10,8 +10,8 @@ import Swal from "sweetalert2";
 
 export default class DataPos extends Component {
   constructor(props) {
+    document.title = "Admin | Data Pos";
     super(props);
-    document.title = "Data Pos";
     this.state = {
       data: [],
     };
@@ -80,6 +80,9 @@ export default class DataPos extends Component {
       {
         dataField: "pos_id",
         text: "No",
+        headerStyle: (colum, colIndex) => {
+          return { width: "100px"};
+        },
       },
       {
         dataField: "pos_nama",

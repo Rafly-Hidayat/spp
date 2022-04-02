@@ -19,7 +19,7 @@ import QRScan from 'qrscan'
 export default class Pembayaran extends Component {
   constructor(props) {
     super(props);
-    document.title = "Pembayaran";
+    document.title = "Admin | Pembayaran";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.state = {

@@ -8,7 +8,7 @@ import watermark from "../Assets/Invoice/Watermark.svg";
 export default class InvoicePrint extends Component {
   constructor(props) {
     super(props);
-    document.title = "Pembayaran | Cetak";
+    document.title = "Admin | Pembayaran Cetak";
     this.state = {
       id: this.props.bulanan_id,
       tanggal: "",

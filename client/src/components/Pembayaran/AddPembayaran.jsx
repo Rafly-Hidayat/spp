@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export default class AddPembayaran extends Component {
   constructor(props) {
     super(props);
-    document.title = "Pembayaran Bebas | Tambah";
+    document.title = "Admin | Pembayaran Bebas";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       id: this.props.match.params.id,

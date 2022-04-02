@@ -10,8 +10,8 @@ import Swal from "sweetalert2";
 export default class UbahKelas extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Ubah Kelas";
     this.validator = new SimpleReactValidator();
-    document.title = "Kelas | Ubah";
 
     this.state = {
       id: this.props.match.params.id,
@@ -109,7 +109,7 @@ export default class UbahKelas extends Component {
             <Form onSubmit={this.editData}>
               <Form.Group className="mb-3">
                 <hr />
-                <Form.Label>ID Kelas<span className="text-danger">*</span></Form.Label>
+                <Form.Label>Kelas Id<span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   name="kelas_id"
                   id="kelas_id"
@@ -118,7 +118,7 @@ export default class UbahKelas extends Component {
                   placeholder="ID Kelas"
                   noValidate
                   onChange={this.handleChange}
-                  readOnly
+                  disabled
                 />
               </Form.Group>
               <Form.Group className="mb-3">
