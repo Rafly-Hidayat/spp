@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 export default class TambahJurusan extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Tambah Jurusan";
     this.validator = new SimpleReactValidator();
 
     this.state = {

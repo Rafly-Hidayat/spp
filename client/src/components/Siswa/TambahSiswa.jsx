@@ -18,7 +18,9 @@ document.title = "Siswa | Tambah";
 export default class TambahSiswa extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Tambah Siswa";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
+
     this.state = {
       nis: "",
       nama: "",
@@ -74,7 +76,6 @@ export default class TambahSiswa extends Component {
     this.getKelas();
     this.getJurusan();
     this.getDKelas();
-    document.title = "Siswa | Tambah";
   }
 
   Submit = (e) => {

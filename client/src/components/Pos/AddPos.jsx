@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 export default class AddPos extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Tambah Pos";
+
     this.validator = new SimpleReactValidator();
 
     this.state = {
@@ -80,7 +82,7 @@ export default class AddPos extends Component {
             <hr/>
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
-              <Form.Label>Nama Pos*</Form.Label>
+              <Form.Label>Nama Pos<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="pos_nama"
                 id="pos_nama"
@@ -95,13 +97,15 @@ export default class AddPos extends Component {
                   "pos_nama",
                   this.state.pos_nama,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Nama Pos!",
+                  }, }
                 )}
               </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Pos Deskripsi*</Form.Label>
+              <Form.Label>Pos Deskripsi<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="pos_deskripsi"
                 id="pos_deskripsi"
@@ -116,7 +120,11 @@ export default class AddPos extends Component {
                   "pos_deskripsi",
                   this.state.pos_deskripsi,
                   `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",
+                  messages: {
+                    required: "Masukkan Pos Deskripsi!",
+                  },
+                }
                 )}
               </div>
             </Form.Group>

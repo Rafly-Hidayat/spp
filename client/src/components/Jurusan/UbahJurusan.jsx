@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 export default class UbahJurusan extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Ubah Jurusan";
     this.validator = new SimpleReactValidator();
 
     this.state = {

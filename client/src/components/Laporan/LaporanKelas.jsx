@@ -7,6 +7,8 @@ import SimpleReactValidator from "simple-react-validator";
 export default class LaporanKelas extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Laporan Kelas";
+
     this.validator = new SimpleReactValidator();
     this.state = {
       data_bebas: [],

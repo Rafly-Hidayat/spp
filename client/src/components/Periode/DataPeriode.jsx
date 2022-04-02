@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 
 export default class Data extends Component {
   constructor(props) {
+    document.title = "Admin | Data Periode";
     super(props);
 
     this.state = {
@@ -86,6 +87,7 @@ export default class Data extends Component {
       {
         dataField: "periode_id",
         text: "No",
+        
       },
       {
         dataField: "periode_mulai",

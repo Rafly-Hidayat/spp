@@ -18,10 +18,8 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb'
 export default class UbahSiswa extends Component {
   constructor(props) {
     super(props);
-
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
-
-    console.log(this.props.match.params.id);
+    document.title = "Admin | Ubah Siswa";
 
     this.state = {
       id: this.props.match.params.id,

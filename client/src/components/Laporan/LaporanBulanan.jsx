@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Card, Form, Row, Col, Button } from "react-bootstrap";
+import { Card, Form, Row, Col, Button, Tabs, Tab } from "react-bootstrap";
 import axios from "axios";
 import BootstrapTable from "react-bootstrap-table-next";
 import SimpleReactValidator from "simple-react-validator";
@@ -9,11 +9,14 @@ import Swal from "sweetalert2";
 export default class LaporanBulanan extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Laporan";
+
     this.validator = new SimpleReactValidator();
     this.state = {
       date_awal: "",
       date_akhir: "",
-      data: [],
+      data_bebas: [],
+      data_bulanan: [],
     };
   }
 
@@ -31,18 +34,35 @@ export default class LaporanBulanan extends Component {
         tanggal_awal: this.state.date_awal,
         tanggal_akhir: this.state.date_akhir,
       };
-      axios.post("http://localhost:8000/laporan/bulanan", data).then((res) => {
-        console.log(res);
-        this.setState({ 
-          data: res.data,
+      axios
+        .post("http://localhost:8000/laporan/bulanan", data)
+        .then((res) => {
+          console.log(res);
+          this.setState({
+            data_bulanan: res.data,
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: "Data tidak ditemukan!",
+          });
         });
-      }) .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal!",
-          text: "Data tidak ditemukan!"
+      axios
+        .post("http://localhost:8000/laporan/bebas", data)
+        .then((res) => {
+          this.setState({
+            data_bebas: res.data,
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: "Data tidak ditemukan!",
+          });
         });
-      })
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -50,27 +70,32 @@ export default class LaporanBulanan extends Component {
   };
 
   render() {
-    const data = this.state.data;
-    console.log(data);
-    const columns = [
+    const data_bebas = this.state.data_bebas;
+    const data_bulanan = this.state.data_bulanan;
+    console.log(data_bebas);
+    const bulanan = [
+      {
+        dataField: "tanggal",
+        text: "Tanggal",
+        sort: true,
+        headerStyle: (colum, colIndex) => {
+          return { width: "300px" };
+        },
+      },
       {
         dataField: "siswa_nama",
         text: "Nama Siswa",
         headerStyle: (colum, colIndex) => {
-          return { width: "200px" };
+          return { width: "300px" };
         },
       },
       {
         dataField: "pos_nama",
-        text: "Deskripsi",
-        headerAlign: "center",
-        align: "center",
+        text: "Pembayaran",
       },
       {
         dataField: "month_nama",
         text: "Bulan",
-        headerAlign: "center",
-        align: "center",
       },
       {
         text: "Kelas",
@@ -81,26 +106,82 @@ export default class LaporanBulanan extends Component {
             </div>
           );
         },
-        headerAlign: "center",
-        align: "center",
       },
       {
         dataField: "admin_nama",
         text: "Petugas",
-        headerAlign: "center",
-        align: "center",
       },
+    ];
+    const bebas = [
       {
         dataField: "tanggal",
         text: "Tanggal",
-        headerAlign: "center",
+        sort: true,
+        headerStyle: (colum, colIndex) => {
+          return { width: "200px" };
+        },
+      },
+      {
+        dataField: "siswa_nama",
+        text: "Nama Siswa",
+        headerStyle: (colum, colIndex) => {
+          return { width: "300px" };
+        },
+      },
+      {
+        dataField: "pos_nama",
+        text: "Pembayaran",
+        headerStyle: (colum, colIndex) => {
+          return { width: "190px" };
+        },
+      },
+      {
+        dataField: "d_bebas_deskripsi",
+        text: "Keterangan",
+        headerStyle: (colum, colIndex) => {
+          return { width: "150px" };
+        },
+      },
+      {
+        text: "Nominal",
+        formatter: (cell, row) => {
+          return (
+            // Rp. to align left
+            // row.d_bebas_bayar to align right
+            <div>Rp. {parseInt(row.d_bebas_bayar).toLocaleString()}</div>
+          );
+        },
+        headerStyle: (colum, colIndex) => {
+          return { width: "150px" };
+        },
+      },
+      {
+        text: "Kelas",
+        formatter: (cellContent, row) => {
+          return (
+            <div>
+              {`${row.kelas_nama} ${row.jurusan_nama} ${row.d_kelas_nama}`}
+            </div>
+          );
+        },
+        headerStyle: (colum, colIndex) => {
+          return { width: "150px" };
+        },
+      },
+      {
+        dataField: "admin_nama",
+        text: "Petugas",
       },
     ];
+    const defaultSort = {
+      defaultSortName: "tanggal",
+      defaultSortOrder: "asc",
+    };
     return (
       <div>
         <Card style={{ color: "black" }}>
           <Card.Body>
-            <Card.Title>Laporan Pembayaran Bulanan</Card.Title>
+            <Card.Title>Laporan Pembayaran</Card.Title>
             <hr />
             <Form onSubmit={this.handleSubmit}>
               <div className="d-flex">
@@ -170,7 +251,7 @@ export default class LaporanBulanan extends Component {
                 <Col xs={6} md={4}>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
-                      <Button variant="primary" type="submit">
+                      <Button variant="outline-primary" type="submit">
                         Cari
                       </Button>
                     </Col>
@@ -180,16 +261,42 @@ export default class LaporanBulanan extends Component {
               </div>
             </Form>
             <br />
-            <BootstrapTable
-              keyField="id"
-              data={data}
-              columns={columns}
-              striped
-              hover
-              condensed
-              bordered={false}
-              noDataIndication="Data tidak ditemukan"
-            />
+            <Tabs
+              defaultActiveKey="bulan"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              <Tab eventKey="bulan" title="Bulanan">
+                <br />
+                <br />
+                <BootstrapTable
+                  keyField="id"
+                  data={data_bulanan}
+                  columns={bulanan}
+                  striped
+                  hover
+                  condensed
+                  bordered={false}
+                  defaultSorted={defaultSort}
+                  noDataIndication="Data tidak ditemukan"
+                />
+              </Tab>
+              <Tab eventKey="bebas" title="Bebas">
+                <br />
+                <br />
+                <BootstrapTable
+                  keyField="id"
+                  data={data_bebas}
+                  columns={bebas}
+                  striped
+                  hover
+                  condensed
+                  bordered={false}
+                  noDataIndication="Data tidak ditemukan"
+                  defaultSorted={defaultSort}
+                />
+              </Tab>
+            </Tabs>
           </Card.Body>
         </Card>
       </div>

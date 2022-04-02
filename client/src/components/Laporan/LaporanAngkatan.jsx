@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Col, Form, FormSelect, Row, Button } from "react-bootstrap";
+import { Card, Col, Form, FormSelect, Row, Button, Tabs, Tab } from "react-bootstrap";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
@@ -8,12 +8,16 @@ import BootstrapTable from "react-bootstrap-table-next";
 export default class LaporanAngkatan extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Laporan Angkatan";
     this.validator = new SimpleReactValidator();
+
     this.state = {
       kelas: [],
       selected_kelas: "",
-      data: [],
-      total: [],
+      data_bebas: [],
+      total_bebas: [],
+      data_bulanan: [],
+      total_bulanan: [],
     };
   }
   componentDidMount() {
@@ -40,13 +44,38 @@ export default class LaporanAngkatan extends Component {
               text: `Data Tidak Ditemukan!`,
             });
             this.setState({
-              
               data: ""
             })
           } else {
             this.setState({
-              data: res.data.data,
-              total: res.data,
+              data_bebas: res.data.data,
+              total_bebas: res.data,
+            });
+            Swal.fire({
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
+          }
+        });
+      axios
+        .post("http://localhost:8000/laporan/angkatan/bulanan", data)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.error === true) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `Data Tidak Ditemukan!`,
+            });
+            this.setState({
+              data: ""
+            })
+          } else {
+            console.log(res.data.data);
+            this.setState({
+              data_bulanan: res.data.data,
+              total_bulanan: res.data,
             });
             Swal.fire({
               icon: "success",
@@ -69,7 +98,8 @@ export default class LaporanAngkatan extends Component {
 
   render() {
     console.log(this.state.data);
-    const data = this.state.data;
+    const data_bebas = this.state.data_bebas;
+    const data_bulanan = this.state.data_bulanan;
     // const options = {
     //   paginationSize: 4,
     //   pageStartIndex: 1,
@@ -105,7 +135,7 @@ export default class LaporanAngkatan extends Component {
     //   mode: "radio",
     //   clickToSelect: true,
     // };
-    const columns = [
+    const bebas = [
       {
         dataField: "siswa_nama",
         text: "Nama Siswa",
@@ -132,22 +162,70 @@ export default class LaporanAngkatan extends Component {
         },
       },
     ];
-    const as = [];
-    const total = this.state.total;
-    const sisa = [
+    const bulanan = [
       {
-        text: "Total Sisa Tagihan Kelas:",
+        dataField: "siswa_nama",
+        text: "Nama Siswa",
+        sort: true,
+      },
+      {
+        dataField: "kelas_nama",
+        text: "Kelas",
+        sort: true,
+        formatter: (cellContent, row) => {
+          return (
+            <div>
+              {`${row.kelas_nama} ${row.jurusan_nama} ${row.d_kelas_nama}`}
+            </div>
+          );
+        },
+      },
+      {
+        dataField: "sisa_bulan",
+        text: "Sisa Bulan",
+      },
+      {
+        dataField: "sisa_tagihan",
+        text: "Tagihan",
+        sort: true,
+        formatter: (cell, row) => {
+          return <div>Rp. {row.sisa_tagihan.toLocaleString()}</div>;
+        },
+      },
+    ];
+    const as = [];
+    const total_bebas = this.state.total_bebas;
+    const total_bulanan = this.state.total_bulanan;
+    const sisa_bebas = [
+      {
+        text: "Total Sisa Tagihan Bebas:",
         headerStyle: (colum, colIndex) => {
           return { width: "67%", fontWeight: "light" };
         },
       },
       {
-        // if sisa_tagihan_kelas is undefined, then it will be 0
-        text: total.sisa_tagihan_kelas
-          ? `Rp. ${parseInt(total.sisa_tagihan_kelas).toLocaleString()}`
-          : null,
+        text: total_bebas.sisa_tagihan_kelas
+          ? `Rp. ${parseInt(total_bebas.sisa_tagihan_kelas).toLocaleString()}`
+          : "Rp. 0",
       },
     ];
+    const sisa_bulanan = [
+      {
+        text: "Total Sisa Tagihan Bulanan:",
+        headerStyle: (colum, colIndex) => {
+          return { width: "75%", fontWeight: "light" };
+        },
+      },
+      {
+        text: total_bulanan.sisa_tagihan_kelas
+          ? `Rp. ${parseInt(total_bulanan.sisa_tagihan_kelas).toLocaleString()}`
+          : "Rp. 0",
+      },
+    ];
+    const defaultSort = {
+      defaultSortName: "siswa_nama",
+      defaultSortOrder: "asc",
+    };
 
     return (
       <div>
@@ -199,7 +277,7 @@ export default class LaporanAngkatan extends Component {
                 <Col xs={6} md={4}>
                   <Form.Group as={Row} className="mb-3">
                     <Col md="auto">
-                      <Button variant="primary" type="submit">
+                      <Button variant="outline-primary" type="submit">
                         Cari
                       </Button>
                     </Col>
@@ -208,22 +286,54 @@ export default class LaporanAngkatan extends Component {
               </div>
             </Form>
             <br />
-            <BootstrapTable
-              keyField="id"
-              data={data}
-              columns={columns}
-              striped
-              hover
-              condensed
-              bordered={false}
-              noDataIndication="Data tidak ditemukan"
-            />
-             <BootstrapTable
-              keyField="id"
-              data={as}
-              columns={sisa}
-              bordered={false}
-            />
+            <Tabs
+              defaultActiveKey="bulan"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              <Tab eventKey="bulan" title="Bulanan">
+                <br />
+                <br />
+                <BootstrapTable
+                  keyField="id"
+                  data={data_bulanan}
+                  columns={bulanan}
+                  striped
+                  hover
+                  condensed
+                  bordered={false}
+                  defaultSorted={defaultSort}
+                  noDataIndication="Data tidak ditemukan"
+                />
+                <BootstrapTable
+                  keyField="id"
+                  data={as}
+                  columns={sisa_bulanan}
+                  bordered={false}
+                />
+              </Tab>
+              <Tab eventKey="bebas" title="Bebas">
+                <br />
+                <br />
+                <BootstrapTable
+                  keyField="id"
+                  data={data_bebas}
+                  columns={bebas}
+                  striped
+                  hover
+                  condensed
+                  bordered={false}
+                  noDataIndication="Data tidak ditemukan"
+                  defaultSorted={defaultSort}
+                />
+                <BootstrapTable
+                  keyField="id"
+                  data={as}
+                  columns={sisa_bebas}
+                  bordered={false}
+                />
+              </Tab>
+            </Tabs>
           </Card.Body>
         </Card>
       </div>
