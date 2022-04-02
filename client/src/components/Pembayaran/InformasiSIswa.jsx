@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 export default class InformasiSIswa extends Component {
   constructor(props) {
     super(props);
+    document.title = "Pembayaran";
     this.state = {
       data: [],
       databulanan: [],
@@ -28,6 +29,8 @@ export default class InformasiSIswa extends Component {
 
   getData = () => {
     const id = this.props.nis;
+    // const idp = this.props.periodes.id;
+    console.log(this.props.periode)
     axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
       console.log(res);
       if (res.data[0].siswa_id === undefined) {
@@ -53,8 +56,9 @@ export default class InformasiSIswa extends Component {
           siswa_id: res.data[0].siswa_id,
           periode: this.props.periode,
         });
-        const id = this.props.nis;
-        axios.get(`http://localhost:8000/bebas/${id}`).then((res) => {
+        const nis = this.props.nis;
+        const periode = this.props.periode;
+        axios.get(`http://localhost:8000/bebas/${nis}/${periode}`).then((res) => {
           if (res.data[0] === undefined) {
             this.setState({
               data: "",
@@ -67,7 +71,7 @@ export default class InformasiSIswa extends Component {
             });
           }
         });
-        axios.get(`http://localhost:8000/bulanan/${id}`).then((res) => {
+        axios.get(`http://localhost:8000/bulanan/${nis}/${periode}`).then((res) => {
           console.log(res);
           if (res.data[0] === undefined) {
             this.setState({

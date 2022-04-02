@@ -27,11 +27,13 @@ import logo from "../Assets/LandingPageImg/Logo.png";
 
 import "./SideBarUser.css";
 
+import navlogo from "../Assets/logotextwhite.svg";
 import Dashboard from "../DashboardUser/DashboardUser";
 import Transaksi from "../Transaksi/Transaksi";
 import Logout from "../Logout/Logout";
 import PembayaranBebas from "../PembayaranBebas/PembayaranBebas";
 import ProfileSiswa from "./../Profile/ProfileSiswa";
+import Profile from "./../Profile/Profile";
 import UbahProfileSiswa from "../Profile/UbahProfileSiswa";
 import Invoice from "../PembayaranBulanan/Invoice";
 import InvoiceBebas from "./../PembayaranBebas/InvoiceBebas";
@@ -72,6 +74,7 @@ const SideBar = () => {
     <div>
       <div className="user">
         {/* Navbar */}
+
         <Navbar bg="light" expand={false} className="navbar" fixed="top">
           <Container >
             <Navbar.Brand style={{
@@ -164,8 +167,11 @@ const SideBar = () => {
         />
 
         <Route exact path="/user/transaksi" component={Transaksi} />
-        <Route exact path="/user/profile" component={ProfileSiswa} />
+        <Route exact path="/user/profile" component={Profile} />
         <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
+
+        {/* <ProtectedRoute exact path="/user/profile" component={Profile} /> */}
+
         <ProtectedRoute
           exact
           path="/user/invoice/bulanan/:id"
@@ -173,12 +179,13 @@ const SideBar = () => {
         />
         <ProtectedRoute
           exact
-          path="/user/invoice/bebas/:id/:d_bebas_id/"
+          path="/user/invoice/bebas/:id"
           component={InvoiceBebas}
         />
 
         <ProtectedRoute exact path="/logout" component={Logout} />
       </div>
+      <br />
     </div>
   );
 };

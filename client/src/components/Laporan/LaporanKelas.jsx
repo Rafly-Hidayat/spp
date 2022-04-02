@@ -1,18 +1,30 @@
 import React, { Component } from "react";
-import { Card, Form, Row, Col, FormSelect, Button, Tabs, Tab } from "react-bootstrap";
+import {
+  Card,
+  Form,
+  Row,
+  Col,
+  FormSelect,
+  Button,
+  Tabs,
+  Tab,
+} from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 export default class LaporanKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
+    document.title = "Laporan Kelas";
     this.state = {
       data_bebas: [],
       data_bulanan: [],
       total_bebas: "",
-      total_bulanan : "",
+      total_bulanan: "",
       data_kelas: [],
       data_jurusan: [],
       data_d_kelas: [],
@@ -64,11 +76,11 @@ export default class LaporanKelas extends Component {
       axios
         .post("http://localhost:8000/laporan/kelas/bulanan", data)
         .then((res) => {
-          console.log(res.data.data)
+          console.log(res.data.data);
           if (res.data.error !== true) {
             this.setState({
               data_bulanan: res.data.data,
-              total_bulanan : res.data.sisa_tagihan_kelas
+              total_bulanan: res.data.sisa_tagihan_kelas,
             });
           } else {
             this.setState({
@@ -90,7 +102,16 @@ export default class LaporanKelas extends Component {
     });
   };
   render() {
-    console.log(this.state.data_bulanan);
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+    const exportToCSV = (data2, fileName) => {
+      const ws = XLSX.utils.json_to_sheet(data2);
+      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      const data = new Blob([excelBuffer], { type: fileType });
+      FileSaver.saveAs(data, fileName + fileExtension);
+    };
     // data bebas
     const data = this.state.data_bebas;
     const as = [];
@@ -101,7 +122,7 @@ export default class LaporanKelas extends Component {
     const total_bulanan = this.state.total_bulanan;
 
     // bulanan
-    const sisa_bulanan =[
+    const sisa_bulanan = [
       {
         text: "Total Sisa Tagihan Kelas",
         headerStyle: (colum, colIndex) => {
@@ -114,14 +135,14 @@ export default class LaporanKelas extends Component {
           ? `Rp. ${parseInt(total_bulanan).toLocaleString()}`
           : `Rp. 0`,
       },
-    ]
+    ];
     const data_bulanan = [
       {
-        text : "Nama Siswa",
-        dataField : "siswa_nama",
-        headerStyle : {
-          width : "30%"
-        }
+        text: "Nama Siswa",
+        dataField: "siswa_nama",
+        headerStyle: {
+          width: "30%",
+        },
       },
       {
         text: "Kelas",
@@ -132,47 +153,54 @@ export default class LaporanKelas extends Component {
             </div>
           );
         },
-        headerStyle : {
-          width : "20%"
-        }
-      },
-      {
-        text : "Sisa Bulan",
-        dataField : "sisa_bulan",
-        headerStyle : {
-          width : "20%"
-        }
-      },
-      {
-        text : "Sisa Tagihan",
-        headerStyle : {
-          width : "30%"
+        headerStyle: {
+          width: "20%",
         },
-        formatter : (cell , row) => {
+      },
+      {
+        dataField: "periode",
+        text: "periode",
+        headerStyle: {
+          width: "20%",
+        },
+      },
+      {
+        text: "Sisa Bulan",
+        dataField: "sisa_bulan",
+        headerStyle: {
+          width: "20%",
+        },
+      },
+      {
+        text: "Sisa Tagihan",
+        headerStyle: {
+          width: "30%",
+        },
+        formatter: (cell, row) => {
           return (
-            <div>
-              {`Rp. ${parseInt(row.sisa_tagihan).toLocaleString()}`}
-            </div>
+            <div>{`Rp. ${parseInt(row.sisa_tagihan).toLocaleString()}`}</div>
           );
-        }
-      }
-    ]
+        },
+      },
+    ];
     const headers = [
       {
-        label : "Siswa Nama", key : "siswa_nama",
+        label: "Siswa Nama",
+        key: "siswa_nama",
       },
       {
-        label : "Kelas", key : "kelas_nama",
-
+        label: "Kelas",
+        key: "kelas_nama",
       },
       {
-        label : "Sisa Bulan", key : "sisa_bulan",
+        label: "Sisa Bulan",
+        key: "sisa_bulan",
       },
       {
-        label : "Sisa Tagihan", key : "sisa_tagihan",
-      }
-    ]
-
+        label: "Sisa Tagihan",
+        key: "sisa_tagihan",
+      },
+    ];
 
     // bebas
     const sisa_bebas = [
@@ -211,13 +239,20 @@ export default class LaporanKelas extends Component {
         },
       },
       {
+        dataField: "periode",
+        text: "periode",
+        headerStyle: {
+          width: "25%",
+        },
+      },
+      {
         text: "Sisa Tagihan",
         formatter: (cell, row) => {
           return <div>Rp. {parseInt(row.sisa_tagihan).toLocaleString()}</div>;
         },
         headerStyle: {
-          width: "50%",
-        }
+          width: "25%",
+        },
       },
     ];
     return (
@@ -229,120 +264,121 @@ export default class LaporanKelas extends Component {
             <Form onSubmit={this.handleSubmit}>
               <div className="d-flex">
                 <Row>
-                <Col xs={6} md="auto">
-                  <Form.Group as={Row} className="mb-3">
-                    <Col md="auto">
-                      <Form.Label column sm="auto">
-                        Kelas
-                      </Form.Label>
-                    </Col>
-                    <Col md="auto">
-                      <FormSelect name="kelas" onChange={this.handleChange}>
-                        <option value="">=== Pilih Kelas ===</option>
-                        {this.state.data_kelas.map((k) => {
-                          return (
-                            <option key={k.kelas_id} value={k.kelas_id}>
-                              {k.kelas_nama}
-                            </option>
-                          );
-                        })}
-                      </FormSelect>
-                      <div>
-                        {this.validator.message(
-                          "kelas",
-                          this.state.kelas,
-                          `required`,
-                          {
-                            className: "text-danger",
-                            messages: {
-                              required: "Pilih Kelas!",
-                            },
-                          }
-                        )}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                </Col>
-                <Col xs={6} md="auto">
-                  <Form.Group as={Row} className="mb-3">
-                    <Col md="auto">
-                      <Form.Label column sm="auto">
-                        Jurusan
-                      </Form.Label>
-                    </Col>
-                    <Col md="auto">
-                      <FormSelect name="jurusan" onChange={this.handleChange}>
-                        <option value="">=== Pilih Jurusan ===</option>
-                        {this.state.data_jurusan.map((j) => {
-                          return (
-                            <option key={j.jurusan_id} value={j.jurusan_id}>
-                              {j.jurusan_nama}
-                            </option>
-                          );
-                        })}
-                      </FormSelect>
-                      <div>
-                        {this.validator.message(
-                          "jurusan",
-                          this.state.jurusan,
-                          `required`,
-                          {
-                            className: "text-danger",
-                            messages: {
-                              required: "Pilih Kelas!",
-                            },
-                          }
-                        )}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                </Col>
-                <Col xs={6} md="auto">
-                  <Form.Group as={Row} className="mb-3">
-                    <Col md="auto">
-                      <Form.Label column sm="auto">
-                        Daftar Kelas
-                      </Form.Label>
-                    </Col>
-                    <Col md="auto">
-                      <FormSelect name="d_kelas" onChange={this.handleChange}>
-                        <option value="">=== Pilih Daftar Kelas ===</option>
-                        {this.state.data_d_kelas.map((dk) => {
-                          return (
-                            <option key={dk.d_kelas_id} value={dk.d_kelas_id}>
-                              {dk.d_kelas_nama}
-                            </option>
-                          );
-                        })}
-                      </FormSelect>
-                      <div>
-                        {this.validator.message(
-                          "d_kelas",
-                          this.state.d_kelas,
-                          `required`,
-                          {
-                            className: "text-danger",
-                            messages: {
-                              required: "Pilih Kelas!",
-                            },
-                          }
-                        )}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                </Col>
-                <Col xs={6} md="auto">
-                  <Form.Group as={Row} className="mb-3">
-                    <Col md="auto">
-                      <Button type="submit" variant="outline-primary">
-                        Q
-                      </Button>
-                    </Col>
-                  </Form.Group>
-                </Col>
+                  <Col xs={6} md="auto">
+                    <Form.Group as={Row} className="mb-3">
+                      <Col md="auto">
+                        <Form.Label column sm="auto">
+                          Kelas
+                        </Form.Label>
+                      </Col>
+                      <Col md="auto">
+                        <FormSelect name="kelas" onChange={this.handleChange}>
+                          <option value="">=== Pilih Kelas ===</option>
+                          {this.state.data_kelas.map((k) => {
+                            return (
+                              <option key={k.kelas_id} value={k.kelas_id}>
+                                {k.kelas_nama}
+                              </option>
+                            );
+                          })}
+                        </FormSelect>
+                        <div>
+                          {this.validator.message(
+                            "kelas",
+                            this.state.kelas,
+                            `required`,
+                            {
+                              className: "text-danger",
+                              messages: {
+                                required: "Pilih Kelas!",
+                              },
+                            }
+                          )}
+                        </div>
+                      </Col>
+                    </Form.Group>
+                  </Col>
+                  <Col xs={6} md="auto">
+                    <Form.Group as={Row} className="mb-3">
+                      <Col md="auto">
+                        <Form.Label column sm="auto">
+                          Jurusan
+                        </Form.Label>
+                      </Col>
+                      <Col md="auto">
+                        <FormSelect name="jurusan" onChange={this.handleChange}>
+                          <option value="">=== Pilih Jurusan ===</option>
+                          {this.state.data_jurusan.map((j) => {
+                            return (
+                              <option key={j.jurusan_id} value={j.jurusan_id}>
+                                {j.jurusan_nama}
+                              </option>
+                            );
+                          })}
+                        </FormSelect>
+                        <div>
+                          {this.validator.message(
+                            "jurusan",
+                            this.state.jurusan,
+                            `required`,
+                            {
+                              className: "text-danger",
+                              messages: {
+                                required: "Pilih Kelas!",
+                              },
+                            }
+                          )}
+                        </div>
+                      </Col>
+                    </Form.Group>
+                  </Col>
+                  <Col xs={6} md="auto">
+                    <Form.Group as={Row} className="mb-3">
+                      <Col md="auto">
+                        <Form.Label column sm="auto">
+                          Daftar Kelas
+                        </Form.Label>
+                      </Col>
+                      <Col md="auto">
+                        <FormSelect name="d_kelas" onChange={this.handleChange}>
+                          <option value="">=== Pilih Daftar Kelas ===</option>
+                          {this.state.data_d_kelas.map((dk) => {
+                            return (
+                              <option key={dk.d_kelas_id} value={dk.d_kelas_id}>
+                                {dk.d_kelas_nama}
+                              </option>
+                            );
+                          })}
+                        </FormSelect>
+                        <div>
+                          {this.validator.message(
+                            "d_kelas",
+                            this.state.d_kelas,
+                            `required`,
+                            {
+                              className: "text-danger",
+                              messages: {
+                                required: "Pilih Kelas!",
+                              },
+                            }
+                          )}
+                        </div>
+                      </Col>
+                    </Form.Group>
+                  </Col>
+                  <Col xs={6} md="auto">
+                    <Form.Group as={Row} className="mb-3">
+                      <Col md="auto">
+                        <Button type="submit" variant="outline-primary">
+                          Q
+                        </Button>
+                      </Col>
+                    </Form.Group>
+                  </Col>
                 </Row>
               </div>
             </Form>
+            <button onClick={(e) => exportToCSV(data2, 'fileName')}>Export</button>
             <br />
             <Tabs
               defaultActiveKey="bulan"

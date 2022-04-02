@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Button, Row, Col, Form, Card, Breadcrumb, } from "react-bootstrap";
+import { Button, Row, Col, Form, Card } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-export default class AddPos extends Component {
+export default class TambahDaftarKelas extends Component {
   constructor(props) {
     super(props);
     this.validator = new SimpleReactValidator();
-    document.title = "Tambah Pos";
+    document.title = "Daftar Kelas | Tambah";
     this.state = {
-      pos_nama: "",
-      pos_deskripsi: "",
+      d_kelas_nama: "",
     };
   }
   handleChange = (e) => {
@@ -24,16 +24,14 @@ export default class AddPos extends Component {
   Submit = (e) => {
     e.preventDefault();
     const data = {
-      pos_nama: this.state.pos_nama,
-      pos_deskripsi: this.state.pos_deskripsi,
+      d_kelas_nama: this.state.d_kelas_nama,
     };
-    if (this.validator.allValid()) {
+    if (this.validator.allValid())  {
       axios
-        .post("http://localhost:8000/tambah/pos", data)
+        .post("http://localhost:8000/tambah/d_kelas", data)
         .then((res) => {
-          this.setState({
-          });
-          if (res.data.error === true) {
+          console.log(res.data);
+          if (res.data.error === true ) {
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -41,12 +39,11 @@ export default class AddPos extends Component {
             });
           } else {
             Swal.fire({
-              icon: "success",
-              title: "Good Job!",
-              text: `${res.data.message}`,
-            });
+            icon: "success",
+            title: "Good Job!",
+            text: `${res.data.message}`,});
+            this.props.history.push("/admin/d-kelas");
           }
-          this.props.history.push("/admin/pos");
         })
         .catch((error) => {});
     } else {
@@ -68,62 +65,45 @@ export default class AddPos extends Component {
               }}
             >
               <Breadcrumb.Item><Link to="/admin">Home</Link></Breadcrumb.Item>
-              <Breadcrumb.Item><Link to="/admin/pos/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item><Link to="/admin/d-kelas/">Data</Link></Breadcrumb.Item>
               <Breadcrumb.Item active>Add</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br/>
+        <br></br>
         <Card style={{ color: "black" }}>
           <Card.Body>
-            <Card.Title>Tambah Pos</Card.Title>
-            <hr/>
+            <Card.Title>Tambah Daftar Kelas</Card.Title>
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
-              <Form.Label>Nama Pos*</Form.Label>
+            <hr />
+            <Form.Label>Nama Daftar Kelas<span className="text-danger">*</span></Form.Label>
               <Form.Control
-                name="pos_nama"
-                id="pos_nama"
+                name="d_kelas_nama"
+                id="d_kelas_nama"
                 type="text"
-                value={this.state.pos_nama}
-                placeholder="Nama pos"
+                value={this.state.d_kelas_nama}
+                placeholder="Nama Daftar Kelas"
                 noValidate
                 onChange={this.handleChange}
               />
               <div>
                 {this.validator.message(
-                  "pos_nama",
-                  this.state.pos_nama,
+                  "d_kelas_nama",
+                  this.state.d_kelas_nama,
                   `required`,
-                  { className: "text-danger" }
-                )}
-              </div>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Pos Deskripsi*</Form.Label>
-              <Form.Control
-                name="pos_deskripsi"
-                id="pos_deskripsi"
-                type="text"
-                value={this.state.pos_deskripsi}
-                placeholder="Pos Deskripsi"
-                noValidate
-                onChange={this.handleChange}
-              />
-              <div>
-                {this.validator.message(
-                  "pos_deskripsi",
-                  this.state.pos_deskripsi,
-                  `required`,
-                  { className: "text-danger" }
+                  { className: "text-danger",
+                  messages : {
+                    required: 'Masukkan Nama Daftar Kelas!',
+                  } 
+                }
                 )}
               </div>
             </Form.Group>
             <Button variant="outline-primary" type="submit">
               Tambah
             </Button>&ensp;
-            <Link to="/admin/pos">
+            <Link to="/admin/d-kelas">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>

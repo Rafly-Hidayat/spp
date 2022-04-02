@@ -15,9 +15,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
+
 export default class SetTarif extends Component {
   constructor(props) {
     super(props);
+    document.title = "Set Tarif";
     this.validator = new SimpleReactValidator();
 
     this.state = {
@@ -83,7 +85,7 @@ export default class SetTarif extends Component {
               });
             } else {
               Swal.fire("Good job!", "Set Tarif berhasil", "success");
-              this.props.history.push("/admin/jenispembayaran");
+              this.props.history.push("/admin/jenis-pembayaran");
             }
           })
           .catch((err) => {});
@@ -104,7 +106,7 @@ export default class SetTarif extends Component {
               });
             } else {
               Swal.fire("Good job!", "Set Tarif berhasil", "success");
-              this.props.history.push("/admin/jenispembayaran");
+              this.props.history.push("/admin/jenis-pembayaran");
             }
             // this.props.history.push("/pembayaran");
           });
@@ -224,7 +226,7 @@ export default class SetTarif extends Component {
                   Set Tarif
                 </Button>
                 &ensp;
-                <Link to="/admin/jenispembayaran">
+                <Link to="/admin/jenis-pembayaran">
                   <Button variant="outline-danger" type="submit">
                     Batal
                   </Button>
