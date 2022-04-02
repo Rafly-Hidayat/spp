@@ -11,7 +11,7 @@ export default class TambahJurusan extends Component {
     super(props);
     document.title = "Admin | Tambah Jurusan";
     this.validator = new SimpleReactValidator();
-
+    document.title = "Jurusan | Tambah";
     this.state = {
       jurusan_nama: "",
     };

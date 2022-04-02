@@ -11,7 +11,7 @@ export default class AddPeriode extends Component {
     document.title = "Admin | Tambah Periode";
 
     this.validator = new SimpleReactValidator();
-
+    document.title = "Tahun Ajaran | Tambah";
     this.state = {
       periode_mulai: "",
       periode_akhir: "",

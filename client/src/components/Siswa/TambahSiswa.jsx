@@ -13,7 +13,6 @@ import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-document.title = "Siswa | Tambah";
 
 export default class TambahSiswa extends Component {
   constructor(props) {

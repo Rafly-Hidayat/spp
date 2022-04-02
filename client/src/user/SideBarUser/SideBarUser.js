@@ -26,11 +26,13 @@ import logo from "../Assets/LandingPageImg/Logo.png";
 
 import "./SideBarUser.css";
 
+import navlogo from "../Assets/logotextwhite.svg";
 import Dashboard from "../DashboardUser/DashboardUser";
 import Transaksi from "../Transaksi/Transaksi";
 import Logout from "../Logout/Logout";
 import PembayaranBebas from "../PembayaranBebas/PembayaranBebas";
 import ProfileSiswa from "./../Profile/ProfileSiswa";
+import Profile from "./../Profile/Profile";
 import UbahProfileSiswa from "../Profile/UbahProfileSiswa";
 import Invoice from "../PembayaranBulanan/Invoice";
 import InvoiceBebas from "./../PembayaranBebas/InvoiceBebas";
@@ -71,35 +73,37 @@ const SideBar = () => {
     <div>
       <div className="user">
         {/* Navbar */}
-        <Navbar bg="light" expand={false} className="navbar" fixed="top">
-          <Container fluid>
-            <Navbar.Brand style={{
-                color: 'white',
-                border: '5px',
-            }}>
-              <Image onClick={changeSidebar} className="logo" src={logo} />{" "}
-              SPS
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          bg="dark"
+          variant="dark"
+          className="navbar"
+          fixed="top"
+        >
+          <Container className="container">
+            <Navbar.Brand>
+              <Image
+                src={navlogo}
+                position="absolute"
+                width="537px"
+                height="38px"
+                style={{ marginLeft: "-90px" }}
+                className="d-inline-block align-top"
+                alt="logo"
+              />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="offcanvasNavbar" />
-            <Navbar.Offcanvas
-              id="offcanvasNavbar"
-              aria-labelledby="offcanvasNavbarLabel"
-              placement="end"
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id="offcanvasNavbarLabel">
-                  Hi, Fajar
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Home</Nav.Link>
-                  <Nav.Link href="#action2">Transaksi</Nav.Link>
-                  <Nav.Link href="#action2">Profile</Nav.Link>
-                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                </Nav>
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto"></Nav>
+              <Nav className="nav">
+                <Nav.Link href="#deets">
+                  <FontAwesomeIcon icon={faBell} />
+                </Nav.Link>
+                <Nav.Link href="#memes">{user.nama[0]}</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
           </Container>
         </Navbar>
       </div>
@@ -156,8 +160,11 @@ const SideBar = () => {
         />
 
         <Route exact path="/user/transaksi" component={Transaksi} />
-        <Route exact path="/user/profile" component={ProfileSiswa} />
+        <Route exact path="/user/profile" component={Profile} />
         <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
+
+        {/* <ProtectedRoute exact path="/user/profile" component={Profile} /> */}
+
         <ProtectedRoute
           exact
           path="/user/invoice/bulanan/:id"
@@ -165,12 +172,13 @@ const SideBar = () => {
         />
         <ProtectedRoute
           exact
-          path="/user/invoice/bebas/:id/:d_bebas_id/"
+          path="/user/invoice/bebas/:id"
           component={InvoiceBebas}
         />
 
         <ProtectedRoute exact path="/logout" component={Logout} />
       </div>
+      <br />
     </div>
   );
 };

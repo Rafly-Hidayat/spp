@@ -12,6 +12,7 @@ export default class UbahKelas extends Component {
     super(props);
     document.title = "Admin | Ubah Kelas";
     this.validator = new SimpleReactValidator();
+    document.title = "Kelas | Ubah";
 
     this.state = {
       id: this.props.match.params.id,

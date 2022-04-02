@@ -5,9 +5,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
+
 export default class AddPembayaran extends Component {
   constructor(props) {
     super(props);
+    document.title = "Pembayaran Bebas | Tambah";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       id: this.props.match.params.id,

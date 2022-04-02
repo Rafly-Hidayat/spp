@@ -141,7 +141,6 @@ module.exports = {
               });
             }
 
-            // console.log(data2)
             con.commit((err) => {
               if (err) throw err;
               return callback(data2, filename);
@@ -259,7 +258,7 @@ module.exports = {
         });
 
         const containsAll = response.every((element) => {
-          return namaDkelas.includes(element);
+          return namaDkelas.includes(element.toString());
         });
 
         let data2 = [];
@@ -299,9 +298,9 @@ module.exports = {
           A: "siswa_nis",
           B: "siswa_nama",
           C: "siswa_gender",
-          D: "kelas_id",
+          D: "kelas",
           E: "nama_jurusan",
-          F: "d_kelas_id",
+          F: "d_kelas",
         },
         sheets: ["Sheet1"],
       });

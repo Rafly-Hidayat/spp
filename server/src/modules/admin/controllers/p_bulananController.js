@@ -18,7 +18,7 @@ module.exports = {
   },
 
   getByNis: (req, res) => {
-    p_bulanan.getByNis(req.con, req.params.siswa_nis, (err, rows) => {
+    p_bulanan.getByNis(req.con, req.params.siswa_nis, req.params.periode_mulai, req.params.periode_akhir, (err, rows) => {
       if (err) throw err;
       if (rows == 0)
         return res.json({ error: true, message: "Nis siswa tidak ditemukan." });
@@ -35,6 +35,26 @@ module.exports = {
 
   add: (req, res) => {
     p_bulanan.add(req.con, req.body, res);
+  },
+  
+  upload: (req, res) => {
+    p_bulanan.getIdSiswa(req.con, res, req.files.filename, (siswaId, filename) => {
+      console.log("siswa Id :", siswaId)
+      p_bulanan.getNamaSiswa(req.con, res, siswaId, filename, () => {
+        console.log("validasi siswa berhasil")
+        p_bulanan.getPembayaranId(req.con, res, filename, (pembayaranId) => {
+          console.log("validasi pembayaran id berhasil", pembayaranId)
+          p_bulanan.getMonth(req.con, res, filename, (monthId)=> {
+            console.log(monthId)
+            p_bulanan.getAdminId(req.con, res, filename, (adminId) => {
+              console.log("admin id :", adminId)
+              p_bulanan.upload(req.con, res, filename, siswaId, pembayaranId, monthId, adminId)
+            })
+          })
+
+        })
+      })
+    })
   },
 
   bayar: (req, res) => {

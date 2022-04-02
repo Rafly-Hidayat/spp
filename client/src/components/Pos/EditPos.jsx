@@ -10,7 +10,7 @@ export default class EditPos extends Component {
     super(props);
     document.title = "Admin | Ubah Pos";
     this.validator = new SimpleReactValidator();
-
+    document.title = "Ubah Pos";
     this.state = {
       id: this.props.match.params.id,
       pos_nama: "",
