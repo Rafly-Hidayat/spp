@@ -15,7 +15,6 @@ export default class Data extends Component {
   constructor(props) {
     document.title = "Admin | Data Periode";
     super(props);
-    document.title = "Tahun Ajaran";
     this.state = {
       data: [],
     };

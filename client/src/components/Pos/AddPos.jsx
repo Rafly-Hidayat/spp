@@ -11,7 +11,6 @@ export default class AddPos extends Component {
     document.title = "Admin | Tambah Pos";
 
     this.validator = new SimpleReactValidator();
-    document.title = "Tambah Pos";
     this.state = {
       pos_nama: "",
       pos_deskripsi: "",

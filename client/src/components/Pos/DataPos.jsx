@@ -12,7 +12,6 @@ export default class DataPos extends Component {
   constructor(props) {
     document.title = "Admin | Data Pos";
     super(props);
-    document.title = "Data Pos";
     this.state = {
       data: [],
     };

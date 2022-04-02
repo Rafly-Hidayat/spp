@@ -11,7 +11,6 @@ export default class Editperiode extends Component {
     document.title = "Admin | Ubah Periode";
 
     this.validator = new SimpleReactValidator();
-    document.title = "Tahun Ajaran | Ubah";
     this.state = {
       id: this.props.match.params.id,
       periode_mulai: "",
