@@ -477,14 +477,14 @@ module.exports = {
               error = true
             }
           }
-          );
-        }
-        
-        con.commit((err) => {
-          if (err) throw err;
-          if(error == false) {
-            return callback(data);
-          } else {
+        );
+      }
+
+      con.commit((err) => {
+        if (err) throw err;
+        if (error == false) {
+          return callback(data);
+        } else {
           return res.json({
             error: true,
             message: "Nama bulan tidak sesuai!",
@@ -589,9 +589,25 @@ module.exports = {
 
       for (let i = 0; i < result.Sheet1.length; i++) {
         con.query(
-          `INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan}, no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`,
-          (err) => {
+          `SELECT bulanan.siswa_id FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id WHERE siswa.siswa_nis = ${result.Sheet1[i].siswa_nis}`,
+          (err, rows) => {
             if (err) throw err;
+            const siswa_Id = rows[0].siswa_id;
+            if (!siswa_Id) {
+              con.query(
+                `INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan}, no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`,
+                (err) => {
+                  if (err) throw err;
+                }
+              );
+            } else {
+              con.query(
+                `UPDATE bulanan SET no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]} WHERE siswa_id = ${siswaId[i]} AND pembayaran_id = ${pembayaranId[i]} AND month_id = ${monthId[i]}`,
+                (err) => {
+                  if (err) throw err;
+                }
+              );
+            }
           }
         );
       }
