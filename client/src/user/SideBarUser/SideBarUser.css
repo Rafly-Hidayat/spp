@@ -1,33 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
 
-*{
+* {
   font-family: 'Poppins', sans-serif;
 }
 
-.user{
+.user {
   top: 0;
   left: 0;
   margin: 0;
 }
 
-.user .navbar{
+.user .navbar {
   background: linear-gradient(183.41deg, #67C3F3 -8.57%, #5A98F2 82.96%);
 }
 
-.user .navbar .logo{
-  margin-left: 30px;
+.user .navbar .logo {
   margin-right: 10px;
   max-width: 40px;
   cursor: pointer;
 }
-  
-.user .navbar .title1{
+
+.user .navbar .text {
+  display: contents;
+}
+
+.user .navbar .burger {
+  display: none;
+}
+
+.user .navbar .title1 {
   font-size: 18px;
   font-weight: 600;
   display: contents;
 }
 
-.user .navbar .title2{
+.user .navbar .title2 {
   font-size: 18px;
   font-weight: 600;
   display: none;
@@ -35,101 +42,128 @@
 
 /* The sidebar menu */
 .sidebar {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 90px; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top:66px; /* Stay at the top */
-    left: 0;
-    background-color: #2D3A5A; /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    display: block;
-    transition: 0.5s;
-  }
+  height: 100%;
+  /* Full-height: remove this if you want "auto" height */
+  width: 90px;
+  /* Set the width of the sidebar */
+  position: fixed;
+  /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1;
+  /* Stay on top */
+  top: 66px;
+  /* Stay at the top */
+  left: 0;
+  background-color: #2D3A5A;
+  /* Black */
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  display: block;
+  transition: 0.5s;
+}
 
- /* The navigation menu links */
- .sidebar .menu{
-   color: #f1f1f1;
-   cursor: pointer;
- }
- 
- .sidebar .menu .logo{
-   font-size: 34px;
-   display: block;
-   margin-left: auto;
-   margin-right: auto;
- }
+/* The navigation menu links */
+.sidebar .menu {
+  color: #f1f1f1;
+  cursor: pointer;
+}
 
-  .sidebar .menu p{
-    margin-top: -4px;
-    font-size: 12px;
-    text-align: center;
-  }
-  
+.sidebar .menu .logo {
+  font-size: 34px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  /* SideBar hide */
-  
+.sidebar .menu p {
+  margin-top: -4px;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+/* SideBar hide */
+
 .sidebar1 {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 0px; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 66px; /* Stay at the top */
-    left: 0;
-    background-color: #2D3A5A; /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    transition: 0.5s;
-  }
+  height: 100%;
+  /* Full-height: remove this if you want "auto" height */
+  width: 0px;
+  /* Set the width of the sidebar */
+  position: fixed;
+  /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1;
+  /* Stay on top */
+  top: 66px;
+  /* Stay at the top */
+  left: 0;
+  background-color: #2D3A5A;
+  /* Black */
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  transition: 0.5s;
+}
 
-  .sidebar1 .menu{
-    display: none;
-  }
-  
+.sidebar1 .menu {
+  display: none;
+}
 
-  /* Style page content */
-  .main {
-    margin-top: 80px;
-    margin-left: 120px; /* Same as the width of the sidebar */
-    margin-right: 30px; 
-    transition: 0.5s;
-  }
-  
-  .main1 {
-    margin-top: 80px;
-    margin-left: 30px;
-    margin-right: 30px; 
-    transition: 0.5s;
-  }
 
-  
-  
+/* Style page content */
+.main {
+  margin-top: 80px;
+  margin-left: 120px;
+  /* Same as the width of the sidebar */
+  margin-right: 30px;
+  transition: 0.5s;
+}
+
+.main1 {
+  margin-top: 80px;
+  margin-left: 30px;
+  margin-right: 30px;
+  transition: 0.5s;
+}
+
+
+
 /* Phone Display or Responsive */
-@media (max-width:991px) 
-{
-  .navbar .content{
+@media (max-width:991px) {
+  .navbar .content {
     padding: 0 10px;
   }
-  .user .navbar .title1{
+
+  .user .navbar .title1 {
     display: none;
   }
-  .user .navbar .title2{
+
+  .user .navbar .title2 {
     display: contents;
   }
 
-  .main{
-    margin-left: 10px; /* Same as the width of the sidebar */
-    margin-right: 10px; 
-  }
-  .main1{
-    margin-left: 10px; /* Same as the width of the sidebar */
-    margin-right: 10px;
-  }
-  .sidebar{
+  .user .navbar .text {
     display: none;
   }
-  .sidebar1{
+
+  .user .navbar .burger {
+    display: contents;
+  }
+
+  .main {
+    margin-left: 10px;
+    /* Same as the width of the sidebar */
+    margin-right: 10px;
+  }
+
+  .main1 {
+    margin-left: 10px;
+    /* Same as the width of the sidebar */
+    margin-right: 10px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar1 {
     display: none;
   }
 }
-  
-  

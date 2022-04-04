@@ -68,13 +68,6 @@ export default class Login extends Component {
         }}
       >
         <div
-          style={
-            {
-              // backgroundImage : bg
-            }
-          }
-        ></div>
-        <div
           style={{
             position: "absolute",
             left: "50%",

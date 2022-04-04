@@ -15,8 +15,7 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
-import { Link, Route } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -29,6 +28,7 @@ import {
   faBook,
   faBahai,
   faCalendar,
+  faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
 import navlogo from "../Assets/logotextwhite.svg";
 
@@ -43,10 +43,6 @@ import Dashboard from "../Dashboard/Dashboard";
 import DataJurusan from "../Jurusan/DataJurusan";
 import UbahJurusan from "../Jurusan/UbahJurusan";
 import TambahJurusan from "../Jurusan/TambahJurusan";
-
-import DaftarKelas from "../DaftarKelas/DaftarKelas";
-import TambahDaftarKelas from "../DaftarKelas/TambahDaftarKelas";
-import UbahDaftarKelas from "../DaftarKelas/UbahDaftarKelas"
 
 import DataSiswa from "../Siswa/DataSiswa";
 import TambahSiswa from "../Siswa/TambahSiswa";
@@ -78,18 +74,17 @@ import KenaikanKelas from "../Kelulusan/KenaikanKelas";
 import UploadSiswa from "../Siswa/UploadSiswa";
 
 import LaporanBulanan from "../Laporan/LaporanBulanan"
-import LaporanBebas from "../Laporan/LaporanBebas"
 
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
-import LaporanAngkatanBln from './../Laporan/LaporanAngkatanBln';
 import LaporanKelas from './../Laporan/LaporanKelas';
 import CetakLaporanKelas from '../Laporan/CetakLaporanKelas'
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
+import DetailSiswa from './../DetailSiswa/DetailSiswa';
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
-  const user = useState(admin.nama[0]);
+  // const user = useState(admin.nama[0]);
 
   const [sidebar, setSidebar] = useState("sidebar");
   const [main, setMain] = useState("main");
@@ -207,7 +202,7 @@ const SideBar = () => {
                         }}
                       />
                       &ensp;
-                      {admin.nama[0]}
+                      {/* {admin.nama[0]} */}
                     </span>
                   }
                   menuVariant="dark"
@@ -252,7 +247,7 @@ const SideBar = () => {
                     }}
                   />
                   <div className="text-admin" style={{ display: text }}>
-                    <h5>{admin.nama[0]}</h5>
+                    {/* <h5>{admin.nama[0]}</h5>  */}
                     <h6>Administrator</h6>
                     <p
                       className="status"
@@ -266,6 +261,8 @@ const SideBar = () => {
                     </p>
                   </div>
                 </span>
+              <hr style={{ color: "white" }} />
+ 
               </Container>
 
               {/* Img Admin kecil */}
@@ -281,7 +278,7 @@ const SideBar = () => {
                   display: btnright,
                 }}
               />
-              <hr style={{ color: "white" }} />
+              {/* <hr style={{ color: "white" }} /> */}
             </center>
 
             {/* Menu Sidebar */}
@@ -318,14 +315,11 @@ const SideBar = () => {
                   <Link to="/admin/siswa">
                     <li>Siswa </li>
                   </Link>
-                  <Link to="/admin/kelas">
-                    <li>Kelas</li>{" "}
-                  </Link>
                   <Link to="/admin/jurusan">
                     <li>Jurusan</li>{" "}
                   </Link>
-                  <Link to="/admin/d-kelas">
-                    <li>Daftar Kelas</li>{" "}
+                  <Link to="/admin/kelas">
+                    <li>Kelas</li>{" "}
                   </Link>
                   <Link to="/admin/kenaikan-kelas">
                     <li>Kenaikan Kelas</li>{" "}
@@ -368,7 +362,7 @@ const SideBar = () => {
             </Link>
 
             {/* ----------- */}
-            <Link to="/admin/jenis-pembayaran">
+            <Link to="/admin/jenispembayaran">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
@@ -381,9 +375,9 @@ const SideBar = () => {
               <span className="drop">
                 <a onClick={changeDropdown2}>
                   <span className="icon">
-                    <FontAwesomeIcon icon={faUsers} />
+                    <FontAwesomeIcon icon={faFileInvoice} />
                   </span>
-                  <span style={{ display: text }}>Laporan</span>
+                  <span style={{ display: text }}> Laporan</span>
                 </a>
               </span>
 
@@ -393,19 +387,11 @@ const SideBar = () => {
                 style={{ display: dropdown2 }}
               >
                 <ul>
-                  <Link to="/admin/laporan/bulanan">
-                    <li>Laporan Bulanan </li>
+                  <Link to="/admin/laporan/pembayaran-bulanan-bebas">
+                    <li>Laporan Pembayaran </li>
                   </Link>
-                  <Link to="/admin/laporan/bebas">
-                    <li>Laporan Bebas </li>
-                  </Link>
-
                   <Link to="/admin/laporan/angkatan">
                     <li>Laporan Angkatan </li>
-                  </Link>
-                  <Link to="/admin/laporan/angkatan/bulanan">
-                    <li>Laporan Angkatan Bulanan </li>
-
                   </Link>
                   <Link to="/admin/laporan/kelas">
                     <li>Laporan Kelas </li>
@@ -413,14 +399,7 @@ const SideBar = () => {
                   </Link>
                 </ul>
               </div>
-            </div>
-
-            <a href="#">
-              <span className="icon">
-                <FontAwesomeIcon icon={faCreditCard} />
-              </span>{" "}
-              <span style={{ display: text }}>Set Tarif</span>
-            </a>
+            </div> 
 
             {/* Button for hide and show sidebar */}
             <div className={button}>
@@ -470,9 +449,6 @@ const SideBar = () => {
             path="/admin/jurusan/tambah"
             component={TambahJurusan}
           />
-          <ProtectedRoute exact path="/admin/d-kelas" component={DaftarKelas}/>
-          <ProtectedRoute exact path="/admin/d-kelas/tambah" component={TambahDaftarKelas}/>
-          <ProtectedRoute exact path="/admin/d-kelas/ubah/:id" component={UbahDaftarKelas}/>
 
           <ProtectedRoute exact path="/admin/pos/" component={DataPos} />
           <ProtectedRoute exact path="/admin/pos/tambah" component={AddPos} />
@@ -499,6 +475,7 @@ const SideBar = () => {
           />
 
           <ProtectedRoute exact path="/admin/kelas/" component={DataKelas} />
+          <ProtectedRoute exact path="/admin/detail/" component={DetailSiswa} />
           <ProtectedRoute
             exact
             path="/admin/kelas/tambah"
@@ -508,7 +485,7 @@ const SideBar = () => {
 
           <ProtectedRoute
             exact
-            path="/admin/jenis-pembayaran"
+            path="/admin/jenispembayaran"
             component={JenisPembayaran}
           />
           <ProtectedRoute
@@ -518,12 +495,12 @@ const SideBar = () => {
           />
           <ProtectedRoute
             exact
-            path="/admin/jenis-pembayaran/tambah"
+            path="/admin/jenispembayaran/tambah"
             component={AddJenisPembayaran}
           />
           <ProtectedRoute
             exact
-            path="/admin/jenis-pembayaran/ubah/:id"
+            path="/admin/jenispembayaran/ubah/:id"
             component={UbahJenisPembayaran}
           />
 
@@ -550,7 +527,7 @@ const SideBar = () => {
           />
           <ProtectedRoute
             exact
-            path="/admin/laporan/bulanan"
+            path="/admin/laporan/pembayaran-bulanan-bebas"
             component={LaporanBulanan}
           />
           <ProtectedRoute
@@ -560,18 +537,13 @@ const SideBar = () => {
           />
           <ProtectedRoute
             exact
-            path="/admin/laporan/bebas"
-            component={LaporanBebas}
-          />
-          <ProtectedRoute
-            exact
             path="/admin/laporan/angkatan"
             component={LaporanAngkatan}
           />
           <ProtectedRoute
             exact
             path="/admin/laporan/angkatan/bulanan"
-            component={LaporanAngkatanBln}
+            component={LaporanKelas}
           />
           <ProtectedRoute exact path="/admin/laporan/cetak" component={CetakLaporanKelas} />
           <ProtectedRoute

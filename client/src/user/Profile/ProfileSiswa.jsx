@@ -73,27 +73,41 @@ export default class ProfileSiswa extends Component {
             <Card.Title>Profile</Card.Title>
             <hr />
             <Form>
-              <Row xs={2} md={8} lg={1}>
-                <Col>
-                <div style={{
-                  marginBottom: "29px",
-                  marginLeft: "10px",
-                  marginRight: "10px",
+              <Row >
+                <Col md={2}>
+                  <div style={{
+                    margin: "20px 0",
+                  }}>
 
-                }}>
-
-                  <img
-                    src={
-                      "http://localhost:8000/public/images/" + this.state.gambar
-                    }
-                    width={90}
-                    height={90}
-                    style={{ borderRadius: "10px" }}
-                    border= "1px solid black"
-                  />
-                </div>
+                    <img
+                      src={
+                        "http://localhost:8000/public/images/" + this.state.gambar
+                      }
+                      width={164}
+                      height={164}
+                      style={{
+                        display: "block",
+                        margin: "0 auto",
+                        borderRadius: "10px",
+                        border: "1px solid black",
+                      }}
+                    />
+                  </div>
+                  <Link to="/user/profile/ubah"
+                  style={{
+                    textDecoration: "none",
+                  }}>
+                    <Button variant="outline-primary" type="submit"
+                      style={{
+                        display: "flex",
+                        margin: "0 auto",
+                      }}>
+                      Ubah Profile
+                    </Button>
+                  </Link>
+                  <br />
                 </Col>
-                <Col>
+                <Col md={5}>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
@@ -122,8 +136,23 @@ export default class ProfileSiswa extends Component {
                       readOnly
                     />
                   </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>
+                      Password<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      name="password"
+                      id="password"
+                      type="text"
+                      value={this.state.password}
+                      placeholder="Masukkan Password"
+                      noValidate
+                      onChange={this.handleChange}
+                      readOnly
+                    />
+                  </Form.Group>
                 </Col>
-                <Col>
+                <Col md={5}>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       Jenis Kelamin
@@ -153,28 +182,10 @@ export default class ProfileSiswa extends Component {
                       readOnly
                     ></Form.Control>
                   </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>
-                      Password<span className="text-danger">*</span>
-                    </Form.Label>
-                    <Form.Control
-                      name="password"
-                      id="password"
-                      type="text"
-                      value={this.state.password}
-                      placeholder="Masukkan Password"
-                      noValidate
-                      onChange={this.handleChange}
-                    />
-                  </Form.Group>
-                </Col>
 
+                </Col>
               </Row>
-                <Link to="/user/profile/ubah">
-                  <Button variant="outline-primary" type="submit" block="">
-                    Ubah Profile
-                  </Button>
-                </Link>
+
             </Form>
           </Card.Body>
         </Card>

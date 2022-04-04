@@ -8,8 +8,9 @@ import Swal from "sweetalert2";
 export default class AddPeriode extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Tambah Periode";
+
     this.validator = new SimpleReactValidator();
-    document.title = "Tahun Ajaran | Tambah";
     this.state = {
       periode_mulai: "",
       periode_akhir: "",
@@ -82,14 +83,14 @@ export default class AddPeriode extends Component {
             <hr/>
           <Form onSubmit={this.Submit}>
             <Form.Group className="mb-3">
-              <Form.Label>Periode Mulai*</Form.Label>
+              <Form.Label>Periode Awal<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="periode_mulai"
                 id="periode_mulai"
                 type="number"
                 maxlength={4}
                 value={this.state.periode_mulai}
-                placeholder="Periode Mulai"
+                placeholder="Periode Awal"
                 noValidate
                 onChange={this.handleChange}
               />
@@ -98,12 +99,14 @@ export default class AddPeriode extends Component {
                   "periode_mulai",
                   this.state.periode_mulai,
                   `required|min:0,num|numeric`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Periode Awal!",
+                  }, }
                 )}
               </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Periode Akhir*</Form.Label>
+              <Form.Label>Periode Akhir<span className="text-danger">*</span></Form.Label>
               <Form.Control
                 name="periode_akhir"
                 id="periode_akhir"
@@ -119,7 +122,9 @@ export default class AddPeriode extends Component {
                   "periode_akhir",
                   this.state.periode_akhir,
                   `required|min:0,num|numeric`,
-                  { className: "text-danger" }
+                  { className: "text-danger",messages: {
+                    required: "Masukkan Periode Akhir!",
+                  }, }
                 )}
               </div>
             </Form.Group>

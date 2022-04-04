@@ -8,7 +8,8 @@ import Swal from "sweetalert2";
 export default class AddPembayaranBulanan extends Component {
   constructor(props) {
     super(props);
-    document.title = "Pembayaran Bulanan | Tambah";
+    document.title = "Admin | Pembayaran Bulanan";
+
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
     this.state = {
       id: this.props.match.params.id,

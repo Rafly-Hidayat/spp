@@ -47,7 +47,7 @@ export default class LandingPage extends Component {
         const feedback = {
             dots: true,
             infinite: true,
-            fade: true,
+            fade: false,
             slidesToShow: 1,
             slidesToScroll: 1,
             // autoplay: true,
@@ -246,7 +246,7 @@ export default class LandingPage extends Component {
                                                     <Image className='guru-img' src={guru1} />
                                                 </Col>
                                                 <Col md={5}>
-                                                    <div className="profile">
+                                                    <div className="profile-feedbacks">
                                                         <h6>Andi Susandi S.Kom</h6>
                                                         <p>Ketua Pemrograman RPL</p>
                                                     </div>
@@ -267,7 +267,7 @@ export default class LandingPage extends Component {
                                                     <Image className='guru-img' src={guru1} />
                                                 </Col>
                                                 <Col md={5}>
-                                                    <div className="profile">
+                                                    <div className="profile-feedbacks">
                                                         <h6>Otong Nasihin S.Pd</h6>
                                                         <p>Staf Tata Usaha</p>
                                                     </div>

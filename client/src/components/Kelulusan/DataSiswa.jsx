@@ -5,17 +5,12 @@ import { Container, Button, Card, Breadcrumb } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import BootstrapTable from "react-bootstrap-table-next";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faTrashAlt,
-  faUserEdit,
-} from "@fortawesome/free-solid-svg-icons";
 
 export default class DataSiswa extends Component {
   constructor(props) {
     super(props);
-    document.title = "Kenaikan Kelas";
+    document.title = "Admin | Kenaikan Kelas";
+
     this.state = {
       data: [],
       modal : false

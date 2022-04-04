@@ -18,8 +18,8 @@ import Swal from "sweetalert2";
 export default class KenaikanKelas extends Component {
   constructor(props) {
     super(props);
+    document.title = "Admin | Kenaikan Kelas";
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
-    document.title = "Kenaikan Kelas";
     this.state = {
       data: [],
       selected_kelas: "",
@@ -190,7 +190,7 @@ export default class KenaikanKelas extends Component {
                         value={kelas}
                         placeholder="Auto Fill"
                         noValidate
-                        readOnly
+                        disabled
                       />
                       <div>
                         {this.validator.message(

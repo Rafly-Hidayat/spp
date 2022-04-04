@@ -10,7 +10,7 @@ import {
   Row,
   Col,
   Button,
-  Image,Offcanvas
+  Image, Offcanvas
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +19,7 @@ import {
   faHome,
   faBell,
   faCog,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -73,37 +74,43 @@ const SideBar = () => {
     <div>
       <div className="user">
         {/* Navbar */}
-        <Navbar
-          collapseOnSelect
-          expand="lg"
-          bg="dark"
-          variant="dark"
-          className="navbar"
-          fixed="top"
-        >
-          <Container className="container">
-            <Navbar.Brand>
-              <Image
-                src={navlogo}
-                position="absolute"
-                width="537px"
-                height="38px"
-                style={{ marginLeft: "-90px" }}
-                className="d-inline-block align-top"
-                alt="logo"
-              />
+
+        <Navbar bg="light" expand={false} className="navbar" fixed="top">
+          <Container >
+            <Navbar.Brand style={{
+              color: 'white',
+              border: '5px',
+            }}>
+              <Image onClick={changeSidebar} className="logo" src={logo} />{" "}
+              SPS
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto"></Nav>
-              <Nav className="nav">
-                <Nav.Link href="#deets">
-                  <FontAwesomeIcon icon={faBell} />
-                </Nav.Link>
-                <Nav.Link href="#memes">{user.nama[0]}</Nav.Link>
-                <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
+            <Navbar.Text className="text justify-content-end">
+              <span style={{
+                fontSize: '16px',
+                fontWeight: '600',
+              }}>Hi, Fajar</span>
+            </Navbar.Text>
+            <Navbar.Toggle className="burger" aria-controls="offcanvasNavbar" />
+            <Navbar.Offcanvas
+              id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel"
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id="offcanvasNavbarLabel">
+
+                  Hi, Fajar
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="/user">Home</Nav.Link>
+                  <Nav.Link href="/user/transaksi">Transaksi</Nav.Link>
+                  <Nav.Link href="/user/profile">Profile</Nav.Link>
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                </Nav>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
           </Container>
         </Navbar>
       </div>
@@ -143,11 +150,11 @@ const SideBar = () => {
         </Link>
 
         <br />
-        <span className="menu">
+        <span className="menu" onClick={handleLogout}>
           <center className="logo">
-            <FontAwesomeIcon icon={faCog} />
+            <FontAwesomeIcon icon={faSignOutAlt} />
           </center>
-          <p style={{ display: text }}>Setting</p>
+          <p style={{ display: text }}>Log out</p>
         </span>
       </div>
 
@@ -160,7 +167,7 @@ const SideBar = () => {
         />
 
         <Route exact path="/user/transaksi" component={Transaksi} />
-        <Route exact path="/user/profile" component={Profile} />
+        <Route exact path="/user/profile" component={ProfileSiswa} />
         <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
 
         {/* <ProtectedRoute exact path="/user/profile" component={Profile} /> */}
