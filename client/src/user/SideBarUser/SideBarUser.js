@@ -167,7 +167,7 @@ const SideBar = () => {
         />
 
         <Route exact path="/user/transaksi" component={Transaksi} />
-        <Route exact path="/user/profile" component={Profile} />
+        <Route exact path="/user/profile" component={ProfileSiswa} />
         <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
 
         {/* <ProtectedRoute exact path="/user/profile" component={Profile} /> */}

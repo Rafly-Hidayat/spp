@@ -93,10 +93,13 @@ export default class ProfileSiswa extends Component {
                       }}
                     />
                   </div>
-                  <Link to="/user/profile/ubah">
+                  <Link to="/user/profile/ubah"
+                  style={{
+                    textDecoration: "none",
+                  }}>
                     <Button variant="outline-primary" type="submit"
                       style={{
-                        display: "block",
+                        display: "flex",
                         margin: "0 auto",
                       }}>
                       Ubah Profile

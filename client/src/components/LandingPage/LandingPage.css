@@ -305,13 +305,13 @@
     padding-left: 60px;
 }
 
-.page5 .contentBox .content .profile h6 {
+.page5 .contentBox .content .profile-feedbacks h6 {
     letter-spacing: 2px;
     font-size: 18px;
     font-weight: 500;
 }
 
-.page5 .contentBox .content .profile p {
+.page5 .contentBox .content .profile-feedbacks p {
     margin-top: -6px;
     font-size: 14px;
     font-weight: 300;
