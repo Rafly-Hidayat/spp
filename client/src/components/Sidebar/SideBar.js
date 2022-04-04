@@ -77,6 +77,7 @@ import LaporanBulanan from "../Laporan/LaporanBulanan"
 
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
 import LaporanKelas from './../Laporan/LaporanKelas';
+import CetakLaporanKelas from '../Laporan/CetakLaporanKelas'
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
 import DetailSiswa from './../DetailSiswa/DetailSiswa';
@@ -544,6 +545,7 @@ const SideBar = () => {
             path="/admin/laporan/angkatan/bulanan"
             component={LaporanKelas}
           />
+          <ProtectedRoute exact path="/admin/laporan/cetak" component={CetakLaporanKelas} />
           <ProtectedRoute
             exact
             path="/admin/invoice/:id"

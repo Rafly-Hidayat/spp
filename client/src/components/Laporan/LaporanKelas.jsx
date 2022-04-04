@@ -14,6 +14,8 @@ import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import ReactToPrint from "react-to-print";
+import CetakLaporanKelas from "./CetakLaporanKelas";
 
 export default class LaporanKelas extends Component {
   constructor(props) {
@@ -29,9 +31,9 @@ export default class LaporanKelas extends Component {
       data_kelas: [],
       data_jurusan: [],
       data_d_kelas: [],
-      kelas: "",
-      jurusan: "",
-      d_kelas: "",
+      kelas: 2,
+      jurusan: 2,
+      d_kelas: 3,
     };
   }
   componentDidMount() {
@@ -103,15 +105,65 @@ export default class LaporanKelas extends Component {
     });
   };
   render() {
+    // group data_bulanan by periode
+    const bulanan = this.state.data_bulanan.reduce((r, a) => {
+      r[a.periode] = [...(r[a.periode] || []), a];
+      return r;
+    }, {});
+    console.log(bulanan);
+
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
-    const exportToCSV = (data2, fileName) => {
-      const ws = XLSX.utils.json_to_sheet(data2);
-      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-      const data = new Blob([excelBuffer], { type: fileType });
-      FileSaver.saveAs(data, fileName + fileExtension);
+    const exportToCSV = (apiData, fileName) => {
+      // group data depend on periode
+      const groupedData = apiData.reduce((acc, curr) => {
+        if (!acc[curr.periode]) {
+          acc[curr.periode] = [];
+        }
+        acc[curr.periode].push(curr);
+        return acc;
+      }, {});
+      console.log(groupedData);
+      // add title on first row merged cells
+      // then push down rows with data
+      const rows = [
+        ["Nama Siswa", "Kelas", "Periode", "Sisa Bulan", "Sisa Tagihan"],
+      ];
+      Object.keys(groupedData).forEach((key) => {
+        groupedData[key].forEach((item) => {
+          rows.push([
+            item.siswa_nama,
+            item.kelas_nama + " " + item.jurusan_nama + " " + item.d_kelas_nama,
+            item.periode,
+            item.sisa_bulan,
+            item.sisa_tagihan,
+          ]);
+        });
+      });
+      // convert array of arrays into workbook
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      console.log(groupedData);
+      console.log(ws);
+      console.log(wb);
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      // generate a file name
+      const nameFile = fileName + fileExtension;
+      // create a link for download
+      const wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        type: "binary",
+      });
+      const s2ab = (s) => {
+        const buf = new ArrayBuffer(s.length);
+        const view = new Uint8Array(buf);
+        for (let i = 0; i !== s.length; ++i) {
+          view[i] = s.charCodeAt(i) & 0xff;
+        }
+        return buf;
+      };
+      FileSaver.saveAs(new Blob([s2ab(wbout)], { type: fileType }), nameFile);
     };
     // data bebas
     const data = this.state.data_bebas;
@@ -182,24 +234,6 @@ export default class LaporanKelas extends Component {
             <div>{`Rp. ${parseInt(row.sisa_tagihan).toLocaleString()}`}</div>
           );
         },
-      },
-    ];
-    const headers = [
-      {
-        label: "Siswa Nama",
-        key: "siswa_nama",
-      },
-      {
-        label: "Kelas",
-        key: "kelas_nama",
-      },
-      {
-        label: "Sisa Bulan",
-        key: "sisa_bulan",
-      },
-      {
-        label: "Sisa Tagihan",
-        key: "sisa_tagihan",
       },
     ];
 
@@ -274,7 +308,7 @@ export default class LaporanKelas extends Component {
                       </Col>
                       <Col md="auto">
                         <FormSelect name="kelas" onChange={this.handleChange}>
-                          <option value="">=== Pilih Kelas ===</option>
+                          <option value="">Pilih Kelas</option>
                           {this.state.data_kelas.map((k) => {
                             return (
                               <option key={k.kelas_id} value={k.kelas_id}>
@@ -308,7 +342,7 @@ export default class LaporanKelas extends Component {
                       </Col>
                       <Col md="auto">
                         <FormSelect name="jurusan" onChange={this.handleChange}>
-                          <option value="">=== Pilih Jurusan ===</option>
+                          <option value="">Pilih Jurusan</option>
                           {this.state.data_jurusan.map((j) => {
                             return (
                               <option key={j.jurusan_id} value={j.jurusan_id}>
@@ -342,7 +376,7 @@ export default class LaporanKelas extends Component {
                       </Col>
                       <Col md="auto">
                         <FormSelect name="d_kelas" onChange={this.handleChange}>
-                          <option value="">=== Pilih Daftar Kelas ===</option>
+                          <option value="">Pilih Daftar Kelas</option>
                           {this.state.data_d_kelas.map((dk) => {
                             return (
                               <option key={dk.d_kelas_id} value={dk.d_kelas_id}>
@@ -379,7 +413,7 @@ export default class LaporanKelas extends Component {
                 </Row>
               </div>
             </Form>
-            <button onClick={(e) => exportToCSV(data2, 'fileName')}>Export</button>
+            {/* <button onClick={(e) => exportToCSV(data2, 'fileName')}>Export</button> */}
             <br />
             <Tabs
               defaultActiveKey="bulan"
@@ -405,6 +439,38 @@ export default class LaporanKelas extends Component {
                   columns={sisa_bulanan}
                   bordered={false}
                 />
+                {this.state.total_bulanan ? (
+                  <Row>
+                    <Col>
+                      <Button
+                        onClick={(e) =>
+                          exportToCSV(
+                            data2,
+                            `Laporan-Bulanan ${this.state.kelas}${this.state.jurusan}${this.state.d_kelas}`
+                          )
+                        }
+                      >
+                        Ekspor Excel
+                      </Button>
+                    </Col>
+                    <Col>
+                      <div className="btn-print-download ">
+                        <ReactToPrint
+                          trigger={() => (
+                            <Button variant="danger">Download PDF</Button>
+                          )}
+                          content={() => this.componentRef}
+                        />
+                        <div style={{ display: "none" }}>
+                          <CetakLaporanKelas
+                            data={bulanan}
+                            ref={(el) => (this.componentRef = el)}
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                ) : null}
               </Tab>
               <Tab eventKey="bebas" title="Bebas">
                 <br />
@@ -425,6 +491,18 @@ export default class LaporanKelas extends Component {
                   columns={sisa_bebas}
                   bordered={false}
                 />
+                {this.state.total_bebas ? (
+                  <Button
+                    onClick={(e) =>
+                      exportToCSV(
+                        data,
+                        `Laporan-Bebas ${this.state.kelas}${this.state.jurusan}${this.state.d_kelas}`
+                      )
+                    }
+                  >
+                    Ekspor Excel
+                  </Button>
+                ) : null}
               </Tab>
             </Tabs>
           </Card.Body>
