@@ -83,6 +83,7 @@ import LaporanBebas from "../Laporan/LaporanBebas"
 import LaporanAngkatan from './../Laporan/LaporanAngkatan';
 import LaporanAngkatanBln from './../Laporan/LaporanAngkatanBln';
 import LaporanKelas from './../Laporan/LaporanKelas';
+import CetakLaporanKelas from '../Laporan/CetakLaporanKelas'
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
 
@@ -572,6 +573,7 @@ const SideBar = () => {
             path="/admin/laporan/angkatan/bulanan"
             component={LaporanAngkatanBln}
           />
+          <ProtectedRoute exact path="/admin/laporan/cetak" component={CetakLaporanKelas} />
           <ProtectedRoute
             exact
             path="/admin/invoice/:id"
