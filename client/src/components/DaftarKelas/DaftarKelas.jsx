@@ -58,7 +58,7 @@ export default class Data extends Component {
               icon: "success",
               title: "Good Job!",
               text: `${res.data.message}`,});
-              this.props.history.push("/admin/d-kelas");
+              this.props.history.push("/admin/daftar-kelas");
             }
           })
           .catch((err) => {
@@ -95,7 +95,7 @@ export default class Data extends Component {
           return (
             <div>
               <Container>
-                <Link to={`/admin/d-kelas/ubah/${row.d_kelas_id}`}>
+                <Link to={`/admin/daftar-kelas/ubah/${row.d_kelas_id}`}>
                       <Button variant="outline-warning" block>
                         <FontAwesomeIcon icon={faUserEdit} />
                       </Button>
@@ -132,7 +132,7 @@ export default class Data extends Component {
           <Card.Body>
           <Card.Title>Data Daftar Kelas</Card.Title>
             <hr/>
-            <Link to={"/admin/d-kelas/tambah"}>
+            <Link to={"/admin/daftar-kelas/tambah"}>
               <Button variant="outline-primary" block="">
                 Tambah
               </Button>

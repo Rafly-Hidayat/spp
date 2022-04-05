@@ -62,6 +62,7 @@ export default class Login extends Component {
                 status: res.data.status,
                 kelas: res.data.kelas,
                 nis: res.data.nis,
+                kelas_nama: res.data.kelas_nama,
               })
             );
             this.props.history.push("/user");

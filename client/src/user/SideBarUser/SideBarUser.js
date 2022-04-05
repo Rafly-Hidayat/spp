@@ -75,7 +75,7 @@ const SideBar = () => {
       <div className="user">
         {/* Navbar */}
 
-        <Navbar bg="light" expand={false} className="navbar" fixed="top">
+        <Navbar bg="light" expand={false} className="navbar" fixed="bottom" style={{}}>
           <Container >
             <Navbar.Brand style={{
               color: 'white',

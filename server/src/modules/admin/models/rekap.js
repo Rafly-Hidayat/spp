@@ -62,7 +62,7 @@ module.exports = {
                   });
 
                 con.query(
-                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai as periode, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' GROUP BY siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai, periode_akhir`,
+                  `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai as periode, periode_akhir FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND siswa.status = '1' GROUP BY siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai, periode_akhir`,
                   (err, rows) => {
                     if (err) throw err;
 
@@ -85,7 +85,7 @@ module.exports = {
                       })
                     } else {
                       con.query(
-                        `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_kelas, pembayaran_id FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}'`,
+                        `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_kelas, pembayaran_id FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND siswa.status = '1'`,
                         (err, result) => {
                           if (err) throw err;
                           return res.json({
@@ -136,7 +136,7 @@ module.exports = {
                   });
 
                 con.query(
-                  `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai as periode, periode_akhir FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bulanan.pembayaran_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bulanan_status = '0' AND siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' GROUP BY siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai, periode_akhir`,
+                  `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai as periode, periode_akhir FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bulanan.pembayaran_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE bulanan_status = '0' AND siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND siswa.status = '1' GROUP BY siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai, periode_akhir order by periode`,
                   (err, rows) => {
                     if (err) throw err;
 
@@ -154,7 +154,7 @@ module.exports = {
                     }
 
                     con.query(
-                      `SELECT SUM(bulanan_tagihan) as tagihan FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND bulanan_status = '0' `,
+                      `SELECT SUM(bulanan_tagihan) as tagihan FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND bulanan_status = '0' AND siswa.status = '1'`,
                       (err, rows) => {
                         if (err) throw err;
                         if (data.length == 0) {
@@ -186,7 +186,7 @@ module.exports = {
           return res.json({ error: true, message: "Kelas tidak ditemukan" });
 
         con.query(
-          `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id  = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' GROUP BY bebas.siswa_id`,
+          `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id  = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.status = '1' GROUP BY bebas.siswa_id`,
           (err, rows) => {
             if (err) throw err;
             if (rows.length == 0 || rows[0].siswa_nama == null) {
@@ -196,7 +196,7 @@ module.exports = {
               });
             } else {
               con.query(
-                `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_angkatan FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id WHERE siswa.kelas_id = '${data.kelas_id}'`,
+                `SELECT SUM(bebas_tagihan - bebas_total_bayar) as sisa_tagihan_angkatan FROM bebas INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.status = '1'`,
                 (err, result) => {
                   if (err) throw err;
                   return res.json({
@@ -232,7 +232,7 @@ module.exports = {
           }
 
           con.query(
-            `SELECT bulanan_id,  bulanan_status, bulanan_tagihan, siswa_nama, bulanan.siswa_id FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND bulanan_status = 0 GROUP BY bulanan.siswa_id`,
+            `SELECT bulanan_id,  bulanan_status, bulanan_tagihan, siswa_nama, bulanan.siswa_id FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND bulanan_status = '0' AND siswa.status = '1' GROUP BY bulanan.siswa_id`,
             (err, rows) => {
               if (err) throw err;
               let siswa_id = rows.map((obj) => {
@@ -242,7 +242,7 @@ module.exports = {
               let data = []
               siswa_id.forEach((element, index) => {
                 con.query(
-                  `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' GROUP BY bulanan.siswa_id`,
+                  `SELECT SUM(bulanan_tagihan) as tagihan, COUNT(month_id) as sisa_bulan, siswa_nama, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan JOIN siswa ON siswa.siswa_id = bulanan.siswa_id JOIN kelas ON kelas.kelas_id = siswa.kelas_id JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE bulanan_status = '0' AND bulanan.siswa_id = '${siswa_id[index]}' AND siswa.status = '1' GROUP BY bulanan.siswa_id`,
                   (err, rows) => {
                     if (err) throw err;
 

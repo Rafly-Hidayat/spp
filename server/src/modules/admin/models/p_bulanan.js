@@ -173,7 +173,7 @@ module.exports = {
   invoice: (con, bulanan_id, res) => {
     con.query(
       `
-        SELECT bulanan_id, bulanan_tanggal, no_transaksi, admin_nama, pos_nama, month_nama, siswa_nama, siswa_nis, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan INNER JOIN admin ON bulanan.admin_id = admin.admin_id INNER JOIN pembayaran ON bulanan.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN month ON bulanan.month_id = month.month_id INNER JOIN siswa ON bulanan.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE bulanan.bulanan_id = '${bulanan_id}'
+        SELECT bulanan_id, bulanan_tanggal, bulanan_tagihan, no_transaksi, admin_nama, pos_nama, month_nama, siswa_nama, siswa_nis, kelas_nama, jurusan_nama, d_kelas_nama FROM bulanan INNER JOIN admin ON bulanan.admin_id = admin.admin_id INNER JOIN pembayaran ON bulanan.pembayaran_id = pembayaran.pembayaran_id INNER JOIN pos ON pembayaran.pos_id = pos.pos_id INNER JOIN month ON bulanan.month_id = month.month_id INNER JOIN siswa ON bulanan.siswa_id = siswa.siswa_id INNER JOIN kelas ON siswa.kelas_id = kelas.kelas_id INNER JOIN jurusan ON siswa.jurusan_id = jurusan.jurusan_id INNER JOIN d_kelas ON siswa.d_kelas_id = d_kelas.d_kelas_id WHERE bulanan.bulanan_id = '${bulanan_id}'
       `,
       (err, rows) => {
         if (err) throw err;
@@ -226,6 +226,7 @@ module.exports = {
           jurusan_nama: rows[0].jurusan_nama,
           d_kelas_nama: rows[0].d_kelas_nama,
           pos_nama: rows[0].pos_nama,
+          total: rows[0].bulanan_tagihan,
         });
       }
     );

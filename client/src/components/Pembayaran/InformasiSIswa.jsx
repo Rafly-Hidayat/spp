@@ -156,7 +156,12 @@ export default class InformasiSIswa extends Component {
           if (row.bulanan_status === 1) {
             return (
               <div>
-                <Link to={`/admin/invoice/${row.bulanan_id}`}>
+                 <Link to={{
+                  pathname : `/admin/invoice/${row.bulanan_id}`, 
+                  state :{
+                    nis : `${this.state.nis}`, 
+                    periode : `${this.state.periode}`
+                }}}>
                 <Button variant="outline-warning">Cetak</Button>
                 </Link>
               </div>
