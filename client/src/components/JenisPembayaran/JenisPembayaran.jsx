@@ -4,7 +4,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Container, Col, Button, Card, Breadcrumb } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faTrashAlt, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faTrashAlt,
+  faUserEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../Sidebar/SideBar";
 
 export default class Data extends Component {
@@ -29,8 +33,8 @@ export default class Data extends Component {
   handleRemove = (pembayaran_id) => {
     axios
       .delete(`http://localhost:8000/hapus/pembayaran/${pembayaran_id}`)
-      .then((res) => { })
-      .catch((err) => { });
+      .then((res) => {})
+      .catch((err) => {});
     this.getAdmin();
   };
 
@@ -63,7 +67,7 @@ export default class Data extends Component {
       },
       {
         dataField: "pos_nama",
-        text: "Nama Pos"
+        text: "Nama Pos",
       },
       {
         text: "Set Tarif",
@@ -91,7 +95,8 @@ export default class Data extends Component {
                   <Button variant="outline-warning" block>
                     <FontAwesomeIcon icon={faUserEdit} />
                   </Button>
-                </Link>&ensp;
+                </Link>
+                &ensp;
                 <Button
                   variant="outline-danger"
                   onClick={() => this.handleRemove(row.pembayaran_id)}
@@ -128,6 +133,12 @@ export default class Data extends Component {
               <Button className="mr-2" variant="outline-primary" block="">
                 Tambah
               </Button>
+            </Link>{" "}
+            &ensp;
+            <Link to={"/admin/bulanan/upload/"}>
+              <Button variant="outline-success" block>
+                Upload
+              </Button>
             </Link>
             <br />
             <br />
@@ -139,7 +150,7 @@ export default class Data extends Component {
               hover
               condensed
               bordered={false}
-            // selectRow={ selectRow }
+              // selectRow={ selectRow }
             />
           </Card.Body>
         </Card>
