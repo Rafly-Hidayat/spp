@@ -88,12 +88,11 @@ const SideBar = () => {
                 position="absolute"
                 width="537px"
                 height="38px"
-                style={{ marginLeft: "-90px" }}
+                style={{ marginLeft: "-40px" }}
                 className="d-inline-block align-top"
                 alt="logo"
               />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav className="nav">
@@ -107,6 +106,59 @@ const SideBar = () => {
           </Container>
         </Navbar>
       </div>
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          bg="dark"
+          variant="dark"
+          className="navbar"
+          fixed="bottom"
+        >
+          <Container className="container">
+            <Link to="/user/transaksi">
+          <span className="menu">
+            <center className="logo">
+              <FontAwesomeIcon icon={faCreditCard} />
+            </center>
+            <p style={{ display: text }}>Transaksi</p>
+          </span>
+        </Link>
+            <Link to="/user/transaksi">
+          <span className="menu">
+            <center className="logo">
+              <FontAwesomeIcon icon={faCreditCard} />
+            </center>
+            <p style={{ display: text }}>Transaksi</p>
+          </span>
+        </Link>
+            <Link to="/user/transaksi">
+          <span className="menu">
+            <center className="logo">
+              <FontAwesomeIcon icon={faCreditCard} />
+            </center>
+            <p style={{ display: text }}>Transaksi</p>
+          </span>
+        </Link>
+            <Link to="/user/transaksi">
+          <span className="menu">
+            <center className="logo">
+              <FontAwesomeIcon icon={faCreditCard} />
+            </center>
+            <p style={{ display: text }}>Transaksi</p>
+          </span>
+        </Link>
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto"></Nav>
+              <Nav className="nav">
+                <Nav.Link href="#deets">
+                  <FontAwesomeIcon icon={faBell} />
+                </Nav.Link>
+                <Nav.Link href="#memes">{user.nama[0]}</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
 
       {/* Sidebar */}
 
