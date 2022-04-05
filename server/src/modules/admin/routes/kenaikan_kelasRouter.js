@@ -5,6 +5,6 @@ const {kenaikan_kelasValidation} = require('../validator/kenaikan_kelas/kenaikan
 
 // Router kenaikan kelas
 router.put('/kenaikan_kelas', kenaikan_kelasValidation, kenaikan_kelasController.naik_kelas)
-router.delete('/kelulusan', kenaikan_kelasController.lulus)
+router.put('/kelulusan', kenaikan_kelasController.lulus)
 
 module.exports = router
