@@ -46,7 +46,7 @@ export default class UbahProfileSiswa extends Component {
         d_kelas_nama: res.data[0].d_kelas_nama,
         jurusan_nama: res.data[0].jurusan_nama,
         gambar: res.data[0].siswa_img,
-        uploadedFile : img,
+        uploadedFile: img,
         password: res.data[0].siswa_password,
       });
     });
@@ -60,8 +60,8 @@ export default class UbahProfileSiswa extends Component {
     console.log(this.state.password)
     console.log(data);
     axios
-    .put(`http://localhost:8000/profile/edit/${this.state.id}`, data)
-    .then((res) => {
+      .put(`http://localhost:8000/profile/edit/${this.state.id}`, data)
+      .then((res) => {
         console.log(res)
         if (res.data.error === true) {
           Swal.fire({
@@ -119,35 +119,35 @@ export default class UbahProfileSiswa extends Component {
             <Card.Title>Ubah Profile</Card.Title>
             <hr />
             <Form onSubmit={this.editData}>
-              <Row xs={2} md={8} lg={1}>
-                <Col>
+              <Row >
+                <Col md={2}>
                   <Form.Group className="mb-3">
-                      <Form.Label>Foto Siswa<span className="text-danger">*</span></Form.Label>
+                    <Form.Label>Foto Siswa<span className="text-danger">*</span></Form.Label>
                     <div
-                     style={{
-                      marginBottom: "29px",
-                    
-                    }}
+                      style={{
+                        marginBottom: "12px",
+                      }}
                     >
                       <img
                         src={
                           "http://localhost:8000/public/images/" +
                           this.state.gambar
                         }
-                        width={90}
-                        height={90}
+                        width={160}
+                        height={160}
                         style={{
-                          display: "flex",
+                          display: "block",
+                          margin: "0 auto",
                           borderRadius: "10px",
                           border: "1px solid black",
                         }}
                       />
                     </div>
                     <Form.Control
-                    style={{
-                      marginTop: "1px",
-                      display: "flex",
-                    }}
+                      style={{
+                        marginTop: "1px",
+                        display: "flex",
+                      }}
                       name="img"
                       accept="image/*"
                       type="file"
@@ -155,7 +155,8 @@ export default class UbahProfileSiswa extends Component {
                     />
                   </Form.Group>
                 </Col>
-                <Col>
+
+                <Col md={5}>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
@@ -186,8 +187,7 @@ export default class UbahProfileSiswa extends Component {
                       readOnly
                     />
                   </Form.Group>
-                </Col>
-                <Col>
+
                   <Form.Group className="mb-3">
                     <Form.Label>
                       Jenis Kelamin
@@ -200,6 +200,9 @@ export default class UbahProfileSiswa extends Component {
                       readOnly
                     ></Form.Control>
                   </Form.Group>
+                </Col>
+
+                <Col md={5}>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       Kelas<span className="text-danger">*</span>
@@ -232,6 +235,7 @@ export default class UbahProfileSiswa extends Component {
                   </Form.Group>
                 </Col>
               </Row>
+              <br />
               <Button variant="outline-primary" type="submit">
                 Ubah Profile
               </Button>
@@ -244,7 +248,7 @@ export default class UbahProfileSiswa extends Component {
             </Form>
           </Card.Body>
         </Card>
-      </div>
+      </div >
     );
   }
 }

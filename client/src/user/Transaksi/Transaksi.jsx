@@ -55,12 +55,7 @@ export default class Transaksi extends Component {
             </Tabs>
           </Card.Body>
         </Card>
-        <br />
-        <Link to="/user">
-          <Button variant="primary" className="mr-2 " block>
-            back
-          </Button>
-        </Link>
+
       </div>
     );
   }

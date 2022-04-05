@@ -10,7 +10,7 @@ import {
   Row,
   Col,
   Button,
-  Image,Offcanvas
+  Image, Offcanvas
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +19,7 @@ import {
   faHome,
   faBell,
   faCog,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -195,11 +196,11 @@ const SideBar = () => {
         </Link>
 
         <br />
-        <span className="menu">
+        <span className="menu" onClick={handleLogout}>
           <center className="logo">
-            <FontAwesomeIcon icon={faCog} />
+            <FontAwesomeIcon icon={faSignOutAlt} />
           </center>
-          <p style={{ display: text }}>Setting</p>
+          <p style={{ display: text }}>Log out</p>
         </span>
       </div>
 
@@ -212,7 +213,7 @@ const SideBar = () => {
         />
 
         <Route exact path="/user/transaksi" component={Transaksi} />
-        <Route exact path="/user/profile" component={Profile} />
+        <Route exact path="/user/profile" component={ProfileSiswa} />
         <Route exact path="/user/profile/ubah/" component={UbahProfileSiswa} />
 
         {/* <ProtectedRoute exact path="/user/profile" component={Profile} /> */}
