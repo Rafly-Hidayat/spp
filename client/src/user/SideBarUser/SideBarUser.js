@@ -85,7 +85,7 @@ const SideBar = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("dataSiswa"));
-  console.log(user);
+  
 
   return (
     <div>
@@ -181,7 +181,6 @@ const SideBar = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar> */}
-
       {/* Sidebar */}
 
       <div className={sidebar}>

@@ -38,7 +38,7 @@ export default class LaporanBulanan extends Component {
       axios
         .post("http://localhost:8000/laporan/bulanan", data)
         .then((res) => {
-          console.log(res);
+          
           this.setState({
             data_bulanan: res.data,
           });
@@ -73,7 +73,7 @@ export default class LaporanBulanan extends Component {
   render() {
     const data_bebas = this.state.data_bebas;
     const data_bulanan = this.state.data_bulanan;
-    console.log(data_bebas);
+    
     const bulanan = [
       {
         dataField: "tanggal",

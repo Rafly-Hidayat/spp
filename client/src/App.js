@@ -19,9 +19,8 @@ export default class App extends Component {
 
             <Route path="/admin/login" component={LoginAdmin} />
             <Route path="/admin" component={SideBar} />
-
             <Route path="/user/login" component={Login} />
-            <Route path="/admin/*" component={NotFound} />
+            <Route path="*" component={NotFound} />
             <Route path="/user" component={SidebarUser} />
           </Switch>
         </BrowserRouter>

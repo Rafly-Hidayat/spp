@@ -47,7 +47,10 @@ export default class Login extends Component {
                 token: res.data.token,
               })
             );
-            this.props.history.push("/admin");
+            this.props.history.push({
+              pathname : "/admin",
+              nama : res.data.nama
+            });
           }
         })
         .catch((error) => {});

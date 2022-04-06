@@ -26,7 +26,7 @@ export default class Login extends Component {
     if (this.validator.allValid()) {
       axios.post("http://localhost:8000/siswa/login", data)
         .then((res) => {
-          console.log(res)
+          
           if (res.data.error === true) {
             Swal.fire({
               icon: 'error',

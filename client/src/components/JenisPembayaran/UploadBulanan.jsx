@@ -20,7 +20,7 @@ export default class UploadBulanan extends Component {
   handleChange = (e) => {
     e.preventDefault();
     this.setState({ ...this.state, selectedFile: e.target.files[0] }, () => {
-      console.log(this.state.selectedFile);
+      
     });
   };
 
@@ -42,7 +42,7 @@ export default class UploadBulanan extends Component {
     axios
       .post("http://localhost:8000/bulanan/upload", formData)
       .then((res) => {
-        console.log(res.data);
+        
         this.setState({
           selectedFile: null,
         });
@@ -62,7 +62,7 @@ export default class UploadBulanan extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   resetFile() {

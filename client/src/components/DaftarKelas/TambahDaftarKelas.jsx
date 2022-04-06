@@ -30,7 +30,7 @@ export default class TambahDaftarKelas extends Component {
       axios
         .post("http://localhost:8000/tambah/d_kelas", data)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data.error === true ) {
             Swal.fire({
               icon: "error",

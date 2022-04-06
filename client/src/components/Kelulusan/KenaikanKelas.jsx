@@ -86,10 +86,10 @@ export default class KenaikanKelas extends Component {
             });
             this.props.history.push("/admin/kenaikan-kelas");
           }
-          console.log(res);
+          
         })
         .catch((err) => {
-          console.log(err);
+          
         });
     } else {
       this.validator.showMessages();
@@ -105,9 +105,9 @@ export default class KenaikanKelas extends Component {
   };
 
   renderSelectedKelas(selected_kelas) {
-    if (!selected_kelas) return console.log("");
+    if (!selected_kelas) return 
     const siswa = DataSiswa[selected_kelas];
-    console.log(selected_kelas);
+    
     return <DataSiswa name={this.state.selected_kelas} />;
   }
   render() {
@@ -118,7 +118,7 @@ export default class KenaikanKelas extends Component {
     } else if (kelas == "3") {
       kelas = "XII";
     }
-    console.log(this.state.selected_ubah_kelas);
+    
     return (
       <div>
         <Card>

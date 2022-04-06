@@ -43,13 +43,13 @@ export default class Dashboard extends Component {
       });
     });
     axios.get("http://localhost:8000/total/jurusan").then((res) => {
-      console.log(res.data.total);
+      
       this.setState({
         totalJurusan: res.data.total,
       });
     });
     axios.get("http://localhost:8000/total/pos").then((res) => {
-      console.log(res.data.total);
+      
       this.setState({
         totalPos: res.data.total,
       });
@@ -75,7 +75,7 @@ export default class Dashboard extends Component {
     const bebas = this.state.bebas;
     const bulanan = this.state.bulanan;
     const onChange = (date) => {
-      console.log(date.toString());
+      
     };
 
     const columns = [

@@ -46,7 +46,7 @@ export default class SetTarif extends Component {
     axios
       .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
       .then((res) => {
-        console.log(this.state.pembayaran_id);
+        
         this.setState({
           tipe: res.data[0].pembayaran_tipe,
           nama_pos : res.data[0].pos_nama
@@ -76,7 +76,7 @@ export default class SetTarif extends Component {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, hapus!",
+        confirmButtonText: "Ya, tammbah!",
       }).then((result) => {
         if (result.isConfirmed) {
           if (this.state.tipe === "BEBAS") {
@@ -125,8 +125,6 @@ export default class SetTarif extends Component {
           
         }
       });
-      
-      
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -152,7 +150,7 @@ export default class SetTarif extends Component {
                   <Link to="/admin">Home</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <Link to="/admin/jenispembayaran/">Data</Link>
+                  <Link to="/admin/jenis-pembayaran/">Data</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Set Tarif</Breadcrumb.Item>
               </Breadcrumb>

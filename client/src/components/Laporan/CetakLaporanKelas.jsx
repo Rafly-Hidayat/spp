@@ -19,7 +19,7 @@ export default class CetakLaporanKelas extends Component {
         data_tagihan.push(Object.values(data)[i]);
       }
     }
-    console.log(data_tagihan);
+    
 
     let data_arr = [];
     for (let i = 0; i < data_tagihan[0].length; i++) {
@@ -37,7 +37,7 @@ export default class CetakLaporanKelas extends Component {
       }
       data_arr.push(data_arr_temp);
     }
-    console.log(data_arr);
+    
     let arr = [];
     for (let i = 0; i < 3; i++) {
       if (Object.keys(data)[i] == null) {
@@ -46,7 +46,7 @@ export default class CetakLaporanKelas extends Component {
         arr.push(Object.keys(data)[i]);
       }
     }
-    console.log(arr);
+    
     return (
       <div
         className="wrapper"

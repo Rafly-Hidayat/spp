@@ -175,7 +175,7 @@ module.exports = {
                               return a + b;
                             }, 0);
 
-                            // console.log(total)
+                            // 
 
                             con.query(
                               `UPDATE bebas SET bebas_total_bayar = '${total}' WHERE bebas_id = '${bebas_id}'`,

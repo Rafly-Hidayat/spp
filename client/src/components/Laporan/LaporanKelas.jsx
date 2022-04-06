@@ -65,7 +65,7 @@ export default class LaporanKelas extends Component {
         .post("http://localhost:8000/laporan/kelas/bebas", data)
         .then((res) => {
           if (res.data.error !== true) {
-            console.log(res.data);
+            
             this.setState({
               data_bebas: res.data.data,
               total_bebas: res.data.sisa_tagihan_kelas,
@@ -79,7 +79,7 @@ export default class LaporanKelas extends Component {
       axios
         .post("http://localhost:8000/laporan/kelas/bulanan", data)
         .then((res) => {
-          console.log(res.data.data);
+          
           if (res.data.error !== true) {
             this.setState({
               data_bulanan: res.data.data,
@@ -110,7 +110,7 @@ export default class LaporanKelas extends Component {
       r[a.periode] = [...(r[a.periode] || []), a];
       return r;
     }, {});
-    console.log(bulanan);
+    
 
     const fileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -124,7 +124,7 @@ export default class LaporanKelas extends Component {
         acc[curr.periode].push(curr);
         return acc;
       }, {});
-      console.log(groupedData);
+      
       // add title on first row merged cells
       // then push down rows with data
       const rows = [
@@ -144,9 +144,9 @@ export default class LaporanKelas extends Component {
       // convert array of arrays into workbook
       const ws = XLSX.utils.aoa_to_sheet(rows);
       const wb = XLSX.utils.book_new();
-      console.log(groupedData);
-      console.log(ws);
-      console.log(wb);
+      
+      
+      
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
       // generate a file name
       const nameFile = fileName + fileExtension;

@@ -69,7 +69,7 @@ export default class DashboardUser extends Component {
 
   render() {
     const onChange = (date) => {
-      console.log(date.toString());
+      
     };
     if(this.state.kelas === 1){
       this.setState({

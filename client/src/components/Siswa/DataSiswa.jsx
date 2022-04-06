@@ -32,7 +32,7 @@ export default class DataSiswa extends Component {
     axios
       .get("http://localhost:8000/siswa/")
       .then((res) => {
-        console.log(res);
+        
         this.setState({
           data: res.data,
         });
@@ -79,7 +79,7 @@ export default class DataSiswa extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/siswa");
       }

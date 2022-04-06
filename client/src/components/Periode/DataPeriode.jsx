@@ -66,7 +66,7 @@ export default class Data extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/periode");
       }

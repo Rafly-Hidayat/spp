@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Button, Card, Table, Tabs, Tab, Badge } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import Swal from "sweetalert2";
+import {faInfo, faPrint} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class InformasiSIswa extends Component {
   constructor(props) {
@@ -18,6 +20,8 @@ export default class InformasiSIswa extends Component {
       siswa_id: "",
       bebas_id: "",
       periode: this.props.periode,
+      details : false,
+      data_details : [],
     };
   }
   handleChange = (e) => {
@@ -30,9 +34,9 @@ export default class InformasiSIswa extends Component {
   getData = () => {
     const id = this.props.nis;
     // const idp = this.props.periodes.id;
-    console.log(this.props.periode)
+    
     axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
-      console.log(res);
+      
       if (res.data[0].siswa_id === undefined) {
         Swal.fire({
           icon: "error",
@@ -63,7 +67,7 @@ export default class InformasiSIswa extends Component {
             this.setState({
               data: "",
             });
-            console.log(this.state.bebas_id);
+            
           } else {
             this.setState({
               data: res.data,
@@ -72,7 +76,7 @@ export default class InformasiSIswa extends Component {
           }
         });
         axios.get(`http://localhost:8000/bulanan/${nis}/${periode}`).then((res) => {
-          console.log(res);
+          
           if (res.data[0] === undefined) {
             this.setState({
               databulanan: "",
@@ -83,6 +87,27 @@ export default class InformasiSIswa extends Component {
             });
           }
         });
+      }
+    });
+  };
+
+  getDetails = () => {
+    axios.get(`http://localhost:8000/user/detail/bebas/${this.state.siswa_id}`).then((res) => {
+      
+      if (res.data.error === true){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Data Bebas tidak ditemukan",
+        })
+        // this.setState({
+        //   // details : !this.state.details,
+        // })
+      } else {
+        this.setState({
+          details : !this.state.details,
+          data_details : res.data,
+        })
       }
     });
   };
@@ -99,14 +124,60 @@ export default class InformasiSIswa extends Component {
   }
 
   render() {
-    console.log(this.state.periode)
+    
     const data = this.state.data;
     const databulanan = this.state.databulanan;
     const defaultSorted = [{
       dataField: 'month_id',
       order: 'asc'
     }];
+    const data_details = this.state.data_details;
     
+    const detail = [
+      {
+        dataField: "no_transaksi",
+        text: "No Transaksi",
+      },
+      {
+        dataField: "d_bebas_deskripsi",
+        text: "Deskripsi",
+      },
+      {
+        dataField: "d_bebas_bayar",
+        text: "Nominal",
+      },
+      {
+        dataField: "d_bebas_tanggal",
+        text: "Tanggal",
+      },
+      {
+        dataField: "admin_id",
+        text: "Admin",
+        formatter: (cell, row) => {
+          if (row.admin_id === "1") {
+            return "admin";
+          } else {
+            return "admin2";
+          }
+        },
+      },
+      {
+        dataField: "d_bebas_id",
+        text: "Action",
+        formatter: (cell, row) => {
+          return (
+            <div>
+              <Link to={{pathname : `/admin/invoice/bebas/${this.state.siswa_id}/${row.d_bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.periode}`}}}>
+                <Button variant="outline-warning" size="sm">
+                  <FontAwesomeIcon icon={faPrint} /> Cetak
+                </Button>
+              </Link>
+            </div>
+          );
+        },
+      },
+    ];
+
     const column = [
       {
         dataField: "month_id",
@@ -225,9 +296,14 @@ export default class InformasiSIswa extends Component {
         text: "Bayar",
         formatter: (cell, row) => {
           return (
-            <Link to={{pathname : `/admin/pembayaran/tambah/${row.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.nis}`}}}>
+            <div>
+            <Button onClick={this.getDetails} variant="outline-success">
+                <FontAwesomeIcon icon={faInfo} /> Info
+              </Button>&ensp;
+            <Link to={{pathname : `/admin/pembayaran/tambah/${row.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.periode}`}}}>
               <Button variant="outline-primary">Bayar</Button>
             </Link>
+            </div>
           );
         },
       },
@@ -290,14 +366,16 @@ export default class InformasiSIswa extends Component {
                 <br />
                 <BootstrapTable
                   keyField="id"
-                  data={data}
-                  columns={columns}
+                  data={this.state.details === false ? data : data_details}
+                  columns={this.state.details === false ? columns : detail}
                   striped
                   noDataIndication={() => "Data tidak ditemukan"}
                   hover
                   condensed
                   bordered={false}
                 />
+                {this.state.details === false ? null : <Button onClick={()=> {this.setState({details : false})}}>Kembali</Button> }
+                {/* {this.state.details === false ? <Button>Kembali</Button> : null} */}
               </Tab>
             </Tabs>
           </Card.Body>

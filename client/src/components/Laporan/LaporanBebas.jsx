@@ -56,7 +56,7 @@ export default class LaporanBebas extends Component {
 
   render() {
     const data = this.state.data;
-    console.log(data);
+    
     const columns = [
       {
         dataField: "siswa_nama",

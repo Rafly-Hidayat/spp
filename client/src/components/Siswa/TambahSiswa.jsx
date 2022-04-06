@@ -101,7 +101,7 @@ export default class TambahSiswa extends Component {
       axios
         .post("http://localhost:8000/tambah/siswa", data)
         .then((res) => {
-          console.log(res);
+          
 
           if (res.data.error === true) {
             Swal.fire({

@@ -30,7 +30,7 @@ export default class Tambahkelas extends Component {
         .post("http://localhost:8000/tambah/kelas", data)
         .then((res) => {
           this.setState({});
-          console.log(res.data);
+          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",

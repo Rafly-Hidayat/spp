@@ -54,7 +54,7 @@ export default class PembayaranBebas extends Component {
     axios
       .get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
       .then((res) => {
-        console.log(res);
+        
         if (res.data.error === true) {
           this.setState({
             data: "",
@@ -77,7 +77,7 @@ export default class PembayaranBebas extends Component {
   getDetails = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios.get(`http://localhost:8000/user/detail/bebas/${id}`).then((res) => {
-      console.log(res);
+      
       this.setState({
         details: true,
         data_details: res.data,
@@ -92,7 +92,7 @@ export default class PembayaranBebas extends Component {
   }
 
   render() {
-    console.log(this.state.details);
+    
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
 
     const detail = [
