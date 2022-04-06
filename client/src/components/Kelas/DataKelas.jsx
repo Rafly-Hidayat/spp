@@ -89,6 +89,8 @@ export default class DataKelas extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         
         formatter: (cellContent, row) => {
           return (

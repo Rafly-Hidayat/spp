@@ -90,11 +90,13 @@ export default class DataPos extends Component {
       },
       {
         dataField: "pos_deskripsi",
-        text: "Pos Deskripsi",
+        text: "Keterangan",
       },
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         formatter: (cellContent, row) => {
           return (
             <div>
@@ -137,7 +139,7 @@ export default class DataPos extends Component {
         <br />
         <Card style={{color: 'black'}}>
           <Card.Body>
-        <Card.Title>Data Pos</Card.Title>
+        <Card.Title>Data Pos Pembayaran</Card.Title>
         <hr/>
             <Link to={"/admin/pos/tambah"}>
               <Button variant="outline-primary" block>

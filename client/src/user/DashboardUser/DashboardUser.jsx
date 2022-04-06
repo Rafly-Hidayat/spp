@@ -318,26 +318,6 @@ export default class DashboardUser extends Component {
                 variant="pills"
                 className="justify-content-center flex-column"
               >
-                <Button variant="secondary" onClick={this.onModal}> Qr Code</Button>
-                <br />
-                <br />
-
-                {/* <div id="myModal" class="modal" > */}
-                {this.state.modal === true ? <div className="">
-                  <div id="myModal" class="modal">
-
-                    {/* <!-- Modal content --> */}
-                    <div class="modal-content" onClick={this.onModal}>
-                      <QRCode
-                        className="qrcode"
-                        value={this.state.nis}
-                        size={220}
-                      />
-                    </div>
-
-                  </div >
-                </div> : null}
-
                 {/* </div > */}
 
                 <Container>

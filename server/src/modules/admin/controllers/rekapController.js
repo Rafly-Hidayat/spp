@@ -34,6 +34,7 @@ module.exports = {
           periode_akhir: rows[index].periode_akhir,
           admin_nama: rows[index].admin_nama,
           tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
+          date: d.getDate() + " " + d.getMonth() + " " + d.getFullYear(),
         });
       });
       res.json(data);
@@ -60,6 +61,8 @@ module.exports = {
           periode_akhir: rows[index].periode_akhir,
           admin_nama: rows[index].admin_nama,
           tanggal: days[d.getDay()] + ", " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear(),
+          date: d.getDate() + " " + d.getMonth() + " " + d.getFullYear(),
+
         });
       });
       res.json(data);

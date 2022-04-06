@@ -29,6 +29,7 @@ import {
   faBahai,
   faCalendar,
   faFileInvoice,
+  faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 import navlogo from "../Assets/logotextwhite.svg";
 
@@ -264,6 +265,7 @@ const SideBar = () => {
                   />
                   <div className="text-admin" style={{ display: text }}>
                 {nama}
+
                     <h6>Administrator</h6>
                     <p
                       className="status"
@@ -277,8 +279,8 @@ const SideBar = () => {
                     </p>
                   </div>
                 </span>
-              <hr style={{ color: "white" }} />
- 
+                <hr style={{ color: "white" }} />
+
               </Container>
 
               {/* Img Admin kecil */}
@@ -305,7 +307,7 @@ const SideBar = () => {
                   style={{ marginLeft: "3px" }}
                 />
               </span>
-              <span style={{ display: text, paddingLeft: "1px" }}>
+              <span style={{ display: text}}>
                 {" "}
                 Dashboard
               </span>
@@ -321,7 +323,6 @@ const SideBar = () => {
                   <span style={{ display: text }}>Management Data</span>
                 </a>
               </span>
-
               <div
                 id="myDropdown"
                 className="dropdown-content"
@@ -355,7 +356,7 @@ const SideBar = () => {
                   style={{ marginLeft: "3px" }}
                 />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
+              <span style={{ display: text }}>
                 Tahun Ajaran
               </span>
             </Link>
@@ -363,9 +364,9 @@ const SideBar = () => {
             {/* --------- */}
             <Link to="/admin/pos">
               <span className="icon">
-                <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
+                <FontAwesomeIcon icon={faClipboardList} style={{ marginLeft: "2px" }} />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
+              <span style={{ display: text, paddingLeft: "4px" }}>Pos Pembayaran</span>
             </Link>
 
             <Link to="/admin/pembayaran">
@@ -375,7 +376,7 @@ const SideBar = () => {
                   style={{ marginLeft: "1px" }}
                 />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
+              <span style={{ display: text}}>
                 Pembayaran
               </span>
             </Link>
@@ -385,7 +386,7 @@ const SideBar = () => {
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
+              <span style={{ display: text, marginLeft: "3px" }}>
                 Jenis Pembayaran
               </span>
             </Link>
@@ -396,7 +397,7 @@ const SideBar = () => {
                   <span className="icon">
                     <FontAwesomeIcon icon={faFileInvoice} />
                   </span>
-                  <span style={{ display: text }}> Laporan</span>
+                  <span style={{ display: text, marginLeft: "5px" }}> Laporan</span>
                 </a>
               </span>
 
@@ -418,7 +419,7 @@ const SideBar = () => {
                   </Link>
                 </ul>
               </div>
-            </div> 
+            </div>
 
             {/* Button for hide and show sidebar */}
             <div className={button}>

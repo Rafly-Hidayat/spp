@@ -308,6 +308,8 @@ export default class InformasiSIswa extends Component {
         },
       },
     ];
+    let gender = this.state.jenis_kelamin
+    gender === 'P' ? gender = "Perempuan" : gender = "Laki-laki"
     return (
       <div>
         <Card style={{ color: "black" }}>
@@ -330,7 +332,7 @@ export default class InformasiSIswa extends Component {
                 </tr>
                 <tr>
                   <td>Jenis Kelamin</td>
-                  <td>{`${this.state.jenis_kelamin}`}</td>
+                  <td>{gender}</td>
                 </tr>
               </tbody>
             </Table>

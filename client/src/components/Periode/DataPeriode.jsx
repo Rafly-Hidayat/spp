@@ -98,6 +98,8 @@ export default class Data extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         // make delete and update button
         formatter: (cellContent, row) => {
           return (
