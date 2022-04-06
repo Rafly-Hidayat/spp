@@ -123,7 +123,63 @@
   transition: 0.5s;
 }
 
+ /* The Modal (background) */
+ .qrcode .modal {
+   display: block;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 50%; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Content */
+.qrcode .modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: fit-content;
+}
+.qrcode .modal-content .qrcode{
+    margin: 0 auto;
+}
+
+/* The Close Button */
+.qrcode .close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.qrcode .close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/* navbar bottom */
+.navbar-bottom{
+  display: none;
+}
+
+.navbar-bottom .navbar{
+  background-color: #f1f1f1;
+  margin: 0;
+}
+
+.navbar-bottom .navbar .menu-bottom-bar .logo{
+  margin-top: 10px;
+}
 
 /* Phone Display or Responsive */
 @media (max-width:991px) {
@@ -134,11 +190,11 @@
   .user .navbar .title1 {
     display: none;
   }
-
+  
   .user .navbar .title2 {
     display: contents;
   }
-
+  
   .user .navbar .text {
     display: none;
   }
@@ -146,24 +202,28 @@
   .user .navbar .burger {
     display: contents;
   }
-
+  
   .main {
     margin-left: 10px;
     /* Same as the width of the sidebar */
     margin-right: 10px;
   }
-
+  
   .main1 {
     margin-left: 10px;
     /* Same as the width of the sidebar */
     margin-right: 10px;
   }
-
+  
   .sidebar {
     display: none;
   }
-
+  
   .sidebar1 {
     display: none;
+  }
+  
+  .navbar-bottom{
+    display: block;
   }
 }
