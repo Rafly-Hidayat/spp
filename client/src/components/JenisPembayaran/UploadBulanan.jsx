@@ -93,7 +93,7 @@ export default class UploadBulanan extends Component {
         <br />
         <Card style={{ color: "black" }}>
           <Card.Body>
-            <Card.Title>Upload Siswa</Card.Title>
+            <Card.Title>Upload Bulanan</Card.Title>
             <hr />
             <Row>
               <Col>

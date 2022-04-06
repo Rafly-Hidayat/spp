@@ -193,9 +193,11 @@ export default class DataSiswa extends Component {
       // },
       {
         text: "Aksi",
-
         align: "center",
-        headerAlign: "center",
+        headerStyle: {
+          width: "200px",
+          textAlign: "center",
+        },
         // make delete and update button
         formatter: (cellContent, row) => {
           return (
