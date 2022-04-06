@@ -81,7 +81,8 @@ export default class UbahProfileSiswa extends Component {
       });
   };
   render() {
-
+    let gender = this.state.siswa_gender
+    gender === 'P' ? gender = "Perempuan" : gender = "Laki-laki"
 
     if (this.state.gambar) {
       var imagestr = this.state.gambar;
@@ -139,7 +140,7 @@ export default class UbahProfileSiswa extends Component {
                           display: "block",
                           margin: "0 auto",
                           borderRadius: "10px",
-                          border: "1px solid black",
+                          // border: "1px solid black",
                         }}
                       />
                     </div>
@@ -195,7 +196,7 @@ export default class UbahProfileSiswa extends Component {
                     </Form.Label>
                     <Form.Control
                       name="siswa_gender"
-                      value={this.state.siswa_gender}
+                      value={gender}
                       onChange={this.handleChange}
                       readOnly
                     ></Form.Control>

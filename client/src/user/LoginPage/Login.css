@@ -71,6 +71,11 @@
 {
     .wrapper-login{
         width: 90%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 33%;
     }
     .wrapper-login .form-content{
         display: none;

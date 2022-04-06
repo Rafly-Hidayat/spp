@@ -143,8 +143,17 @@ export default class PembayaranBebas extends Component {
     ];
     const desktop = [
       {
-        dataField: "pos_nama",
-        text: "Deskripsi",
+        text: "Tipe Pembayaran",
+        headerStyle: (colum, colIndex) => {
+          return { width: "300px" };
+        },
+        formatter: (cell, row) => {
+          return (
+            <div>
+              {`${row.pos_nama} - T.A ${row.periode_mulai}/${row.periode_akhir}`}
+            </div>
+          );
+        }
       },
       {
         text: "Jumlah",
@@ -211,7 +220,7 @@ export default class PembayaranBebas extends Component {
     const mobile = [
       {
         dataField: "pos_nama",
-        text: "Tipe",
+        text: "Pembayaran",
       },
       {
         text: "Tagihan",

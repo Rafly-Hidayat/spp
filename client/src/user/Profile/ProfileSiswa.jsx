@@ -89,7 +89,7 @@ export default class ProfileSiswa extends Component {
                         display: "block",
                         margin: "0 auto",
                         borderRadius: "10px",
-                        border: "1px solid black",
+                        // border: "1px solid black",
                       }}
                     />
                   </div>
@@ -143,7 +143,7 @@ export default class ProfileSiswa extends Component {
                     <Form.Control
                       name="password"
                       id="password"
-                      type="text"
+                      type="password"
                       value={this.state.password}
                       placeholder="Masukkan Password"
                       noValidate
