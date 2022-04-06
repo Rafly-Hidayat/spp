@@ -75,7 +75,7 @@ const SideBar = () => {
       <div className="user">
         {/* Navbar */}
 
-        <Navbar bg="light" expand={false} className="navbar" fixed="bottom" style={{}}>
+        <Navbar bg="light" expand={false} className="navbar" fixed="top" style={{}}>
           <Container >
             <Navbar.Brand style={{
               color: 'white',
@@ -84,20 +84,34 @@ const SideBar = () => {
               <Image onClick={changeSidebar} className="logo" src={logo} />{" "}
               SPS
             </Navbar.Brand>
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto"></Nav>
-              <Nav className="nav">
-                <Nav.Link href="#deets">
-                  <FontAwesomeIcon icon={faBell} />
-                </Nav.Link>
-                <Nav.Link href="#memes">{user.nama[0]}</Nav.Link>
-                <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
+            <Navbar.Text className="text justify-content-end">
+              <span style={{
+                fontSize: '16px',
+                fontWeight: '600'
+              }}> Hi, {user.nama[0]}</span>
+            </Navbar.Text>
+            <Navbar.Toggle aria-controls="offcanvasNavbar" className="burger"/>
+            <Navbar.Offcanvas
+              id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel"
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id="offcanvasNavbarLabel">Hi, {user.nama[0]}</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link> <Link to='/user/' style={{textDecoration: 'none'}} >Home</Link> </Nav.Link>
+                  <Nav.Link> <Link to='/user/transaksi/'style={{textDecoration: 'none'}} >Transaksi</Link> </Nav.Link>
+                  <Nav.Link> <Link to='/user/profile/'style={{textDecoration: 'none'}} >Profile</Link> </Nav.Link>
+                  <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
+                </Nav>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
           </Container>
         </Navbar>
       </div>
-        <Navbar
+      {/* <Navbar
           collapseOnSelect
           expand="lg"
           bg="dark"
@@ -149,14 +163,14 @@ const SideBar = () => {
               </Nav>
             </Navbar.Collapse>
           </Container>
-        </Navbar>
+        </Navbar> */}
 
       {/* Sidebar */}
 
       <div className={sidebar}>
         <br />
 
-        <Link to="/user">
+        <Link to="/user" style={{textDecoration: 'none'}}>
           <span className="menu">
             <center className="logo">
               <FontAwesomeIcon icon={faHome} />
@@ -166,7 +180,7 @@ const SideBar = () => {
         </Link>
 
         <br />
-        <Link to="/user/transaksi">
+        <Link to="/user/transaksi" style={{textDecoration: 'none'}}>
           <span className="menu">
             <center className="logo">
               <FontAwesomeIcon icon={faCreditCard} />
@@ -176,7 +190,7 @@ const SideBar = () => {
         </Link>
 
         <br />
-        <Link to="/user/profile">
+        <Link to="/user/profile" style={{textDecoration: 'none'}}>
           <span className="menu">
             <center className="logo">
               <FontAwesomeIcon icon={faUser} />
