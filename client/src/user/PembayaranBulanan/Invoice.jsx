@@ -19,7 +19,7 @@ export default class Invoice extends Component {
   //   axios
   //     .get(`http://localhost:8000/user/pembayaran/bulanan/${this.state.id}`)
   //     .then((res) => {
-  //       console.log(res.data);
+  //       
   //       if (res.data.error === true) {
   //         this.setState({
   //           data: "",

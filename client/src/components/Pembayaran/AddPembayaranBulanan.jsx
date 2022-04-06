@@ -36,7 +36,7 @@ export default class AddPembayaranBulanan extends Component {
       axios
         .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
         .then((res) => {
-          console.log(res)
+          
           if(res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -77,11 +77,10 @@ export default class AddPembayaranBulanan extends Component {
         periode : this.props.location.state.periode
       })
     }
-
   }
   render() {
-    console.log(this.state.nis)
-    console.log(this.state.periode)
+    
+    
     return (
       <div>
         <Card style={{ color: "black" }}>

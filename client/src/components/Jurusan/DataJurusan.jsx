@@ -46,7 +46,7 @@ export default class Data extends Component {
         axios
           .delete(`http://localhost:8000/hapus/jurusan/${jurusan_id}`)
           .then((res) => {
-            console.log(res);
+            
             if (res.data.error === true ) {
               Swal.fire({
                 icon: "error",
@@ -62,7 +62,7 @@ export default class Data extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/jurusan");
       }

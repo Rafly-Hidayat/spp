@@ -63,7 +63,7 @@ export default class DataPos extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/pos");
       }

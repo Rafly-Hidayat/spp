@@ -61,7 +61,7 @@ export default class DataKelas extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/kelas");
       }

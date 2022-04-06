@@ -68,7 +68,7 @@ const SideBar = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("dataSiswa"));
-  console.log(user);
+  
 
   return (
     <div>
@@ -107,60 +107,7 @@ const SideBar = () => {
           </Container>
         </Navbar>
       </div>
-        <Navbar
-          collapseOnSelect
-          expand="lg"
-          bg="dark"
-          variant="dark"
-          className="navbar"
-          fixed="bottom"
-        >
-          <Container className="container">
-            <Link to="/user/transaksi">
-          <span className="menu">
-            <center className="logo">
-              <FontAwesomeIcon icon={faCreditCard} />
-            </center>
-            <p style={{ display: text }}>Transaksi</p>
-          </span>
-        </Link>
-            <Link to="/user/transaksi">
-          <span className="menu">
-            <center className="logo">
-              <FontAwesomeIcon icon={faCreditCard} />
-            </center>
-            <p style={{ display: text }}>Transaksi</p>
-          </span>
-        </Link>
-            <Link to="/user/transaksi">
-          <span className="menu">
-            <center className="logo">
-              <FontAwesomeIcon icon={faCreditCard} />
-            </center>
-            <p style={{ display: text }}>Transaksi</p>
-          </span>
-        </Link>
-            <Link to="/user/transaksi">
-          <span className="menu">
-            <center className="logo">
-              <FontAwesomeIcon icon={faCreditCard} />
-            </center>
-            <p style={{ display: text }}>Transaksi</p>
-          </span>
-        </Link>
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto"></Nav>
-              <Nav className="nav">
-                <Nav.Link href="#deets">
-                  <FontAwesomeIcon icon={faBell} />
-                </Nav.Link>
-                <Nav.Link href="#memes">{user.nama[0]}</Nav.Link>
-                <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
+       
       {/* Sidebar */}
 
       <div className={sidebar}>
@@ -225,7 +172,7 @@ const SideBar = () => {
         />
         <ProtectedRoute
           exact
-          path="/user/invoice/bebas/:id"
+          path="/user/invoice/bebas/:id/:d_bebas_id"
           component={InvoiceBebas}
         />
 

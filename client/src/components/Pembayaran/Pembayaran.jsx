@@ -49,9 +49,9 @@ export default class Pembayaran extends Component {
       axios
         .get(`http://localhost:8000/siswa_nis/${this.state.nis}`)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data[0] === undefined) {
-            console.log("error")
+            
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -64,7 +64,7 @@ export default class Pembayaran extends Component {
           }
         })
         .catch((err) => {
-          console.log(err)
+          
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -84,6 +84,7 @@ export default class Pembayaran extends Component {
       });
     });
     if(this.props.location.state){
+      
       this.setState({
         nis: this.props.location.state.nis,
         periode: this.props.location.state.periode
@@ -91,9 +92,9 @@ export default class Pembayaran extends Component {
       axios
         .get(`http://localhost:8000/siswa_nis/${this.props.location.state.nis}`)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data[0] === undefined) {
-            console.log("error")
+            
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -106,7 +107,7 @@ export default class Pembayaran extends Component {
           }
         })
         .catch((err) => {
-          console.log(err)
+          
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -122,7 +123,7 @@ export default class Pembayaran extends Component {
 
 
   render() {
-    console.log(this.state.nis)
+    
     return (
       <div>
         <Card>

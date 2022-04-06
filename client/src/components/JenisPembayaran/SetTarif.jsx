@@ -46,7 +46,7 @@ export default class SetTarif extends Component {
     axios
       .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
       .then((res) => {
-        console.log(this.state.pembayaran_id);
+        
         this.setState({
           tipe: res.data[0].pembayaran_tipe,
           nama_pos : res.data[0].pos_nama
@@ -72,7 +72,7 @@ export default class SetTarif extends Component {
         axios
           .post("http://localhost:8000/set_tarif/bebas", data)
           .then((res) => {
-            console.log(res);
+            
             this.setState({
               dataError: res.data.error,
               errorMessage: res.data.message,
@@ -93,7 +93,7 @@ export default class SetTarif extends Component {
         axios
           .post("http://localhost:8000/set_tarif/bulanan", data)
           .then((res) => {
-            console.log(res);
+            
             this.setState({
               dataError: res.data.error,
               errorMessage: res.data.message,

@@ -30,14 +30,14 @@ export default class UbahProfileSiswa extends Component {
   };
   imageHandler = (e) => {
     e.preventDefault();
-    console.log(e.target.files[0]);
+    
     this.setState({ uploadedFile: e.target.files[0] });
   };
 
   componentDidMount() {
     axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
       const img = new File([res.data[0].siswa_img], "image.jpg");
-      console.log(img);
+      
       this.setState({
         siswa_nis: res.data[0].siswa_nis,
         siswa_nama: res.data[0].siswa_nama,
@@ -57,12 +57,12 @@ export default class UbahProfileSiswa extends Component {
     const data = new FormData();
     data.append("password", this.state.password);
     data.append("img", this.state.uploadedFile);
-    console.log(this.state.password)
-    console.log(data);
+    
+    
     axios
       .put(`http://localhost:8000/profile/edit/${this.state.id}`, data)
       .then((res) => {
-        console.log(res)
+        
         if (res.data.error === true) {
           Swal.fire({
             icon: "error",
@@ -70,7 +70,7 @@ export default class UbahProfileSiswa extends Component {
             text: `${res.data.message}`,
           });
         } else {
-          console.log(res)
+          
           this.props.history.push("/user/profile");
           Swal.fire({
             icon: "success",
@@ -89,10 +89,10 @@ export default class UbahProfileSiswa extends Component {
       var profilePic = "http://localhost:8000/public/images/" + imagestr;
     } else {
       // profilePic = this.state.gambar;
-      console.log("else condition");
+      
     }
-    console.log(this.state.uploadedFile)
-    console.log(this.state.gambar)
+    
+    
     return (
       <div>
         <Card>

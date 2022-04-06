@@ -51,7 +51,7 @@ export default class UbahSiswa extends Component {
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   getJurusan = () => {
@@ -63,7 +63,7 @@ export default class UbahSiswa extends Component {
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   getDKelas = () => {
@@ -75,7 +75,7 @@ export default class UbahSiswa extends Component {
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   getData() {
@@ -83,8 +83,8 @@ export default class UbahSiswa extends Component {
     axios
       .get(`http://localhost:8000/siswa/${siswa_id}`)
       .then((res) => {
-        console.log(res);
-        console.log(res.data[0]);
+        
+        
         
         this.setState({
           siswa_id: res.data[0].siswa_id,
@@ -98,7 +98,7 @@ export default class UbahSiswa extends Component {
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }
   componentDidMount() {
@@ -118,16 +118,16 @@ export default class UbahSiswa extends Component {
       jurusan: this.state.selected_jurusan,
       d_kelas: this.state.selected_d_kelas
     };
-    console.log(this.state.selected_kelas);
+    
     const siswa_id = this.state.siswa_id;
     e.preventDefault();
     if (this.validator.allValid()) {
       axios
         .put(`http://localhost:8000/ubah/siswa/${siswa_id}`, data)
         .then((res) => {
-          console.log(res.data.message);
+          
           this.validator.hideMessages();
-          console.log(this.state.kelas);
+          
           if (res.data.error === true) {
             Swal.fire({
               icon: 'error',
@@ -144,11 +144,11 @@ export default class UbahSiswa extends Component {
               text: `${res.data.message}`,});
             this.props.history.push("/admin/siswa");
           }
-          console.log(res.data);
-          console.log(res.data);
+          
+          
         })
         .catch((error) => {
-          console.log(error);
+          
         });
     } else {
       this.validator.showMessages();

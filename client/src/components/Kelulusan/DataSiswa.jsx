@@ -30,7 +30,7 @@ export default class DataSiswa extends Component {
     axios
       .get(`http://localhost:8000/siswa_kelas/${kelas_id}`)
       .then((res) => {
-        console.log(res);
+        
         this.setState({
           data: res.data,
         });

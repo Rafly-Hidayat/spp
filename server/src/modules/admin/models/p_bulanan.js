@@ -275,7 +275,7 @@ module.exports = {
             });
             response.push(data[index]);
           });
-          // console.log("response : ",response);
+          // 
 
           con.query(`SELECT siswa_nis FROM siswa`, (err, rows) => {
             if (err) throw err;
@@ -350,7 +350,7 @@ module.exports = {
           `SELECT siswa_nama FROM siswa WHERE siswa_nama = '${result.Sheet1[i].siswa_nama}'`,
           (err, rows) => {
             if (err) throw err;
-            console.log(rows);
+            
             if (rows.length != 0) {
               const siswa_nama = rows[0].siswa_nama;
               data.push(siswa_nama);
@@ -364,7 +364,7 @@ module.exports = {
 
       con.commit((err) => {
         if (err) throw err;
-        console.log(data);
+        
         if (error == false) {
           return callback();
         } else {
@@ -423,7 +423,7 @@ module.exports = {
       }
       con.commit((err) => {
         if (err) throw err;
-        console.log(data);
+        
         if (error == false) {
           return callback(data);
         } else {

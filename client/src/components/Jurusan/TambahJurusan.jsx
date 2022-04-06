@@ -30,7 +30,7 @@ export default class TambahJurusan extends Component {
       axios
         .post("http://localhost:8000/tambah/jurusan", data)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data.error === true ) {
             Swal.fire({
               icon: "error",

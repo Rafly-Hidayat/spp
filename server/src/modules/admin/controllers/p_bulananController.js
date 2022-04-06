@@ -39,15 +39,15 @@ module.exports = {
   
   upload: (req, res) => {
     p_bulanan.getIdSiswa(req.con, res, req.files.filename, (siswaId, filename) => {
-      console.log("siswa Id :", siswaId)
+      
       p_bulanan.getNamaSiswa(req.con, res, siswaId, filename, () => {
-        console.log("validasi siswa berhasil")
+        
         p_bulanan.getPembayaranId(req.con, res, filename, (pembayaranId) => {
-          console.log("validasi pembayaran id berhasil", pembayaranId)
+          
           p_bulanan.getMonth(req.con, res, filename, (monthId)=> {
-            console.log(monthId)
+            
             p_bulanan.getAdminId(req.con, res, filename, (adminId) => {
-              console.log("admin id :", adminId)
+              
               p_bulanan.upload(req.con, res, filename, siswaId, pembayaranId, monthId, adminId)
             })
           })

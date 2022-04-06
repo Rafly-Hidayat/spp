@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProtectedRoute from "../../ProtectedRoutes";
 // package
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import {
   Container,
   Navbar,
@@ -83,9 +83,11 @@ import CetakLaporanKelas from '../Laporan/CetakLaporanKelas'
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
 import DetailSiswa from './../DetailSiswa/DetailSiswa';
+import InvoiceBebas from './../Pembayaran/InvoiceBebas';
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
+  // 
   // const user = useState(admin.nama[0]);
 
   const [sidebar, setSidebar] = useState("sidebar");
@@ -153,10 +155,18 @@ const SideBar = () => {
     }
   };
   const history = useHistory();
+  let location = useLocation()
   const handleLogout = () => {
     localStorage.removeItem("dataAdmin");
     history.push("/");
   };
+  const nama = "admin"
+  // if (admin.nama[0]){
+  //   nama = admin.nama[0]
+  // } else {
+  //   nama =""
+  // }
+
   return (
     <div>
       <div className="admin">
@@ -249,7 +259,7 @@ const SideBar = () => {
                     }}
                   />
                   <div className="text-admin" style={{ display: text }}>
-                    {/* <h5>{admin.nama[0]}</h5>  */}
+                {nama}
                     <h6>Administrator</h6>
                     <p
                       className="status"
@@ -460,6 +470,7 @@ const SideBar = () => {
             component={EditPos}
           />
           <ProtectedRoute exact path="/admin/bulanan/upload/" component={UploadBulanan} />
+          <ProtectedRoute exact path="/admin/invoice/bebas/:siswa_id/:d_bebas_id/" component={InvoiceBebas} />
 
           <ProtectedRoute
             exact
@@ -551,7 +562,7 @@ const SideBar = () => {
           <ProtectedRoute exact path="/admin/laporan/cetak" component={CetakLaporanKelas} />
           <ProtectedRoute
             exact
-            path="/admin/invoice/:id"
+            path="/admin/invoice/:id/:d_bebas_id"
             component={Invoice}
           />
         </div>

@@ -32,7 +32,7 @@ export default class LaporanKelas extends Component {
       axios
         .post("http://localhost:8000/laporan/angkatan/bulanan", data)
         .then((res) => {
-          console.log(res.data);
+          
           this.setState({
             data: res.data.data,
             total: res.data,
@@ -64,7 +64,7 @@ export default class LaporanKelas extends Component {
   };
 
   render() {
-    console.log(this.state.data);
+    
     const data = this.state.data;
     // const options = {
     //   paginationSize: 4,

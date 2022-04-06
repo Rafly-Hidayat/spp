@@ -30,7 +30,7 @@ export default class UbahDaftarKelas extends Component {
     axios
       .get(`http://localhost:8000/d_kelas/${d_kelas_id}`)
       .then((res) => {
-          console.log(res)
+          
         this.setState({
           d_kelas_id: res.data[0].d_kelas_id,
           d_kelas_nama: res.data[0].d_kelas_nama,

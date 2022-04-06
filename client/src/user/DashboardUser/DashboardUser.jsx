@@ -50,7 +50,7 @@ export default class DashboardUser extends Component {
   render() {
     const user = JSON.parse(localStorage.getItem("dataSiswa"));
     const onChange = (date) => {
-      console.log(date.toString());
+      
     };
     return (
       <div>

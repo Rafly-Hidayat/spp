@@ -52,7 +52,7 @@ export default class SetTarif extends Component {
           data
         )
         .then((res) => {
-          console.log(res)
+          
           if (res.data.status === undefined) {
             Swal.fire({
               icon: "success",
