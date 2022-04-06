@@ -53,6 +53,7 @@ module.exports = {
                                 nama: nama,
                                 nis: nis,
                                 kelas: kelas + ' ' + jurusan+ ' ' + d_kelas,
+                                kelas_nama: kelas,
                                 gender: gender,
                                 img: img
                             })

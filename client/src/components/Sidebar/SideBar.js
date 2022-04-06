@@ -60,6 +60,10 @@ import DataKelas from "../Kelas/DataKelas";
 import Tambahkelas from "../Kelas/TambahKelas";
 import UbahKelas from "../Kelas/UbahKelas";
 
+import DaftarKelas from "../DaftarKelas/DaftarKelas"
+import UbahDaftarKelas from "../DaftarKelas/UbahDaftarKelas"
+import TambahDaftarKelas from "../DaftarKelas/TambahDaftarKelas"
+
 import Pembayaran from "../Pembayaran/Pembayaran";
 import AddPembayaran from "../Pembayaran/AddPembayaran";
 import AddPembayaranBulanan from "../Pembayaran/AddPembayaranBulanan";
@@ -333,6 +337,9 @@ const SideBar = () => {
                   <Link to="/admin/kelas">
                     <li>Kelas</li>{" "}
                   </Link>
+                  <Link to="/admin/daftar-kelas">
+                    <li>Daftar Kelas</li>{" "}
+                  </Link>
                   <Link to="/admin/kenaikan-kelas">
                     <li>Kenaikan Kelas</li>{" "}
                   </Link>
@@ -374,7 +381,7 @@ const SideBar = () => {
             </Link>
 
             {/* ----------- */}
-            <Link to="/admin/jenispembayaran">
+            <Link to="/admin/jenis-pembayaran">
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
@@ -499,7 +506,7 @@ const SideBar = () => {
 
           <ProtectedRoute
             exact
-            path="/admin/jenispembayaran"
+            path="/admin/jenis-pembayaran"
             component={JenisPembayaran}
           />
           <ProtectedRoute
@@ -509,12 +516,12 @@ const SideBar = () => {
           />
           <ProtectedRoute
             exact
-            path="/admin/jenispembayaran/tambah"
+            path="/admin/jenis-pembayaran/tambah"
             component={AddJenisPembayaran}
           />
           <ProtectedRoute
             exact
-            path="/admin/jenispembayaran/ubah/:id"
+            path="/admin/jenis-pembayaran/ubah/:id"
             component={UbahJenisPembayaran}
           />
 
@@ -522,6 +529,21 @@ const SideBar = () => {
             exact
             path="/admin/kenaikan-kelas"
             component={KenaikanKelas}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/daftar-kelas"
+            component={DaftarKelas}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/daftar-kelas/tambah"
+            component={TambahDaftarKelas}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/daftar-kelas/ubah/:id"
+            component={UbahDaftarKelas}
           />
 
           <ProtectedRoute

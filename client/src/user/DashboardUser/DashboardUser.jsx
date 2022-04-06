@@ -29,14 +29,22 @@ import Bulanan from "../PembayaranBulanan/PembayaranBulanan";
 import Bebas from "../PembayaranBebas/PembayaranBebas";
 
 import "./DashboardUser.css";
+import axios from "axios";
 export default class DashboardUser extends Component {
   constructor(props) {
     super(props);
     let bayar = 70;
     let tagihan = 200;
+    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     this.state = {
       count1: (bayar / tagihan) * 100,
-      modal: false
+      modal: false,
+      id : user.id,
+      nis : user.nis[0],
+      nama: user.nama,
+      kelas : user.kelas_nama,
+      lunas : "",
+      total_bulan:""
     };
   }
 
@@ -46,12 +54,36 @@ export default class DashboardUser extends Component {
     })
   }
 
+  componentDidMount() {
+    console.log(this.state.nis)
+    axios.get(`http://localhost:8000/tagihan/lunas/${this.state.id}`).then((res) => {
+      this.setState({
+        lunas: res.data.total_lunas
+      })
+    })
+    axios.get(`http://localhost:8000/tagihan/bebas/${this.state.id}`).then((res) => {
+      console.log(res)
+  })
+  }
+
 
   render() {
-    const user = JSON.parse(localStorage.getItem("dataSiswa"));
     const onChange = (date) => {
       
     };
+    if(this.state.kelas === 1){
+      this.setState({
+        total_bulan : 12
+      })
+    } else if (this.state.kelas === 2){
+      this.setState({
+        total_bulan : 24
+      })
+    } else if (this.state.kelas === 3){
+      this.setState({
+        total_bulan : 36
+      })
+    }
     return (
       <div>
         <div className="dashboard-user">
@@ -91,8 +123,8 @@ export default class DashboardUser extends Component {
                         </Link>
                       </div>
                       {/* <br /> */}
-                      <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
-                      <h4>{user.nama[0]}</h4>
+                      <h6 style={{ textAlign: "left" }}>{this.state.nis}</h6>
+                      <h4>{this.state.nama}</h4>
                       <br />
                       <br />
                       <ProgressBar
@@ -136,8 +168,8 @@ export default class DashboardUser extends Component {
                           </h6>
                         </Link>
                       </div>
-                      <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
-                      <h4>{user.nama[0]}</h4>
+                      <h6 style={{ textAlign: "left" }}>{this.state.nis}</h6>
+                      <h4>{this.state.nama}</h4>
                       <br />
                       <br />
                       <ProgressBar
@@ -201,8 +233,8 @@ export default class DashboardUser extends Component {
                           </Link>
                         </div>
                         {/* <br /> */}
-                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
-                        <h4>{user.nama[0]}</h4>
+                        <h6 style={{ textAlign: "left" }}>{}</h6>
+                        <h4>{}</h4>
                         <br />
                         <br />
                         <ProgressBar
@@ -249,8 +281,8 @@ export default class DashboardUser extends Component {
                             </h6>
                           </Link>
                         </div>
-                        <h6 style={{ textAlign: "left" }}>{user.nis[0]}</h6>
-                        <h4>{user.nama[0]}</h4>
+                        <h6 style={{ textAlign: "left" }}>{}</h6>
+                        <h4>{}</h4>
                         <br />
                         <br />
                         <ProgressBar
@@ -298,7 +330,7 @@ export default class DashboardUser extends Component {
                     <div class="modal-content" onClick={this.onModal}>
                       <QRCode
                         className="qrcode"
-                        value={user.nis[0]}
+                        value={this.state.nis}
                         size={220}
                       />
                     </div>

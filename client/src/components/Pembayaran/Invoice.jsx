@@ -20,6 +20,9 @@ export default class Invoice extends Component {
       siswa_nis: "",
       pos_nama: "",
       month_nama: "",
+      nis:"",
+      periode:"",
+      total:""
     };
   }
   componentDidMount() {
@@ -34,6 +37,7 @@ export default class Invoice extends Component {
             siswa_nis: "",
             pos_nama: "",
             month_nama: "",
+            total: "",
           });
         } else {
           this.setState({
@@ -43,9 +47,17 @@ export default class Invoice extends Component {
             pos_nama: res.data.pos_nama,
             month_nama: res.data.month_nama,
             no_transaksi: res.data.no_transaksi,
+            total: res.data.total,
           });
         }
       });
+
+      if(this.props.location){
+        this.setState({
+          nis : this.props.location.state.nis,
+          periode : this.props.location.state.periode
+        })
+      }
   }
   render() {
     
@@ -159,7 +171,7 @@ export default class Invoice extends Component {
                   <p>{this.state.pos_nama + " " + this.state.month_nama}</p>
                 </div>
                 <div className="kelas-isi">
-                  <p>Rp 300.000</p>
+                  <p>Rp {this.state.total.toLocaleString("id")}</p>
                 </div>
               </div>
               <hr />
@@ -172,7 +184,7 @@ export default class Invoice extends Component {
                 }}
               >
                 <h6 style={{ fontWeight: "700" }}>Total</h6>
-                <p style={{ fontWeight: "700" }}>Rp 600.000</p>
+                <p style={{ fontWeight: "700" }}>Rp {this.state.total.toLocaleString("id")}</p>
               </div>
               <hr />
               <div
@@ -226,7 +238,7 @@ export default class Invoice extends Component {
                 </div>
                 {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
-                <Link to="/admin/pembayaran">
+                <Link to={{pathname: `/admin/pembayaran`, state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}}}>
                   <Button variant="danger">Kembali</Button>
                 </Link>
               </div>

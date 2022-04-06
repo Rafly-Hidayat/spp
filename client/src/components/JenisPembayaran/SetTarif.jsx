@@ -68,49 +68,63 @@ export default class SetTarif extends Component {
       tagihan: this.state.tarif,
     };
     if (this.validator.allValid() && this.state.kelas) {
-      if (this.state.tipe === "BEBAS") {
-        axios
-          .post("http://localhost:8000/set_tarif/bebas", data)
-          .then((res) => {
-            
-            this.setState({
-              dataError: res.data.error,
-              errorMessage: res.data.message,
-            });
-            if (this.state.dataError) {
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `${this.state.errorMessage}`,
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        // convert to rupiah format and show it in alert message box
+        text: `Rp. ${this.state.tarif.toLocaleString("id-ID")}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, tammbah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (this.state.tipe === "BEBAS") {
+            axios
+              .post("http://localhost:8000/set_tarif/bebas", data)
+              .then((res) => {
+                console.log(res);
+                this.setState({
+                  dataError: res.data.error,
+                  errorMessage: res.data.message,
+                });
+                if (this.state.dataError) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${this.state.errorMessage}`,
+                  });
+                } else {
+                  Swal.fire("Good job!", "Set Tarif berhasil", "success");
+                  this.props.history.push("/admin/jenis-pembayaran");
+                }
+              })
+              .catch((err) => {});
+          } else {
+            axios
+              .post("http://localhost:8000/set_tarif/bulanan", data)
+              .then((res) => {
+                console.log(res);
+                this.setState({
+                  dataError: res.data.error,
+                  errorMessage: res.data.message,
+                });
+                if (this.state.dataError) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${this.state.errorMessage}`,
+                  });
+                } else {
+                  Swal.fire("Good job!", "Set Tarif berhasil", "success");
+                  this.props.history.push("/admin/jenis-pembayaran");
+                }
+                // this.props.history.push("/pembayaran");x
               });
-            } else {
-              Swal.fire("Good job!", "Set Tarif berhasil", "success");
-              this.props.history.push("/admin/jenis-pembayaran");
-            }
-          })
-          .catch((err) => {});
-      } else {
-        axios
-          .post("http://localhost:8000/set_tarif/bulanan", data)
-          .then((res) => {
-            
-            this.setState({
-              dataError: res.data.error,
-              errorMessage: res.data.message,
-            });
-            if (this.state.dataError) {
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `${this.state.errorMessage}`,
-              });
-            } else {
-              Swal.fire("Good job!", "Set Tarif berhasil", "success");
-              this.props.history.push("/admin/jenis-pembayaran");
-            }
-            // this.props.history.push("/pembayaran");
-          });
-      }
+          }
+          
+        }
+      });
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -136,7 +150,7 @@ export default class SetTarif extends Component {
                   <Link to="/admin">Home</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <Link to="/admin/jenispembayaran/">Data</Link>
+                  <Link to="/admin/jenis-pembayaran/">Data</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Set Tarif</Breadcrumb.Item>
               </Breadcrumb>

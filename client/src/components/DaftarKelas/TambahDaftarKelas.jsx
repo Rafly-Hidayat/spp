@@ -42,7 +42,7 @@ export default class TambahDaftarKelas extends Component {
             icon: "success",
             title: "Good Job!",
             text: `${res.data.message}`,});
-            this.props.history.push("/admin/d-kelas");
+            this.props.history.push("/admin/daftar-kelas");
           }
         })
         .catch((error) => {});
@@ -103,7 +103,7 @@ export default class TambahDaftarKelas extends Component {
             <Button variant="outline-primary" type="submit">
               Tambah
             </Button>&ensp;
-            <Link to="/admin/d-kelas">
+            <Link to="/admin/daftar-kelas">
               <Button variant="outline-danger" type="submit">Batal
             </Button>
             </Link>

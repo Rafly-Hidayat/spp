@@ -74,25 +74,15 @@ const SideBar = () => {
     <div>
       <div className="user">
         {/* Navbar */}
-        <Navbar
-          collapseOnSelect
-          expand="lg"
-          bg="dark"
-          variant="dark"
-          className="navbar"
-          fixed="top"
-        >
-          <Container className="container">
-            <Navbar.Brand>
-              <Image
-                src={navlogo}
-                position="absolute"
-                width="537px"
-                height="38px"
-                style={{ marginLeft: "-40px" }}
-                className="d-inline-block align-top"
-                alt="logo"
-              />
+
+        <Navbar bg="light" expand={false} className="navbar" fixed="bottom" style={{}}>
+          <Container >
+            <Navbar.Brand style={{
+              color: 'white',
+              border: '5px',
+            }}>
+              <Image onClick={changeSidebar} className="logo" src={logo} />{" "}
+              SPS
             </Navbar.Brand>
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>

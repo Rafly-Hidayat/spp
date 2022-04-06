@@ -16,6 +16,7 @@ export default class InvoicePrint extends Component {
       siswa_nis: "",
       pos_nama: "",
       month_nama: "",
+      total: "",
     };
   }
   componentDidMount() {
@@ -30,6 +31,7 @@ export default class InvoicePrint extends Component {
             siswa_nis: "",
             pos_nama: "",
             month_nama: "",
+            total: "",
           });
         } else {
           this.setState({
@@ -39,6 +41,7 @@ export default class InvoicePrint extends Component {
             pos_nama: res.data.pos_nama,
             month_nama: res.data.month_nama,
             no_transaksi: res.data.no_transaksi,
+            total: res.data.total,
           });
         }
       });
@@ -154,7 +157,7 @@ export default class InvoicePrint extends Component {
                   <p>{this.state.pos_nama + " " + this.state.month_nama}</p>
                 </div>
                 <div className="kelas-isi">
-                  <p>Rp 300.000</p>
+                  <p>Rp {this.state.total}</p>
                 </div>
               </div>
               <hr />
@@ -167,7 +170,7 @@ export default class InvoicePrint extends Component {
                 }}
               >
                 <h6 style={{ fontWeight: "700" }}>Total</h6>
-                <p style={{ fontWeight: "700" }}>Rp 600.000</p>
+                <p style={{ fontWeight: "700" }}>Rp {this.state.total}</p>
               </div>
               <hr />
               <div

@@ -75,7 +75,7 @@ export default class UbahDaftarKelas extends Component {
             title: "Good Job!",
             text: `${res.data.message}`,});
           }
-          this.props.history.push("/admin/d-kelas");
+          this.props.history.push("/admin/daftar-kelas");
         })
         .catch((err) => {});
     } else {
@@ -160,7 +160,7 @@ export default class UbahDaftarKelas extends Component {
                     <Button variant="outline-primary" type="submit">
                       Ubah
                     </Button>&ensp;
-                    <Link to="/admin/d-kelas">
+                    <Link to="/admin/daftar-kelas">
                       <Button variant="outline-danger" type="submit">
                         Batal
                       </Button>

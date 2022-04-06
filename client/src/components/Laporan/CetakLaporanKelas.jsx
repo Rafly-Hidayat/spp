@@ -69,7 +69,7 @@ export default class CetakLaporanKelas extends Component {
               }}
             >
               <thead style={{
-                borderBottom : "1px solid black"
+                borderRight : "1px solid black"
               }}>
                 <tr>
                   <th colSpan="100%">{data_tagihan[0][0].jurusan_nama} {data_tagihan[0][0].d_kelas_nama}</th>
@@ -86,7 +86,7 @@ export default class CetakLaporanKelas extends Component {
                 </tr>
                 <tr
                   style={{
-                    borderBottom: "1px solid black",
+                    borderRight: "1px solid black",
                     borderCollapse: "collapse",
                   }}
                 >
