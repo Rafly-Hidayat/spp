@@ -38,17 +38,17 @@ export default class LaporanKelas extends Component {
     };
   }
   componentDidMount() {
-    axios.get("http://localhost:8000/kelas").then((res) => {
+    axios.get("https://api-sps.my.id/kelas").then((res) => {
       this.setState({
         data_kelas: res.data,
       });
     });
-    axios.get("http://localhost:8000/jurusan").then((res) => {
+    axios.get("https://api-sps.my.id/jurusan").then((res) => {
       this.setState({
         data_jurusan: res.data,
       });
     });
-    axios.get("http://localhost:8000/d_kelas").then((res) => {
+    axios.get("https://api-sps.my.id/d_kelas").then((res) => {
       this.setState({
         data_d_kelas: res.data,
       });
@@ -63,7 +63,7 @@ export default class LaporanKelas extends Component {
         d_kelas_id: this.state.d_kelas,
       };
       axios
-        .post("http://localhost:8000/laporan/kelas/bebas", data)
+        .post("https://api-sps.my.id/laporan/kelas/bebas", data)
         .then((res) => {
           if (res.data.error !== true) {
             this.setState({
@@ -82,7 +82,7 @@ export default class LaporanKelas extends Component {
           }
         });
       axios
-        .post("http://localhost:8000/laporan/kelas/bulanan", data)
+        .post("https://api-sps.my.id/laporan/kelas/bulanan", data)
         .then((res) => {
           
           if (res.data.error !== true) {

@@ -37,34 +37,34 @@ export default class Dashboard extends Component {
     };
   }
   componentDidMount() {
-    axios.get("http://localhost:8000/total/siswa").then((res) => {
+    axios.get("https://api-sps.my.id/total/siswa").then((res) => {
       this.setState({
         totalSiswa: res.data.total,
       });
     });
-    axios.get("http://localhost:8000/total/jurusan").then((res) => {
+    axios.get("https://api-sps.my.id/total/jurusan").then((res) => {
       
       this.setState({
         totalJurusan: res.data.total,
       });
     });
-    axios.get("http://localhost:8000/total/pos").then((res) => {
+    axios.get("https://api-sps.my.id/total/pos").then((res) => {
       
       this.setState({
         totalPos: res.data.total,
       });
     });
-    axios.get("http://localhost:8000/total/kelas").then((res) => {
+    axios.get("https://api-sps.my.id/total/kelas").then((res) => {
       this.setState({
         totalKelas: res.data.total,
       });
     });
-    axios.get("http://localhost:8000/laporan/harian/bebas").then((res) => {
+    axios.get("https://api-sps.my.id/laporan/harian/bebas").then((res) => {
       this.setState({
         bebas: res.data,
       });
     });
-    axios.get("http://localhost:8000/laporan/harian/bulanan").then((res) => {
+    axios.get("https://api-sps.my.id/laporan/harian/bulanan").then((res) => {
       this.setState({
         bulanan: res.data,
       });

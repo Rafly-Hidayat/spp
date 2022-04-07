@@ -53,7 +53,7 @@ export default class KenaikanKelas extends Component {
 
   getKelas = () => {
     axios
-      .get("http://localhost:8000/kelas/")
+      .get("https://api-sps.my.id/kelas/")
       .then((res) => {
         this.setState({
           kelas: res.data,
@@ -70,7 +70,7 @@ export default class KenaikanKelas extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .put("http://localhost:8000/kenaikan_kelas", data)
+        .put("https://api-sps.my.id/kenaikan_kelas", data)
         .then((res) => {
           if (res.data.error === true) {
             Swal.fire({

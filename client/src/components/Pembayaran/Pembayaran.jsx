@@ -47,7 +47,7 @@ export default class Pembayaran extends Component {
     e.preventDefault();
     if (this.validator.allValid() && this.state.periode !== "") {
       axios
-        .get(`http://localhost:8000/siswa_nis/${this.state.nis}`)
+        .get(`https://api-sps.my.id/siswa_nis/${this.state.nis}`)
         .then((res) => {
           
           if (res.data[0] === undefined) {
@@ -78,7 +78,7 @@ export default class Pembayaran extends Component {
   };
 
   componentDidMount() {
-    axios.get(`http://localhost:8000/periode`).then((res) => {
+    axios.get(`https://api-sps.my.id/periode`).then((res) => {
       this.setState({
         periodes: res.data,
       });
@@ -90,7 +90,7 @@ export default class Pembayaran extends Component {
         periode: this.props.location.state.periode
       })
       axios
-        .get(`http://localhost:8000/siswa_nis/${this.props.location.state.nis}`)
+        .get(`https://api-sps.my.id/siswa_nis/${this.props.location.state.nis}`)
         .then((res) => {
           
           if (res.data[0] === undefined) {

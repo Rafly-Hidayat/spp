@@ -18,7 +18,7 @@ export default class Data extends Component {
   }
 
   getAdmin = () => {
-    axios.get("http://localhost:8000/jurusan/").then((res) => {
+    axios.get("https://api-sps.my.id/jurusan/").then((res) => {
       this.setState({
         data: res.data,
       });
@@ -44,7 +44,7 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/jurusan/${jurusan_id}`)
+          .delete(`https://api-sps.my.id/hapus/jurusan/${jurusan_id}`)
           .then((res) => {
             
             if (res.data.error === true ) {

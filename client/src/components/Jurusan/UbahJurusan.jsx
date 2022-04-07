@@ -28,7 +28,7 @@ export default class UbahJurusan extends Component {
   getData() {
     const jurusan_id = this.state.id;
     axios
-      .get(`http://localhost:8000/jurusan/${jurusan_id}`)
+      .get(`https://api-sps.my.id/jurusan/${jurusan_id}`)
       .then((res) => {
         this.setState({
           jurusan_id: res.data[0].jurusan_id,
@@ -57,7 +57,7 @@ export default class UbahJurusan extends Component {
     const jurusan_id = this.state.jurusan_id;
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/jurusan/${jurusan_id}`, data)
+        .put(`https://api-sps.my.id/ubah/jurusan/${jurusan_id}`, data)
         .then((res) => {
           if (res.data.error === true ) {
             Swal.fire({

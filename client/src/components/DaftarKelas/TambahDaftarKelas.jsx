@@ -28,7 +28,7 @@ export default class TambahDaftarKelas extends Component {
     };
     if (this.validator.allValid())  {
       axios
-        .post("http://localhost:8000/tambah/d_kelas", data)
+        .post("https://api-sps.my.id/tambah/d_kelas", data)
         .then((res) => {
           
           if (res.data.error === true ) {

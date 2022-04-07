@@ -32,7 +32,7 @@ import {
   faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 import navlogo from "../Assets/logotextwhite.svg";
-
+import Swal from "sweetalert2";
 // Import File
 import img from "../Assets/user.jpg";
 import Invoice from '../Pembayaran/Invoice'
@@ -162,15 +162,26 @@ const SideBar = () => {
   const history = useHistory();
   let location = useLocation()
   const handleLogout = () => {
+    Swal.fire({
+      // title: "Apakah anda yakin, ingin keluar?",
+      text:"Apakah anda yakin, ingin keluar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, keluar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
     localStorage.removeItem("dataAdmin");
     history.push("/");
+      }
+    });
   };
-  const nama = "admin"
-  // if (admin.nama[0]){
+  let nama = ""
+  // if (admin) {
   //   nama = admin.nama[0]
-  // } else {
-  //   nama =""
   // }
+  // console.log(admin.nama[0])
 
   return (
     <div>
@@ -264,7 +275,7 @@ const SideBar = () => {
                     }}
                   />
                   <div className="text-admin" style={{ display: text }}>
-                {nama}
+                {admin ? admin.nama[0] : null}
 
                     <h6>Administrator</h6>
                     <p

@@ -17,7 +17,7 @@ export default class LaporanKelas extends Component {
     };
   }
   componentDidMount() {
-    axios.get("http://localhost:8000/kelas/").then((res) => {
+    axios.get("https://api-sps.my.id/kelas/").then((res) => {
       this.setState({
         kelas: res.data,
       });
@@ -30,7 +30,7 @@ export default class LaporanKelas extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/laporan/angkatan/bulanan", data)
+        .post("https://api-sps.my.id/laporan/angkatan/bulanan", data)
         .then((res) => {
           
           this.setState({

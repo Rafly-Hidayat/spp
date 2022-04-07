@@ -35,7 +35,7 @@ export default class InformasiSIswa extends Component {
     const id = this.props.nis;
     // const idp = this.props.periodes.id;
     
-    axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/siswa_nis/${id}`).then((res) => {
       
       if (res.data[0].siswa_id === undefined) {
         Swal.fire({
@@ -62,7 +62,7 @@ export default class InformasiSIswa extends Component {
         });
         const nis = this.props.nis;
         const periode = this.props.periode;
-        axios.get(`http://localhost:8000/bebas/${nis}/${periode}`).then((res) => {
+        axios.get(`https://api-sps.my.id/bebas/${nis}/${periode}`).then((res) => {
           if (res.data[0] === undefined) {
             this.setState({
               data: "",
@@ -75,7 +75,7 @@ export default class InformasiSIswa extends Component {
             });
           }
         });
-        axios.get(`http://localhost:8000/bulanan/${nis}/${periode}`).then((res) => {
+        axios.get(`https://api-sps.my.id/bulanan/${nis}/${periode}`).then((res) => {
           
           if (res.data[0] === undefined) {
             this.setState({
@@ -92,7 +92,7 @@ export default class InformasiSIswa extends Component {
   };
 
   getDetails = () => {
-    axios.get(`http://localhost:8000/user/detail/bebas/${this.state.siswa_id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/user/detail/bebas/${this.state.siswa_id}`).then((res) => {
       
       if (res.data.error === true){
         Swal.fire({

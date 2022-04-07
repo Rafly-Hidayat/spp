@@ -30,7 +30,7 @@ export default class AddPos extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/tambah/pos", data)
+        .post("https://api-sps.my.id/tambah/pos", data)
         .then((res) => {
           this.setState({
           });

@@ -40,7 +40,7 @@ export default class UploadBulanan extends Component {
       this.state.selectedFile.name
     );
     axios
-      .post("http://localhost:8000/bulanan/upload", formData)
+      .post("https://api-sps.my.id/bulanan/upload", formData)
       .then((res) => {
         
         this.setState({

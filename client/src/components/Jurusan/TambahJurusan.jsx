@@ -28,7 +28,7 @@ export default class TambahJurusan extends Component {
     };
     if (this.validator.allValid())  {
       axios
-        .post("http://localhost:8000/tambah/jurusan", data)
+        .post("https://api-sps.my.id/tambah/jurusan", data)
         .then((res) => {
           
           if (res.data.error === true ) {
