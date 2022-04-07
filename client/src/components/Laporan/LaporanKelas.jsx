@@ -16,6 +16,7 @@ import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import ReactToPrint from "react-to-print";
 import CetakLaporanKelas from "./CetakLaporanKelas";
+import Swal from "sweetalert2";
 
 export default class LaporanKelas extends Component {
   constructor(props) {
@@ -31,9 +32,9 @@ export default class LaporanKelas extends Component {
       data_kelas: [],
       data_jurusan: [],
       data_d_kelas: [],
-      kelas: 2,
-      jurusan: 2,
-      d_kelas: 3,
+      kelas: "",
+      jurusan: "",
+      d_kelas: "",
     };
   }
   componentDidMount() {
@@ -55,7 +56,7 @@ export default class LaporanKelas extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    if (this.validator.allValid()) {
+    if (this.validator.allValid() && this.state.kelas !== "" && this.state.jurusan !== "" && this.state.d_kelas !== "") {
       const data = {
         kelas_id: this.state.kelas,
         jurusan_id: this.state.jurusan,
@@ -65,14 +66,18 @@ export default class LaporanKelas extends Component {
         .post("http://localhost:8000/laporan/kelas/bebas", data)
         .then((res) => {
           if (res.data.error !== true) {
-            
             this.setState({
               data_bebas: res.data.data,
               total_bebas: res.data.sisa_tagihan_kelas,
-            });
+            })
           } else {
             this.setState({
               data_bebas: "",
+            });
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Data tidak ditemukan",
             });
           }
         });
@@ -88,6 +93,11 @@ export default class LaporanKelas extends Component {
           } else {
             this.setState({
               data_bulanan: "",
+            });
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Data tidak ditemukan",
             });
           }
         });
@@ -116,6 +126,7 @@ export default class LaporanKelas extends Component {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
     const exportToCSV = (apiData, fileName) => {
+      console.log(apiData[0].sisa_bulan);
       // group data depend on periode
       const groupedData = apiData.reduce((acc, curr) => {
         if (!acc[curr.periode]) {
@@ -127,20 +138,37 @@ export default class LaporanKelas extends Component {
       
       // add title on first row merged cells
       // then push down rows with data
-      const rows = [
-        ["Nama Siswa", "Kelas", "Periode", "Sisa Bulan", "Sisa Tagihan"],
-      ];
-      Object.keys(groupedData).forEach((key) => {
-        groupedData[key].forEach((item) => {
-          rows.push([
-            item.siswa_nama,
-            item.kelas_nama + " " + item.jurusan_nama + " " + item.d_kelas_nama,
-            item.periode,
-            item.sisa_bulan,
-            item.sisa_tagihan,
-          ]);
+      const rows = [];
+      // check if apiData is from bebas or bulanan
+      // if bebas, rows = [["Nama Siswa", "Kelas", "Periode", "Sisa Tagihan"]]
+      // if bulanan, rows = [["Nama Siswa", "Kelas", "Periode", "Sisa Bulan", "Sisa Tagihan"]]
+      console.log(apiData[0].sisa_bulan)
+      if(apiData[0].sisa_bulan === undefined){
+        rows.push(["Nama Siswa", "Kelas", "Periode", "Sisa Tagihan"]);
+        Object.keys(groupedData).forEach((key) => {
+          groupedData[key].forEach((item) => {
+            rows.push([
+              item.siswa_nama,
+              item.kelas_nama + " " + item.jurusan_nama + " " + item.d_kelas_nama,
+              item.periode,
+              item.sisa_tagihan,
+            ]);
+          });
         });
-      });
+      } else {
+        rows.push(["Nama Siswa", "Kelas", "Periode", "Sisa Bulan", "Sisa Tagihan"]);
+        Object.keys(groupedData).forEach((key) => {
+          groupedData[key].forEach((item) => {
+            rows.push([
+              item.siswa_nama,
+              item.kelas_nama + " " + item.jurusan_nama + " " + item.d_kelas_nama,
+              item.periode,
+              item.sisa_bulan,
+              item.sisa_tagihan,
+            ]);
+          });
+        });
+      }       
       // convert array of arrays into workbook
       const ws = XLSX.utils.aoa_to_sheet(rows);
       const wb = XLSX.utils.book_new();
@@ -359,7 +387,7 @@ export default class LaporanKelas extends Component {
                             {
                               className: "text-danger",
                               messages: {
-                                required: "Pilih Kelas!",
+                                required: "Pilih Jurusan!",
                               },
                             }
                           )}
@@ -393,7 +421,7 @@ export default class LaporanKelas extends Component {
                             {
                               className: "text-danger",
                               messages: {
-                                required: "Pilih Kelas!",
+                                required: "Pilih Daftar Kelas!",
                               },
                             }
                           )}
