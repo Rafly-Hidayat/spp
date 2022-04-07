@@ -34,7 +34,7 @@ export default class SetTarif extends Component {
 
   getKelas = () => {
     axios
-      .get("http://localhost:8000/kelas/")
+      .get("https://api-sps.my.id/kelas/")
       .then((res) => {
         this.setState({
           data_kelas: res.data,
@@ -44,7 +44,7 @@ export default class SetTarif extends Component {
   };
   getTipe = () => {
     axios
-      .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
+      .get(`https://api-sps.my.id/pembayaran/${this.state.pembayaran_id}`)
       .then((res) => {
         
         this.setState({
@@ -81,7 +81,7 @@ export default class SetTarif extends Component {
         if (result.isConfirmed) {
           if (this.state.tipe === "BEBAS") {
             axios
-              .post("http://localhost:8000/set_tarif/bebas", data)
+              .post("https://api-sps.my.id/set_tarif/bebas", data)
               .then((res) => {
                 console.log(res);
                 this.setState({
@@ -102,7 +102,7 @@ export default class SetTarif extends Component {
               .catch((err) => {});
           } else {
             axios
-              .post("http://localhost:8000/set_tarif/bulanan", data)
+              .post("https://api-sps.my.id/set_tarif/bulanan", data)
               .then((res) => {
                 console.log(res);
                 this.setState({

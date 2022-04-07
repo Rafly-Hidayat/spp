@@ -52,7 +52,7 @@ export default class PembayaranBebas extends Component {
   getSiswa = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios
-      .get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
+      .get(`https://api-sps.my.id/user/pembayaran/bebas/${id}`)
       .then((res) => {
         
         if (res.data.error === true) {
@@ -76,7 +76,7 @@ export default class PembayaranBebas extends Component {
 
   getDetails = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/user/detail/bebas/${id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/user/detail/bebas/${id}`).then((res) => {
       
       this.setState({
         details: true,

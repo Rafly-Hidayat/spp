@@ -18,7 +18,7 @@ export default class DataKelas extends Component {
   }
 
   getkelas = () => {
-    axios.get("http://localhost:8000/kelas/").then((res) => {
+    axios.get("https://api-sps.my.id/kelas/").then((res) => {
       this.setState({
         data: res.data,
       });
@@ -44,7 +44,7 @@ export default class DataKelas extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/kelas/${kelas_id}`)
+          .delete(`https://api-sps.my.id/hapus/kelas/${kelas_id}`)
           .then((res) => {
             if (res.data.error === true) {
               Swal.fire({

@@ -26,7 +26,7 @@ export default class Login extends Component {
 
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/admin/login", data)
+        .post("https://api-sps.my.id/admin/login", data)
         .then((res) => {
           this.setState({
             dataError: res.data.error,

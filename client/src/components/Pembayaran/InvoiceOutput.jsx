@@ -29,7 +29,7 @@ export default class InvoiceBebas extends Component {
   componentDidMount = () => {
     
       const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/user/detail/bebas/100/6`).then((res) => {
+    axios.get(`https://api-sps.my.id/user/detail/bebas/100/6`).then((res) => {
       
       if (res.data.error === true) {
         this.setState({

@@ -44,7 +44,7 @@ export default class UbahSiswa extends Component {
 
   getKelas = () => {
     axios
-      .get("http://localhost:8000/kelas/")
+      .get("https://api-sps.my.id/kelas/")
       .then((res) => {
         this.setState({
           kelas: res.data,
@@ -56,7 +56,7 @@ export default class UbahSiswa extends Component {
   };
   getJurusan = () => {
     axios
-      .get("http://localhost:8000/jurusan/")
+      .get("https://api-sps.my.id/jurusan/")
       .then((res) => {
         this.setState({
           jurusan: res.data,
@@ -68,7 +68,7 @@ export default class UbahSiswa extends Component {
   };
   getDKelas = () => {
     axios
-      .get("http://localhost:8000/d_kelas/")
+      .get("https://api-sps.my.id/d_kelas/")
       .then((res) => {
         this.setState({
           d_kelas: res.data,
@@ -81,7 +81,7 @@ export default class UbahSiswa extends Component {
   getData() {
     const siswa_id = this.state.id;
     axios
-      .get(`http://localhost:8000/siswa/${siswa_id}`)
+      .get(`https://api-sps.my.id/siswa/${siswa_id}`)
       .then((res) => {
         
         
@@ -123,7 +123,7 @@ export default class UbahSiswa extends Component {
     e.preventDefault();
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/siswa/${siswa_id}`, data)
+        .put(`https://api-sps.my.id/ubah/siswa/${siswa_id}`, data)
         .then((res) => {
           
           this.validator.hideMessages();

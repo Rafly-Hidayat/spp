@@ -23,7 +23,7 @@ import {
   faQrcode,
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 import logo from "../Assets/LandingPageImg/Logo.png";
 
 import "./SideBarUser.css";
@@ -80,8 +80,20 @@ const SideBar = () => {
 
   const history = useHistory();
   const handleLogout = () => {
+    Swal.fire({
+      // title: "Apakah anda yakin, ingin keluar?",
+      text:"Apakah anda yakin, ingin keluar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, keluar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
     localStorage.removeItem("dataSiswa");
     history.push("/");
+      }
+    });
   };
 
   const user = JSON.parse(localStorage.getItem("dataSiswa"));
@@ -105,7 +117,9 @@ const SideBar = () => {
                 fontSize: '16px',
 
                 fontWeight: '600'
-              }}> Hi, {user.nama[0]}</span>
+              }}> 
+              {/* Hi, {user ? user.nama[0] : null} */}
+              </span>
             </Navbar.Text>
             <Navbar.Toggle aria-controls="offcanvasNavbar" className="burger"/>
             <Navbar.Offcanvas
@@ -114,7 +128,9 @@ const SideBar = () => {
               placement="end"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title id="offcanvasNavbarLabel">Hi, {user.nama[0]}</Offcanvas.Title>
+                <Offcanvas.Title id="offcanvasNavbarLabel">
+                  {/* Hi, {user ? user.nama[0]:null} */}
+                  </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">

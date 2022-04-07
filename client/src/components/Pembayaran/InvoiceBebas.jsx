@@ -31,7 +31,7 @@ export default class InvoiceBebas extends Component {
   componentDidMount = () => {
     const siswa_id = this.state.siswa_id;
     const d_bebas_id = this.state.d_bebas_id;
-    axios.get(`http://localhost:8000/user/detail/bebas/${siswa_id}/${d_bebas_id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/user/detail/bebas/${siswa_id}/${d_bebas_id}`).then((res) => {
       
       if (res.data.error === true) {
         this.setState({

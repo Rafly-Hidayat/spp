@@ -40,7 +40,7 @@ export default class UploadSiswa extends Component {
       this.state.selectedFile.name
     );
     axios
-      .post("http://localhost:8000/siswa/upload", formData)
+      .post("https://api-sps.my.id/siswa/upload", formData)
       .then((res) => {
         
         this.setState({

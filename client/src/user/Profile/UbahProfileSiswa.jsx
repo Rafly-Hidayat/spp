@@ -35,7 +35,7 @@ export default class UbahProfileSiswa extends Component {
   };
 
   componentDidMount() {
-    axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/profile/${this.state.id}`).then((res) => {
       const img = new File([res.data[0].siswa_img], "image.jpg");
       
       this.setState({
@@ -60,7 +60,7 @@ export default class UbahProfileSiswa extends Component {
     
     
     axios
-      .put(`http://localhost:8000/profile/edit/${this.state.id}`, data)
+      .put(`https://api-sps.my.id/profile/edit/${this.state.id}`, data)
       .then((res) => {
         
         if (res.data.error === true) {
@@ -86,8 +86,8 @@ export default class UbahProfileSiswa extends Component {
 
     if (this.state.gambar) {
       var imagestr = this.state.gambar;
-      imagestr = imagestr.replace("public/image/", "");
-      var profilePic = "http://localhost:8000/public/images/" + imagestr;
+      imagestr = imagestr.replace("src/public/image/", "");
+      var profilePic = "https://api-sps.my.id/public/images/" + imagestr;
     } else {
       // profilePic = this.state.gambar;
       
@@ -131,7 +131,7 @@ export default class UbahProfileSiswa extends Component {
                     >
                       <img
                         src={
-                          "http://localhost:8000/public/images/" +
+                          "https://api-sps.my.id/src/public/images/" +
                           this.state.gambar
                         }
                         width={160}

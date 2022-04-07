@@ -43,7 +43,7 @@ export default class Login extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/siswa/login", data)
+        .post("https://api-sps.my.id/siswa/login", data)
         .then((res) => {
           
           if (res.data.error === true) {
