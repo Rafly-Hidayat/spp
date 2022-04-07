@@ -73,7 +73,7 @@ export default class ProfileSiswa extends Component {
             <Form>
               <Row>
                 <Col>
-                  <img src={"http://127.0.0.1:8000/public/images/" + this.state.gambar} width={40} height={40} />
+                  <img src={"https://api-sps.my.id/src/public/images/" + this.state.gambar} width={40} height={40} />
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>

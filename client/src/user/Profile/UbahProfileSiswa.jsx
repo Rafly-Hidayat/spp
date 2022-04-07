@@ -86,7 +86,7 @@ export default class UbahProfileSiswa extends Component {
 
     if (this.state.gambar) {
       var imagestr = this.state.gambar;
-      imagestr = imagestr.replace("public/image/", "");
+      imagestr = imagestr.replace("src/public/image/", "");
       var profilePic = "https://api-sps.my.id/public/images/" + imagestr;
     } else {
       // profilePic = this.state.gambar;
@@ -131,7 +131,7 @@ export default class UbahProfileSiswa extends Component {
                     >
                       <img
                         src={
-                          "https://api-sps.my.id/public/images/" +
+                          "https://api-sps.my.id/src/public/images/" +
                           this.state.gambar
                         }
                         width={160}

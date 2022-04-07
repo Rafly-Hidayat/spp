@@ -81,7 +81,7 @@ export default class ProfileSiswa extends Component {
 
                     <img
                       src={
-                        "https://api-sps.my.id/public/images/" + this.state.gambar
+                        "https://api-sps.my.id/src/public/images/" + this.state.gambar
                       }
                       width={164}
                       height={164}
