@@ -32,7 +32,7 @@ export default class LaporanAngkatan extends Component {
     const data = {
       kelas_id: this.state.selected_kelas,
     };
-    if (this.validator.allValid()) {
+    if (this.validator.allValid() &&this.state.selected_kelas !== "") {
       axios
         .post("https://api-sps.my.id/laporan/angkatan/bebas", data)
         .then((res) => {
@@ -248,7 +248,7 @@ export default class LaporanAngkatan extends Component {
                         name="selected_kelas"
                         onChange={this.handleChange}
                       >
-                        <option value>=== Pilih Kelas ===</option>
+                        <option value="">=== Pilih Kelas ===</option>
                         {this.state.kelas.map((kelas) => {
                           return (
                             <option key={kelas.kelas_id} value={kelas.kelas_id}>
