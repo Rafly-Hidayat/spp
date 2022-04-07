@@ -53,7 +53,6 @@
 
 .page1 .page1-content {
     padding-top: 140px;
-    position: relative;
     animation: page1-content 2s;
 }
 
@@ -88,9 +87,9 @@
 }
 
 .page1 .page1-img .img1 {
-    width: 110%;
-    height: 110%;
-    margin-left: -36px;
+    width: 600px;
+    height: 600px;
+    margin-left: 6px;
     position: relative;
     animation: page1-img 2s;
     animation-timing-function: ease;
