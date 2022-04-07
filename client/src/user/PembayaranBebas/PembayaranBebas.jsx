@@ -52,9 +52,9 @@ export default class PembayaranBebas extends Component {
   getSiswa = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios
-      .get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
+      .get(`https://api-sps.my.id/user/pembayaran/bebas/${id}`)
       .then((res) => {
-        console.log(res);
+        
         if (res.data.error === true) {
           this.setState({
             data: "",
@@ -76,8 +76,8 @@ export default class PembayaranBebas extends Component {
 
   getDetails = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/user/detail/bebas/${id}`).then((res) => {
-      console.log(res);
+    axios.get(`https://api-sps.my.id/user/detail/bebas/${id}`).then((res) => {
+      
       this.setState({
         details: true,
         data_details: res.data,
@@ -92,7 +92,7 @@ export default class PembayaranBebas extends Component {
   }
 
   render() {
-    console.log(this.state.details);
+    
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
 
     const detail = [
@@ -143,8 +143,17 @@ export default class PembayaranBebas extends Component {
     ];
     const desktop = [
       {
-        dataField: "pos_nama",
-        text: "Deskripsi",
+        text: "Tipe Pembayaran",
+        headerStyle: (colum, colIndex) => {
+          return { width: "300px" };
+        },
+        formatter: (cell, row) => {
+          return (
+            <div>
+              {`${row.pos_nama} - T.A ${row.periode_mulai}/${row.periode_akhir}`}
+            </div>
+          );
+        }
       },
       {
         text: "Jumlah",
@@ -211,7 +220,7 @@ export default class PembayaranBebas extends Component {
     const mobile = [
       {
         dataField: "pos_nama",
-        text: "Tipe",
+        text: "Pembayaran",
       },
       {
         text: "Tagihan",

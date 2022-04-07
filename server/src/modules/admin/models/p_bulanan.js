@@ -276,7 +276,7 @@ module.exports = {
             });
             response.push(data[index]);
           });
-          // console.log("response : ",response);
+          // 
 
           con.query(`SELECT siswa_nis FROM siswa`, (err, rows) => {
             if (err) throw err;
@@ -351,7 +351,7 @@ module.exports = {
           `SELECT siswa_nama FROM siswa WHERE siswa_nama = '${result.Sheet1[i].siswa_nama}'`,
           (err, rows) => {
             if (err) throw err;
-            console.log(rows);
+            
             if (rows.length != 0) {
               const siswa_nama = rows[0].siswa_nama;
               data.push(siswa_nama);
@@ -365,7 +365,7 @@ module.exports = {
 
       con.commit((err) => {
         if (err) throw err;
-        console.log(data);
+        
         if (error == false) {
           return callback();
         } else {
@@ -424,7 +424,7 @@ module.exports = {
       }
       con.commit((err) => {
         if (err) throw err;
-        console.log(data);
+        
         if (error == false) {
           return callback(data);
         } else {
@@ -590,11 +590,10 @@ module.exports = {
 
       for (let i = 0; i < result.Sheet1.length; i++) {
         con.query(
-          `SELECT bulanan.siswa_id FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id WHERE siswa.siswa_nis = ${result.Sheet1[i].siswa_nis}`,
+          `SELECT bulanan.siswa_id FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id WHERE siswa.siswa_nis = ${result.Sheet1[i].siswa_nis} AND bulanan.month_id = ${monthId[i]} `,
           (err, rows) => {
             if (err) throw err;
-            const siswa_Id = rows[0].siswa_id;
-            if (!siswa_Id) {
+            if (rows.length == 0) {
               con.query(
                 `INSERT INTO bulanan SET siswa_id = ${siswaId[i]}, pembayaran_id = ${pembayaranId[i]}, month_id = ${monthId[i]},bulanan_tagihan = ${result.Sheet1[i].tagihan}, no_transaksi = '${result.Sheet1[i].no_transaksi}', bulanan_status = ${blnStatus[i]}, bulanan_tanggal = '${result.Sheet1[i].tanggal_bayar}', admin_id = ${adminId[i]}`,
                 (err) => {

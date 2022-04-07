@@ -1,66 +1,67 @@
 import React, { Component } from "react";
-import { Container, Button } from "react-bootstrap";
-import ReactToPrint from "react-to-print";
 import axios from "axios";
+import ReactToPrint from "react-to-print";
 import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
+import { Link, } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 
-import InvoicePrint from "./InvoicePrint";
-import { Link } from "react-router-dom";
-
-// import './Invoice.css'
-export default class Invoice extends Component {
+export default class InvoiceBebas extends Component {
   constructor(props) {
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     super(props);
-    document.title = "Admin | Cetak Pembayaran";
+    
     this.state = {
-      id: this.props.match.params.id,
-      tanggal: "",
+      id: id,
+      no_transaksi: "",
+      d_bebas_bayar: "",
+      d_bebas_deskripsi: "",
+      d_bebas_tanggal: "",
+      admin_nama: "",
       siswa_nama: "",
       siswa_nis: "",
-      pos_nama: "",
-      month_nama: "",
-      nis:"",
-      periode:"",
-      total:""
+      kelas_nama: "",
+      jurusan_nama: "",
+      d_kelas_nama: "",
+      d_bebas_id: this.props.id,
     };
   }
-  componentDidMount() {
-    axios
-      .get(`https://api-sps.my.id/invoice/bulanan/${this.state.id}`)
-      .then((res) => {
-        
-        if (res.data.error === true) {
-          this.setState({
-            tanggal: "",
-            siswa_nama: "",
-            siswa_nis: "",
-            pos_nama: "",
-            month_nama: "",
-            total: "",
-          });
-        } else {
-          this.setState({
-            tanggal: res.data.tanggal,
-            siswa_nama: res.data.siswa_nama,
-            siswa_nis: res.data.siswa_nis,
-            pos_nama: res.data.pos_nama,
-            month_nama: res.data.month_nama,
-            no_transaksi: res.data.no_transaksi,
-            total: res.data.total,
-          });
-        }
-      });
-
-      if(this.props.location){
-        this.setState({
-          nis : this.props.location.state.nis,
-          periode : this.props.location.state.periode
-        })
-      }
-  }
-  render() {
+  componentDidMount = () => {
     
+      const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    axios.get(`https://api-sps.my.id/user/detail/bebas/100/6`).then((res) => {
+      
+      if (res.data.error === true) {
+        this.setState({
+          no_transaksi: "",
+          d_bebas_bayar: "",
+          d_bebas_deskripsi: "",
+          d_bebas_tanggal: "",
+          admin_nama: "",
+          siswa_nama: "",
+          siswa_nis: "",
+          kelas_nama: "",
+          jurusan_nama: "",
+          d_kelas_nama: "",
+        });
+      } else {
+        this.setState({
+          no_transaksi: res.data[0].no_transaksi,
+          d_bebas_bayar: res.data[0].d_bebas_bayar,
+          d_bebas_deskripsi: res.data[0].d_bebas_deskripsi,
+          d_bebas_tanggal: res.data[0].d_bebas_tanggal,
+          admin_nama: res.data[0].admin_nama,
+          siswa_nama: res.data[0].siswa_nama,
+          siswa_nis: res.data[0].siswa_nis,
+          kelas_nama: res.data[0].kelas_nama,
+          jurusan_nama: res.data[0].jurusan_nama,
+          d_kelas_nama: res.data[0].d_kelas_nama,
+        });
+      }
+    });
+  };
+  render() {
+      
     return (
       <div>
         <div
@@ -124,7 +125,7 @@ export default class Invoice extends Component {
                 </div>
                 <div className="tanggal " style={{ textAlign: "right" }}>
                   <h6 style={{ fontWeight: "700" }}>Tgl. Pembayaran</h6>
-                  <p style={{ marginTop: "14px" }}>{this.state.tanggal}</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.d_bebas_tanggal}</p>
                 </div>
               </div>
               <hr />
@@ -138,6 +139,7 @@ export default class Invoice extends Component {
                 <div className="nama">
                   <h6 style={{ fontWeight: "700" }}>Nama Lengkap</h6>
                   <p style={{ marginTop: "14px" }}>{this.state.siswa_nama}</p>
+                  <p style={{ marginTop: "14px" }}>{this.state.kelas_nama + " " + this.state.jurusan_nama + " " + this.state.d_kelas_nama}</p>
                 </div>
                 <div className="kelas">
                   <h6 style={{ fontWeight: "700", textAlign: "right" }}>NIS</h6>
@@ -168,10 +170,10 @@ export default class Invoice extends Component {
                 }}
               >
                 <div className="nama-isi">
-                  <p>{this.state.pos_nama + " " + this.state.month_nama}</p>
+                  <p>{this.state.d_bebas_deskripsi}</p>
                 </div>
                 <div className="kelas-isi">
-                  <p>Rp {this.state.total.toLocaleString("id")}</p>
+                  <p>Rp. {this.state.d_bebas_bayar.toLocaleString('id')}</p>
                 </div>
               </div>
               <hr />
@@ -184,7 +186,7 @@ export default class Invoice extends Component {
                 }}
               >
                 <h6 style={{ fontWeight: "700" }}>Total</h6>
-                <p style={{ fontWeight: "700" }}>Rp {this.state.total.toLocaleString("id")}</p>
+                <p style={{ fontWeight: "700" }}>Rp. {this.state.d_bebas_bayar.toLocaleString('id')}</p>
               </div>
               <hr />
               <div
@@ -230,15 +232,15 @@ export default class Invoice extends Component {
                   )}
                   content={() => this.componentRef}
                 />
-                <div style={{ display: "none" }}>
+                {/* <div style={{ display: "none" }}>
                   <InvoicePrint
                     bulanan_id={this.state.id}
                     ref={(el) => (this.componentRef = el)}
                   />
-                </div>
+                </div> */}
                 {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
-                <Link to={{pathname: `/admin/pembayaran`, state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}}}>
+                <Link to="/user/transaksi/">
                   <Button variant="danger">Kembali</Button>
                 </Link>
               </div>

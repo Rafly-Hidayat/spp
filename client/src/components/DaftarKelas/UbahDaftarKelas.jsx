@@ -28,9 +28,9 @@ export default class UbahDaftarKelas extends Component {
   getData() {
     const d_kelas_id = this.state.id;
     axios
-      .get(`http://localhost:8000/d_kelas/${d_kelas_id}`)
+      .get(`https://api-sps.my.id/d_kelas/${d_kelas_id}`)
       .then((res) => {
-          console.log(res)
+          
         this.setState({
           d_kelas_id: res.data[0].d_kelas_id,
           d_kelas_nama: res.data[0].d_kelas_nama,
@@ -58,7 +58,7 @@ export default class UbahDaftarKelas extends Component {
     const d_kelas_id = this.state.d_kelas_id;
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/d_kelas/${d_kelas_id}`, data)
+        .put(`https://api-sps.my.id/ubah/d_kelas/${d_kelas_id}`, data)
         .then((res) => {
           if (res.data.error === true ) {
             Swal.fire({

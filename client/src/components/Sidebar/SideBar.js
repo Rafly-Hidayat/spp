@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProtectedRoute from "../../ProtectedRoutes";
 // package
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import {
   Container,
   Navbar,
@@ -29,9 +29,10 @@ import {
   faBahai,
   faCalendar,
   faFileInvoice,
+  faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 import navlogo from "../Assets/logotextwhite.svg";
-
+import Swal from "sweetalert2";
 // Import File
 import img from "../Assets/user.jpg";
 import Invoice from '../Pembayaran/Invoice'
@@ -87,9 +88,11 @@ import CetakLaporanKelas from '../Laporan/CetakLaporanKelas'
 
 // import LaporanKelas from "../Laporan/LaporanKelas";
 import DetailSiswa from './../DetailSiswa/DetailSiswa';
+import InvoiceBebas from './../Pembayaran/InvoiceBebas';
 
 const SideBar = () => {
   const admin = JSON.parse(localStorage.getItem("dataAdmin"));
+  // 
   // const user = useState(admin.nama[0]);
 
   const [sidebar, setSidebar] = useState("sidebar");
@@ -157,10 +160,29 @@ const SideBar = () => {
     }
   };
   const history = useHistory();
+  let location = useLocation()
   const handleLogout = () => {
+    Swal.fire({
+      // title: "Apakah anda yakin, ingin keluar?",
+      text:"Apakah anda yakin, ingin keluar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, keluar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
     localStorage.removeItem("dataAdmin");
     history.push("/");
+      }
+    });
   };
+  let nama = ""
+  // if (admin) {
+  //   nama = admin.nama[0]
+  // }
+  // console.log(admin.nama[0])
+
   return (
     <div>
       <div className="admin">
@@ -253,7 +275,8 @@ const SideBar = () => {
                     }}
                   />
                   <div className="text-admin" style={{ display: text }}>
-                    {/* <h5>{admin.nama[0]}</h5>  */}
+                {admin ? admin.nama[0] : null}
+
                     <h6>Administrator</h6>
                     <p
                       className="status"
@@ -267,8 +290,8 @@ const SideBar = () => {
                     </p>
                   </div>
                 </span>
-              <hr style={{ color: "white" }} />
- 
+                <hr style={{ color: "white" }} />
+
               </Container>
 
               {/* Img Admin kecil */}
@@ -295,7 +318,7 @@ const SideBar = () => {
                   style={{ marginLeft: "3px" }}
                 />
               </span>
-              <span style={{ display: text, paddingLeft: "1px" }}>
+              <span style={{ display: text}}>
                 {" "}
                 Dashboard
               </span>
@@ -311,7 +334,6 @@ const SideBar = () => {
                   <span style={{ display: text }}>Management Data</span>
                 </a>
               </span>
-
               <div
                 id="myDropdown"
                 className="dropdown-content"
@@ -345,7 +367,7 @@ const SideBar = () => {
                   style={{ marginLeft: "3px" }}
                 />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
+              <span style={{ display: text }}>
                 Tahun Ajaran
               </span>
             </Link>
@@ -353,9 +375,9 @@ const SideBar = () => {
             {/* --------- */}
             <Link to="/admin/pos">
               <span className="icon">
-                <FontAwesomeIcon icon={faBahai} style={{ marginLeft: "2px" }} />
+                <FontAwesomeIcon icon={faClipboardList} style={{ marginLeft: "2px" }} />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "5px" }}>Post</span>
+              <span style={{ display: text, paddingLeft: "4px" }}>Pos Pembayaran</span>
             </Link>
 
             <Link to="/admin/pembayaran">
@@ -365,7 +387,7 @@ const SideBar = () => {
                   style={{ marginLeft: "1px" }}
                 />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
+              <span style={{ display: text}}>
                 Pembayaran
               </span>
             </Link>
@@ -375,7 +397,7 @@ const SideBar = () => {
               <span className="icon">
                 <FontAwesomeIcon icon={faBook} style={{ marginLeft: "1px" }} />
               </span>{" "}
-              <span style={{ display: text, paddingLeft: "4px" }}>
+              <span style={{ display: text, marginLeft: "3px" }}>
                 Jenis Pembayaran
               </span>
             </Link>
@@ -386,7 +408,7 @@ const SideBar = () => {
                   <span className="icon">
                     <FontAwesomeIcon icon={faFileInvoice} />
                   </span>
-                  <span style={{ display: text }}> Laporan</span>
+                  <span style={{ display: text, marginLeft: "5px" }}> Laporan</span>
                 </a>
               </span>
 
@@ -408,7 +430,7 @@ const SideBar = () => {
                   </Link>
                 </ul>
               </div>
-            </div> 
+            </div>
 
             {/* Button for hide and show sidebar */}
             <div className={button}>
@@ -467,6 +489,7 @@ const SideBar = () => {
             component={EditPos}
           />
           <ProtectedRoute exact path="/admin/bulanan/upload/" component={UploadBulanan} />
+          <ProtectedRoute exact path="/admin/invoice/bebas/:siswa_id/:d_bebas_id/" component={InvoiceBebas} />
 
           <ProtectedRoute
             exact
@@ -573,7 +596,7 @@ const SideBar = () => {
           <ProtectedRoute exact path="/admin/laporan/cetak" component={CetakLaporanKelas} />
           <ProtectedRoute
             exact
-            path="/admin/invoice/:id"
+            path="/admin/invoice/:id/:d_bebas_id"
             component={Invoice}
           />
         </div>

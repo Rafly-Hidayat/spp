@@ -17,8 +17,8 @@ export default class Data extends Component {
   }
 
   getAdmin = () => {
-    axios.get("http://localhost:8000/d_kelas/").then((res) => {
-      console.log(res)
+    axios.get("https://api-sps.my.id/d_kelas/").then((res) => {
+      
       this.setState({
         data: res.data,
       });
@@ -44,9 +44,9 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/d_kelas/${d_kelas_id}`)
+          .delete(`https://api-sps.my.id/hapus/d_kelas/${d_kelas_id}`)
           .then((res) => {
-            console.log(res);
+            
             if (res.data.error === true ) {
               Swal.fire({
                 icon: "error",
@@ -62,7 +62,7 @@ export default class Data extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
       }
     });
@@ -90,6 +90,8 @@ export default class Data extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         
         formatter: (cellContent, row) => {
           return (

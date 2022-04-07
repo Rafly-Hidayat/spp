@@ -27,10 +27,10 @@ export default class InvoiceBebas extends Component {
     };
   }
   componentDidMount = () => {
-    console.log(this.state.d_bebas_id)
+    
       const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/user/detail/bebas/${id}/${this.state.d_bebas_id}`).then((res) => {
-      console.log(res.data);
+    axios.get(`https://api-sps.my.id/user/detail/bebas/${id}/${this.state.d_bebas_id}`).then((res) => {
+      
       if (res.data.error === true) {
         this.setState({
           no_transaksi: "",
@@ -61,7 +61,7 @@ export default class InvoiceBebas extends Component {
     });
   };
   render() {
-      console.log(this.d_bebas_bayar);
+      
     return (
       <div>
         <div

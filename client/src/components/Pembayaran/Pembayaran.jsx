@@ -47,11 +47,11 @@ export default class Pembayaran extends Component {
     e.preventDefault();
     if (this.validator.allValid() && this.state.periode !== "") {
       axios
-        .get(`http://localhost:8000/siswa_nis/${this.state.nis}`)
+        .get(`https://api-sps.my.id/siswa_nis/${this.state.nis}`)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data[0] === undefined) {
-            console.log("error")
+            
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -64,7 +64,7 @@ export default class Pembayaran extends Component {
           }
         })
         .catch((err) => {
-          console.log(err)
+          
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -78,22 +78,23 @@ export default class Pembayaran extends Component {
   };
 
   componentDidMount() {
-    axios.get(`http://localhost:8000/periode`).then((res) => {
+    axios.get(`https://api-sps.my.id/periode`).then((res) => {
       this.setState({
         periodes: res.data,
       });
     });
     if(this.props.location.state){
+      
       this.setState({
         nis: this.props.location.state.nis,
         periode: this.props.location.state.periode
       })
       axios
-        .get(`http://localhost:8000/siswa_nis/${this.props.location.state.nis}`)
+        .get(`https://api-sps.my.id/siswa_nis/${this.props.location.state.nis}`)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data[0] === undefined) {
-            console.log("error")
+            
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -106,7 +107,7 @@ export default class Pembayaran extends Component {
           }
         })
         .catch((err) => {
-          console.log(err)
+          
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -122,7 +123,7 @@ export default class Pembayaran extends Component {
 
 
   render() {
-    console.log(this.state.nis)
+    
     return (
       <div>
         <Card>

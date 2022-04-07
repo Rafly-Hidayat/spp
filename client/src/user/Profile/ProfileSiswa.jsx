@@ -29,7 +29,7 @@ export default class ProfileSiswa extends Component {
   };
 
   componentDidMount() {
-    axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/profile/${this.state.id}`).then((res) => {
       this.setState({
         siswa_nis: res.data[0].siswa_nis,
         siswa_nama: res.data[0].siswa_nama,
@@ -81,7 +81,7 @@ export default class ProfileSiswa extends Component {
 
                     <img
                       src={
-                        "http://localhost:8000/public/images/" + this.state.gambar
+                        "https://api-sps.my.id/src/public/images/" + this.state.gambar
                       }
                       width={164}
                       height={164}
@@ -89,7 +89,7 @@ export default class ProfileSiswa extends Component {
                         display: "block",
                         margin: "0 auto",
                         borderRadius: "10px",
-                        border: "1px solid black",
+                        // border: "1px solid black",
                       }}
                     />
                   </div>
@@ -143,7 +143,7 @@ export default class ProfileSiswa extends Component {
                     <Form.Control
                       name="password"
                       id="password"
-                      type="text"
+                      type="password"
                       value={this.state.password}
                       placeholder="Masukkan Password"
                       noValidate

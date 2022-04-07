@@ -17,6 +17,7 @@ export default class AddPembayaran extends Component {
       data: [],
       nominal: "",
       keterangan: "",
+      periode : ""
     };
   }
   handleChange = (e) => {
@@ -34,9 +35,9 @@ export default class AddPembayaran extends Component {
     };
     if (this.validator.allValid() && this.state.keterangan !== "") {
       axios
-        .post(`http://localhost:8000/bebas/bayar/${this.state.id}`, data)
+        .post(`https://api-sps.my.id/bebas/bayar/${this.state.id}`, data)
         .then((res) => {
-          console.log(res);
+          
           if (res.data.error) {
             Swal.fire({
               icon: "error",
@@ -61,7 +62,7 @@ export default class AddPembayaran extends Component {
     }
   };
   componentDidMount() {
-    axios.get("http://localhost:8000/admin").then((res) => {
+    axios.get("https://api-sps.my.id/admin").then((res) => {
       this.setState({
         data: res.data,
       });

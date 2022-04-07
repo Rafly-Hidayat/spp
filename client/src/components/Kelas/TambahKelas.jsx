@@ -27,10 +27,10 @@ export default class Tambahkelas extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/tambah/kelas", data)
+        .post("https://api-sps.my.id/tambah/kelas", data)
         .then((res) => {
           this.setState({});
-          console.log(res.data);
+          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",

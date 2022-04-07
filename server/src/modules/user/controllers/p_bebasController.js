@@ -107,7 +107,8 @@ module.exports = {
           siswa_nis: rows[0].siswa_nis,
           kelas_nama: rows[0].kelas_nama,
           jurusan_nama: rows[0].jurusan_nama,
-          d_kelas_nama: rows[0].d_kelas_nama
+          d_kelas_nama: rows[0].d_kelas_nama,
+          periode_id: rows[0].periode_id,
         }
       ])
     });

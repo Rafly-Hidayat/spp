@@ -22,7 +22,7 @@ export default class Editperiode extends Component {
   getData() {
     const periode_id = this.state.id;
     axios
-      .get(`http://localhost:8000/periode/${periode_id}`)
+      .get(`https://api-sps.my.id/periode/${periode_id}`)
       .then((res) => {
         this.setState({
           periode_id: res.data[0].periode_id,
@@ -53,7 +53,7 @@ export default class Editperiode extends Component {
     const periode_id = this.state.periode_id;
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/periode/${periode_id}`, data)
+        .put(`https://api-sps.my.id/ubah/periode/${periode_id}`, data)
         .then((res) => {
           this.setState({
             periode_mulai: "",

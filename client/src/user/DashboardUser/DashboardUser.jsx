@@ -35,14 +35,14 @@ export default class DashboardUser extends Component {
     super(props);
     let bayar = 70;
     let tagihan = 200;
-    const user = JSON.parse(localStorage.getItem("dataSiswa"));
+    // const user = JSON.parse(localStorage.getItem("dataSiswa"));
     this.state = {
       count1: (bayar / tagihan) * 100,
       modal: false,
-      id : user.id,
-      nis : user.nis[0],
-      nama: user.nama,
-      kelas : user.kelas_nama,
+      id : 100,
+      nis : 192010447, 
+      nama: "Fajar",
+      kelas : "XII RPL 3",
       lunas : "",
       total_bulan:""
     };
@@ -56,12 +56,12 @@ export default class DashboardUser extends Component {
 
   componentDidMount() {
     console.log(this.state.nis)
-    axios.get(`http://localhost:8000/tagihan/lunas/${this.state.id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/tagihan/lunas/${this.state.id}`).then((res) => {
       this.setState({
         lunas: res.data.total_lunas
       })
     })
-    axios.get(`http://localhost:8000/tagihan/bebas/${this.state.id}`).then((res) => {
+    axios.get(`https://api-sps.my.id/tagihan/bebas/${this.state.id}`).then((res) => {
       console.log(res)
   })
   }
@@ -69,7 +69,7 @@ export default class DashboardUser extends Component {
 
   render() {
     const onChange = (date) => {
-      console.log(date.toString());
+      
     };
     if(this.state.kelas === 1){
       this.setState({

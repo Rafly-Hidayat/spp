@@ -34,9 +34,9 @@ export default class AddPembayaranBulanan extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
+        .put(`https://api-sps.my.id/bulanan/bayar/${id}`, data)
         .then((res) => {
-          console.log(res)
+          
           if(res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -65,7 +65,7 @@ export default class AddPembayaranBulanan extends Component {
     }
   };
   componentDidMount() {
-    axios.get("http://localhost:8000/admin").then((res) => {
+    axios.get("https://api-sps.my.id/admin").then((res) => {
       this.setState({
         data: res.data,
       });
@@ -77,11 +77,10 @@ export default class AddPembayaranBulanan extends Component {
         periode : this.props.location.state.periode
       })
     }
-
   }
   render() {
-    console.log(this.state.nis)
-    console.log(this.state.periode)
+    
+    
     return (
       <div>
         <Card style={{ color: "black" }}>

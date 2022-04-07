@@ -18,7 +18,7 @@ export default class Data extends Component {
   }
 
   getAdmin = () => {
-    axios.get("http://localhost:8000/jurusan/").then((res) => {
+    axios.get("https://api-sps.my.id/jurusan/").then((res) => {
       this.setState({
         data: res.data,
       });
@@ -44,9 +44,9 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/jurusan/${jurusan_id}`)
+          .delete(`https://api-sps.my.id/hapus/jurusan/${jurusan_id}`)
           .then((res) => {
-            console.log(res);
+            
             if (res.data.error === true ) {
               Swal.fire({
                 icon: "error",
@@ -62,7 +62,7 @@ export default class Data extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/jurusan");
       }
@@ -91,6 +91,8 @@ export default class Data extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         
         formatter: (cellContent, row) => {
           return (

@@ -22,7 +22,7 @@ export default class Data extends Component {
 
   getAdmin = () => {
     axios
-      .get("http://localhost:8000/periode/")
+      .get("https://api-sps.my.id/periode/")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -49,7 +49,7 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/periode/${periode_id}`)
+          .delete(`https://api-sps.my.id/hapus/periode/${periode_id}`)
           .then((res) => {
              if (res.data.error === true) {
               Swal.fire({
@@ -66,7 +66,7 @@ export default class Data extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/periode");
       }
@@ -98,6 +98,8 @@ export default class Data extends Component {
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         // make delete and update button
         formatter: (cellContent, row) => {
           return (

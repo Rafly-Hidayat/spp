@@ -23,7 +23,7 @@ export default class EditPos extends Component {
   getData() {
     const pos_id = this.state.id;
     axios
-      .get(`http://localhost:8000/pos/${pos_id}`)
+      .get(`https://api-sps.my.id/pos/${pos_id}`)
       .then((res) => {
         this.setState({
           pos_id: res.data[0].pos_id,
@@ -54,7 +54,7 @@ export default class EditPos extends Component {
     const pos_id = this.state.pos_id;
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/pos/${pos_id}`, data)
+        .put(`https://api-sps.my.id/ubah/pos/${pos_id}`, data)
         .then((res) => {
           this.setState({
             pos_nama: "",

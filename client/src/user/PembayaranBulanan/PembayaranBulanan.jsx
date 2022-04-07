@@ -42,9 +42,9 @@ export default class PembayaranBulanan extends Component {
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios
-      .get(`http://localhost:8000/user/pembayaran/bulanan/${id}`)
+      .get(`https://api-sps.my.id/user/pembayaran/bulanan/${id}`)
       .then((res) => {
-        console.log(res.data);
+        
         if (res.data.error === true) {
           this.setState({
             data: "",
@@ -88,7 +88,7 @@ export default class PembayaranBulanan extends Component {
       {
         text: "Status",
         formatter: (cell, row) => {
-          console.log(row.bulanan_status)
+          
           if (row.bulanan_status === 1) {
             return (
               <Badge bg="success">Lunas</Badge>

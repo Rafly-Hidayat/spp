@@ -82,7 +82,7 @@ module.exports = {
               } else {
                 let bebas_id = rows[0].bebas_id
 
-                con.query(`SELECT d_bebas_id, no_transaksi, d_bebas_bayar, d_bebas_deskripsi, d_bebas_tanggal, admin_nama, siswa_nama, siswa_nis, kelas_nama, jurusan_nama, d_kelas_nama FROM d_bebas INNER JOIN bebas ON bebas.bebas_id = d_bebas.bebas_id INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id INNER JOIN admin ON admin.admin_id = d_bebas.admin_id WHERE d_bebas.bebas_id = ${bebas_id} AND d_bebas.d_bebas_id = ${d_bebas_id}`, callback)
+                con.query(`SELECT d_bebas_id, no_transaksi, d_bebas_bayar, d_bebas_deskripsi, d_bebas_tanggal, admin_nama, siswa_nama, siswa_nis, kelas_nama, jurusan_nama, d_kelas_nama, periode_mulai, periode_akhir, periode.periode_id FROM d_bebas INNER JOIN bebas ON bebas.bebas_id = d_bebas.bebas_id INNER JOIN siswa ON siswa.siswa_id = bebas.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id INNER JOIN admin ON admin.admin_id = d_bebas.admin_id INNER JOIN pembayaran ON pembayaran.pembayaran_id = bebas.pembayaran_id INNER JOIN periode ON periode.periode_id = pembayaran.periode_id WHERE d_bebas.bebas_id = ${bebas_id} AND d_bebas.d_bebas_id = ${d_bebas_id}`, callback)
               }
             }
           );

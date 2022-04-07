@@ -20,7 +20,7 @@ export default class UploadBulanan extends Component {
   handleChange = (e) => {
     e.preventDefault();
     this.setState({ ...this.state, selectedFile: e.target.files[0] }, () => {
-      console.log(this.state.selectedFile);
+      
     });
   };
 
@@ -40,9 +40,9 @@ export default class UploadBulanan extends Component {
       this.state.selectedFile.name
     );
     axios
-      .post("http://localhost:8000/bulanan/upload", formData)
+      .post("https://api-sps.my.id/bulanan/upload", formData)
       .then((res) => {
-        console.log(res.data);
+        
         this.setState({
           selectedFile: null,
         });
@@ -62,7 +62,7 @@ export default class UploadBulanan extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   resetFile() {
@@ -93,7 +93,7 @@ export default class UploadBulanan extends Component {
         <br />
         <Card style={{ color: "black" }}>
           <Card.Body>
-            <Card.Title>Upload Siswa</Card.Title>
+            <Card.Title>Upload Bulanan</Card.Title>
             <hr />
             <Row>
               <Col>

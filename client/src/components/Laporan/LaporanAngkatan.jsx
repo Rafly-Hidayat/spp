@@ -21,7 +21,7 @@ export default class LaporanAngkatan extends Component {
     };
   }
   componentDidMount() {
-    axios.get("http://localhost:8000/kelas/").then((res) => {
+    axios.get("https://api-sps.my.id/kelas/").then((res) => {
       this.setState({
         kelas: res.data,
       });
@@ -34,9 +34,9 @@ export default class LaporanAngkatan extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/laporan/angkatan/bebas", data)
+        .post("https://api-sps.my.id/laporan/angkatan/bebas", data)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -59,9 +59,9 @@ export default class LaporanAngkatan extends Component {
           }
         });
       axios
-        .post("http://localhost:8000/laporan/angkatan/bulanan", data)
+        .post("https://api-sps.my.id/laporan/angkatan/bulanan", data)
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -72,7 +72,7 @@ export default class LaporanAngkatan extends Component {
               data: ""
             })
           } else {
-            console.log(res.data.data);
+            
             this.setState({
               data_bulanan: res.data.data,
               total_bulanan: res.data,
@@ -97,7 +97,7 @@ export default class LaporanAngkatan extends Component {
   };
 
   render() {
-    console.log(this.state.data);
+    
     const data_bebas = this.state.data_bebas;
     const data_bulanan = this.state.data_bulanan;
     // const options = {

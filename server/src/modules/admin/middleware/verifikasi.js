@@ -10,7 +10,7 @@ function verifikasiAdmin() {
 
       // verifikasi
       jwt.verify(token, process.env.SECRET, (err, decoded) => {
-        console.log(decoded);
+        
         if (err) {
           return rest.send(
             { auth: false, message: "Token tidak terdaftar" },

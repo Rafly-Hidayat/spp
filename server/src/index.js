@@ -64,5 +64,5 @@ app.use(kenaikan_kelasRouter);
 app.use(rekapRouter);
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}!`);
+  
 });

@@ -34,7 +34,7 @@ export default class SetTarif extends Component {
 
   getKelas = () => {
     axios
-      .get("http://localhost:8000/kelas/")
+      .get("https://api-sps.my.id/kelas/")
       .then((res) => {
         this.setState({
           data_kelas: res.data,
@@ -44,9 +44,9 @@ export default class SetTarif extends Component {
   };
   getTipe = () => {
     axios
-      .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
+      .get(`https://api-sps.my.id/pembayaran/${this.state.pembayaran_id}`)
       .then((res) => {
-        console.log(this.state.pembayaran_id);
+        
         this.setState({
           tipe: res.data[0].pembayaran_tipe,
           nama_pos : res.data[0].pos_nama
@@ -76,12 +76,12 @@ export default class SetTarif extends Component {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, hapus!",
+        confirmButtonText: "Ya, tammbah!",
       }).then((result) => {
         if (result.isConfirmed) {
           if (this.state.tipe === "BEBAS") {
             axios
-              .post("http://localhost:8000/set_tarif/bebas", data)
+              .post("https://api-sps.my.id/set_tarif/bebas", data)
               .then((res) => {
                 console.log(res);
                 this.setState({
@@ -102,7 +102,7 @@ export default class SetTarif extends Component {
               .catch((err) => {});
           } else {
             axios
-              .post("http://localhost:8000/set_tarif/bulanan", data)
+              .post("https://api-sps.my.id/set_tarif/bulanan", data)
               .then((res) => {
                 console.log(res);
                 this.setState({
@@ -125,8 +125,6 @@ export default class SetTarif extends Component {
           
         }
       });
-      
-      
     } else {
       this.validator.showMessages();
       this.forceUpdate();
@@ -152,7 +150,7 @@ export default class SetTarif extends Component {
                   <Link to="/admin">Home</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <Link to="/admin/jenispembayaran/">Data</Link>
+                  <Link to="/admin/jenis-pembayaran/">Data</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Set Tarif</Breadcrumb.Item>
               </Breadcrumb>

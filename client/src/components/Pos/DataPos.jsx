@@ -19,7 +19,7 @@ export default class DataPos extends Component {
 
   getPos = () => {
     axios
-      .get("http://localhost:8000/pos/")
+      .get("https://api-sps.my.id/pos/")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -46,7 +46,7 @@ export default class DataPos extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/pos/${pos_id}`)
+          .delete(`https://api-sps.my.id/hapus/pos/${pos_id}`)
           .then((res) => {
             if (res.data.error === true) {
               Swal.fire({
@@ -63,7 +63,7 @@ export default class DataPos extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/pos");
       }
@@ -90,11 +90,13 @@ export default class DataPos extends Component {
       },
       {
         dataField: "pos_deskripsi",
-        text: "Pos Deskripsi",
+        text: "Keterangan",
       },
       {
         dataField: "Aksi",
         text: "Aksi",
+        align: "center",
+        headerAlign: "center",
         formatter: (cellContent, row) => {
           return (
             <div>
@@ -137,7 +139,7 @@ export default class DataPos extends Component {
         <br />
         <Card style={{color: 'black'}}>
           <Card.Body>
-        <Card.Title>Data Pos</Card.Title>
+        <Card.Title>Data Pos Pembayaran</Card.Title>
         <hr/>
             <Link to={"/admin/pos/tambah"}>
               <Button variant="outline-primary" block>

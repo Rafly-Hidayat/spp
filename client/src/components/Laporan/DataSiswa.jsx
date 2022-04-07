@@ -24,9 +24,9 @@
 //   getSiswa = () => {
 //     const kelas_id = this.props.name;
 //     axios
-//       .get(`http://localhost:8000/siswa_kelas/${kelas_id}`)
+//       .get(`https://api-sps.my.id/siswa_kelas/${kelas_id}`)
 //       .then((res) => {
-//         console.log(res);
+//         
 //         this.setState({
 //           data: res.data,
 //         });

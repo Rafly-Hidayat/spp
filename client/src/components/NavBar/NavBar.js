@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Nav, Navbar, Image, Button, Col } from 'react-bootstrap';
+import { Container, Nav, Navbar, Image, Button, } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
 import logo from '../Assets/LandingPageImg/Logo.png'

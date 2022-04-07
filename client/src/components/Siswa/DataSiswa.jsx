@@ -30,9 +30,9 @@ export default class DataSiswa extends Component {
 
   getSiswa = () => {
     axios
-      .get("http://localhost:8000/siswa/")
+      .get("https://api-sps.my.id/siswa/")
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         this.setState({
           data: res.data,
         });
@@ -59,7 +59,7 @@ export default class DataSiswa extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:8000/hapus/siswa/${siswa_id}`)
+          .delete(`https://api-sps.my.id/hapus/siswa/${siswa_id}`)
           .then((res) => {
             if (res.data.error === true) {
               Swal.fire({
@@ -79,7 +79,7 @@ export default class DataSiswa extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            
           });
         this.props.history.push("/admin/siswa");
       }
@@ -193,9 +193,11 @@ export default class DataSiswa extends Component {
       // },
       {
         text: "Aksi",
-
         align: "center",
-        headerAlign: "center",
+        headerStyle: {
+          width: "200px",
+          textAlign: "center",
+        },
         // make delete and update button
         formatter: (cellContent, row) => {
           return (
