@@ -115,6 +115,7 @@ export default class Login extends Component {
                 width={60}
                 height={60}
                 style={{
+                  marginTop:"20px",
                   marginLeft: "15px",
                 }}
               />
@@ -145,13 +146,13 @@ export default class Login extends Component {
                 }}
               />
               <br />
+              <br />
               <div className="d-flex">
                 <Image
                   src={Profile}
-                  width={100}
-                  height={100}
+                  width={80}
+                  height={80}
                   style={{
-                    marginBottom: "20px",
                     marginLeft: "15px",
                     marginTop: "50px",
                   }}
@@ -275,7 +276,7 @@ export default class Login extends Component {
                       <br />
                       <Link
                         to="/"
-                        style={{ color: "black", textDecoration: "none" }}
+                        style={{ color: "black", textDecoration: "none", marginLeft:"-10px" }}
                       >
                         Kembali
                       </Link>
