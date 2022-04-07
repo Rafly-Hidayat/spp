@@ -42,7 +42,7 @@ export default class PembayaranBulanan extends Component {
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios
-      .get(`http://localhost:8000/user/pembayaran/bulanan/${id}`)
+      .get(`https://api-sps.my.id/user/pembayaran/bulanan/${id}`)
       .then((res) => {
         
         if (res.data.error === true) {

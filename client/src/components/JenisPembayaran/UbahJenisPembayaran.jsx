@@ -48,7 +48,7 @@ export default class SetTarif extends Component {
     ) {
       axios
         .put(
-          `http://localhost:8000/ubah/pembayaran/${this.state.pembayaran_id}`,
+          `https://api-sps.my.id/ubah/pembayaran/${this.state.pembayaran_id}`,
           data
         )
         .then((res) => {
@@ -89,13 +89,13 @@ export default class SetTarif extends Component {
   };
 
   componentDidMount() {
-    axios.get("http://localhost:8000/periode/").then((res) => {
+    axios.get("https://api-sps.my.id/periode/").then((res) => {
       this.setState({ tahun_ajaran: res.data });
     });
-    axios.get("http://localhost:8000/pembayaran/").then((res) => {
+    axios.get("https://api-sps.my.id/pembayaran/").then((res) => {
       this.setState({ data_tipe: res.data });
     });
-    axios.get("http://localhost:8000/pos/").then((res) => {
+    axios.get("https://api-sps.my.id/pos/").then((res) => {
       this.setState({ data_pos: res.data });
     });
   }

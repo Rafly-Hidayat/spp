@@ -121,15 +121,15 @@ export default class LandingPage extends Component {
                                         <div className="page2-icon">
                                             <div className="page2-icon1">
                                                 <Image className="icon" src={icon1} />
-                                                <h3>Credit/Debit</h3>
+                                                <h3>Transfer Bank</h3>
                                             </div>
                                             <div className="page2-icon2">
                                                 <Image className="icon" src={icon2} />
-                                                <h3>e-Wallet</h3>
+                                                <h3>Cash Payment</h3>
                                             </div>
                                             <div className="page2-icon3">
                                                 <Image className="icon" src={icon3} />
-                                                <h3>Transfer Bank</h3>
+                                                <h3>e-Wallet</h3>
                                             </div>
                                         </div>
                                     </div>

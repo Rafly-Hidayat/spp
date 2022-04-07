@@ -27,7 +27,7 @@ export default class ProfileSiswa extends Component {
 
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`http://localhost:8000/profile/${id}`)
+    axios.get(`https://api-sps.my.id/profile/${id}`)
       .then((res) => {
         this.setState({
           siswa_nis: res.data[0].siswa_nis,

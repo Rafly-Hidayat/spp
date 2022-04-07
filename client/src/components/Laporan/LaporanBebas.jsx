@@ -33,7 +33,7 @@ export default class LaporanBebas extends Component {
         tanggal_akhir: this.state.date_akhir,
       };
       axios
-        .post("http://localhost:8000/laporan/bebas", data)
+        .post("https://api-sps.my.id/laporan/bebas", data)
         .then((res) => {
           this.setState({
             data: res.data,

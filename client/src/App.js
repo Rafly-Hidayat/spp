@@ -16,12 +16,11 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/" exact component={LandingPage} />
-
             <Route path="/admin/login" component={LoginAdmin} />
             <Route path="/admin" component={SideBar} />
             <Route path="/user/login" component={Login} />
-            <Route path="*" component={NotFound} />
             <Route path="/user" component={SidebarUser} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </BrowserRouter>
       </div>

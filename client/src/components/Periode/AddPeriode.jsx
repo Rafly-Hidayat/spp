@@ -30,7 +30,7 @@ export default class AddPeriode extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("http://localhost:8000/tambah/periode", data)
+        .post("https://api-sps.my.id/tambah/periode", data)
         .then((res) => {
           this.setState({
             periode_mulai: "",

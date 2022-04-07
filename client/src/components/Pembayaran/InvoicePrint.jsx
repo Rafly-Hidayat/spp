@@ -21,7 +21,7 @@ export default class InvoicePrint extends Component {
   }
   componentDidMount() {
     axios
-      .get(`http://localhost:8000/invoice/bulanan/${this.state.id}`)
+      .get(`https://api-sps.my.id/invoice/bulanan/${this.state.id}`)
       .then((res) => {
         
         if (res.data.error === true) {

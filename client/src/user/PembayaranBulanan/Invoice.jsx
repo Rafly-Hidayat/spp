@@ -17,7 +17,7 @@ export default class Invoice extends Component {
   }
   // componentDidMount() {
   //   axios
-  //     .get(`http://localhost:8000/user/pembayaran/bulanan/${this.state.id}`)
+  //     .get(`https://api-sps.my.id/user/pembayaran/bulanan/${this.state.id}`)
   //     .then((res) => {
   //       
   //       if (res.data.error === true) {

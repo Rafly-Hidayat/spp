@@ -23,7 +23,7 @@ export default class UbahKelas extends Component {
   getData() {
     const kelas_id = this.state.id;
     axios
-      .get(`http://localhost:8000/kelas/${kelas_id}`)
+      .get(`https://api-sps.my.id/kelas/${kelas_id}`)
       .then((res) => {
         this.setState({
           kelas_id: res.data[0].kelas_id,
@@ -52,7 +52,7 @@ export default class UbahKelas extends Component {
     const kelas_id = this.state.kelas_id;
     if (this.validator.allValid()) {
       axios
-        .put(`http://localhost:8000/ubah/kelas/${kelas_id}`, data)
+        .put(`https://api-sps.my.id/ubah/kelas/${kelas_id}`, data)
         .then((res) => {
           this.setState({
             kelas_nama: "",

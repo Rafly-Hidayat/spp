@@ -50,7 +50,7 @@ export default class AddJenisPembayaran extends Component {
       this.state.pos !== ""
     ) {
       axios
-        .post("http://localhost:8000/tambah/pembayaran/", data)
+        .post("https://api-sps.my.id/tambah/pembayaran/", data)
         .then((res) => {
           if (res.data.status === undefined) {
             Swal.fire({
@@ -81,17 +81,17 @@ export default class AddJenisPembayaran extends Component {
   };
 
   componentDidMount() {
-    axios.get("http://localhost:8000/periode/").then((res) => {
+    axios.get("https://api-sps.my.id/periode/").then((res) => {
       this.setState({
         periodes: res.data,
       });
     });
-    axios.get("http://localhost:8000/pos/").then((res) => {
+    axios.get("https://api-sps.my.id/pos/").then((res) => {
       this.setState({
         datapos: res.data,
       });
     });
-    axios.get("http://localhost:8000/pembayaran/").then((res) => {
+    axios.get("https://api-sps.my.id/pembayaran/").then((res) => {
       this.setState({
         datapembayaran: res.data,
       });
