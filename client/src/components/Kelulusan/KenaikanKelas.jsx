@@ -53,7 +53,7 @@ export default class KenaikanKelas extends Component {
 
   getKelas = () => {
     axios
-      .get("https://api-sps.my.id/kelas/")
+      .get("http://localhost:8000/kelas/")
       .then((res) => {
         this.setState({
           kelas: res.data,
@@ -70,7 +70,7 @@ export default class KenaikanKelas extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .put("https://api-sps.my.id/kenaikan_kelas", data)
+        .put("http://localhost:8000/kenaikan_kelas", data)
         .then((res) => {
           if (res.data.error === true) {
             Swal.fire({
@@ -86,11 +86,8 @@ export default class KenaikanKelas extends Component {
             });
             this.props.history.push("/admin/kenaikan-kelas");
           }
-          
         })
-        .catch((err) => {
-          
-        });
+        .catch((err) => {});
     } else {
       this.validator.showMessages();
       // rerender to show messages for the first time
@@ -105,20 +102,19 @@ export default class KenaikanKelas extends Component {
   };
 
   renderSelectedKelas(selected_kelas) {
-    if (!selected_kelas) return 
+    if (!selected_kelas) return;
     const siswa = DataSiswa[selected_kelas];
-    
+
     return <DataSiswa name={this.state.selected_kelas} />;
   }
   render() {
-
     let kelas = this.state.selected_ubah_kelas;
     if (kelas == "2") {
       kelas = "XI";
     } else if (kelas == "3") {
       kelas = "XII";
     }
-    
+
     return (
       <div>
         <Card>
@@ -211,7 +207,9 @@ export default class KenaikanKelas extends Component {
                 <Col xs={6} md={4}>
                   <FormGroup>
                     <Col>
-                      <Button variant="outline-primary" type="submit">Ubah Kelas</Button>
+                      <Button variant="outline-primary" type="submit">
+                        Ubah Kelas
+                      </Button>
                     </Col>
                   </FormGroup>
                 </Col>

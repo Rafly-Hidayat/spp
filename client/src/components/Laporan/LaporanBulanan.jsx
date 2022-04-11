@@ -36,9 +36,8 @@ export default class LaporanBulanan extends Component {
         tanggal_akhir: this.state.date_akhir,
       };
       axios
-        .post("https://api-sps.my.id/laporan/bulanan", data)
+        .post("http://localhost:8000/laporan/bulanan", data)
         .then((res) => {
-          
           this.setState({
             data_bulanan: res.data,
           });
@@ -51,7 +50,7 @@ export default class LaporanBulanan extends Component {
           });
         });
       axios
-        .post("https://api-sps.my.id/laporan/bebas", data)
+        .post("http://localhost:8000/laporan/bebas", data)
         .then((res) => {
           this.setState({
             data_bebas: res.data,
@@ -73,7 +72,7 @@ export default class LaporanBulanan extends Component {
   render() {
     const data_bebas = this.state.data_bebas;
     const data_bulanan = this.state.data_bulanan;
-    
+
     const bulanan = [
       {
         dataField: "tanggal",

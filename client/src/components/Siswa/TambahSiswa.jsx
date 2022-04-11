@@ -42,7 +42,7 @@ export default class TambahSiswa extends Component {
 
   getKelas = () => {
     axios
-      .get("https://api-sps.my.id/kelas/")
+      .get("http://localhost:8000/kelas/")
       .then((res) => {
         this.setState({
           kelas: res.data,
@@ -52,7 +52,7 @@ export default class TambahSiswa extends Component {
   };
   getJurusan = () => {
     axios
-      .get("https://api-sps.my.id/jurusan/")
+      .get("http://localhost:8000/jurusan/")
       .then((res) => {
         this.setState({
           jurusan: res.data,
@@ -62,7 +62,7 @@ export default class TambahSiswa extends Component {
   };
   getDKelas = () => {
     axios
-      .get("https://api-sps.my.id/d_kelas/")
+      .get("http://localhost:8000/d_kelas/")
       .then((res) => {
         this.setState({
           d_kelas: res.data,
@@ -99,10 +99,8 @@ export default class TambahSiswa extends Component {
       this.state.selected_kelas !== ""
     ) {
       axios
-        .post("https://api-sps.my.id/tambah/siswa", data)
+        .post("http://localhost:8000/tambah/siswa", data)
         .then((res) => {
-          
-
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -150,7 +148,7 @@ export default class TambahSiswa extends Component {
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br/>
+        <br />
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Tambah Siswa</Card.Title>

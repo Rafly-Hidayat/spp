@@ -26,12 +26,11 @@ export default class TambahDaftarKelas extends Component {
     const data = {
       d_kelas_nama: this.state.d_kelas_nama,
     };
-    if (this.validator.allValid())  {
+    if (this.validator.allValid()) {
       axios
-        .post("https://api-sps.my.id/tambah/d_kelas", data)
+        .post("http://localhost:8000/tambah/d_kelas", data)
         .then((res) => {
-          
-          if (res.data.error === true ) {
+          if (res.data.error === true) {
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -39,9 +38,10 @@ export default class TambahDaftarKelas extends Component {
             });
           } else {
             Swal.fire({
-            icon: "success",
-            title: "Good Job!",
-            text: `${res.data.message}`,});
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
             this.props.history.push("/admin/daftar-kelas");
           }
         })
@@ -64,8 +64,12 @@ export default class TambahDaftarKelas extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin">Home</Link></Breadcrumb.Item>
-              <Breadcrumb.Item><Link to="/admin/d-kelas/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin">Home</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/d-kelas/">Data</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Add</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
@@ -74,43 +78,48 @@ export default class TambahDaftarKelas extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Tambah Daftar Kelas</Card.Title>
-          <Form onSubmit={this.Submit}>
-            <Form.Group className="mb-3">
-            <hr />
-            <Form.Label>Nama Daftar Kelas<span className="text-danger">*</span></Form.Label>
-              <Form.Control
-                name="d_kelas_nama"
-                id="d_kelas_nama"
-                type="text"
-                value={this.state.d_kelas_nama}
-                placeholder="Nama Daftar Kelas"
-                noValidate
-                onChange={this.handleChange}
-              />
-              <div>
-                {this.validator.message(
-                  "d_kelas_nama",
-                  this.state.d_kelas_nama,
-                  `required`,
-                  { className: "text-danger",
-                  messages : {
-                    required: 'Masukkan Nama Daftar Kelas!',
-                  } 
-                }
-                )}
-              </div>
-            </Form.Group>
-            <Button variant="outline-primary" type="submit">
-              Tambah
-            </Button>&ensp;
-            <Link to="/admin/daftar-kelas">
-              <Button variant="outline-danger" type="submit">Batal
-            </Button>
-            </Link>
-          </Form>
+            <Form onSubmit={this.Submit}>
+              <Form.Group className="mb-3">
+                <hr />
+                <Form.Label>
+                  Nama Daftar Kelas<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  name="d_kelas_nama"
+                  id="d_kelas_nama"
+                  type="text"
+                  value={this.state.d_kelas_nama}
+                  placeholder="Nama Daftar Kelas"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                <div>
+                  {this.validator.message(
+                    "d_kelas_nama",
+                    this.state.d_kelas_nama,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Masukkan Nama Daftar Kelas!",
+                      },
+                    }
+                  )}
+                </div>
+              </Form.Group>
+              <Button variant="outline-primary" type="submit">
+                Tambah
+              </Button>
+              &ensp;
+              <Link to="/admin/daftar-kelas">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
+            </Form>
           </Card.Body>
-          </Card>
-        </div>
+        </Card>
+      </div>
     );
   }
 }

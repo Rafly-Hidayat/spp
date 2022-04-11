@@ -48,11 +48,10 @@ export default class SetTarif extends Component {
     ) {
       axios
         .put(
-          `https://api-sps.my.id/ubah/pembayaran/${this.state.pembayaran_id}`,
+          `http://localhost:8000/ubah/pembayaran/${this.state.pembayaran_id}`,
           data
         )
         .then((res) => {
-          
           if (res.data.status === undefined) {
             Swal.fire({
               icon: "success",
@@ -89,13 +88,13 @@ export default class SetTarif extends Component {
   };
 
   componentDidMount() {
-    axios.get("https://api-sps.my.id/periode/").then((res) => {
+    axios.get("http://localhost:8000/periode/").then((res) => {
       this.setState({ tahun_ajaran: res.data });
     });
-    axios.get("https://api-sps.my.id/pembayaran/").then((res) => {
+    axios.get("http://localhost:8000/pembayaran/").then((res) => {
       this.setState({ data_tipe: res.data });
     });
-    axios.get("https://api-sps.my.id/pos/").then((res) => {
+    axios.get("http://localhost:8000/pos/").then((res) => {
       this.setState({ data_pos: res.data });
     });
   }
@@ -131,7 +130,7 @@ export default class SetTarif extends Component {
                   Jenis Pembayaran<span className="text-danger">*</span>
                 </Form.Label>
                 <FormSelect name="tipe" onChange={this.handleChange}>
-                <option value="">=== Pilih Jenis Pembayaran ===</option>
+                  <option value="">=== Pilih Jenis Pembayaran ===</option>
                   <option value="BULANAN">BULANAN </option>
                   <option value="BEBAS">BEBAS </option>
                 </FormSelect>

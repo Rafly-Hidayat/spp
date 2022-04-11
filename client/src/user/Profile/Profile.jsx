@@ -14,7 +14,6 @@ export default class ProfileSiswa extends Component {
       siswa_nama: "",
       kelas_nama: "",
       jurusan_nama: "",
-
     };
   }
 
@@ -27,25 +26,24 @@ export default class ProfileSiswa extends Component {
 
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`https://api-sps.my.id/profile/${id}`)
-      .then((res) => {
-        this.setState({
-          siswa_nis: res.data[0].siswa_nis,
-          siswa_nama: res.data[0].siswa_nama,
-          siswa_gender: res.data[0].siswa_gender,
-          kelas_nama: res.data[0].kelas_nama,
-          jurusan_nama: res.data[0].jurusan_nama,
-          d_kelas_nama: res.data[0].d_kelas_nama,
-          gambar: res.data[0].siswa_img
-        })
-      })
+    axios.get(`http://localhost:8000/profile/${id}`).then((res) => {
+      this.setState({
+        siswa_nis: res.data[0].siswa_nis,
+        siswa_nama: res.data[0].siswa_nama,
+        siswa_gender: res.data[0].siswa_gender,
+        kelas_nama: res.data[0].kelas_nama,
+        jurusan_nama: res.data[0].jurusan_nama,
+        d_kelas_nama: res.data[0].d_kelas_nama,
+        gambar: res.data[0].siswa_img,
+      });
+    });
   }
   render() {
-    let gender = ""
+    let gender = "";
     if (this.state.siswa_gender == "L") {
-      gender += "Laki-laki"
+      gender += "Laki-laki";
     } else if (this.state.siswa_gender == "P") {
-      gender += "Perempuan"
+      gender += "Perempuan";
     }
 
     return (
@@ -73,7 +71,14 @@ export default class ProfileSiswa extends Component {
             <Form>
               <Row>
                 <Col>
-                  <img src={"https://api-sps.my.id/src/public/images/" + this.state.gambar} width={40} height={40} />
+                  <img
+                    src={
+                      "http://localhost:8000/src/public/images/" +
+                      this.state.gambar
+                    }
+                    width={40}
+                    height={40}
+                  />
                   <Form.Group className="mb-3">
                     <Form.Label>
                       NIS<span className="text-danger">*</span>
@@ -121,7 +126,13 @@ export default class ProfileSiswa extends Component {
                     </Form.Label>
                     <Form.Control
                       name="kelas_nama"
-                      value={this.state.kelas_nama + " " + this.state.jurusan_nama + " " + this.state.d_kelas_nama}
+                      value={
+                        this.state.kelas_nama +
+                        " " +
+                        this.state.jurusan_nama +
+                        " " +
+                        this.state.d_kelas_nama
+                      }
                       onChange={this.handleChange}
                     ></Form.Control>
                   </Form.Group>

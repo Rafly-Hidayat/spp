@@ -26,12 +26,11 @@ export default class TambahJurusan extends Component {
     const data = {
       jurusan_nama: this.state.jurusan_nama,
     };
-    if (this.validator.allValid())  {
+    if (this.validator.allValid()) {
       axios
-        .post("https://api-sps.my.id/tambah/jurusan", data)
+        .post("http://localhost:8000/tambah/jurusan", data)
         .then((res) => {
-          
-          if (res.data.error === true ) {
+          if (res.data.error === true) {
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -39,9 +38,10 @@ export default class TambahJurusan extends Component {
             });
           } else {
             Swal.fire({
-            icon: "success",
-            title: "Good Job!",
-            text: `${res.data.message}`,});
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
             this.props.history.push("/admin/jurusan");
           }
         })
@@ -64,8 +64,12 @@ export default class TambahJurusan extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin">Home</Link></Breadcrumb.Item>
-              <Breadcrumb.Item><Link to="/admin/jurusan/">Data</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin">Home</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/jurusan/">Data</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Add</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
@@ -74,43 +78,48 @@ export default class TambahJurusan extends Component {
         <Card style={{ color: "black" }}>
           <Card.Body>
             <Card.Title>Tambah Jurusan</Card.Title>
-          <Form onSubmit={this.Submit}>
-            <Form.Group className="mb-3">
-            <hr />
-            <Form.Label>Nama Jurusan<span className="text-danger">*</span></Form.Label>
-              <Form.Control
-                name="jurusan_nama"
-                id="jurusan_nama"
-                type="text"
-                value={this.state.jurusan_nama}
-                placeholder="Nama Jurusan"
-                noValidate
-                onChange={this.handleChange}
-              />
-              <div>
-                {this.validator.message(
-                  "jurusan_nama",
-                  this.state.jurusan_nama,
-                  `required`,
-                  { className: "text-danger",
-                  messages : {
-                    required: 'Masukkan Nama Jurusan!',
-                  } 
-                }
-                )}
-              </div>
-            </Form.Group>
-            <Button variant="outline-primary" type="submit">
-              Tambah
-            </Button>&ensp;
-            <Link to="/admin/jurusan">
-              <Button variant="outline-danger" type="submit">Batal
-            </Button>
-            </Link>
-          </Form>
+            <Form onSubmit={this.Submit}>
+              <Form.Group className="mb-3">
+                <hr />
+                <Form.Label>
+                  Nama Jurusan<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  name="jurusan_nama"
+                  id="jurusan_nama"
+                  type="text"
+                  value={this.state.jurusan_nama}
+                  placeholder="Nama Jurusan"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                <div>
+                  {this.validator.message(
+                    "jurusan_nama",
+                    this.state.jurusan_nama,
+                    `required`,
+                    {
+                      className: "text-danger",
+                      messages: {
+                        required: "Masukkan Nama Jurusan!",
+                      },
+                    }
+                  )}
+                </div>
+              </Form.Group>
+              <Button variant="outline-primary" type="submit">
+                Tambah
+              </Button>
+              &ensp;
+              <Link to="/admin/jurusan">
+                <Button variant="outline-danger" type="submit">
+                  Batal
+                </Button>
+              </Link>
+            </Form>
           </Card.Body>
-          </Card>
-        </div>
+        </Card>
+      </div>
     );
   }
 }

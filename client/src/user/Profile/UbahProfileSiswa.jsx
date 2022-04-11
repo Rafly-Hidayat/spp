@@ -30,14 +30,14 @@ export default class UbahProfileSiswa extends Component {
   };
   imageHandler = (e) => {
     e.preventDefault();
-    
+
     this.setState({ uploadedFile: e.target.files[0] });
   };
 
   componentDidMount() {
-    axios.get(`https://api-sps.my.id/profile/${this.state.id}`).then((res) => {
+    axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
       const img = new File([res.data[0].siswa_img], "image.jpg");
-      
+
       this.setState({
         siswa_nis: res.data[0].siswa_nis,
         siswa_nama: res.data[0].siswa_nama,
@@ -57,12 +57,10 @@ export default class UbahProfileSiswa extends Component {
     const data = new FormData();
     data.append("password", this.state.password);
     data.append("img", this.state.uploadedFile);
-    
-    
+
     axios
-      .put(`https://api-sps.my.id/profile/edit/${this.state.id}`, data)
+      .put(`http://localhost:8000/profile/edit/${this.state.id}`, data)
       .then((res) => {
-        
         if (res.data.error === true) {
           Swal.fire({
             icon: "error",
@@ -70,7 +68,6 @@ export default class UbahProfileSiswa extends Component {
             text: `${res.data.message}`,
           });
         } else {
-          
           this.props.history.push("/user/profile");
           Swal.fire({
             icon: "success",
@@ -81,19 +78,17 @@ export default class UbahProfileSiswa extends Component {
       });
   };
   render() {
-    let gender = this.state.siswa_gender
-    gender === 'P' ? gender = "Perempuan" : gender = "Laki-laki"
+    let gender = this.state.siswa_gender;
+    gender === "P" ? (gender = "Perempuan") : (gender = "Laki-laki");
 
     if (this.state.gambar) {
       var imagestr = this.state.gambar;
       imagestr = imagestr.replace("src/public/image/", "");
-      var profilePic = "https://api-sps.my.id/public/images/" + imagestr;
+      var profilePic = "http://localhost:8000/public/images/" + imagestr;
     } else {
       // profilePic = this.state.gambar;
-      
     }
-    
-    
+
     return (
       <div>
         <Card>
@@ -120,10 +115,12 @@ export default class UbahProfileSiswa extends Component {
             <Card.Title>Ubah Profile</Card.Title>
             <hr />
             <Form onSubmit={this.editData}>
-              <Row >
+              <Row>
                 <Col md={2}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Foto Siswa<span className="text-danger">*</span></Form.Label>
+                    <Form.Label>
+                      Foto Siswa<span className="text-danger">*</span>
+                    </Form.Label>
                     <div
                       style={{
                         marginBottom: "12px",
@@ -131,7 +128,7 @@ export default class UbahProfileSiswa extends Component {
                     >
                       <img
                         src={
-                          "https://api-sps.my.id/src/public/images/" +
+                          "http://localhost:8000/src/public/images/" +
                           this.state.gambar
                         }
                         width={160}
@@ -249,7 +246,7 @@ export default class UbahProfileSiswa extends Component {
             </Form>
           </Card.Body>
         </Card>
-      </div >
+      </div>
     );
   }
 }

@@ -17,7 +17,7 @@ export default class LaporanKelas extends Component {
     };
   }
   componentDidMount() {
-    axios.get("https://api-sps.my.id/kelas/").then((res) => {
+    axios.get("http://localhost:8000/kelas/").then((res) => {
       this.setState({
         kelas: res.data,
       });
@@ -30,9 +30,8 @@ export default class LaporanKelas extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("https://api-sps.my.id/laporan/angkatan/bulanan", data)
+        .post("http://localhost:8000/laporan/angkatan/bulanan", data)
         .then((res) => {
-          
           this.setState({
             data: res.data.data,
             total: res.data,
@@ -64,7 +63,6 @@ export default class LaporanKelas extends Component {
   };
 
   render() {
-    
     const data = this.state.data;
     // const options = {
     //   paginationSize: 4,
@@ -214,7 +212,7 @@ export default class LaporanKelas extends Component {
               bordered={false}
               noDataIndication="Data tidak ditemukan"
             />
-             <BootstrapTable
+            <BootstrapTable
               keyField="id"
               data={as}
               columns={sisa}

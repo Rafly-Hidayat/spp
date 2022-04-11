@@ -15,8 +15,8 @@ export default class AddPembayaranBulanan extends Component {
       id: this.props.match.params.id,
       admin: "",
       data: [],
-      nis : "",
-      periode : ""
+      nis: "",
+      periode: "",
     };
   }
 
@@ -34,22 +34,27 @@ export default class AddPembayaranBulanan extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .put(`https://api-sps.my.id/bulanan/bayar/${id}`, data)
+        .put(`http://localhost:8000/bulanan/bayar/${id}`, data)
         .then((res) => {
-          
-          if(res.data.error === true) {
+          if (res.data.error === true) {
             Swal.fire({
               icon: "error",
               title: "Gagal!",
-              text : `${res.data.message}`
-            })
+              text: `${res.data.message}`,
+            });
           } else {
             Swal.fire({
               icon: "success",
               title: "Berhasil!",
               text: `${res.data.message}`,
             });
-            this.props.history.push({pathname: "/admin/pembayaran", state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}});
+            this.props.history.push({
+              pathname: "/admin/pembayaran",
+              state: {
+                nis: `${this.state.nis}`,
+                periode: `${this.state.periode}`,
+              },
+            });
           }
         })
         .catch(() => {
@@ -65,22 +70,20 @@ export default class AddPembayaranBulanan extends Component {
     }
   };
   componentDidMount() {
-    axios.get("https://api-sps.my.id/admin").then((res) => {
+    axios.get("http://localhost:8000/admin").then((res) => {
       this.setState({
         data: res.data,
       });
     });
 
-    if(this.props.location){
+    if (this.props.location) {
       this.setState({
-        nis : this.props.location.state.nis,
-        periode : this.props.location.state.periode
-      })
+        nis: this.props.location.state.nis,
+        periode: this.props.location.state.periode,
+      });
     }
   }
   render() {
-    
-    
     return (
       <div>
         <Card style={{ color: "black" }}>
@@ -89,8 +92,9 @@ export default class AddPembayaranBulanan extends Component {
             <Form onSubmit={this.Submit}>
               <Form.Group className="mb-3">
                 <hr />
-                <Form.Label>Nama Admin
-                <span className="text-danger">*</span>
+                <Form.Label>
+                  Nama Admin
+                  <span className="text-danger">*</span>
                 </Form.Label>
                 <FormSelect name="admin" onChange={this.handleChange}>
                   <option>Pilih Admin</option>
@@ -118,7 +122,15 @@ export default class AddPembayaranBulanan extends Component {
                 Bayar
               </Button>
               &ensp;
-              <Link to={{pathname: `/admin/pembayaran`, state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}}}>
+              <Link
+                to={{
+                  pathname: `/admin/pembayaran`,
+                  state: {
+                    nis: `${this.state.nis}`,
+                    periode: `${this.state.periode}`,
+                  },
+                }}
+              >
                 <Button variant="outline-danger" type="submit">
                   Batal
                 </Button>

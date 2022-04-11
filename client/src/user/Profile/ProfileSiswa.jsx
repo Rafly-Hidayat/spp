@@ -29,7 +29,7 @@ export default class ProfileSiswa extends Component {
   };
 
   componentDidMount() {
-    axios.get(`https://api-sps.my.id/profile/${this.state.id}`).then((res) => {
+    axios.get(`http://localhost:8000/profile/${this.state.id}`).then((res) => {
       this.setState({
         siswa_nis: res.data[0].siswa_nis,
         siswa_nama: res.data[0].siswa_nama,
@@ -73,15 +73,17 @@ export default class ProfileSiswa extends Component {
             <Card.Title>Profile</Card.Title>
             <hr />
             <Form>
-              <Row >
+              <Row>
                 <Col md={2}>
-                  <div style={{
-                    margin: "20px 0",
-                  }}>
-
+                  <div
+                    style={{
+                      margin: "20px 0",
+                    }}
+                  >
                     <img
                       src={
-                        "https://api-sps.my.id/src/public/images/" + this.state.gambar
+                        "http://localhost:8000/src/public/images/" +
+                        this.state.gambar
                       }
                       width={164}
                       height={164}
@@ -93,15 +95,20 @@ export default class ProfileSiswa extends Component {
                       }}
                     />
                   </div>
-                  <Link to="/user/profile/ubah"
-                  style={{
-                    textDecoration: "none",
-                  }}>
-                    <Button variant="outline-primary" type="submit"
+                  <Link
+                    to="/user/profile/ubah"
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button
+                      variant="outline-primary"
+                      type="submit"
                       style={{
                         display: "flex",
                         margin: "0 auto",
-                      }}>
+                      }}
+                    >
                       Ubah Profile
                     </Button>
                   </Link>
@@ -182,10 +189,8 @@ export default class ProfileSiswa extends Component {
                       readOnly
                     ></Form.Control>
                   </Form.Group>
-
                 </Col>
               </Row>
-
             </Form>
           </Card.Body>
         </Card>

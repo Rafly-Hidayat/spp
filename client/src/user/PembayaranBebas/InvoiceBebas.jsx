@@ -3,15 +3,15 @@ import axios from "axios";
 import ReactToPrint from "react-to-print";
 import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
-import { Link, } from "react-router-dom";
-import { Button } from 'react-bootstrap';
-import InvoiceOutput from '../PembayaranBebas/InvoiceOutput'
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import InvoiceOutput from "../PembayaranBebas/InvoiceOutput";
 
 export default class InvoiceBebas extends Component {
   constructor(props) {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     super(props);
-    
+
     this.state = {
       id: id,
       no_transaksi: "",
@@ -28,41 +28,42 @@ export default class InvoiceBebas extends Component {
     };
   }
   componentDidMount = () => {
-    
-      const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`https://api-sps.my.id/user/detail/bebas/${id}/${this.state.d_bebas_id}`).then((res) => {
-      
-      if (res.data.error === true) {
-        this.setState({
-          no_transaksi: "",
-          d_bebas_bayar: "",
-          d_bebas_deskripsi: "",
-          d_bebas_tanggal: "",
-          admin_nama: "",
-          siswa_nama: "",
-          siswa_nis: "",
-          kelas_nama: "",
-          jurusan_nama: "",
-          d_kelas_nama: "",
-        });
-      } else {
-        this.setState({
-          no_transaksi: res.data[0].no_transaksi,
-          d_bebas_bayar: res.data[0].d_bebas_bayar,
-          d_bebas_deskripsi: res.data[0].d_bebas_deskripsi,
-          d_bebas_tanggal: res.data[0].d_bebas_tanggal,
-          admin_nama: res.data[0].admin_nama,
-          siswa_nama: res.data[0].siswa_nama,
-          siswa_nis: res.data[0].siswa_nis,
-          kelas_nama: res.data[0].kelas_nama,
-          jurusan_nama: res.data[0].jurusan_nama,
-          d_kelas_nama: res.data[0].d_kelas_nama,
-        });
-      }
-    });
+    const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
+    axios
+      .get(
+        `http://localhost:8000/user/detail/bebas/${id}/${this.state.d_bebas_id}`
+      )
+      .then((res) => {
+        if (res.data.error === true) {
+          this.setState({
+            no_transaksi: "",
+            d_bebas_bayar: "",
+            d_bebas_deskripsi: "",
+            d_bebas_tanggal: "",
+            admin_nama: "",
+            siswa_nama: "",
+            siswa_nis: "",
+            kelas_nama: "",
+            jurusan_nama: "",
+            d_kelas_nama: "",
+          });
+        } else {
+          this.setState({
+            no_transaksi: res.data[0].no_transaksi,
+            d_bebas_bayar: res.data[0].d_bebas_bayar,
+            d_bebas_deskripsi: res.data[0].d_bebas_deskripsi,
+            d_bebas_tanggal: res.data[0].d_bebas_tanggal,
+            admin_nama: res.data[0].admin_nama,
+            siswa_nama: res.data[0].siswa_nama,
+            siswa_nis: res.data[0].siswa_nis,
+            kelas_nama: res.data[0].kelas_nama,
+            jurusan_nama: res.data[0].jurusan_nama,
+            d_kelas_nama: res.data[0].d_kelas_nama,
+          });
+        }
+      });
   };
   render() {
-      
     return (
       <div>
         <div
@@ -126,7 +127,9 @@ export default class InvoiceBebas extends Component {
                 </div>
                 <div className="tanggal " style={{ textAlign: "right" }}>
                   <h6 style={{ fontWeight: "700" }}>Tgl. Pembayaran</h6>
-                  <p style={{ marginTop: "14px" }}>{this.state.d_bebas_tanggal}</p>
+                  <p style={{ marginTop: "14px" }}>
+                    {this.state.d_bebas_tanggal}
+                  </p>
                 </div>
               </div>
               <hr />
@@ -140,7 +143,13 @@ export default class InvoiceBebas extends Component {
                 <div className="nama">
                   <h6 style={{ fontWeight: "700" }}>Nama Lengkap</h6>
                   <p style={{ marginTop: "14px" }}>{this.state.siswa_nama}</p>
-                  <p style={{ marginTop: "14px" }}>{this.state.kelas_nama + " " + this.state.jurusan_nama + " " + this.state.d_kelas_nama}</p>
+                  <p style={{ marginTop: "14px" }}>
+                    {this.state.kelas_nama +
+                      " " +
+                      this.state.jurusan_nama +
+                      " " +
+                      this.state.d_kelas_nama}
+                  </p>
                 </div>
                 <div className="kelas">
                   <h6 style={{ fontWeight: "700", textAlign: "right" }}>NIS</h6>
@@ -228,14 +237,17 @@ export default class InvoiceBebas extends Component {
               <br />
               <div className="btn-print-download ">
                 <ReactToPrint
-                  trigger={() => <Button variant="primary">Print this out!</Button>}
+                  trigger={() => (
+                    <Button variant="primary">Print this out!</Button>
+                  )}
                   content={() => this.componentRef}
-                  
                 />
-                <div style={{display: "none"}}>
-
-                <InvoiceOutput ref={el => (this.componentRef = el)} id = {this.state.d_bebas_id} />
-                <Button variant="danger">Back</Button>
+                <div style={{ display: "none" }}>
+                  <InvoiceOutput
+                    ref={(el) => (this.componentRef = el)}
+                    id={this.state.d_bebas_id}
+                  />
+                  <Button variant="danger">Back</Button>
                 </div>
                 &ensp;
               </div>

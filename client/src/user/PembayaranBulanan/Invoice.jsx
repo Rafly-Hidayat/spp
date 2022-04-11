@@ -5,7 +5,7 @@ import axios from "axios";
 import Icon from "../Assets/Invoice/Sukses.svg";
 import watermark from "../Assets/Invoice/Watermark.svg";
 
-import InvoicePrint from './InvoicePrint';
+import InvoicePrint from "./InvoicePrint";
 
 // import './Invoice.css'
 export default class Invoice extends Component {
@@ -17,9 +17,9 @@ export default class Invoice extends Component {
   }
   // componentDidMount() {
   //   axios
-  //     .get(`https://api-sps.my.id/user/pembayaran/bulanan/${this.state.id}`)
+  //     .get(`http://localhost:8000/user/pembayaran/bulanan/${this.state.id}`)
   //     .then((res) => {
-  //       
+  //
   //       if (res.data.error === true) {
   //         this.setState({
   //           data: "",
@@ -198,14 +198,14 @@ export default class Invoice extends Component {
               <br />
               <div className="btn-print-download ">
                 <ReactToPrint
-                  trigger={() => <Button variant="primary">Print this out!</Button>}
+                  trigger={() => (
+                    <Button variant="primary">Print this out!</Button>
+                  )}
                   content={() => this.componentRef}
-                  
                 />
-                <div style={{display: "none"}}>
-
-                <InvoicePrint ref={el => (this.componentRef = el)} />
-                <Button variant="danger">Back</Button>
+                <div style={{ display: "none" }}>
+                  <InvoicePrint ref={(el) => (this.componentRef = el)} />
+                  <Button variant="danger">Back</Button>
                 </div>
                 &ensp;
               </div>

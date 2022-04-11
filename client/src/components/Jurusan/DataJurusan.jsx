@@ -4,7 +4,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Container, Breadcrumb, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faTrashAlt, faUser, faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faEye,
+  faTrashAlt,
+  faUser,
+  faUserEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 export default class Data extends Component {
@@ -18,19 +24,21 @@ export default class Data extends Component {
   }
 
   getAdmin = () => {
-    axios.get("https://api-sps.my.id/jurusan/").then((res) => {
-      this.setState({
-        data: res.data,
+    axios
+      .get("http://localhost:8000/jurusan/")
+      .then((res) => {
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Gagal terhubung ke server, silahkan coba lagi!`,
+        });
       });
-    })
-    .catch((err) => {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Gagal terhubung ke server, silahkan coba lagi!`,
-      });
-    });
-    };
+  };
 
   handleRemove = (jurusan_id) => {
     Swal.fire({
@@ -44,10 +52,9 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://api-sps.my.id/hapus/jurusan/${jurusan_id}`)
+          .delete(`http://localhost:8000/hapus/jurusan/${jurusan_id}`)
           .then((res) => {
-            
-            if (res.data.error === true ) {
+            if (res.data.error === true) {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -55,15 +62,14 @@ export default class Data extends Component {
               });
             } else {
               Swal.fire({
-              icon: "success",
-              title: "Good Job!",
-              text: `${res.data.message}`,});
+                icon: "success",
+                title: "Good Job!",
+                text: `${res.data.message}`,
+              });
               this.props.history.push("/admin/jurusan");
             }
           })
-          .catch((err) => {
-            
-          });
+          .catch((err) => {});
         this.props.history.push("/admin/jurusan");
       }
     });
@@ -73,10 +79,9 @@ export default class Data extends Component {
     this.getAdmin();
   }
   render() {
-
     const selectRow = {
-      mode: 'checkbox',
-      clickToSelect: true
+      mode: "checkbox",
+      clickToSelect: true,
     };
     const data = this.state.data;
     const columns = [
@@ -93,22 +98,23 @@ export default class Data extends Component {
         text: "Aksi",
         align: "center",
         headerAlign: "center",
-        
+
         formatter: (cellContent, row) => {
           return (
             <div>
               <Container>
                 <Link to={`/admin/jurusan/ubah/${row.jurusan_id}`}>
-                      <Button variant="outline-warning" block>
-                        <FontAwesomeIcon icon={faUserEdit} />
-                      </Button>
-                    </Link>&ensp;
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => this.handleRemove(row.jurusan_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
+                  <Button variant="outline-warning" block>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Button>
+                </Link>
+                &ensp;
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.handleRemove(row.jurusan_id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
               </Container>
             </div>
           );
@@ -130,18 +136,18 @@ export default class Data extends Component {
             </Breadcrumb>
           </Card.Body>
         </Card>
-        <br/>
-        <Card style={{color: 'black'}}>
+        <br />
+        <Card style={{ color: "black" }}>
           <Card.Body>
-          <Card.Title>Data Jurusan</Card.Title>
-            <hr/>
+            <Card.Title>Data Jurusan</Card.Title>
+            <hr />
             <Link to={"/admin/jurusan/tambah"}>
               <Button variant="outline-primary" block="">
                 Tambah
               </Button>
             </Link>
-              <br/>
-              <br/>
+            <br />
+            <br />
             <BootstrapTable
               keyField="id"
               data={data}

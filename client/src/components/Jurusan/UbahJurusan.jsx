@@ -28,7 +28,7 @@ export default class UbahJurusan extends Component {
   getData() {
     const jurusan_id = this.state.id;
     axios
-      .get(`https://api-sps.my.id/jurusan/${jurusan_id}`)
+      .get(`http://localhost:8000/jurusan/${jurusan_id}`)
       .then((res) => {
         this.setState({
           jurusan_id: res.data[0].jurusan_id,
@@ -57,9 +57,9 @@ export default class UbahJurusan extends Component {
     const jurusan_id = this.state.jurusan_id;
     if (this.validator.allValid()) {
       axios
-        .put(`https://api-sps.my.id/ubah/jurusan/${jurusan_id}`, data)
+        .put(`http://localhost:8000/ubah/jurusan/${jurusan_id}`, data)
         .then((res) => {
-          if (res.data.error === true ) {
+          if (res.data.error === true) {
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -70,9 +70,10 @@ export default class UbahJurusan extends Component {
             });
           } else {
             Swal.fire({
-            icon: "success",
-            title: "Good Job!",
-            text: `${res.data.message}`,});
+              icon: "success",
+              title: "Good Job!",
+              text: `${res.data.message}`,
+            });
           }
           this.props.history.push("/admin/jurusan");
         })
@@ -156,14 +157,15 @@ export default class UbahJurusan extends Component {
                     )}
                   </div>
                 </Form.Group>
-                    <Button variant="outline-primary" type="submit">
-                      Ubah
-                    </Button>&ensp;
-                    <Link to="/admin/jurusan">
-                      <Button variant="outline-danger" type="submit">
-                        Batal
-                      </Button>
-                    </Link>
+                <Button variant="outline-primary" type="submit">
+                  Ubah
+                </Button>
+                &ensp;
+                <Link to="/admin/jurusan">
+                  <Button variant="outline-danger" type="submit">
+                    Batal
+                  </Button>
+                </Link>
               </Form>
             </Form.Group>
           </Card.Body>

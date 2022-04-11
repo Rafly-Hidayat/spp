@@ -26,7 +26,7 @@ export default class Login extends Component {
 
     if (this.validator.allValid()) {
       axios
-        .post("https://api-sps.my.id/admin/login", data)
+        .post("http://localhost:8000/admin/login", data)
         .then((res) => {
           this.setState({
             dataError: res.data.error,
@@ -48,8 +48,8 @@ export default class Login extends Component {
               })
             );
             this.props.history.push({
-              pathname : "/admin",
-              nama : res.data.nama
+              pathname: "/admin",
+              nama: res.data.nama,
             });
           }
         })
@@ -258,7 +258,7 @@ export default class Login extends Component {
                         backgroundColor: "#ffff",
                         fontWeight: "bold",
                         borderRadius: "10px",
-                        marginBottom : "10px"
+                        marginBottom: "10px",
                       }}
                     >
                       L O G I N

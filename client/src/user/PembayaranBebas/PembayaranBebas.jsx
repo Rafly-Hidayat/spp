@@ -52,9 +52,8 @@ export default class PembayaranBebas extends Component {
   getSiswa = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios
-      .get(`https://api-sps.my.id/user/pembayaran/bebas/${id}`)
+      .get(`http://localhost:8000/user/pembayaran/bebas/${id}`)
       .then((res) => {
-        
         if (res.data.error === true) {
           this.setState({
             data: "",
@@ -76,8 +75,7 @@ export default class PembayaranBebas extends Component {
 
   getDetails = () => {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
-    axios.get(`https://api-sps.my.id/user/detail/bebas/${id}`).then((res) => {
-      
+    axios.get(`http://localhost:8000/user/detail/bebas/${id}`).then((res) => {
       this.setState({
         details: true,
         data_details: res.data,
@@ -92,7 +90,6 @@ export default class PembayaranBebas extends Component {
   }
 
   render() {
-    
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
 
     const detail = [
@@ -153,7 +150,7 @@ export default class PembayaranBebas extends Component {
               {`${row.pos_nama} - T.A ${row.periode_mulai}/${row.periode_akhir}`}
             </div>
           );
-        }
+        },
       },
       {
         text: "Jumlah",
@@ -236,13 +233,12 @@ export default class PembayaranBebas extends Component {
           );
         },
 
-        headerAlign: "center"
+        headerAlign: "center",
       },
       {
         dataField: "Aksi",
         text: "Aksi",
         formatter: (cellContent, row) => {
-
           if (
             parseInt(row.bebas_tagihan) - parseInt(row.bebas_total_bayar) ===
             0
