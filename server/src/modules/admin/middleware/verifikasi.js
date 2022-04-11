@@ -10,9 +10,9 @@ function verifikasiAdmin() {
 
       // verifikasi
       jwt.verify(token, process.env.SECRET, (err, decoded) => {
-        
+
         if (err) {
-          return rest.send(
+          return rest.json(
             { auth: false, message: "Token tidak terdaftar" },
             400
           );
@@ -22,7 +22,7 @@ function verifikasiAdmin() {
         }
       });
     } else {
-      return rest.send({ auth: false, message: "Token tidak tersedia" }, 400);
+      return rest.json({ auth: false, message: "Token tidak tersedia" }, 400);
     }
   };
 }
