@@ -6,6 +6,7 @@ const upload = require("express-fileupload");
 
 // Import file
 const con = require("./config/db");
+const verifikasi = require("./modules/admin/middleware/verifikasi");
 
 const app = express();
 const port = 8000;
@@ -43,14 +44,19 @@ const profileRouter = require("./modules/user/routes/profileRouter");
 const user_p_bulananRouter = require("./modules/user/routes/p_bulananRouter");
 const user_p_bebasRouter = require("./modules/user/routes/p_bebasRouter");
 
-// use router user
+// router login
+app.use(adminauthRouter);
 app.use(siswaauthRouter);
+
+// use router user
 app.use(profileRouter);
 app.use(user_p_bulananRouter);
 app.use(user_p_bebasRouter);
 
+// protected route with jwt
+app.use(verifikasi.verifikasiAdmin());
+
 // use router admin
-app.use(adminauthRouter);
 app.use(kelasRouter);
 app.use(posRouter);
 app.use(periodeRouter);
@@ -64,5 +70,5 @@ app.use(kenaikan_kelasRouter);
 app.use(rekapRouter);
 
 app.listen(port, () => {
-  
+  console.log(`Server is running on port ${port}`);
 });
