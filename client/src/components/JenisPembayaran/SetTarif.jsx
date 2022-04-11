@@ -15,7 +15,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-
 export default class SetTarif extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +33,7 @@ export default class SetTarif extends Component {
 
   getKelas = () => {
     axios
-      .get("https://api-sps.my.id/kelas/")
+      .get("http://localhost:8000/kelas/")
       .then((res) => {
         this.setState({
           data_kelas: res.data,
@@ -44,12 +43,11 @@ export default class SetTarif extends Component {
   };
   getTipe = () => {
     axios
-      .get(`https://api-sps.my.id/pembayaran/${this.state.pembayaran_id}`)
+      .get(`http://localhost:8000/pembayaran/${this.state.pembayaran_id}`)
       .then((res) => {
-        
         this.setState({
           tipe: res.data[0].pembayaran_tipe,
-          nama_pos : res.data[0].pos_nama
+          nama_pos: res.data[0].pos_nama,
         });
       });
   };
@@ -81,7 +79,7 @@ export default class SetTarif extends Component {
         if (result.isConfirmed) {
           if (this.state.tipe === "BEBAS") {
             axios
-              .post("https://api-sps.my.id/set_tarif/bebas", data)
+              .post("http://localhost:8000/set_tarif/bebas", data)
               .then((res) => {
                 console.log(res);
                 this.setState({
@@ -102,7 +100,7 @@ export default class SetTarif extends Component {
               .catch((err) => {});
           } else {
             axios
-              .post("https://api-sps.my.id/set_tarif/bulanan", data)
+              .post("http://localhost:8000/set_tarif/bulanan", data)
               .then((res) => {
                 console.log(res);
                 this.setState({
@@ -122,7 +120,6 @@ export default class SetTarif extends Component {
                 // this.props.history.push("/pembayaran");x
               });
           }
-          
         }
       });
     } else {
@@ -159,10 +156,8 @@ export default class SetTarif extends Component {
           <br></br>
           <Card style={{ color: "black" }}>
             <Card.Body>
-              <Card.Title>
-                Set Tarif
-              </Card.Title>
-              <hr/>
+              <Card.Title>Set Tarif</Card.Title>
+              <hr />
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>
@@ -222,19 +217,19 @@ export default class SetTarif extends Component {
                       onChange={this.handleChange}
                     />
                   </InputGroup>
-                    <div>
-                      {this.validator.message(
-                        "tarif",
-                        this.state.tarif,
-                        `required`,
-                        {
-                          className: "text-danger",
-                          messages: {
-                            required: "Masukkan tarif!",
-                          },
-                        }
-                      )}
-                    </div>
+                  <div>
+                    {this.validator.message(
+                      "tarif",
+                      this.state.tarif,
+                      `required`,
+                      {
+                        className: "text-danger",
+                        messages: {
+                          required: "Masukkan tarif!",
+                        },
+                      }
+                    )}
+                  </div>
                 </Form.Group>
                 <Button variant="outline-primary" type="submit">
                   Set Tarif

@@ -18,19 +18,21 @@ export default class DataKelas extends Component {
   }
 
   getkelas = () => {
-    axios.get("https://api-sps.my.id/kelas/").then((res) => {
-      this.setState({
-        data: res.data,
+    axios
+      .get("http://localhost:8000/kelas/")
+      .then((res) => {
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Gagal terhubung ke server, silahkan coba lagi!`,
+        });
       });
-    })
-    .catch((err) => {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Gagal terhubung ke server, silahkan coba lagi!`,
-      });
-    });
-    };
+  };
 
   handleRemove = (kelas_id) => {
     Swal.fire({
@@ -44,7 +46,7 @@ export default class DataKelas extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://api-sps.my.id/hapus/kelas/${kelas_id}`)
+          .delete(`http://localhost:8000/hapus/kelas/${kelas_id}`)
           .then((res) => {
             if (res.data.error === true) {
               Swal.fire({
@@ -60,9 +62,7 @@ export default class DataKelas extends Component {
               });
             }
           })
-          .catch((err) => {
-            
-          });
+          .catch((err) => {});
         this.props.history.push("/admin/kelas");
       }
     });
@@ -91,22 +91,23 @@ export default class DataKelas extends Component {
         text: "Aksi",
         align: "center",
         headerAlign: "center",
-        
+
         formatter: (cellContent, row) => {
           return (
             <div>
               <Container>
-                    <Link to={`/admin/kelas/ubah/${row.kelas_id}`}>
-                      <Button variant="outline-warning" block>
-                        <FontAwesomeIcon icon={faUserEdit} />
-                      </Button>
-                    </Link>&ensp;
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => this.handleRemove(row.kelas_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </Button>
+                <Link to={`/admin/kelas/ubah/${row.kelas_id}`}>
+                  <Button variant="outline-warning" block>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Button>
+                </Link>
+                &ensp;
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.handleRemove(row.kelas_id)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </Button>
               </Container>
             </div>
           );
@@ -129,23 +130,25 @@ export default class DataKelas extends Component {
                 marginBottom: "-22px",
               }}
             >
-              <Breadcrumb.Item><Link to="/admin/">Home</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/admin/">Home</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
           </Card.Body>
         </Card>
-              <br/>
-        <Card style={{color: 'black'}}>
+        <br />
+        <Card style={{ color: "black" }}>
           <Card.Body>
-          <Card.Title>Data Kelas</Card.Title>
-            <hr/>
+            <Card.Title>Data Kelas</Card.Title>
+            <hr />
             <Link to={"/admin/kelas/tambah/"}>
               <Button variant="outline-primary" block>
                 Tambah
               </Button>
             </Link>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <BootstrapTable
               keyField="id"
               data={data}

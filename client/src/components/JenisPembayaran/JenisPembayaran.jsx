@@ -22,7 +22,7 @@ export default class Data extends Component {
   }
 
   getAdmin = () => {
-    axios.get("https://api-sps.my.id/pembayaran/").then((res) => {
+    axios.get("http://localhost:8000/pembayaran/").then((res) => {
       this.setState({
         data: res.data,
         tipe: res.data[0].pembayaran_tipe,
@@ -32,7 +32,7 @@ export default class Data extends Component {
 
   handleRemove = (pembayaran_id) => {
     axios
-      .delete(`https://api-sps.my.id/hapus/pembayaran/${pembayaran_id}`)
+      .delete(`http://localhost:8000/hapus/pembayaran/${pembayaran_id}`)
       .then((res) => {})
       .catch((err) => {});
     this.getAdmin();

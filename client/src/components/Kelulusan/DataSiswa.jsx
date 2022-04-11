@@ -13,7 +13,7 @@ export default class DataSiswa extends Component {
 
     this.state = {
       data: [],
-      modal : false
+      modal: false,
     };
   }
 
@@ -21,16 +21,15 @@ export default class DataSiswa extends Component {
     // if modal is true then setstate to false
     // if modal is false then setstate to true
     this.setState({
-      modal: !this.state.modal
-    })
-  }
+      modal: !this.state.modal,
+    });
+  };
 
   getSiswa = () => {
     const kelas_id = this.props.name;
     axios
-      .get(`https://api-sps.my.id/siswa_kelas/${kelas_id}`)
+      .get(`http://localhost:8000/siswa_kelas/${kelas_id}`)
       .then((res) => {
-        
         this.setState({
           data: res.data,
         });
@@ -106,21 +105,10 @@ export default class DataSiswa extends Component {
       {
         text: "Jenis Kelamin",
         formatter: (cellContent, row) => {
-          
-          if(row.siswa_gender === "L"){
-            return (
-            <div>
-              Laki-Laki
-            </div>  
-            )
-            
+          if (row.siswa_gender === "L") {
+            return <div>Laki-Laki</div>;
           } else {
-            return(
-            <div>
-              Perempuan
-            </div>  
-            )
-            
+            return <div>Perempuan</div>;
           }
         },
       },

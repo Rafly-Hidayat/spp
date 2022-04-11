@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Card, Col, Form, FormSelect, Row, Button, Tabs, Tab } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Form,
+  FormSelect,
+  Row,
+  Button,
+  Tabs,
+  Tab,
+} from "react-bootstrap";
 import axios from "axios";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
@@ -21,7 +30,7 @@ export default class LaporanAngkatan extends Component {
     };
   }
   componentDidMount() {
-    axios.get("https://api-sps.my.id/kelas/").then((res) => {
+    axios.get("http://localhost:8000/kelas/").then((res) => {
       this.setState({
         kelas: res.data,
       });
@@ -32,11 +41,10 @@ export default class LaporanAngkatan extends Component {
     const data = {
       kelas_id: this.state.selected_kelas,
     };
-    if (this.validator.allValid() &&this.state.selected_kelas !== "") {
+    if (this.validator.allValid() && this.state.selected_kelas !== "") {
       axios
-        .post("https://api-sps.my.id/laporan/angkatan/bebas", data)
+        .post("http://localhost:8000/laporan/angkatan/bebas", data)
         .then((res) => {
-          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -44,8 +52,8 @@ export default class LaporanAngkatan extends Component {
               text: `Data Tidak Ditemukan!`,
             });
             this.setState({
-              data: ""
-            })
+              data: "",
+            });
           } else {
             this.setState({
               data_bebas: res.data.data,
@@ -59,9 +67,8 @@ export default class LaporanAngkatan extends Component {
           }
         });
       axios
-        .post("https://api-sps.my.id/laporan/angkatan/bulanan", data)
+        .post("http://localhost:8000/laporan/angkatan/bulanan", data)
         .then((res) => {
-          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -69,10 +76,9 @@ export default class LaporanAngkatan extends Component {
               text: `Data Tidak Ditemukan!`,
             });
             this.setState({
-              data: ""
-            })
+              data: "",
+            });
           } else {
-            
             this.setState({
               data_bulanan: res.data.data,
               total_bulanan: res.data,
@@ -97,7 +103,6 @@ export default class LaporanAngkatan extends Component {
   };
 
   render() {
-    
     const data_bebas = this.state.data_bebas;
     const data_bulanan = this.state.data_bulanan;
     // const options = {

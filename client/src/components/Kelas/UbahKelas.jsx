@@ -23,7 +23,7 @@ export default class UbahKelas extends Component {
   getData() {
     const kelas_id = this.state.id;
     axios
-      .get(`https://api-sps.my.id/kelas/${kelas_id}`)
+      .get(`http://localhost:8000/kelas/${kelas_id}`)
       .then((res) => {
         this.setState({
           kelas_id: res.data[0].kelas_id,
@@ -52,7 +52,7 @@ export default class UbahKelas extends Component {
     const kelas_id = this.state.kelas_id;
     if (this.validator.allValid()) {
       axios
-        .put(`https://api-sps.my.id/ubah/kelas/${kelas_id}`, data)
+        .put(`http://localhost:8000/ubah/kelas/${kelas_id}`, data)
         .then((res) => {
           this.setState({
             kelas_nama: "",
@@ -71,7 +71,7 @@ export default class UbahKelas extends Component {
             });
             this.props.history.push("/admin/kelas");
           }
-        }) 
+        })
         .catch((err) => {});
     } else {
       this.validator.showMessages();
@@ -109,7 +109,9 @@ export default class UbahKelas extends Component {
             <Form onSubmit={this.editData}>
               <Form.Group className="mb-3">
                 <hr />
-                <Form.Label>Kelas Id<span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Kelas Id<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   name="kelas_id"
                   id="kelas_id"
@@ -122,7 +124,9 @@ export default class UbahKelas extends Component {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Nama Kelas<span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Nama Kelas<span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   name="kelas_nama"
                   id="kelas_nama"

@@ -24,9 +24,9 @@
 //   getSiswa = () => {
 //     const kelas_id = this.props.name;
 //     axios
-//       .get(`https://api-sps.my.id/siswa_kelas/${kelas_id}`)
+//       .get(`http://localhost:8000/siswa_kelas/${kelas_id}`)
 //       .then((res) => {
-//         
+//
 //         this.setState({
 //           data: res.data,
 //         });
@@ -102,21 +102,21 @@
 //       {
 //         text: "Jenis Kelamin",
 //         formatter: (cellContent, row) => {
-          
+
 //           if(row.siswa_gender === "L"){
 //             return (
 //             <div>
 //               Laki-Laki
-//             </div>  
+//             </div>
 //             )
-            
+
 //           } else {
 //             return(
 //             <div>
 //               Perempuan
-//             </div>  
+//             </div>
 //             )
-            
+
 //           }
 //         },
 //       },

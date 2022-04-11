@@ -43,9 +43,8 @@ export default class Login extends Component {
     };
     if (this.validator.allValid()) {
       axios
-        .post("https://api-sps.my.id/siswa/login", data)
+        .post("http://localhost:8000/siswa/login", data)
         .then((res) => {
-          
           if (res.data.error === true) {
             Swal.fire({
               icon: "error",
@@ -115,7 +114,7 @@ export default class Login extends Component {
                 width={60}
                 height={60}
                 style={{
-                  marginTop:"20px",
+                  marginTop: "20px",
                   marginLeft: "15px",
                 }}
               />
@@ -158,11 +157,8 @@ export default class Login extends Component {
                   }}
                 />
                 <div>
-                  
-                <div className="profile-name">Andi Susandi S.Kom</div>
-                <div className="comment">
-                  Kepala Pemrograman RPL
-                </div>
+                  <div className="profile-name">Andi Susandi S.Kom</div>
+                  <div className="comment">Kepala Pemrograman RPL</div>
                 </div>
               </div>
             </Card>
@@ -276,7 +272,11 @@ export default class Login extends Component {
                       <br />
                       <Link
                         to="/"
-                        style={{ color: "black", textDecoration: "none", marginLeft:"-10px" }}
+                        style={{
+                          color: "black",
+                          textDecoration: "none",
+                          marginLeft: "-10px",
+                        }}
                       >
                         Kembali
                       </Link>

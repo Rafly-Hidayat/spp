@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Card, Table, Tabs, Tab, Badge } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import Swal from "sweetalert2";
-import {faInfo, faPrint} from "@fortawesome/free-solid-svg-icons";
+import { faInfo, faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class InformasiSIswa extends Component {
@@ -20,8 +20,8 @@ export default class InformasiSIswa extends Component {
       siswa_id: "",
       bebas_id: "",
       periode: this.props.periode,
-      details : false,
-      data_details : [],
+      details: false,
+      data_details: [],
     };
   }
   handleChange = (e) => {
@@ -34,9 +34,8 @@ export default class InformasiSIswa extends Component {
   getData = () => {
     const id = this.props.nis;
     // const idp = this.props.periodes.id;
-    
-    axios.get(`https://api-sps.my.id/siswa_nis/${id}`).then((res) => {
-      
+
+    axios.get(`http://localhost:8000/siswa_nis/${id}`).then((res) => {
       if (res.data[0].siswa_id === undefined) {
         Swal.fire({
           icon: "error",
@@ -62,54 +61,57 @@ export default class InformasiSIswa extends Component {
         });
         const nis = this.props.nis;
         const periode = this.props.periode;
-        axios.get(`https://api-sps.my.id/bebas/${nis}/${periode}`).then((res) => {
-          if (res.data[0] === undefined) {
-            this.setState({
-              data: "",
-            });
-            
-          } else {
-            this.setState({
-              data: res.data,
-              bebas_id: res.data[0].bebas_id,
-            });
-          }
-        });
-        axios.get(`https://api-sps.my.id/bulanan/${nis}/${periode}`).then((res) => {
-          
-          if (res.data[0] === undefined) {
-            this.setState({
-              databulanan: "",
-            });
-          } else {
-            this.setState({
-              databulanan: res.data,
-            });
-          }
-        });
+        axios
+          .get(`http://localhost:8000/bebas/${nis}/${periode}`)
+          .then((res) => {
+            if (res.data[0] === undefined) {
+              this.setState({
+                data: "",
+              });
+            } else {
+              this.setState({
+                data: res.data,
+                bebas_id: res.data[0].bebas_id,
+              });
+            }
+          });
+        axios
+          .get(`http://localhost:8000/bulanan/${nis}/${periode}`)
+          .then((res) => {
+            if (res.data[0] === undefined) {
+              this.setState({
+                databulanan: "",
+              });
+            } else {
+              this.setState({
+                databulanan: res.data,
+              });
+            }
+          });
       }
     });
   };
 
   getDetails = () => {
-    axios.get(`https://api-sps.my.id/user/detail/bebas/${this.state.siswa_id}`).then((res) => {
-      
-      if (res.data.error === true){
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Data Bebas tidak ditemukan",
-        })
-        // this.setState({
-        //   // details : !this.state.details,
-        // })
-      } else {
-        this.setState({
-          details : !this.state.details,
-          data_details : res.data,
-        })
-      }
-    });
+    axios
+      .get(`http://localhost:8000/user/detail/bebas/${this.state.siswa_id}`)
+      .then((res) => {
+        if (res.data.error === true) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Data Bebas tidak ditemukan",
+          });
+          // this.setState({
+          //   // details : !this.state.details,
+          // })
+        } else {
+          this.setState({
+            details: !this.state.details,
+            data_details: res.data,
+          });
+        }
+      });
   };
 
   componentDidMount() {
@@ -124,15 +126,16 @@ export default class InformasiSIswa extends Component {
   }
 
   render() {
-    
     const data = this.state.data;
     const databulanan = this.state.databulanan;
-    const defaultSorted = [{
-      dataField: 'month_id',
-      order: 'asc'
-    }];
+    const defaultSorted = [
+      {
+        dataField: "month_id",
+        order: "asc",
+      },
+    ];
     const data_details = this.state.data_details;
-    
+
     const detail = [
       {
         dataField: "no_transaksi",
@@ -167,7 +170,15 @@ export default class InformasiSIswa extends Component {
         formatter: (cell, row) => {
           return (
             <div>
-              <Link to={{pathname : `/admin/invoice/bebas/${this.state.siswa_id}/${row.d_bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.periode}`}}}>
+              <Link
+                to={{
+                  pathname: `/admin/invoice/bebas/${this.state.siswa_id}/${row.d_bebas_id}`,
+                  state: {
+                    nis: `${this.state.nis}`,
+                    periode: `${this.state.periode}`,
+                  },
+                }}
+              >
                 <Button variant="outline-warning" size="sm">
                   <FontAwesomeIcon icon={faPrint} /> Cetak
                 </Button>
@@ -227,25 +238,31 @@ export default class InformasiSIswa extends Component {
           if (row.bulanan_status === 1) {
             return (
               <div>
-                 <Link to={{
-                  pathname : `/admin/invoice/${row.bulanan_id}`, 
-                  state :{
-                    nis : `${this.state.nis}`, 
-                    periode : `${this.state.periode}`
-                }}}>
-                <Button variant="outline-warning">Cetak</Button>
+                <Link
+                  to={{
+                    pathname: `/admin/invoice/${row.bulanan_id}`,
+                    state: {
+                      nis: `${this.state.nis}`,
+                      periode: `${this.state.periode}`,
+                    },
+                  }}
+                >
+                  <Button variant="outline-warning">Cetak</Button>
                 </Link>
               </div>
             );
           } else {
             return (
               <div>
-                 <Link to={{
-                  pathname : `/admin/pembayaran_bulan/tambah/${row.bulanan_id}`, 
-                  state :{
-                    nis : `${this.state.nis}`, 
-                    periode : `${this.state.periode}`
-                }}}>
+                <Link
+                  to={{
+                    pathname: `/admin/pembayaran_bulan/tambah/${row.bulanan_id}`,
+                    state: {
+                      nis: `${this.state.nis}`,
+                      periode: `${this.state.periode}`,
+                    },
+                  }}
+                >
                   <Button variant="outline-primary">Bayar</Button>
                 </Link>
               </div>
@@ -263,7 +280,7 @@ export default class InformasiSIswa extends Component {
               {`${row.pos_nama} - T.A ${row.periode_mulai}/${row.periode_akhir}`}
             </div>
           );
-        }
+        },
       },
       {
         text: "Jumlah Tagihan",
@@ -297,19 +314,28 @@ export default class InformasiSIswa extends Component {
         formatter: (cell, row) => {
           return (
             <div>
-            <Button onClick={this.getDetails} variant="outline-success">
+              <Button onClick={this.getDetails} variant="outline-success">
                 <FontAwesomeIcon icon={faInfo} /> Info
-              </Button>&ensp;
-            <Link to={{pathname : `/admin/pembayaran/tambah/${row.bebas_id}`, state : {nis:`${this.state.nis}`, periode : `${this.state.periode}`}}}>
-              <Button variant="outline-primary">Bayar</Button>
-            </Link>
+              </Button>
+              &ensp;
+              <Link
+                to={{
+                  pathname: `/admin/pembayaran/tambah/${row.bebas_id}`,
+                  state: {
+                    nis: `${this.state.nis}`,
+                    periode: `${this.state.periode}`,
+                  },
+                }}
+              >
+                <Button variant="outline-primary">Bayar</Button>
+              </Link>
             </div>
           );
         },
       },
     ];
-    let gender = this.state.jenis_kelamin
-    gender === 'P' ? gender = "Perempuan" : gender = "Laki-laki"
+    let gender = this.state.jenis_kelamin;
+    gender === "P" ? (gender = "Perempuan") : (gender = "Laki-laki");
     return (
       <div>
         <Card style={{ color: "black" }}>
@@ -374,7 +400,15 @@ export default class InformasiSIswa extends Component {
                   condensed
                   bordered={false}
                 />
-                {this.state.details === false ? null : <Button onClick={()=> {this.setState({details : false})}}>Kembali</Button> }
+                {this.state.details === false ? null : (
+                  <Button
+                    onClick={() => {
+                      this.setState({ details: false });
+                    }}
+                  >
+                    Kembali
+                  </Button>
+                )}
                 {/* {this.state.details === false ? <Button>Kembali</Button> : null} */}
               </Tab>
             </Tabs>

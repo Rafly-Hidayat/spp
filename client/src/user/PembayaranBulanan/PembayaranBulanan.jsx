@@ -12,18 +12,14 @@ import {
   Navbar,
   FormControl,
   NavDropdown,
-  Badge
+  Badge,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faInfo,
-  faPrint
-} from "@fortawesome/free-solid-svg-icons";
+import { faInfo, faPrint } from "@fortawesome/free-solid-svg-icons";
 import { Redirect, Link } from "react-router-dom";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import Invoice from './Invoice';
-
+import Invoice from "./Invoice";
 
 import user from "./user.jpg";
 import logo from "../Assets/LandingPageImg/Logo.png";
@@ -35,16 +31,15 @@ export default class PembayaranBulanan extends Component {
     super(props);
     this.state = {
       data: [],
-      modal: false
+      modal: false,
     };
   }
 
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
     axios
-      .get(`https://api-sps.my.id/user/pembayaran/bulanan/${id}`)
+      .get(`http://localhost:8000/user/pembayaran/bulanan/${id}`)
       .then((res) => {
-        
         if (res.data.error === true) {
           this.setState({
             data: "",
@@ -59,9 +54,9 @@ export default class PembayaranBulanan extends Component {
 
   onModal = () => {
     this.setState({
-      modal: !this.state.modal
-    })
-  }
+      modal: !this.state.modal,
+    });
+  };
 
   render() {
     const id = JSON.parse(localStorage.getItem("dataSiswa")).id;
@@ -74,7 +69,7 @@ export default class PembayaranBulanan extends Component {
         headerStyle: {
           width: "5%",
           textAlign: "center",
-        }
+        },
       },
       {
         dataField: "month_nama",
@@ -83,27 +78,22 @@ export default class PembayaranBulanan extends Component {
         headerStyle: {
           width: "15%",
           textAlign: "center",
-        }
+        },
       },
       {
         text: "Status",
         formatter: (cell, row) => {
-          
           if (row.bulanan_status === 1) {
-            return (
-              <Badge bg="success">Lunas</Badge>
-            )
+            return <Badge bg="success">Lunas</Badge>;
           } else {
-            return (
-              <Badge bg="danger">Belum Lunas</Badge>
-            )
+            return <Badge bg="danger">Belum Lunas</Badge>;
           }
         },
         align: "center",
         headerAlign: "center",
         headerStyle: {
           width: "10%",
-        }
+        },
       },
       {
         text: "Tanggal Bayar",
@@ -117,10 +107,30 @@ export default class PembayaranBulanan extends Component {
             // get day of the week
             var dayOfWeek = date.getDay();
             // get name of the day
-            var dayName = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            var dayName = [
+              "Minggu",
+              "Senin",
+              "Selasa",
+              "Rabu",
+              "Kamis",
+              "Jumat",
+              "Sabtu",
+            ];
             // get name of the month
             var monthNames = [
-              "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+              "Januari",
+              "Februari",
+              "Maret",
+              "April",
+              "Mei",
+              "Juni",
+              "Juli",
+              "Agustus",
+              "September",
+              "Oktober",
+              "November",
+              "Desember",
+            ];
             var monthName = monthNames[month - 1];
             return (
               <div>
@@ -135,7 +145,7 @@ export default class PembayaranBulanan extends Component {
         headerStyle: {
           width: "20%",
           textAlign: "center",
-        }
+        },
       },
       {
         text: "Jumlah",
@@ -148,7 +158,7 @@ export default class PembayaranBulanan extends Component {
         },
         headerStyle: {
           width: "10%",
-        }
+        },
       },
       {
         dataField: "admin_nama",
@@ -157,8 +167,7 @@ export default class PembayaranBulanan extends Component {
         headerStyle: {
           width: "15%",
           textAlign: "center",
-        }
-
+        },
       },
       {
         text: "Aksi",
@@ -169,14 +178,18 @@ export default class PembayaranBulanan extends Component {
             return (
               <div>
                 <Link to={`/user/invoice/bulanan/${id}`}>
-                  <Button variant="warning"><FontAwesomeIcon icon={faPrint} /></Button>
+                  <Button variant="warning">
+                    <FontAwesomeIcon icon={faPrint} />
+                  </Button>
                 </Link>
               </div>
             );
           } else {
             return (
               <div>
-                <Button variant="warning" disabled><FontAwesomeIcon icon={faPrint} /></Button>
+                <Button variant="warning" disabled>
+                  <FontAwesomeIcon icon={faPrint} />
+                </Button>
               </div>
             );
           }
@@ -185,8 +198,8 @@ export default class PembayaranBulanan extends Component {
         headerStyle: {
           width: "10%",
           textAlign: "center",
-        }
-      }
+        },
+      },
     ];
 
     const mobile = [
@@ -210,15 +223,11 @@ export default class PembayaranBulanan extends Component {
         text: "Status",
         formatter: (cell, row) => {
           if (row.bulanan_status === 1) {
-            return (
-              <Badge bg="success">Lunas</Badge>
-            )
+            return <Badge bg="success">Lunas</Badge>;
           } else {
-            return (
-              <Badge bg="danger">Belum Lunas</Badge>
-            )
+            return <Badge bg="danger">Belum Lunas</Badge>;
           }
-        }
+        },
       },
       {
         dataField: "Aksi",
@@ -229,13 +238,17 @@ export default class PembayaranBulanan extends Component {
           if (row.bulanan_status == 1) {
             return (
               <div>
-                <Button onClick={this.onModal} variant="outline-warning"><FontAwesomeIcon icon={faPrint} /></Button>
+                <Button onClick={this.onModal} variant="outline-warning">
+                  <FontAwesomeIcon icon={faPrint} />
+                </Button>
               </div>
             );
           } else {
             return (
               <div>
-                <Button variant="outline-warning" disabled><FontAwesomeIcon icon={faPrint} /></Button>
+                <Button variant="outline-warning" disabled>
+                  <FontAwesomeIcon icon={faPrint} />
+                </Button>
               </div>
             );
           }
@@ -243,7 +256,7 @@ export default class PembayaranBulanan extends Component {
         headerStyle: {
           width: "20%",
           textAlign: "center",
-        }
+        },
       },
     ];
 

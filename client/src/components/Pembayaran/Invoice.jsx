@@ -20,16 +20,15 @@ export default class Invoice extends Component {
       siswa_nis: "",
       pos_nama: "",
       month_nama: "",
-      nis:"",
-      periode:"",
-      total:""
+      nis: "",
+      periode: "",
+      total: "",
     };
   }
   componentDidMount() {
     axios
-      .get(`https://api-sps.my.id/invoice/bulanan/${this.state.id}`)
+      .get(`http://localhost:8000/invoice/bulanan/${this.state.id}`)
       .then((res) => {
-        
         if (res.data.error === true) {
           this.setState({
             tanggal: "",
@@ -52,15 +51,14 @@ export default class Invoice extends Component {
         }
       });
 
-      if(this.props.location){
-        this.setState({
-          nis : this.props.location.state.nis,
-          periode : this.props.location.state.periode
-        })
-      }
+    if (this.props.location) {
+      this.setState({
+        nis: this.props.location.state.nis,
+        periode: this.props.location.state.periode,
+      });
+    }
   }
   render() {
-    
     return (
       <div>
         <div
@@ -184,7 +182,9 @@ export default class Invoice extends Component {
                 }}
               >
                 <h6 style={{ fontWeight: "700" }}>Total</h6>
-                <p style={{ fontWeight: "700" }}>Rp {this.state.total.toLocaleString("id")}</p>
+                <p style={{ fontWeight: "700" }}>
+                  Rp {this.state.total.toLocaleString("id")}
+                </p>
               </div>
               <hr />
               <div
@@ -238,7 +238,15 @@ export default class Invoice extends Component {
                 </div>
                 {/* <InvoicePrint ref={el => (this.componentRef = el)} /> */}
                 &ensp;
-                <Link to={{pathname: `/admin/pembayaran`, state: {nis: `${this.state.nis}`, periode : `${this.state.periode}`}}}>
+                <Link
+                  to={{
+                    pathname: `/admin/pembayaran`,
+                    state: {
+                      nis: `${this.state.nis}`,
+                      periode: `${this.state.periode}`,
+                    },
+                  }}
+                >
                   <Button variant="danger">Kembali</Button>
                 </Link>
               </div>

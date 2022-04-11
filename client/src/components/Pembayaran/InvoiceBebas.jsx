@@ -24,52 +24,52 @@ export default class InvoiceBebas extends Component {
       jurusan_nama: "",
       d_kelas_nama: "",
       d_bebas_id: this.props.match.params.d_bebas_id,
-      periode : "",
-      nis : ""
+      periode: "",
+      nis: "",
     };
   }
   componentDidMount = () => {
     const siswa_id = this.state.siswa_id;
     const d_bebas_id = this.state.d_bebas_id;
-    axios.get(`https://api-sps.my.id/user/detail/bebas/${siswa_id}/${d_bebas_id}`).then((res) => {
-      
-      if (res.data.error === true) {
-        this.setState({
-          no_transaksi: "",
-          d_bebas_bayar: "",
-          d_bebas_deskripsi: "",
-          d_bebas_tanggal: "",
-          admin_nama: "",
-          siswa_nama: "",
-          siswa_nis: "",
-          kelas_nama: "",
-          jurusan_nama: "",
-          d_kelas_nama: "",
-        });
-      } else {
-        this.setState({
-          no_transaksi: res.data[0].no_transaksi,
-          d_bebas_bayar: res.data[0].d_bebas_bayar,
-          d_bebas_deskripsi: res.data[0].d_bebas_deskripsi,
-          d_bebas_tanggal: res.data[0].d_bebas_tanggal,
-          admin_nama: res.data[0].admin_nama,
-          siswa_nama: res.data[0].siswa_nama,
-          siswa_nis: res.data[0].siswa_nis,
-          kelas_nama: res.data[0].kelas_nama,
-          jurusan_nama: res.data[0].jurusan_nama,
-          d_kelas_nama: res.data[0].d_kelas_nama,
-        });
-      }
-    });
-    if(this.props.location){
+    axios
+      .get(`http://localhost:8000/user/detail/bebas/${siswa_id}/${d_bebas_id}`)
+      .then((res) => {
+        if (res.data.error === true) {
+          this.setState({
+            no_transaksi: "",
+            d_bebas_bayar: "",
+            d_bebas_deskripsi: "",
+            d_bebas_tanggal: "",
+            admin_nama: "",
+            siswa_nama: "",
+            siswa_nis: "",
+            kelas_nama: "",
+            jurusan_nama: "",
+            d_kelas_nama: "",
+          });
+        } else {
+          this.setState({
+            no_transaksi: res.data[0].no_transaksi,
+            d_bebas_bayar: res.data[0].d_bebas_bayar,
+            d_bebas_deskripsi: res.data[0].d_bebas_deskripsi,
+            d_bebas_tanggal: res.data[0].d_bebas_tanggal,
+            admin_nama: res.data[0].admin_nama,
+            siswa_nama: res.data[0].siswa_nama,
+            siswa_nis: res.data[0].siswa_nis,
+            kelas_nama: res.data[0].kelas_nama,
+            jurusan_nama: res.data[0].jurusan_nama,
+            d_kelas_nama: res.data[0].d_kelas_nama,
+          });
+        }
+      });
+    if (this.props.location) {
       this.setState({
-        nis : this.props.location.state.nis,
-        periode : this.props.location.state.periode
-      })
+        nis: this.props.location.state.nis,
+        periode: this.props.location.state.periode,
+      });
     }
   };
   render() {
-    
     return (
       <div>
         <div
@@ -189,7 +189,7 @@ export default class InvoiceBebas extends Component {
                   <p>{this.state.d_bebas_deskripsi}</p>
                 </div>
                 <div className="kelas-isi">
-                  <p>Rp. {this.state.d_bebas_bayar.toLocaleString('id')}</p>
+                  <p>Rp. {this.state.d_bebas_bayar.toLocaleString("id")}</p>
                 </div>
               </div>
               <hr />
@@ -202,7 +202,9 @@ export default class InvoiceBebas extends Component {
                 }}
               >
                 <h6 style={{ fontWeight: "700" }}>Total</h6>
-                <p style={{ fontWeight: "700" }}>Rp. {this.state.d_bebas_bayar.toLocaleString('id')}</p>
+                <p style={{ fontWeight: "700" }}>
+                  Rp. {this.state.d_bebas_bayar.toLocaleString("id")}
+                </p>
               </div>
               <hr />
               <div
@@ -249,13 +251,21 @@ export default class InvoiceBebas extends Component {
                   content={() => this.componentRef}
                 />
                 &ensp;
-                <Link to={{pathname : "/admin/pembayaran/", state : {nis :  `${this.state.nis}`, periode : `${this.state.periode}`}}}>
-              <Button variant="outline-danger" type="submit">
-                Batal
-              </Button>
-            </Link>
+                <Link
+                  to={{
+                    pathname: "/admin/pembayaran/",
+                    state: {
+                      nis: `${this.state.nis}`,
+                      periode: `${this.state.periode}`,
+                    },
+                  }}
+                >
+                  <Button variant="outline-danger" type="submit">
+                    Batal
+                  </Button>
+                </Link>
                 <div style={{ display: "none" }}>
-                  <InvoiceOutput ref={el => (this.componentRef = el)} />
+                  <InvoiceOutput ref={(el) => (this.componentRef = el)} />
                 </div>
               </div>
             </div>

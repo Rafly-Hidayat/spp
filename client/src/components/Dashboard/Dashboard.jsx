@@ -37,46 +37,41 @@ export default class Dashboard extends Component {
     };
   }
   componentDidMount() {
-    axios.get("https://api-sps.my.id/total/siswa").then((res) => {
+    axios.get("http://localhost:8000/total/siswa").then((res) => {
       this.setState({
         totalSiswa: res.data.total,
       });
     });
-    axios.get("https://api-sps.my.id/total/jurusan").then((res) => {
-      
+    axios.get("http://localhost:8000/total/jurusan").then((res) => {
       this.setState({
         totalJurusan: res.data.total,
       });
     });
-    axios.get("https://api-sps.my.id/total/pos").then((res) => {
-      
+    axios.get("http://localhost:8000/total/pos").then((res) => {
       this.setState({
         totalPos: res.data.total,
       });
     });
-    axios.get("https://api-sps.my.id/total/kelas").then((res) => {
+    axios.get("http://localhost:8000/total/kelas").then((res) => {
       this.setState({
         totalKelas: res.data.total,
       });
     });
-    axios.get("https://api-sps.my.id/laporan/harian/bebas").then((res) => {
+    axios.get("http://localhost:8000/laporan/harian/bebas").then((res) => {
       this.setState({
         bebas: res.data,
       });
     });
-    axios.get("https://api-sps.my.id/laporan/harian/bulanan").then((res) => {
+    axios.get("http://localhost:8000/laporan/harian/bulanan").then((res) => {
       this.setState({
         bulanan: res.data,
       });
     });
   }
   render() {
-
     const bebas = this.state.bebas;
     const bulanan = this.state.bulanan;
-    const onChange = (date) => {
-      
-    };
+    const onChange = (date) => {};
 
     const columns = [
       {
@@ -114,10 +109,12 @@ export default class Dashboard extends Component {
         text: "Petugas",
       },
     ];
-    const defaultSorted = [{
-      dataField: 'siswa_nama',
-      order: 'desc'
-    }];
+    const defaultSorted = [
+      {
+        dataField: "siswa_nama",
+        order: "desc",
+      },
+    ];
     const column = [
       {
         dataField: "siswa_nama",
@@ -199,7 +196,7 @@ export default class Dashboard extends Component {
                   </Col>
                   <Col md={9} className="content">
                     <h1> {this.state.totalPos}</h1>
-                    <h6 >Tipe Pembayaran</h6>
+                    <h6>Tipe Pembayaran</h6>
                   </Col>
                 </Row>
               </Card>

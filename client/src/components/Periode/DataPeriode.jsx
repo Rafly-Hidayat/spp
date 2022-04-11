@@ -22,7 +22,7 @@ export default class Data extends Component {
 
   getAdmin = () => {
     axios
-      .get("https://api-sps.my.id/periode/")
+      .get("http://localhost:8000/periode/")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -49,9 +49,9 @@ export default class Data extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://api-sps.my.id/hapus/periode/${periode_id}`)
+          .delete(`http://localhost:8000/hapus/periode/${periode_id}`)
           .then((res) => {
-             if (res.data.error === true) {
+            if (res.data.error === true) {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -65,9 +65,7 @@ export default class Data extends Component {
               });
             }
           })
-          .catch((err) => {
-            
-          });
+          .catch((err) => {});
         this.props.history.push("/admin/periode");
       }
     });
@@ -86,7 +84,6 @@ export default class Data extends Component {
       {
         dataField: "periode_id",
         text: "No",
-        
       },
       {
         dataField: "periode_mulai",
@@ -141,10 +138,10 @@ export default class Data extends Component {
           </Card.Body>
         </Card>
         <br />
-        <Card style={{color: 'black'}}>
+        <Card style={{ color: "black" }}>
           <Card.Body>
-          <Card.Title>Data Periode</Card.Title>
-            <hr/>
+            <Card.Title>Data Periode</Card.Title>
+            <hr />
             <Link to={"/admin/periode/tambah"}>
               <Button className="mr-2" variant="outline-primary" block="">
                 Tambah

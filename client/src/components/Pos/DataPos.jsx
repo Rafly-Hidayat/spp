@@ -19,7 +19,7 @@ export default class DataPos extends Component {
 
   getPos = () => {
     axios
-      .get("https://api-sps.my.id/pos/")
+      .get("http://localhost:8000/pos/")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -46,7 +46,7 @@ export default class DataPos extends Component {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://api-sps.my.id/hapus/pos/${pos_id}`)
+          .delete(`http://localhost:8000/hapus/pos/${pos_id}`)
           .then((res) => {
             if (res.data.error === true) {
               Swal.fire({
@@ -62,9 +62,7 @@ export default class DataPos extends Component {
               });
             }
           })
-          .catch((err) => {
-            
-          });
+          .catch((err) => {});
         this.props.history.push("/admin/pos");
       }
     });
@@ -74,14 +72,13 @@ export default class DataPos extends Component {
     this.getPos();
   }
   render() {
-    
     const data = this.state.data;
     const columns = [
       {
         dataField: "pos_id",
         text: "No",
         headerStyle: (colum, colIndex) => {
-          return { width: "100px"};
+          return { width: "100px" };
         },
       },
       {
@@ -137,10 +134,10 @@ export default class DataPos extends Component {
           </Card.Body>
         </Card>
         <br />
-        <Card style={{color: 'black'}}>
+        <Card style={{ color: "black" }}>
           <Card.Body>
-        <Card.Title>Data Pos Pembayaran</Card.Title>
-        <hr/>
+            <Card.Title>Data Pos Pembayaran</Card.Title>
+            <hr />
             <Link to={"/admin/pos/tambah"}>
               <Button variant="outline-primary" block>
                 Tambah
@@ -148,15 +145,15 @@ export default class DataPos extends Component {
             </Link>
             <br />
             <br />
-                  <BootstrapTable
-                    keyField="id"
-                    data={data}
-                    columns={columns}
-                    striped
-                    hover
-                    condensed
-                    bordered={false}
-                    />
+            <BootstrapTable
+              keyField="id"
+              data={data}
+              columns={columns}
+              striped
+              hover
+              condensed
+              bordered={false}
+            />
           </Card.Body>
         </Card>
       </div>
