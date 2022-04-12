@@ -13,7 +13,7 @@ function verifikasiAdmin() {
 
         if (err) {
           return rest.json(
-            { auth: false, message: "Token tidak terdaftar" },
+            { error: true, message: "Token tidak terdaftar" },
             400
           );
         } else {
@@ -22,7 +22,7 @@ function verifikasiAdmin() {
         }
       });
     } else {
-      return rest.json({ auth: false, message: "Token tidak tersedia" }, 400);
+      return rest.json({ error: true, message: "Token tidak tersedia" }, 400);
     }
   };
 }
