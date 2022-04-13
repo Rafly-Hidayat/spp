@@ -81,7 +81,7 @@ module.exports = {
                     if (rows.length == 0) {
                       return res.json({
                         error: true,
-                        message: "Data tidak ditemukan"
+                        message: "Tidak ada data yang ditemukan"
                       })
                     } else {
                       con.query(
@@ -157,7 +157,7 @@ module.exports = {
                       `SELECT SUM(bulanan_tagihan) as tagihan FROM bulanan INNER JOIN siswa ON siswa.siswa_id = bulanan.siswa_id INNER JOIN kelas ON kelas.kelas_id = siswa.kelas_id INNER JOIN jurusan ON jurusan.jurusan_id = siswa.jurusan_id INNER JOIN d_kelas ON d_kelas.d_kelas_id = siswa.d_kelas_id WHERE siswa.kelas_id = '${data.kelas_id}' AND siswa.jurusan_id = '${data.jurusan_id}' AND siswa.d_kelas_id = '${data.d_kelas_id}' AND bulanan_status = '0' AND siswa.status = '1'`,
                       (err, rows) => {
                         if (err) throw err;
-                        if (data.length == 0) {
+                        if (data_siswa.length == 0) {
                           return res.json({ error: true, message: "Tidak ada data yang ditemukan" })
                         } else {
                           return res.json({
